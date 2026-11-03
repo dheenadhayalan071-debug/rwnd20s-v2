@@ -5,10 +5,18 @@
   {% assign archive_collection = collections['all'] %}
 {% endif %}
 
-<!-- 1. Interactive Hero Stage with Working Switcher -->
-<section id="home" class="relative overflow-hidden border-b border-red-950/40 bg-transparent py-12 lg:py-20">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
+          <!-- Interactive Switcher Pills (Centered Layout Fix) -->
+          <div role="tablist" aria-label="Hero showcase switcher" class="relative z-10 mt-6 flex w-full flex-wrap items-center justify-center gap-2.5">
+            <button role="tab" type="button" data-hero-btn="0" aria-selected="true" class="rwnd-hero-tab rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md cursor-pointer transition">
+              01 CYBER SET
+            </button>
+            <button role="tab" type="button" data-hero-btn="1" aria-selected="false" class="rwnd-hero-tab rounded-full border border-white/25 bg-black/60 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-300 uppercase hover:border-white hover:text-white cursor-pointer transition backdrop-blur-md">
+              02 EARPHONES
+            </button>
+            <button role="tab" type="button" data-hero-btn="2" aria-selected="false" class="rwnd-hero-tab rounded-full border border-white/25 bg-black/60 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-300 uppercase hover:border-white hover:text-white cursor-pointer transition backdrop-blur-md">
+              03 Y2K WATCH
+            </button>
+          </div>
       
       <!-- Studio Spotlight Stage -->
       <div class="order-1 lg:order-2 lg:col-span-7">
