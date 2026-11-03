@@ -301,7 +301,7 @@
                 </p>
               </div>
 
-              <div class="mt-5 border-t border-white/10 pt-4">
+              <div class="mt-5 border-t border-white/10 pt-4 flex items-center justify-between">
                 <div class="flex flex-wrap items-baseline gap-2">
                   <span class="font-mono-tech text-xl font-bold text-white">
                     {{ product.price | money }}
@@ -312,97 +312,22 @@
                     </span>
                   {% endif %}
                 </div>
-
-                <div class="mt-4 flex items-center gap-2.5">
-                  <button
-                    type="button"
-                    data-add-to-cart
-                    variant-id="{{ default_variant.id }}"
-                    class="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-bold tracking-wider text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer"
-                  >
-                    <span>ADD TO BAG +</span>
-                  </button>
-                  <button
-                    type="button"
-                    data-open-quick-view
-                    aria-label="Quick view"
-                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer"
-                  >👁</button>
-                </div>
+                <button
+                  type="button"
+                  data-add-to-cart
+                  variant-id="{{ default_variant.id }}"
+                  class="rounded-full border border-white/20 bg-white/10 px-4 py-2 font-mono-tech text-xs font-bold text-white uppercase transition-colors hover:bg-white hover:text-black cursor-pointer"
+                >
+                  + BAG
+                </button>
               </div>
             </div>
           </article>
         {% endfor %}
       {% else %}
-        <!-- Onboarding Fallback Cards (Obsidian Dark Luxury Edition) -->
-        {% assign onboarding_items = "3-PIECE Y2K CYBER SET|Ring + Chain + Bracelet Included|bundles|119900|₹1,199|₹1,447|SAVE ₹248|101::CYBER SIGNET RING|Chunky 316L Stainless Steel Signet Ring|rings|34900|₹349|₹499|SAVE ₹150|102::HEAVY CHAIN + PENDANT|Heavy 316L Stainless Steel Chain & Y2K Pendant|chains|54900|₹549|₹799|SAVE ₹250|103::CHAIN BRACELET|Industrial 316L Stainless Steel Link Bracelet|bracelets|54900|₹549|₹799|SAVE ₹250|104::PINK CHROME WIRED EARPHONES (TYPE-C)|Metallic Pink Chrome Finish · Direct Type-C Plug + Carry Case|audio|99900|₹999|₹1,499|SAVE ₹500|105::Y2K CYBER STUDS|Minimalist Silver Cyber Metallic Studs|earrings|29900|₹299|₹449|SAVE ₹150|106::Y2K WATCH|Analog-Digital Brushed Steel Chronograph|watches|199900|₹1,999|₹3,499|SAVE ₹1,500|107" | split: "::" %}
-        {% for raw_item in onboarding_items %}
-          {% assign parts = raw_item | split: "|" %}
-          <article
-            data-product-card
-            data-handle="onboarding-{{ forloop.index }}"
-            data-title="{{ parts[0] }}"
-            data-subtitle="{{ parts[1] }}"
-            data-category="{{ parts[2] }}"
-            data-tags="{{ parts[2] }},y2k,chrome"
-            data-price="{{ parts[3] }}"
-            data-price-formatted="{{ parts[4] }}"
-            data-compare-formatted="{{ parts[5] }}"
-            data-description="{{ parts[1] }} — Crafted in heavy 316L stainless steel with ₹0-advance Cash on Delivery across India."
-            data-image=""
-            data-variant-id="{{ parts[7] }}"
-            data-url="#shop"
-            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/15 bg-[#0F0F0F] transition-all duration-300 hover:border-white/40 shadow-xl"
-          >
-            <div class="relative flex aspect-square w-full flex-col items-center justify-center overflow-hidden border-b border-white/10 bg-black p-6 text-center">
-              <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 font-mono-tech text-[10px] font-bold text-white uppercase backdrop-blur-md">
-                {{ parts[6] }}
-              </span>
-              <p class="mt-4 font-display text-lg font-extrabold text-white uppercase">{{ parts[0] }}</p>
-              <p class="mt-1 font-mono-tech text-xs text-zinc-400">{{ parts[1] }}</p>
-              <button
-                type="button"
-                data-toggle-wishlist
-                aria-label="Save to wishlist"
-                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-black cursor-pointer"
-              >♥</button>
-            </div>
-
-            <div class="flex flex-1 flex-col justify-between p-5">
-              <div>
-                <h3 class="font-display text-lg font-extrabold tracking-wide text-white uppercase">{{ parts[0] }}</h3>
-                <p class="mt-1 text-xs text-zinc-400">{{ parts[1] }}</p>
-              </div>
-
-              <div class="mt-5 border-t border-white/10 pt-4">
-                <div class="flex flex-wrap items-baseline gap-2">
-                  <span class="font-mono-tech text-xl font-bold text-white">{{ parts[4] }}</span>
-                  <span class="font-mono-tech text-xs text-zinc-500 line-through">{{ parts[5] }}</span>
-                  <span class="rounded border border-white/15 bg-white/5 px-2 py-0.5 font-mono-tech text-[10px] font-bold text-white uppercase">
-                    {{ parts[6] }}
-                  </span>
-                </div>
-
-                <div class="mt-4 flex items-center gap-2.5">
-                  <button
-                    type="button"
-                    data-add-to-cart
-                    variant-id="{{ parts[7] }}"
-                    class="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-bold tracking-wider text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer"
-                  >
-                    <span>ADD TO BAG +</span>
-                  </button>
-                  <button
-                    type="button"
-                    data-open-quick-view
-                    aria-label="Quick view"
-                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer"
-                  >👁</button>
-                </div>
-              </div>
-            </div>
-          </article>
-        {% endfor %}
+        <div class="col-span-full py-16 text-center font-mono-tech text-xs text-zinc-400 uppercase">
+          No hardware pieces found in this vault archive.
+        </div>
       {% endif %}
     </div>
   </div>
@@ -410,36 +335,41 @@
 
 {% schema %}
 {
-  "name": "Main Storefront Archive",
+  "name": "Main Storefront",
   "settings": [
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Archive Collection"
-    },
     {
       "type": "text",
       "id": "hero_badge",
       "label": "Hero Badge Text",
-      "default": "+ DROP 01 // LIVE NOW"
+      "default": "SYSTEM: DROP 01 LIVE // MADURAI DISPATCH HUB"
     },
     {
       "type": "text",
       "id": "hero_title_line_1",
       "label": "Hero Title Line 1",
-      "default": "TIMELESS"
+      "default": "HEAVY METAL"
     },
     {
       "type": "text",
       "id": "hero_title_line_2",
-      "label": "Hero Title Line 2 (Italic Serif)",
-      "default": "BUT MAKE IT Y2K."
+      "label": "Hero Title Line 2 (Italic)",
+      "default": "Industrial Hardware"
     },
     {
       "type": "textarea",
       "id": "hero_subtitle",
       "label": "Hero Subtitle",
-      "default": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available."
+      "default": "Industrial 316L chrome hardware, Y2K timepieces, and custom Type-C wired peripherals engineered for the millennium rewind."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Archive Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Storefront"
     }
   ]
 }
