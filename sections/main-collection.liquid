@@ -1,191 +1,239 @@
-<!-- sections/main-collection.liquid -->
-<div class="relative w-full bg-transparent text-[#E9E3D5] py-12 px-4 sm:px-6 lg:px-12">
-  <div class="mx-auto max-w-7xl">
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="theme-color" content="#030303">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% else %}
+      <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
+    {% endif %}
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS Browser Runtime -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
+              editorial: ['Playfair Display', 'Georgia', 'serif'],
+              sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+              'mono-tech': ['JetBrains Mono', 'monospace']
+            }
+          }
+        }
+      };
+    </script>
+
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
     
-    <!-- Collection Header & Controls Toolbar -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/15 pb-8 mb-8 reveal-on-scroll">
-      <div>
-        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[11px] font-bold uppercase tracking-wider text-red-500 backdrop-blur-md shadow-sm">
-          <span class="h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
-          ARCHIVE VAULT // ALL ARTIFACTS
-        </div>
-        <h1 class="font-display text-4xl sm:text-5xl font-extrabold uppercase tracking-tight mt-3 text-white drop-shadow-md">
-          {{ collection.title | default: 'DROP 01 CATALOG' }}
-        </h1>
-        <p class="mt-2 font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-xl" id="rwnd-showing-count">
-          SHOWING {{ collection.products.size }} PIECES · FREE SHIPPING ABOVE ₹999
-        </p>
-      </div>
-
-      <!-- Search & Sort Controls -->
-      <div class="flex flex-wrap items-center gap-3">
-        <input type="text" id="rwnd-archive-search" placeholder="SEARCH SPEC..." class="rounded-full border border-white/20 bg-black/60 px-4 py-2 font-mono-tech text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 shadow-sm w-44 sm:w-56 backdrop-blur-md">
-        <select id="rwnd-archive-sort" class="rounded-full border border-white/20 bg-black/60 px-4 py-2 font-mono-tech text-xs text-white focus:outline-none focus:border-red-600 shadow-sm cursor-pointer backdrop-blur-md">
-          <option value="featured" class="bg-black text-white">SORT: FEATURED SPEC</option>
-          <option value="price-asc" class="bg-black text-white">PRICE: LOW TO HIGH</option>
-          <option value="price-desc" class="bg-black text-white">PRICE: HIGH TO LOW</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Category Filter Tabs -->
-    <div class="flex flex-wrap items-center gap-2 mb-8 reveal-on-scroll" role="tablist">
-      <button type="button" role="tab" aria-selected="true" data-filter-category="all" class="rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md cursor-pointer transition-all">
-        ALL SPEC
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="hardware" class="rounded-full border border-white/20 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer backdrop-blur-md transition-all">
-        316L HARDWARE
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="earphones" class="rounded-full border border-white/20 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer backdrop-blur-md transition-all">
-        CHROME AUDIO
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="watch" class="rounded-full border border-white/20 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer backdrop-blur-md transition-all">
-        TIMEPIECES
-      </button>
-    </div>
-
-    <!-- Product Grid with Foggy Glassmorphism -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="rwnd-product-grid">
-      {% for product in collection.products %}
-        <div data-product-card 
-             data-category="{{ product.type | handle }}" 
-             data-tags="{{ product.tags | join: ' ' | handle }}" 
-             data-title="{{ product.title | escape }}" 
-             data-price="{{ product.price }}"
-             data-price-formatted="{{ product.price | money }}"
-             data-compare-formatted="{{ product.compare_at_price | money }}"
-             data-image="{{ product.featured_image | image_url: width: 600 }}"
-             data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-             data-url="{{ product.url }}"
-             data-description="{{ product.description | strip_html | escape }}"
-             class="group relative overflow-hidden rounded-3xl foggy-glass p-4 flex flex-col justify-between transition-all duration-500 hover:scale-[1.02]">
-          
-          <!-- Drifting Fog Animation Layer -->
-          <div class="absolute inset-0 fog-overlay pointer-events-none"></div>
-
-          <div class="relative z-10">
-            <!-- Card Image Box with Dark Frosted Look -->
-            <div class="relative rounded-2xl bg-black/40 border border-white/10 p-4 overflow-hidden aspect-square flex items-center justify-center">
-              <span class="absolute top-3 left-3 z-10 font-mono-tech text-[9px] font-bold uppercase tracking-widest bg-red-950 text-red-200 px-2.5 py-1 rounded-full border border-red-800/50">
-                {% if product.compare_at_price > product.price %}SALE{% else %}DROP 01{% endif %}
-              </span>
-              <button type="button" data-toggle-wishlist aria-label="Save to Wishlist" class="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-[#E9E3D5] hover:bg-white hover:text-black transition-colors cursor-pointer backdrop-blur-md">
-                ♡
-              </button>
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain filter contrast-125 transition-transform duration-500 group-hover:scale-105">
-              {% else %}
-                <div class="font-mono-tech text-xs text-zinc-500">NO ASSET</div>
-              {% endif %}
-            </div>
-
-            <!-- Card Titles -->
-            <div class="mt-4">
-              <p class="font-mono-tech text-[10px] text-zinc-500 uppercase tracking-widest">{{ product.vendor | default: 'RWND20S' }}</p>
-              <h3 class="font-display text-sm font-bold uppercase text-[#E9E3D5] mt-0.5 line-clamp-1">{{ product.title }}</h3>
-            </div>
-          </div>
-
-          <!-- Price & Action Toolbar -->
-          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-2 relative z-10">
-            <div>
-              <span class="font-mono-tech text-sm font-extrabold text-[#E9E3D5]">{{ product.price | money }}</span>
-              {% if product.compare_at_price > product.price %}
-                <span class="block font-mono-tech text-[10px] text-zinc-500 line-through">{{ product.compare_at_price | money }}</span>
-              {% endif %}
-            </div>
-            <div class="flex items-center gap-1.5">
-              <button type="button" data-open-quick-view class="rounded-full border border-white/20 bg-white/5 px-3 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#E9E3D5] hover:bg-white hover:text-black transition-colors cursor-pointer">
-                VIEW
-              </button>
-              <button type="button" data-add-to-cart variant-id="{{ product.selected_or_first_available_variant.id }}" class="rounded-full border border-white bg-[#E9E3D5] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase text-black hover:bg-red-900 hover:text-white hover:border-red-900 transition-colors cursor-pointer">
-                + BAG
-              </button>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-</div>
-
-{% schema %}
-{
-  "name": "Collection Main Catalog",
-  "settings": []
-}
-{% endschema %}
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('rwnd-archive-search');
-  const sortSelect = document.getElementById('rwnd-archive-sort');
-  const filterButtons = document.querySelectorAll('[data-filter-category]');
-  const productGrid = document.getElementById('rwnd-product-grid');
-  const productCards = Array.from(productGrid ? productGrid.querySelectorAll('[data-product-card]') : []);
-  const showingCount = document.getElementById('rwnd-showing-count');
-
-  let activeCategory = 'all';
-  let searchTerm = '';
-  let sortBy = 'featured';
-
-  function filterAndSortProducts() {
-    if (!productGrid) return;
-    let visibleCount = 0;
-
-    productCards.forEach(card => {
-      const category = card.getAttribute('data-category') || '';
-      const tags = card.getAttribute('data-tags') || '';
-      const title = (card.getAttribute('data-title') || '').toLowerCase();
-
-      const matchesCategory = (activeCategory === 'all') || (category.includes(activeCategory)) || (tags.includes(activeCategory));
-      const matchesSearch = title.includes(searchTerm);
-
-      if (matchesCategory && matchesSearch) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
+    <!-- MASTER STYLES: ANIMATED ROAD & FOGGY GLASSMORPHISM -->
+    <style>
+      /* Animated 3D Road */
+      .road-to-hell {
+        transform-origin: bottom center;
+        transform: perspective(50vh) rotateX(72deg);
+        background-image: 
+          linear-gradient(to top, rgba(3,3,3,1) 15%, transparent 100%),
+          linear-gradient(to right, rgba(0,0,0,0) 49%, #8a0303 49%, #8a0303 51%, rgba(0,0,0,0) 51%),
+          repeating-linear-gradient(to bottom, transparent 0, transparent 35px, #ff1a1a 35px, #ff1a1a 38px);
+        background-size: 100% 100%, 100% 100%, 100% 38px;
+        animation: drive 0.4s linear infinite;
       }
-    });
+      @keyframes drive {
+        from { background-position: 0 0, 0 0, 0 0; }
+        to { background-position: 0 0, 0 0, 0 38px; }
+      }
 
-    const visibleCards = productCards.filter(card => card.style.display !== 'none');
-    visibleCards.sort((a, b) => {
-      const priceA = parseFloat(a.getAttribute('data-price')) || 0;
-      const priceB = parseFloat(b.getAttribute('data-price')) || 0;
-      if (sortBy === 'price-asc') return priceA - priceB;
-      if (sortBy === 'price-desc') return priceB - priceA;
-      return 0;
-    });
+      /* Foggy Glassmorphism Cards */
+      .foggy-glass {
+        background: rgba(10, 10, 10, 0.75);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8);
+      }
+      .foggy-glass:hover {
+        border-color: rgba(220, 38, 38, 0.6);
+        box-shadow: 0 15px 50px 0 rgba(138, 3, 3, 0.4);
+      }
 
-    visibleCards.forEach(card => productGrid.appendChild(card));
-    if (showingCount) {
-      showingCount.textContent = `SHOWING ${visibleCount} PIECES · FREE SHIPPING ABOVE ₹999`;
-    }
-  }
+      /* Drifting Fog Effect */
+      @keyframes fogDrift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .fog-overlay {
+        background: linear-gradient(120deg, rgba(255,255,255,0.04) 0%, rgba(138,3,3,0.08) 50%, rgba(255,255,255,0.03) 100%);
+        background-size: 200% 200%;
+        animation: fogDrift 7s ease infinite;
+      }
+    </style>
+  </head>
 
-  searchInput?.addEventListener('input', (e) => {
-    searchTerm = e.target.value.toLowerCase().trim();
-    filterAndSortProducts();
-  });
+  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-  sortSelect?.addEventListener('change', (e) => {
-    sortBy = e.target.value;
-    filterAndSortProducts();
-  });
+    <!-- PERMANENT BACKGROUND ROAD & BLOOD MOON -->
+    <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#2a0000_0%,#030303_75%)] opacity-100"></div>
+      <div class="absolute top-[2%] left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-red-800 blur-[140px] opacity-35"></div>
+      <div class="absolute bottom-0 w-[200vw] h-[55vh] left-1/2 -translate-x-1/2 road-to-hell opacity-55"></div>
+    </div>
 
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => {
-        b.setAttribute('aria-selected', 'false');
-        b.className = "rounded-full border border-white/20 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer backdrop-blur-md transition-all";
+    <!-- CINEMATIC INTRO OVERLAY (Strictly locked to cover 100% viewport without scroll gaps) -->
+    <div id="rwnd-night-intro" class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
+      
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#4a0000_0%,#030303_70%)] opacity-90 pointer-events-none" id="intro-fog"></div>
+      <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-red-600 blur-[80px] opacity-70 animate-pulse pointer-events-none"></div>
+      <div class="absolute bottom-0 w-[200vw] h-[65vh] left-1/2 -translate-x-1/2 road-to-hell opacity-85"></div>
+      
+      <div class="relative z-10 flex flex-col items-center text-center px-6 transition-opacity duration-500" id="intro-content">
+        <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-4">ATMOSPHERE: MIDNIGHT</p>
+        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_50px_rgba(220,38,38,0.7)]">
+          THE NIGHT <br><span class="text-red-600">CALLS</span>
+        </h1>
+        <p class="mt-4 text-xs text-zinc-300 max-w-sm leading-relaxed tracking-wider">
+          Heavy 316L hardware engineered for the dark road.
+        </p>
+        <button id="rwnd-enter-night-btn" type="button" class="mt-8 group relative inline-flex items-center gap-3 rounded-full border border-red-900/60 bg-black/80 backdrop-blur-xl px-10 py-4 text-[11px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] cursor-pointer active:scale-95">
+          <span>DESCEND INTO ARCHIVE</span>
+        </button>
+      </div>
+
+      <div class="absolute bottom-6 w-full px-8 flex justify-between items-center text-[9px] text-zinc-500 tracking-widest uppercase transition-opacity duration-500" id="intro-ticker">
+        <span>LOC: MADURAI_TN</span>
+        <span>VISIBILITY: ZERO</span>
+      </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const introOverlay = document.getElementById('rwnd-night-intro');
+      const enterBtn = document.getElementById('rwnd-enter-night-btn');
+      const introContent = document.getElementById('intro-content');
+      const introTicker = document.getElementById('intro-ticker');
+      const introFog = document.getElementById('intro-fog');
+
+      if (sessionStorage.getItem('rwnd_night_played') === 'true') {
+        if (introOverlay) introOverlay.remove();
+        return;
+      }
+
+      enterBtn?.addEventListener('click', () => {
+        sessionStorage.setItem('rwnd_night_played', 'true');
+        
+        introContent.style.opacity = '0';
+        introTicker.style.opacity = '0';
+        introFog.style.opacity = '0';
+        
+        introOverlay.style.transition = 'all 3s cubic-bezier(0.7, 0, 0.2, 1)';
+        introOverlay.style.transform = 'scale(4) translateY(15%)';
+        introOverlay.style.filter = 'blur(20px) brightness(1.8)';
+        introOverlay.style.opacity = '0';
+        introOverlay.style.pointerEvents = 'none';
+        
+        setTimeout(() => { introOverlay.remove(); }, 3000);
       });
-      btn.setAttribute('aria-selected', 'true');
-      btn.className = "rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md cursor-pointer transition-all";
-
-      activeCategory = btn.getAttribute('data-filter-category');
-      filterAndSortProducts();
     });
-  });
-});
-</script>
+    </script>
+
+    <!-- Header Section -->
+    {% section 'header' %}
+
+    <!-- Main Content -->
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10">
+      {{ content_for_layout }}
+    </main>
+
+    <!-- INDUSTRIAL SYS_BACK CAPSULE -->
+    <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
+      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
+        <span class="text-zinc-500 group-hover:text-black">←</span>
+        <span>RETURN</span>
+      </button>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const backBar = document.getElementById('rwnd-sys-back-bar');
+        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
+          backBar.classList.remove('hidden');
+          backBar.classList.add('flex');
+        }
+      });
+    </script>
+
+    <!-- Footer Section -->
+    <div class="relative z-10">
+      {% section 'footer' %}
+    </div>
+
+    <!-- Slide-Out Cart Drawer -->
+    {% render 'cart-drawer' %}
+
+    <!-- Toast Container -->
+    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- GLOBAL SMOOTH SCROLL ANIMATIONS -->
+    <style>
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity, transform;
+      }
+      .reveal-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const selectors = [
+          '.rounded-3xl', 
+          '.rounded-2xl', 
+          '#rwnd-product-grid > div', 
+          'footer > div > div',
+          'h2'
+        ];
+        
+        const elementsToReveal = document.querySelectorAll(selectors.join(', '));
+        elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target); 
+            }
+          });
+        }, { 
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1 
+        });
+
+        elementsToReveal.forEach(el => revealObserver.observe(el));
+      });
+    </script>
+
+  </body>
+</html>
