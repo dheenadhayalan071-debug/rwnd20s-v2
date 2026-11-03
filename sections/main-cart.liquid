@@ -1,1 +1,91 @@
 
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
+  <div class="mx-auto max-w-5xl">
+    <!-- Breadcrumb Nav -->
+    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
+      <ol class="flex items-center gap-2 uppercase tracking-wider">
+        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li>/</li>
+        <li class="text-[#09090B] font-bold">HARDWARE BAG</li>
+      </ol>
+    </nav>
+
+    <div class="border-b border-[#09090B]/20 pb-6 mb-8">
+      <h1 class="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#09090B]">
+        YOUR HARDWARE BAG
+      </h1>
+      <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">
+        Review your selected Drop 01 artifacts and proceed to secure checkout.
+      </p>
+    </div>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="mb-8 rounded-2xl border border-[#09090B]/20 bg-white p-4 shadow-sm">
+      <div class="flex items-center justify-between font-mono-tech text-xs mb-2">
+        <span id="rwnd-shipping-message" class="text-[#3F3F46]">Calculating shipping threshold...</span>
+        <span class="font-bold text-[#09090B]">FREE SHIPPING @ ₹999</span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-[#D4D8E0] overflow-hidden">
+        <div id="rwnd-shipping-bar" class="h-full bg-[#09090B] transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Cart Items List (Left Column) -->
+      <div class="lg:col-span-7 space-y-4" id="rwnd-cart-items">
+        <div class="flex h-48 flex-col items-center justify-center text-center rounded-3xl border border-[#09090B]/20 bg-white p-6 shadow-sm">
+          <p class="font-display text-base font-bold text-[#09090B] uppercase">LOADING BAG SPEC...</p>
+        </div>
+      </div>
+
+      <!-- Cart Summary & Checkout Box (Right Column) -->
+      <div class="lg:col-span-5 sticky top-24">
+        <div class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-8 shadow-xl space-y-4">
+          <h2 class="font-mono-tech text-xs font-bold uppercase tracking-widest text-[#09090B] pb-3 border-b border-[#09090B]/10">
+            TRANSMISSION SUMMARY
+          </h2>
+
+          <div class="space-y-2 font-mono-tech text-xs">
+            <div class="flex justify-between text-[#3F3F46]">
+              <span>BAG SUBTOTAL</span>
+              <span id="rwnd-cart-subtotal" class="font-bold text-[#09090B]">₹0.00</span>
+            </div>
+            <div id="rwnd-cart-discount-row" class="hidden justify-between text-emerald-700">
+              <span>WELCOME PASS (5% OFF)</span>
+              <span id="rwnd-cart-discount-amount" class="font-bold">-₹0.00</span>
+            </div>
+            <div class="flex justify-between text-[#3F3F46]">
+              <span>EXPRESS SHIPPING</span>
+              <span class="font-bold text-emerald-700">FREE</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-[#09090B]/10 flex justify-between items-baseline">
+            <span class="font-display text-sm font-bold uppercase text-[#09090B]">TOTAL AMOUNT</span>
+            <span id="rwnd-cart-total" class="font-mono-tech text-xl font-extrabold text-[#09090B]">₹0.00</span>
+          </div>
+
+          <div class="pt-4 space-y-3">
+            <button type="button" data-shopify-checkout class="w-full rounded-full border border-[#09090B] bg-[#09090B] py-4 font-mono-tech text-xs font-bold text-white uppercase tracking-widest hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer shadow-md">
+              PROCEED TO SECURE CHECKOUT //
+            </button>
+            <a href="/collections/all" class="block text-center rounded-full border border-[#09090B]/20 bg-white py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
+              CONTINUE BROWSING CATALOG
+            </a>
+          </div>
+
+          <div class="pt-4 border-t border-[#09090B]/10 font-mono-tech text-[10px] text-[#52525B] text-center">
+            ✦ Encrypted 256-bit SSL transaction via Shopify Checkout.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Main Layout",
+  "settings": []
+}
+{% endschema %}
