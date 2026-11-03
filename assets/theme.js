@@ -39,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <button type="button" aria-label="Dismiss notification" class="text-xs font-bold text-[#52525B] hover:text-[#09090B]">✕</button>
     `;
 
-    toast.querySelector('button')?.addEventListener('click', () => toast.remove());
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.remove();
-    }, 4200);
-  }
+        toast.querySelector('button')?.addEventListener('click', () => toast.remove());
+            container.appendChild(toast);
+                setTimeout(() => {
+                      toast.remove();
+                          }, 4200);
+                            }
 
   /* ==========================================================================
    * 2. INITIAL ARCHIVE LOADER
