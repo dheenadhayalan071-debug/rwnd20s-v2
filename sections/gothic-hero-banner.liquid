@@ -1,0 +1,68 @@
+<!-- sections/gothic-hero-banner.liquid -->
+<div class="relative min-h-[85vh] w-full overflow-hidden bg-[#111111] text-[#E9E3D5] font-mono-tech flex flex-col justify-between p-6 sm:p-12">
+  
+  <!-- Atmospheric Blood-Red Moon & Vintage Street Lamp Glow Background -->
+  <div class="absolute inset-0 pointer-events-none">
+    <!-- Blood-Red Moon (Top Center) -->
+    <div class="absolute top-12 left-1/2 -translate-x-1/2 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-b from-red-600 via-red-950 to-black blur-[40px] opacity-75"></div>
+    <div class="absolute top-20 left-1/2 -translate-x-1/2 w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-red-500 blur-[15px] opacity-40 animate-pulse"></div>
+
+    <!-- Retro Street Lamp Cone Light Effect -->
+    <div class="absolute top-0 right-10 sm:right-24 w-72 h-[500px] bg-gradient-to-b from-amber-500/20 via-amber-900/5 to-transparent rotate-12 blur-[30px] pointer-events-none"></div>
+
+    <!-- Dark Asphalt Road Perspective Lines (Subtle SVG Overlay) -->
+    <div class="absolute inset-0 bg-[radial-gradient(#27272A_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
+  </div>
+
+  <!-- Top Navigation Status -->
+  <div class="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
+    <div class="flex items-center gap-2">
+      <span class="h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
+      <span class="text-[10px] uppercase tracking-widest text-[#E9E3D5]/70">SECTOR // MDU_DISPATCH</span>
+    </div>
+    <span class="text-[10px] uppercase tracking-widest text-zinc-500">ATMOSPHERE: NOCTURNE</span>
+  </div>
+
+  <!-- Center Hero Content -->
+  <div class="relative z-10 my-auto max-w-3xl py-12">
+    <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/60 backdrop-blur-md px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#E9E3D5] mb-6 shadow-xl">
+      <span>✦ DROP 01 // ARCHIVE VAULT</span>
+    </div>
+    
+    <h1 class="font-display text-4xl sm:text-7xl font-extrabold uppercase tracking-tighter text-[#E9E3D5] leading-none drop-shadow-[0_0_35px_rgba(233,227,213,0.2)]">
+      MIDNIGHT <br><span class="text-red-700">HIGHWAY</span>
+    </h1>
+
+    <p class="mt-4 font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-lg leading-relaxed">
+      Heavy 316L stainless steel hardware, analog chronographs, and pink chrome audio engineered for the underground. Walk the dark road.
+    </p>
+
+    <!-- Brutalist CTAs -->
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <a href="/collections/all" class="rounded-full border border-white bg-[#E9E3D5] px-8 py-4 text-xs font-bold uppercase tracking-widest text-black transition hover:bg-black hover:text-[#E9E3D5] hover:border-white shadow-[0_0_20px_rgba(233,227,213,0.3)] cursor-pointer">
+        EXPLORE DROP 01 →
+      </a>
+      <a href="#about" class="rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#E9E3D5] transition hover:border-white cursor-pointer">
+        VIEW MANIFESTO
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Ticker -->
+  <div class="relative z-10 flex items-center justify-between border-t border-white/10 pt-4 text-[9px] uppercase tracking-widest text-zinc-500">
+    <span>LAT: 9.9252° N</span>
+    <span>ENCRYPTED VIBE // SECURE</span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gothic Blood Moon Banner",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Gothic Blood Moon Banner"
+    }
+  ]
+}
+{% endschema %}
