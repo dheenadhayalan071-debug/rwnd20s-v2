@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_cod_policy": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
