@@ -1,134 +1,128 @@
-<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
-  <div class="mx-auto max-w-7xl">
-    <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
-      <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
-        <li>/</li>
-        <li><a href="/collections/all" class="hover:text-[#09090B]">ARCHIVE</a></li>
-        <li>/</li>
-        <li class="text-[#09090B] font-bold truncate max-w-[200px] sm:max-w-none">{{ product.title }}</li>
-      </ol>
-    </nav>
+<div class="metallic-chrome-bg min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 text-[#09090B] font-mono-tech">
+  <div class="max-w-6xl mx-auto">
+    
+    {% assign current_variant = product.selected_or_first_available_variant %}
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-      <!-- Product Media Gallery (Left Column) -->
-      <div class="lg:col-span-7 flex flex-col gap-4">
-        <div class="rounded-3xl border border-[#09090B]/20 bg-white p-4 sm:p-6 shadow-xl overflow-hidden relative">
-          <div class="absolute top-4 left-4 z-10 font-mono-tech text-[10px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-3 py-1 rounded-full">
-            {% if product.compare_at_price > product.price %}ARCHIVE SALE{% else %}DROP 01 SPEC{% endif %}
-          </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      
+      <!-- Left Column: Product Gallery / Immersive View -->
+      <div class="space-y-4">
+        <div class="relative aspect-square w-full overflow-hidden rounded-3xl border border-black/20 bg-white p-6 shadow-md flex items-center justify-center">
+          <span class="absolute top-4 left-4 z-10 rounded-full border border-black/15 bg-white px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-xs">
+            ✦ DROP 01 // 316L SPEC
+          </span>
           {% if product.featured_image %}
-            <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" class="w-full h-[360px] sm:h-[520px] object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain mix-blend-multiply">
           {% else %}
-            <div class="w-full h-[360px] sm:h-[520px] bg-[#D4D8E0] flex items-center justify-center font-mono-tech text-xs text-[#52525B]">
-              NO IMAGE SPECIFIED
-            </div>
+            <div class="text-xs text-[#71717A]">NO ASSET AVAILABLE</div>
           {% endif %}
         </div>
-
-        {% if product.media.size > 1 %}
-          <div class="grid grid-cols-4 gap-3">
-            {% for media in product.media %}
-              <div class="rounded-2xl border border-[#09090B]/15 bg-white p-2 cursor-pointer hover:border-[#09090B]">
-                <img src="{{ media | image_url: width: 300 }}" alt="" class="w-full h-20 object-contain mix-blend-multiply">
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
       </div>
 
-      <!-- Product Details & Buy Box (Right Column) -->
-      <div class="lg:col-span-5 flex flex-col gap-6 sticky top-24">
-        <div class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-8 shadow-xl">
-          <p class="font-mono-tech text-xs text-[#52525B] uppercase tracking-widest">
-            {{ product.vendor | default: 'RWND20S HARDWARE' }}
-          </p>
-          <h1 class="font-display text-2xl sm:text-3xl font-extrabold text-[#09090B] uppercase mt-1">
+      <!-- Right Column: Product Specs & Brutalist CTA -->
+      <div class="space-y-6">
+        
+        <!-- Category & Title -->
+        <div>
+          <p class="text-xs font-bold tracking-widest text-[#52525B] uppercase">{{ product.vendor | default: 'rwnd20s.' }}</p>
+          <h1 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#09090B]">
             {{ product.title }}
           </h1>
+        </div>
 
-          <!-- Price Display -->
-          <div class="mt-4 flex items-baseline gap-3">
-            <span class="font-mono-tech text-2xl font-extrabold text-[#09090B]" id="rwnd-product-price">
-              {{ product.selected_or_first_available_variant.price | money }}
+        <!-- Price Display -->
+        <div class="flex items-center gap-3 border-y border-black/15 py-4">
+          <span class="font-display text-2xl sm:text-3xl font-extrabold text-[#09090B]">
+            {{ current_variant.price | money }}
+          </span>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="text-sm font-bold text-[#71717A] line-through">
+              {{ current_variant.compare_at_price | money }}
             </span>
-            {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
-              <span class="font-mono-tech text-sm text-[#52525B] line-through">
-                {{ product.selected_or_first_available_variant.compare_at_price | money }}
-              </span>
-            {% endif %}
+          {% endif %}
+          <span class="ml-auto rounded-full bg-[#09090B] text-white px-3 py-1 text-[10px] font-bold tracking-wider uppercase">
+            IN STOCK // DISPATCH MDU
+          </span>
+        </div>
+
+        <!-- Variant Picker (If multiple variants) -->
+        {% unless product.has_only_default_variant %}
+          <div class="space-y-3">
+            <label class="block text-xs font-bold tracking-wider uppercase text-[#09090B]">SELECT SPECIFICATION</label>
+            <div class="grid grid-cols-2 gap-2">
+              {% for variant in product.variants %}
+                <button type="button" 
+                        onclick="window.location.href='?variant={{ variant.id }}'" 
+                        class="rounded-2xl border p-3 text-left text-xs font-bold transition-all cursor-pointer {% if variant.id == current_variant.id %}border-[#09090B] bg-[#09090B] text-white shadow-md{% else %}border-black/20 bg-white text-[#09090B] hover:border-[#09090B]{% endif %}">
+                  {{ variant.title }}
+                </button>
+              {% endfor %}
+            </div>
           </div>
+        {% endunless %}
 
-          <!-- Form / Variant Selection -->
-          {% form 'product', product, class: 'mt-6' %}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="rwnd-pdp-variant-select">
+        <!-- Brutalist CTA Buttons -->
+        <div class="space-y-3 pt-2">
+          <button type="button" 
+                  onclick="addVariantToBag('{{ current_variant.id }}')" 
+                  class="w-full rounded-full border border-black bg-[#09090B] py-4 text-xs font-bold tracking-widest text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] shadow-sm cursor-pointer">
+            + ADD TO HARDWARE BAG
+          </button>
+          
+          <a href="/checkout" class="block w-full text-center rounded-full border border-black/20 bg-white py-4 text-xs font-bold tracking-widest text-[#09090B] uppercase transition hover:bg-black hover:text-white shadow-xs">
+            INSTANT CHECKOUT →
+          </a>
+        </div>
 
-            {% unless product.has_only_default_variant %}
-              <div class="space-y-4 mb-6">
-                {% for option in product.options_with_values %}
-                  <div>
-                    <label class="block font-mono-tech text-xs font-bold text-[#09090B] uppercase mb-2">
-                      {{ option.name }}:
-                    </label>
-                    <div class="flex flex-wrap gap-2">
-                      {% for value in option.values %}
-                        <button type="button" class="px-3.5 py-2 rounded-full border border-[#09090B]/20 font-mono-tech text-xs uppercase hover:border-[#09090B] transition-colors cursor-pointer {% if option.selected_value == value %}bg-[#09090B] text-white font-bold border-[#09090B]{% else %}bg-white text-[#3F3F46]{% endif %}">
-                          {{ value }}
-                        </button>
-                      {% endfor %}
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            {% endunless %}
-
-            <!-- Quantity Selector -->
-            <div class="flex items-center gap-4 mb-6">
-              <span class="font-mono-tech text-xs font-bold uppercase text-[#09090B]">QTY:</span>
-              <div class="inline-flex items-center rounded-full border border-[#09090B]/20 bg-[#DCDFE5]/50 px-3 py-1">
-                <button type="button" onclick="const q=document.getElementById('rwnd-pdp-quantity'); q.value=Math.max(1, Number(q.value)-1);" class="font-mono-tech text-xs font-bold px-2 cursor-pointer">-</button>
-                <input type="number" id="rwnd-pdp-quantity" name="quantity" value="1" min="1" class="w-8 text-center bg-transparent font-mono-tech text-xs font-bold text-[#09090B] focus:outline-none">
-                <button type="button" onclick="const q=document.getElementById('rwnd-pdp-quantity'); q.value=Number(q.value)+1;" class="font-mono-tech text-xs font-bold px-2 cursor-pointer">+</button>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="space-y-3">
-              <button type="button" data-add-to-cart variant-id="{{ product.selected_or_first_available_variant.id }}" class="w-full rounded-full border border-[#09090B] bg-[#09090B] py-4 font-mono-tech text-xs font-bold text-white uppercase tracking-widest hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer shadow-md">
-                ADD TO HARDWARE BAG +
-              </button>
-              <button type="button" data-shopify-checkout class="w-full rounded-full border border-[#09090B] bg-white py-3.5 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-widest hover:bg-[#09090B]/10 transition-colors cursor-pointer">
-                INSTANT CHECKOUT // SECURE
-              </button>
-            </div>
-          {% endform %}
-
-          <!-- Shipping & Perks Info -->
-          <div class="mt-8 pt-6 border-t border-[#09090B]/10 space-y-2 font-mono-tech text-[11px] text-[#52525B]">
-            <p>✦ <strong>Free Express Shipping</strong> on all orders above ₹999.</p>
-            <p>✦ <strong>Cash on Delivery</strong> available with zero advance fee.</p>
-            <p>✦ <strong>Welcome Offer:</strong> Use your unlocked pass for instant discounts.</p>
+        <!-- Accordion Specifications -->
+        <div class="space-y-3 pt-6 border-t border-black/15">
+          <div class="rounded-2xl border border-black/15 bg-white p-4 shadow-xs">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-[#09090B]">✦ MATERIAL SPECIFICATION</h3>
+            <p class="mt-2 text-xs leading-relaxed text-[#3F3F46]">
+              Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed in Madurai.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-black/15 bg-white p-4 shadow-xs">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-[#09090B]">✦ SHIPPING & DISPATCH</h3>
+            <p class="mt-2 text-xs leading-relaxed text-[#3F3F46]">
+              Free express shipping across India on all orders above ₹999. Cash on Delivery (COD) available at checkout.
+            </p>
           </div>
         </div>
 
-        <!-- Description Box -->
-        <div class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-8 shadow-md">
-          <h2 class="font-mono-tech text-xs font-bold uppercase tracking-widest text-[#09090B] mb-3">
-            ARTIFACT SPECIFICATIONS
-          </h2>
-          <div class="prose font-mono-tech text-xs text-[#3F3F46] leading-relaxed">
-            {{ product.description }}
-          </div>
-        </div>
       </div>
+
     </div>
+
   </div>
 </div>
 
+<script>
+async function addVariantToBag(variantId) {
+  try {
+    const response = await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: Number(variantId), quantity: 1 })
+    });
+    if (response.ok) {
+      if (typeof showToast === 'function') {
+        showToast('ADDED TO HARDWARE BAG', 'Artifact synced. Continue shopping or open bag when ready.');
+      } else {
+        alert('Artifact added to bag.');
+      }
+    } else {
+      alert('Unable to add item to bag.');
+    }
+  } catch {
+    alert('Network error while adding artifact.');
+  }
+}
+</script>
+
 {% schema %}
 {
-  "name": "Product Main Spec",
+  "name": "Product Page Main",
   "settings": []
 }
 {% endschema %}
