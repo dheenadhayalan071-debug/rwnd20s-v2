@@ -58,6 +58,71 @@
 
   <body class="metallic-chrome-bg min-h-screen text-[#09090B] antialiased selection:bg-[#09090B] selection:text-white">
 
+    <!-- IMMERSIVE GOTHIC SWIRL INTRO & ATMOSPHERIC BACKDROP -->
+    <div id="rwnd-gothic-intro" class="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-[#060606] text-[#E9E3D5] font-mono-tech select-none transition-all duration-1000 ease-in-out">
+      
+      <!-- Atmospheric Deep Dark Gradient / Gothic Horizon -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#111111] via-[#09090B] to-black opacity-90 pointer-events-none"></div>
+      
+      <!-- Subtle Glowing Lunar / Industrial Spotlight Effect -->
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-950/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <!-- Top Bar: System Status & Skip -->
+      <div class="relative z-20 w-full flex items-center justify-between px-6 py-6">
+        <div class="flex items-center gap-3">
+          <span class="inline-block h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
+          <span class="text-[10px] tracking-widest uppercase font-bold text-[#E9E3D5]/70">RWND20S.SYS // GOTHIC_MODE</span>
+        </div>
+        <button id="rwnd-skip-intro" type="button" class="rounded-full border border-white/15 bg-black/50 backdrop-blur-md px-4 py-2 text-[10px] font-bold tracking-wider uppercase text-[#E9E3D5] hover:border-white hover:bg-white hover:text-black transition cursor-pointer">
+          SKIP INTRO →
+        </button>
+      </div>
+
+      <!-- Center Gothic Hero Swirl Content -->
+      <div class="relative z-20 flex flex-col items-center text-center px-4 mb-16 transition-transform duration-1000" id="rwnd-intro-center">
+        <p class="text-[9px] tracking-[0.5em] uppercase text-zinc-500 mb-4">ATMOSPHERIC SUB-ROUTINE ACTIVE</p>
+        <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-[#E9E3D5] drop-shadow-[0_0_30px_rgba(233,227,213,0.15)]">
+          NEGATIVE<br><span class="text-zinc-600">ENERGY</span>
+        </h1>
+        
+        <button id="rwnd-ignite-btn" type="button" class="mt-10 group relative inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl px-8 py-4 text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase transition-all active:scale-95 hover:bg-[#E9E3D5] hover:text-black cursor-pointer shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <span>INITIALIZE DESCENT</span>
+        </button>
+      </div>
+
+      <!-- Bottom Ticker -->
+      <div class="relative z-20 w-full px-6 py-4 border-t border-white/10 bg-black/80 backdrop-blur-md flex items-center justify-between text-[9px] text-zinc-500 tracking-widest uppercase">
+        <span>LAT: 9.9252° N (MDU)</span>
+        <span>SECURITY: ENCRYPTED</span>
+      </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const introOverlay = document.getElementById('rwnd-gothic-intro');
+      const igniteBtn = document.getElementById('rwnd-ignite-btn');
+      const skipBtn = document.getElementById('rwnd-skip-intro');
+      const centerContent = document.getElementById('rwnd-intro-center');
+
+      // Play once per session
+      if (sessionStorage.getItem('rwnd_gothic_swirl_played') === 'true') {
+        if (introOverlay) introOverlay.remove();
+        return;
+      }
+
+      function dismissIntro() {
+        sessionStorage.setItem('rwnd_gothic_swirl_played', 'true');
+        if (centerContent) centerContent.style.transform = 'scale(1.4) rotate(1deg)';
+        introOverlay.style.opacity = '0';
+        introOverlay.style.pointerEvents = 'none';
+        setTimeout(() => { introOverlay.remove(); }, 1000);
+      }
+
+      igniteBtn?.addEventListener('click', dismissIntro);
+      skipBtn?.addEventListener('click', dismissIntro);
+    });
+    </script>
+
     {% if settings.enable_crt_flicker != false %}
       <!-- Global High-Frequency CRT Brightness Flicker Overlay -->
       <div aria-hidden="true" data-testid="crt-flicker-overlay" class="crt-flicker-overlay fixed inset-0 z-[55]"></div>
