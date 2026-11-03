@@ -45,7 +45,7 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
-    <!-- MASTER GOTHIC ATMOSPHERIC & SPOOKY FOG STYLES -->
+    <!-- MASTER GOTHIC ATMOSPHERIC STYLES -->
     <style>
       html, body {
         max-width: 100vw;
@@ -65,68 +65,35 @@
         box-shadow: 0 15px 50px 0 rgba(138, 3, 3, 0.4);
       }
 
-      @keyframes fogDriftLeft {
-        0% { transform: translateX(0) scale(1); }
-        50% { transform: translateX(-5%) scale(1.05); }
-        100% { transform: translateX(0) scale(1); }
-      }
-
       @keyframes eeriePulse {
-        0%, 100% { opacity: 0.2; filter: blur(140px); }
-        50% { opacity: 0.45; filter: blur(110px); }
+        0%, 100% { opacity: 0.3; filter: blur(140px); }
+        50% { opacity: 0.6; filter: blur(100px); }
       }
 
-      .gothic-fog-layer-1 {
+      .gothic-fog-layer {
         position: fixed;
         inset: 0;
         z-index: -1;
         pointer-events: none;
-        background: radial-gradient(circle at 30% 40%, rgba(138, 3, 3, 0.25) 0%, transparent 60%);
-        animation: eeriePulse 8s ease-in-out infinite;
-      }
-
-      .gothic-fog-layer-2 {
-        position: fixed;
-        bottom: 0;
-        left: -20%;
-        width: 140%;
-        height: 60vh;
-        z-index: -1;
-        pointer-events: none;
-        background: linear-gradient(to top, rgba(12, 12, 12, 0.9) 0%, rgba(138, 3, 3, 0.1) 40%, transparent 100%);
-        opacity: 0.6;
-        filter: blur(50px);
-        animation: fogDriftLeft 14s ease-in-out infinite;
-      }
-
-      .gothic-scroll-reveal {
-        opacity: 0;
-        transform: translateY(40px) scale(0.98);
-        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: opacity, transform;
-      }
-
-      .gothic-scroll-reveal.revealed {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+        background: radial-gradient(circle at 50% 30%, rgba(138, 3, 3, 0.35) 0%, transparent 70%);
+        animation: eeriePulse 7s ease-in-out infinite;
       }
     </style>
   </head>
 
-  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303] overflow-x-hidden">
+  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- PERMANENT CUSTOM GOTHIC STREET BACKGROUND & FOG LAYERS -->
-    <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-45 mix-blend-luminosity filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/90"></div>
+    <!-- VIVID CUSTOM GOTHIC STREET BACKGROUND (Fully Visible & Striking) -->
+    <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90 filter contrast-110" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-[#030303]/40"></div>
     </div>
-    <div class="gothic-fog-layer-1"></div>
-    <div class="gothic-fog-layer-2"></div>
+    <div class="gothic-fog-layer"></div>
 
     <!-- Header Section -->
     {% section 'header' %}
 
-    <!-- FULL-SCREEN GOTHIC MOBILE NAVIGATION DRAWER (Fixes blank menu) -->
+    <!-- FULL-SCREEN MOBILE NAVIGATION DRAWER -->
     <div
       id="rwnd-mobile-menu"
       role="dialog"
@@ -169,20 +136,20 @@
     </div>
 
     <!-- Main Content -->
-    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full overflow-x-hidden">
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">
       {{ content_for_layout }}
     </main>
 
     <!-- Footer Section -->
-    <div class="relative z-10 w-full overflow-x-hidden">
+    <div class="relative z-10 w-full">
       {% section 'footer' %}
     </div>
 
-    <!-- Slide-Out Dark Gothic Cart Drawer (Fixed compact layout, no dead scroll space) -->
-    <div id="rwnd-cart-drawer" class="fixed inset-0 z-[100] hidden justify-end bg-black/80 backdrop-blur-md transition-opacity">
+    <!-- SLIDE-OUT CART DRAWER (Checkout pinned firmly to the bottom with zero dead space) -->
+    <div id="rwnd-cart-drawer" class="fixed inset-0 z-[100] hidden justify-end bg-black/85 backdrop-blur-md transition-opacity">
       <div class="w-full max-w-md h-full bg-[#060606] border-l border-red-900/40 p-5 flex flex-col justify-between text-white shadow-2xl">
         
-        <!-- Header & Cart Items -->
+        <!-- Header & Hot Deals -->
         <div class="overflow-y-auto pr-1">
           <div class="flex items-center justify-between border-b border-white/10 pb-3">
             <span class="font-display text-base font-bold uppercase tracking-wider">HARDWARE BAG</span>
@@ -193,40 +160,38 @@
             <p class="font-mono-tech text-xs text-zinc-400 text-center py-2">Your hardware bag is currently empty.</p>
           </div>
 
-          <!-- HOT COMMUNITY DEALS (Compact view to fit nicely without huge gaps) -->
+          <!-- HOT COMMUNITY DEALS -->
           <div class="mt-4 space-y-2.5">
             <div class="flex items-center justify-between">
               <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500">✦ HOT COMMUNITY DEALS</span>
               <span class="font-mono-tech text-[9px] text-zinc-500 uppercase">LIMITED STOCK</span>
             </div>
 
-            <!-- Deal Item 1 (Uses dynamic checkout or product URL fallback) -->
             <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/40 p-2.5 hover:border-red-600/60 transition-all">
               <div>
                 <p class="font-display text-xs font-bold text-white uppercase">3-Piece Y2K Cyber Set</p>
                 <p class="font-mono-tech text-[10px] text-zinc-400">Ring + Chain + Bracelet</p>
                 <p class="font-mono-tech text-xs font-bold text-red-400 mt-0.5">₹1,199 <span class="text-[10px] text-zinc-500 line-through">₹1,447</span></p>
               </div>
-              <a href="/products/3-piece-y2k-cyber-set" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all">
-                VIEW →
+              <a href="/collections/all" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all">
+                INSPECT →
               </a>
             </div>
 
-            <!-- Deal Item 2 -->
             <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/40 p-2.5 hover:border-red-600/60 transition-all">
               <div>
                 <p class="font-display text-xs font-bold text-white uppercase">Pink Chrome Earphones</p>
                 <p class="font-mono-tech text-[10px] text-zinc-400">Type-C DAC Audio</p>
                 <p class="font-mono-tech text-xs font-bold text-red-400 mt-0.5">₹999 <span class="text-[10px] text-zinc-500 line-through">₹1,499</span></p>
               </div>
-              <a href="/products/pink-chrome-wired-earphones" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all">
-                VIEW →
+              <a href="/collections/all" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all">
+                INSPECT →
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Sticky Footer / Checkout Actions -->
+        <!-- Sticky Footer Checkout Action -->
         <div class="border-t border-white/10 pt-3 space-y-2 mt-2 bg-[#060606]">
           <div class="flex justify-between items-center font-mono-tech text-xs">
             <span class="text-zinc-400">SHIPPING (MDU DISPATCH)</span>
@@ -243,16 +208,14 @@
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- GLOBAL INTERACTION & SCROLL ANIMATION SCRIPTS -->
+    <!-- GLOBAL INTERACTION SCRIPTS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Back bar visibility (shows on sub-pages)
         const backBar = document.getElementById('rwnd-sys-back-bar');
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
           backBar.classList.remove('hidden');
         }
 
-        // Mobile Menu Toggle Fix
         const mobileMenu = document.getElementById('rwnd-mobile-menu');
         const menuTriggers = document.querySelectorAll('[data-toggle-mobile-menu]');
         
@@ -274,7 +237,6 @@
           });
         });
 
-        // Cart Drawer Open & Close Triggers
         const cartDrawer = document.getElementById('rwnd-cart-drawer');
         const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"]');
         const closeCartBtn = document.querySelector('[data-close-cart]');
@@ -306,28 +268,8 @@
             document.body.style.overflow = '';
           }
         });
-
-        // Spooky Scroll Materialization Observer
-        const spookyElements = document.querySelectorAll('.foggy-glass, article, section > div > div, h1, h2');
-        spookyElements.forEach(el => {
-          el.classList.add('gothic-scroll-reveal');
-        });
-
-        const observer = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-            }
-          });
-        }, { 
-          threshold: 0.08,
-          rootMargin: '0px 0px -50px 0px' 
-        });
-
-        spookyElements.forEach(el => observer.observe(el));
       });
 
-      // Industrial Toast Notification Helper
       function showRwndToast(title, message) {
         const container = document.getElementById('rwnd-toast-container');
         if (!container) return;
@@ -343,10 +285,7 @@
         `;
 
         container.appendChild(toast);
-        setTimeout(() => {
-          toast.classList.remove('translate-y-4', 'opacity-0');
-        }, 10);
-
+        setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
         setTimeout(() => {
           toast.classList.add('translate-y-4', 'opacity-0');
           setTimeout(() => toast.remove(), 300);
