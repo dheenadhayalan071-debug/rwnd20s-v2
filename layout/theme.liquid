@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#DCDFE5">
+    <meta name="theme-color" content="#111111">
     <link rel="canonical" href="{{ canonical_url }}">
 
     <title>
@@ -20,7 +20,7 @@
       <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
     {% endif %}
 
-    <!-- Google Fonts: Syne, Playfair Display, Plus Jakarta Sans & JetBrains Mono -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -51,49 +51,64 @@
     </script>
 
     {{ 'theme.css' | asset_url | stylesheet_tag }}
-
-    <!-- Mandatory Shopify Header Injection -->
     {{ content_for_header }}
   </head>
 
-  <body class="metallic-chrome-bg min-h-screen text-[#09090B] antialiased selection:bg-[#09090B] selection:text-white">
+  <body class="metallic-chrome-bg min-h-screen text-[#09090B] antialiased selection:bg-red-900 selection:text-white">
 
-    <!-- IMMERSIVE GOTHIC SWIRL INTRO & ATMOSPHERIC BACKDROP -->
-    <div id="rwnd-gothic-intro" class="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-[#060606] text-[#E9E3D5] font-mono-tech select-none transition-all duration-1000 ease-in-out">
-      
-      <!-- Atmospheric Deep Dark Gradient / Gothic Horizon -->
-      <div class="absolute inset-0 bg-gradient-to-b from-[#111111] via-[#09090B] to-black opacity-90 pointer-events-none"></div>
-      
-      <!-- Subtle Glowing Lunar / Industrial Spotlight Effect -->
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-950/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- IMMERSIVE BLOOD MOON VORTEX INTRO -->
+    <style>
+      .blood-vortex-out {
+        animation: swirlDescent 2.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+      }
+      @keyframes swirlDescent {
+        0% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0px); }
+        30% { transform: scale(1.15) rotate(4deg); opacity: 1; filter: blur(1px) contrast(1.2) brightness(1.2); }
+        100% { transform: scale(0.01) rotate(60deg); opacity: 0; filter: blur(30px) contrast(2); }
+      }
+      .goth-road-perspective {
+        transform: perspective(50vh) rotateX(70deg);
+        background: 
+          linear-gradient(to top, #000 0%, transparent 100%),
+          repeating-linear-gradient(90deg, #050505 0%, #050505 48%, #8a0303 49%, #8a0303 51%, #050505 52%, #050505 100%);
+        background-size: 20vw 100px;
+      }
+    </style>
 
-      <!-- Top Bar: System Status & Skip -->
-      <div class="relative z-20 w-full flex items-center justify-between px-6 py-6">
-        <div class="flex items-center gap-3">
-          <span class="inline-block h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
-          <span class="text-[10px] tracking-widest uppercase font-bold text-[#E9E3D5]/70">RWND20S.SYS // GOTHIC_MODE</span>
+    <div id="rwnd-gothic-intro" class="fixed inset-0 z-[100] bg-black text-[#E9E3D5] font-mono-tech select-none overflow-hidden origin-center">
+      <!-- The Blood Moon & Sky -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#2b0000_0%,#000000_70%)] pointer-events-none"></div>
+      <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-40 h-40 rounded-full bg-red-600 blur-[2px] shadow-[0_0_80px_40px_rgba(220,38,38,0.4)] animate-pulse pointer-events-none"></div>
+      
+      <!-- The 3D Goth Road -->
+      <div class="absolute bottom-0 w-[200vw] h-[60vh] left-1/2 -translate-x-1/2 goth-road-perspective pointer-events-none opacity-80"></div>
+      
+      <!-- Streetlamp Flares -->
+      <div class="absolute bottom-[20%] left-[20%] w-32 h-32 bg-amber-600/20 blur-[40px] pointer-events-none"></div>
+      <div class="absolute bottom-[20%] right-[20%] w-32 h-32 bg-amber-600/20 blur-[40px] pointer-events-none"></div>
+
+      <!-- Interface & Button -->
+      <div class="relative z-20 h-full w-full flex flex-col items-center justify-between py-10 px-6">
+        <div class="w-full flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="inline-block h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
+            <span class="text-[10px] tracking-widest uppercase font-bold text-red-500">MDU_DISPATCH // ONLINE</span>
+          </div>
+          <button id="rwnd-skip-intro" class="text-[9px] text-zinc-500 hover:text-white uppercase tracking-widest cursor-pointer">SKIP [ESC]</button>
         </div>
-        <button id="rwnd-skip-intro" type="button" class="rounded-full border border-white/15 bg-black/50 backdrop-blur-md px-4 py-2 text-[10px] font-bold tracking-wider uppercase text-[#E9E3D5] hover:border-white hover:bg-white hover:text-black transition cursor-pointer">
-          SKIP INTRO →
-        </button>
-      </div>
 
-      <!-- Center Gothic Hero Swirl Content -->
-      <div class="relative z-20 flex flex-col items-center text-center px-4 mb-16 transition-transform duration-1000" id="rwnd-intro-center">
-        <p class="text-[9px] tracking-[0.5em] uppercase text-zinc-500 mb-4">ATMOSPHERIC SUB-ROUTINE ACTIVE</p>
-        <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-[#E9E3D5] drop-shadow-[0_0_30px_rgba(233,227,213,0.15)]">
-          NEGATIVE<br><span class="text-zinc-600">ENERGY</span>
-        </h1>
-        
-        <button id="rwnd-ignite-btn" type="button" class="mt-10 group relative inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl px-8 py-4 text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase transition-all active:scale-95 hover:bg-[#E9E3D5] hover:text-black cursor-pointer shadow-[0_0_30px_rgba(0,0,0,0.8)]">
-          <span>INITIALIZE DESCENT</span>
-        </button>
-      </div>
+        <!-- Center Content -->
+        <div class="flex flex-col items-center text-center mt-[-10vh]">
+          <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-6 drop-shadow-md">THE ARCHIVE IS BLEEDING</p>
+          <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+            BLOOD &<br>CHROME
+          </h1>
+          <button id="rwnd-ignite-btn" type="button" class="mt-12 group relative inline-flex items-center gap-3 rounded-full border border-red-900/50 bg-black/60 backdrop-blur-xl px-10 py-5 text-[12px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white cursor-pointer shadow-[0_0_40px_rgba(138,3,3,0.5)] active:scale-95 hover:scale-105">
+            <span>DESCEND INTO ARCHIVE</span>
+          </button>
+        </div>
 
-      <!-- Bottom Ticker -->
-      <div class="relative z-20 w-full px-6 py-4 border-t border-white/10 bg-black/80 backdrop-blur-md flex items-center justify-between text-[9px] text-zinc-500 tracking-widest uppercase">
-        <span>LAT: 9.9252° N (MDU)</span>
-        <span>SECURITY: ENCRYPTED</span>
+        <div class="text-[9px] text-zinc-600 tracking-widest uppercase">ENCRYPTED // 316L HARDWARE</div>
       </div>
     </div>
 
@@ -102,34 +117,29 @@
       const introOverlay = document.getElementById('rwnd-gothic-intro');
       const igniteBtn = document.getElementById('rwnd-ignite-btn');
       const skipBtn = document.getElementById('rwnd-skip-intro');
-      const centerContent = document.getElementById('rwnd-intro-center');
 
-      // Play once per session
-      if (sessionStorage.getItem('rwnd_gothic_swirl_played') === 'true') {
+      if (sessionStorage.getItem('rwnd_vortex_played') === 'true') {
         if (introOverlay) introOverlay.remove();
         return;
       }
 
-      function dismissIntro() {
-        sessionStorage.setItem('rwnd_gothic_swirl_played', 'true');
-        if (centerContent) centerContent.style.transform = 'scale(1.4) rotate(1deg)';
-        introOverlay.style.opacity = '0';
-        introOverlay.style.pointerEvents = 'none';
-        setTimeout(() => { introOverlay.remove(); }, 1000);
+      function triggerVortex() {
+        sessionStorage.setItem('rwnd_vortex_played', 'true');
+        introOverlay.classList.add('blood-vortex-out');
+        setTimeout(() => { introOverlay.remove(); }, 2500);
       }
 
-      igniteBtn?.addEventListener('click', dismissIntro);
-      skipBtn?.addEventListener('click', dismissIntro);
+      igniteBtn?.addEventListener('click', triggerVortex);
+      skipBtn?.addEventListener('click', triggerVortex);
     });
     </script>
 
     {% if settings.enable_crt_flicker != false %}
-      <!-- Global High-Frequency CRT Brightness Flicker Overlay -->
       <div aria-hidden="true" data-testid="crt-flicker-overlay" class="crt-flicker-overlay fixed inset-0 z-[55]"></div>
     {% endif %}
 
     <!-- Initial Full-Screen 3D Chrome Loader -->
-    <div id="rwnd-archive-loader" role="status" aria-live="polite" aria-label="Loading rwnd20s hardware archive" class="metallic-chrome-bg fixed inset-0 z-[100] flex flex-col items-center justify-center text-[#09090B] transition-opacity duration-300">
+    <div id="rwnd-archive-loader" role="status" aria-live="polite" class="metallic-chrome-bg fixed inset-0 z-[100] flex flex-col items-center justify-center text-[#09090B] transition-opacity duration-300">
       <div class="retro-scanlines pointer-events-none absolute inset-0 opacity-35"></div>
       <div class="relative flex flex-col items-center px-6 text-center">
         <div class="relative flex h-28 w-28 items-center justify-center">
@@ -138,104 +148,24 @@
             <span class="font-display text-sm font-extrabold tracking-tighter text-[#09090B]">RWND20s.</span>
           </div>
         </div>
-        <div class="mt-6 rounded-xl border border-black/20 bg-white px-4 py-2.5 shadow-md">
-          <p class="font-mono-tech text-xs font-bold tracking-[0.2em] text-[#09090B] lowercase">
-            connecting to archive...
-          </p>
-        </div>
       </div>
     </div>
-
-    <!-- Welcome Offer Email Popup (Embedded directly with max-h-[85vh] mobile scroll fix) -->
-    {% if settings.enable_welcome_popup != false %}
-      <div id="rwnd-welcome-popup" role="dialog" aria-modal="true" aria-labelledby="welcome-offer-title" data-testid="welcome-offer-popup" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 sm:p-6">
-        <div data-close-welcome class="fixed inset-0 bg-black/45 backdrop-blur-sm"></div>
-        <div class="metallic-chrome-bg relative z-10 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl border border-black/20 p-6 sm:p-8 text-[#09090B] shadow-[0_24px_70px_rgba(9,9,11,0.35)]">
-          <button type="button" data-close-welcome aria-label="Close welcome offer popup" class="absolute top-4 right-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-[#09090B] transition-colors hover:bg-black hover:text-white cursor-pointer">
-            ✕
-          </button>
-
-          <div class="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
-            <span>✦ ARCHIVE ENTRY PASS // DUAL REWARD</span>
-          </div>
-
-          <h2 id="welcome-offer-title" class="mt-4 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#09090B] uppercase">
-            UNLOCK 5% NOW + 10% NEXT DROP
-          </h2>
-
-          <p class="mt-2 text-sm leading-relaxed text-[#27272A]">
-            Enter your email to join the <strong class="text-[#09090B]">rwnd20s.</strong> collector list. Receive an instant <strong class="text-[#09090B]">5% OFF</strong> your current order plus a <strong class="text-[#09090B]">10% OFF</strong> voucher for your next purchase.
-          </p>
-
-          <div class="mt-5 grid grid-cols-2 gap-3">
-            <div class="rounded-2xl border border-black/15 bg-white p-3.5 shadow-xs">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#52525B] uppercase">CURRENT ORDER</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-[#09090B]">5% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-[#3F3F46]">Code: RWND5NOW</p>
-            </div>
-            <div class="rounded-2xl border border-black/15 bg-white p-3.5 shadow-xs">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#52525B] uppercase">NEXT PURCHASE</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-[#09090B]">10% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-[#3F3F46]">Code: RWND10NEXT</p>
-            </div>
-          </div>
-
-          <form id="rwnd-welcome-form" class="mt-6 space-y-3" novalidate>
-            <div>
-              <label for="welcome-offer-email" class="block font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase">
-                Email Address
-              </label>
-              <input id="welcome-offer-email" name="email" type="email" required placeholder="Enter your email for 5% + 10% off..." class="mt-1.5 w-full rounded-2xl border border-black/20 bg-white py-3 px-4 font-mono-tech text-xs text-[#09090B] placeholder-[#71717A] focus:border-[#09090B] focus:outline-none">
-              <p id="welcome-offer-error" class="mt-1.5 hidden font-mono-tech text-[11px] font-semibold text-[#09090B]"></p>
-            </div>
-            <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black bg-white px-6 py-3.5 font-mono-tech text-xs font-bold tracking-widest text-[#09090B] uppercase shadow-sm transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer">
-              <span>CLAIM 5% OFF NOW + 10% NEXT PURCHASE</span>
-            </button>
-            <button type="button" data-close-welcome class="w-full py-1 text-center font-mono-tech text-[11px] text-[#3F3F46] underline hover:text-[#09090B] cursor-pointer">
-              No thanks, I'll pay full price
-            </button>
-          </form>
-
-          <div id="rwnd-welcome-unlocked" class="mt-6 hidden space-y-3 rounded-2xl border border-black/20 bg-white p-4 shadow-xs">
-            <p class="font-mono-tech text-xs font-bold text-[#09090B]">
-              ✓ ARCHIVE PASS UNLOCKED (<span id="rwnd-welcome-email-display"></span>)
-            </p>
-            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 font-mono-tech text-xs">
-              <div class="flex items-center justify-between rounded-xl border border-black/15 bg-[#EEF0F4] px-3 py-2">
-                <span class="text-[#3F3F46]">5% NOW:</span>
-                <span class="font-bold text-[#09090B]">RWND5NOW</span>
-              </div>
-              <div class="flex items-center justify-between rounded-xl border border-black/15 bg-[#EEF0F4] px-3 py-2">
-                <span class="text-[#3F3F46]">10% NEXT:</span>
-                <span class="font-bold text-[#09090B]">RWND10NEXT</span>
-              </div>
-            </div>
-            <button type="button" data-close-welcome class="mt-2 w-full rounded-full border border-black bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold tracking-wider text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] cursor-pointer">
-              CONTINUE TO ARCHIVE →
-            </button>
-          </div>
-        </div>
-      </div>
-    {% endif %}
 
     <!-- Header Section -->
     {% section 'header' %}
 
-    <!-- Main Page Content Injection (Mandatory Shopify Tag) -->
+    <!-- Main Content -->
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    </main>
-
-    <!-- PASTE INDUSTRIAL SYS_BACK CAPSULE RIGHT HERE -->
+    <!-- INDUSTRIAL SYS_BACK CAPSULE -->
     <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
       <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
         <span class="text-zinc-500 group-hover:text-black">←</span>
         <span>SYS_RETURN</span>
       </button>
     </div>
-
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const backBar = document.getElementById('rwnd-sys-back-bar');
@@ -249,16 +179,42 @@
     <!-- Footer Section -->
     {% section 'footer' %}
 
-    <!-- Footer Section -->
-    {% section 'footer' %}
-
-    <!-- Custom AJAX Slide-Out Cart & Wishlist Drawer Snippet -->
+    <!-- Slide-Out Cart Drawer -->
     {% render 'cart-drawer' %}
 
-    <!-- Toast Notification Container -->
+    <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- Global Theme Vanilla JS -->
+    <!-- GLOBAL SMOOTH SCROLL ANIMATIONS -->
+    <style>
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .reveal-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const elementsToReveal = document.querySelectorAll('.rounded-3xl, .rounded-2xl, h1, h2, h3, .group');
+        elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target); 
+            }
+          });
+        }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
+
+        elementsToReveal.forEach(el => revealObserver.observe(el));
+      });
+    </script>
+
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
