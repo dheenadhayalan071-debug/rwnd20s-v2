@@ -1,12 +1,12 @@
 <!-- sections/main-product.liquid -->
-<div class="relative w-full min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 text-[#E9E3D5] font-mono-tech">
+<div class="relative w-full min-h-screen bg-transparent text-[#E9E3D5] py-16 px-4 sm:px-6 lg:px-12 font-mono-tech">
   <div class="max-w-6xl mx-auto">
     
     {% assign current_variant = product.selected_or_first_available_variant %}
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
       
-      <!-- Left Column: Product Gallery with Smoky Glass -->
+      <!-- Left Column: Product Gallery -->
       <div class="space-y-4">
         <div class="relative aspect-square w-full overflow-hidden rounded-3xl foggy-glass p-6 flex items-center justify-center border border-white/10 shadow-2xl">
           <span class="absolute top-4 left-4 z-10 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 text-[10px] font-bold tracking-widest uppercase text-red-400 backdrop-blur-md shadow-sm">
@@ -23,7 +23,6 @@
       <!-- Right Column: Product Specs & Brutalist Goth CTA -->
       <div class="space-y-6">
         
-        <!-- Category & Title -->
         <div>
           <p class="text-xs font-bold tracking-widest text-zinc-400 uppercase">{{ product.vendor | default: 'rwnd20s.' }}</p>
           <h1 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white drop-shadow-md">
@@ -31,7 +30,7 @@
           </h1>
         </div>
 
-        <!-- Price Display & Stock Status -->
+        <!-- Price Display -->
         <div class="flex items-center gap-3 border-y border-white/15 py-4">
           <span class="font-display text-2xl sm:text-3xl font-extrabold text-white">
             {{ current_variant.price | money }}
@@ -75,12 +74,12 @@
           </a>
         </div>
 
-        <!-- Accordion Specifications (Foggy Glass Cards) -->
+        <!-- Accordion Specifications -->
         <div class="space-y-3 pt-6 border-t border-white/15">
           <div class="rounded-2xl border border-white/10 bg-black/50 p-4 backdrop-blur-md">
             <h3 class="text-xs font-bold uppercase tracking-wider text-white">✦ MATERIAL SPECIFICATION</h3>
             <p class="mt-2 text-xs leading-relaxed text-zinc-400">
-              Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed and dispatched from Madurai, Tamil Nadu.
+              {{ product.description | strip_html | default: 'Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed and dispatched from Madurai, Tamil Nadu.' }}
             </p>
           </div>
           <div class="rounded-2xl border border-white/10 bg-black/50 p-4 backdrop-blur-md">
@@ -107,8 +106,8 @@ async function addVariantToBag(variantId) {
       body: JSON.stringify({ id: Number(variantId), quantity: 1 })
     });
     if (response.ok) {
-      if (typeof showToast === 'function') {
-        showToast('ADDED TO HARDWARE BAG', 'Artifact synced. Continue shopping or open bag when ready.');
+      if (typeof showRwndToast === 'function') {
+        showRwndToast('ADDED TO HARDWARE BAG', 'Artifact synced. Continue shopping or open bag when ready.');
       } else {
         alert('Artifact added to bag.');
       }
