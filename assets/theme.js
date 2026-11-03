@@ -24,40 +24,42 @@ document.addEventListener('DOMContentLoaded', () => {
     return '₹' + rupees.toLocaleString('en-IN');
   }
 
-  function showToast(title, subtitle) {
-    const container = document.getElementById('rwnd-toast-container');
-    if (!container) return;
+    function showToast(title, subtitle) {
+          const container = document.getElementById('rwnd-toast-container');
+              if (!container) return;
 
-    const toast = document.createElement('div');
-    toast.className =
-      'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-black/20 bg-white p-4 text-[#09090B] shadow-xl transition-all duration-200';
-    toast.innerHTML = `
-      <div>
-        <p class="font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase">${title}</p>
-        <p class="mt-0.5 text-xs text-[#3F3F46]">${subtitle}</p>
-      </div>
-      <button type="button" aria-label="Dismiss notification" class="text-xs font-bold text-[#52525B] hover:text-[#09090B]">✕</button>
-    `;
+                  const toast = document.createElement('div');
+                      toast.className =
+                            'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-black bg-[#09090B] p-4 text-white shadow-xl';
+                                toast.innerHTML = `
+                                      <div>
+                                              <p class="font-mono-tech text-xs font-bold tracking-wider text-white uppercase">${title}</p>
+                                                      <p class="mt-0.5 text-xs text-[#A1A1AA]">${subtitle || ''}</p>
+                                                            </div>
+                                                                  <button type="button" aria-label="Dismiss notification" class="text-xs font-bold text-white hover:opacity-75 cursor-pointer">✕</button>
+                                                                      `;
 
-        toast.querySelector('button')?.addEventListener('click', () => toast.remove());
-            container.appendChild(toast);
-                setTimeout(() => {
-                      toast.remove();
-                          }, 4200);
-                            }
+                                                                          toast.querySelector('button')?.addEventListener('click', () => toast.remove());
+                                                                              container.appendChild(toast);
+                                                                                  setTimeout(() => {
+                                                                                        toast.remove();
+                                                                                            }, 4200);
+                                                                                              }
 
-  /* ==========================================================================
-   * 2. INITIAL ARCHIVE LOADER
-   * ========================================================================== */
-  const archiveLoader = document.getElementById('rwnd-archive-loader');
-  if (archiveLoader) {
-    setTimeout(() => {
-      archiveLoader.style.opacity = '0';
-      setTimeout(() => {
-        archiveLoader.style.display = 'none';
-      }, 300);
-    }, 650);
-  }
+                                                                                                /* -------------------------------------------------------------
+                                                                                                   * 2. INITIAL ARCHIVE LOADER
+                                                                                                      * ------------------------------------------------------------- */
+                                                                                                        const archiveLoader = document.getElementById('rwnd-archive-loader');
+                                                                                                          if (archiveLoader) {
+                                                                                                              setTimeout(() => {
+                                                                                                                    archiveLoader.style.opacity = '0';
+                                                                                                                          setTimeout(() => {
+                                                                                                                                  archiveLoader.style.display = 'none';
+                                                                                                                                        }, 300);
+                                                                                                                                            }, 450);
+                                                                                                                                              }
+                                                                                                                                              
+    }
 
   /* ==========================================================================
    * 3. WELCOME OFFER POPUP (5% OFF NOW + 10% OFF NEXT PURCHASE)
