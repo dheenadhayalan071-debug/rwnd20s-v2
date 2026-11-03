@@ -24,42 +24,40 @@ document.addEventListener('DOMContentLoaded', () => {
     return '₹' + rupees.toLocaleString('en-IN');
   }
 
-    function showToast(title, subtitle) {
-          const container = document.getElementById('rwnd-toast-container');
-              if (!container) return;
+  function showToast(title, subtitle) {
+    const container = document.getElementById('rwnd-toast-container');
+    if (!container) return;
 
-                  const toast = document.createElement('div');
-                      toast.className =
-                            'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-black bg-[#09090B] p-4 text-white shadow-xl';
-                                toast.innerHTML = `
-                                      <div>
-                                              <p class="font-mono-tech text-xs font-bold tracking-wider text-white uppercase">${title}</p>
-                                                      <p class="mt-0.5 text-xs text-[#A1A1AA]">${subtitle || ''}</p>
-                                                            </div>
-                                                                  <button type="button" aria-label="Dismiss notification" class="text-xs font-bold text-white hover:opacity-75 cursor-pointer">✕</button>
-                                                                      `;
+    const toast = document.createElement('div');
+    toast.className =
+      'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-black bg-[#09090B] p-4 text-white shadow-xl';
+    toast.innerHTML = `
+      <div>
+        <p class="font-mono-tech text-xs font-bold tracking-wider text-white uppercase">${title}</p>
+        <p class="mt-0.5 text-xs text-[#A1A1AA]">${subtitle || ''}</p>
+      </div>
+      <button type="button" aria-label="Dismiss notification" class="text-xs font-bold text-white hover:opacity-75 cursor-pointer">✕</button>
+    `;
 
-                                                                          toast.querySelector('button')?.addEventListener('click', () => toast.remove());
-                                                                              container.appendChild(toast);
-                                                                                  setTimeout(() => {
-                                                                                        toast.remove();
-                                                                                            }, 4200);
-                                                                                              }
+    toast.querySelector('button')?.addEventListener('click', () => toast.remove());
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.remove();
+    }, 4200);
+  }
 
-                                                                                                /* -------------------------------------------------------------
-                                                                                                   * 2. INITIAL ARCHIVE LOADER
-                                                                                                      * ------------------------------------------------------------- */
-                                                                                                        const archiveLoader = document.getElementById('rwnd-archive-loader');
-                                                                                                          if (archiveLoader) {
-                                                                                                              setTimeout(() => {
-                                                                                                                    archiveLoader.style.opacity = '0';
-                                                                                                                          setTimeout(() => {
-                                                                                                                                  archiveLoader.style.display = 'none';
-                                                                                                                                        }, 300);
-                                                                                                                                            }, 450);
-                                                                                                                                              }
-                                                                                                                                              
-    }
+  /* -------------------------------------------------------------
+   * 2. INITIAL ARCHIVE LOADER
+   * ------------------------------------------------------------- */
+  const archiveLoader = document.getElementById('rwnd-archive-loader');
+  if (archiveLoader) {
+    setTimeout(() => {
+      archiveLoader.style.opacity = '0';
+      setTimeout(() => {
+        archiveLoader.style.display = 'none';
+      }, 300);
+    }, 450);
+  }
 
   /* ==========================================================================
    * 3. WELCOME OFFER POPUP (5% OFF NOW + 10% OFF NEXT PURCHASE)
@@ -439,52 +437,267 @@ document.addEventListener('DOMContentLoaded', () => {
         const isCurrent = tab.getAttribute('data-hero-stage-btn') === targetIndex;
         tab.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
         tab.className = isCurrent
-          ? 'rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer'
-          : 'rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer';
+          ? 'rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md cursor-pointer transition'
+          : 'rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition';
       });
       heroSlides.forEach((slide) => {
         const isCurrent = slide.getAttribute('data-hero-stage-slide') === targetIndex;
-        slide.classList.toggle('hidden', !isCurrent);
+        if (isCurrent) {
+          slide.classList.remove('hidden');
+          slide.classList.add('flex');
+        } else {
+          slide.classList.add('hidden');
+          slide.classList.remove('flex');
+        }
       });
     });
   });
 
-  // Ticking Drop Countdown Clock & Retro Footer Uptime
-  let remainingSeconds = 14 * 3600 + 28 * 60 + 19;
-  let uptimeSeconds = 172842;
-
-  setInterval(() => {
-    remainingSeconds = remainingSeconds > 0 ? remainingSeconds - 1 : 52099;
-    uptimeSeconds += 1;
-
-    const hrs = String(Math.floor(remainingSeconds / 3600)).padStart(2, '0');
-    const mins = String(Math.floor((remainingSeconds % 3600) / 60)).padStart(2, '0');
-    const secs = String(remainingSeconds % 60).padStart(2, '0');
-
+  // Countdown timer simulation
+  function updateCountdown() {
     const hEl = document.getElementById('rwnd-countdown-h');
     const mEl = document.getElementById('rwnd-countdown-m');
     const sEl = document.getElementById('rwnd-countdown-s');
-    if (hEl) hEl.textContent = `${hrs}H`;
-    if (mEl) mEl.textContent = `${mins}M`;
-    if (sEl) sEl.textContent = `${secs}S`;
+    if (!hEl || !mEl || !sEl) return;
 
-    const upDays = Math.floor(uptimeSeconds / 86400);
-    const upHrs = String(Math.floor((uptimeSeconds % 86400) / 3600)).padStart(2, '0');
-    const upMins = String(Math.floor((uptimeSeconds % 3600) / 60)).padStart(2, '0');
-    const upSecs = String(uptimeSeconds % 60).padStart(2, '0');
-    const uptimeEl = document.getElementById('rwnd-retro-uptime');
-    if (uptimeEl) {
-      uptimeEl.textContent = `SYSTEM UPTIME: ${upDays}D ${upHrs}H ${upMins}M ${upSecs}S`;
-    }
-  }, 1000);
+    let totalSeconds = 14 * 3600 + 28 * 60 + 19;
+    setInterval(() => {
+      totalSeconds = Math.max(0, totalSeconds - 1);
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0') + 'H';
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0') + 'M';
+      const s = String(totalSeconds % 60).padStart(2, '0') + 'S';
+      hEl.textContent = h;
+      mEl.textContent = m;
+      sEl.textContent = s;
+    }, 1000);
+  }
+  updateCountdown();
 
   /* ==========================================================================
-   * 7. CLIENT-SIDE CATEGORY FILTER TABS, SEARCH & SORTING
+   * 7. EVENT DELEGATION & GLOBAL CLICKS
    * ========================================================================== */
+  document.addEventListener('click', (e) => {
+    // Open Bag / Wishlist triggers
+    const openCartTrigger = e.target.closest('[data-open-cart]');
+    if (openCartTrigger) {
+      const tab = openCartTrigger.getAttribute('data-open-cart') || 'bag';
+      openCartDrawer(tab);
+      return;
+    }
+
+    // Close Cart Drawer triggers
+    const closeDrawerTrigger = e.target.closest('[data-close-cart]');
+    if (closeDrawerTrigger || e.target === cartDrawer) {
+      closeCartDrawer();
+      return;
+    }
+
+    // Switch Drawer Tab buttons
+    const tabTrigger = e.target.closest('[data-drawer-tab]');
+    if (tabTrigger) {
+      switchDrawerTab(tabTrigger.getAttribute('data-drawer-tab'));
+      return;
+    }
+
+    // Add to cart click handler
+    const addToCartBtn = e.target.closest('[data-add-to-cart]');
+    if (addToCartBtn) {
+      const variantId = addToCartBtn.getAttribute('variant-id');
+      if (variantId) {
+        addItemToShopifyCart(variantId, 1);
+      }
+      return;
+    }
+
+    // Cart quantity changer (+ / - / remove)
+    const changeBtn = e.target.closest('[data-cart-change-id]');
+    if (changeBtn) {
+      const lineKey = changeBtn.getAttribute('data-cart-change-id');
+      const newQty = changeBtn.getAttribute('data-cart-qty');
+      if (lineKey !== null && newQty !== null) {
+        updateShopifyCartItem(lineKey, newQty);
+      }
+      return;
+    }
+
+    // Wishlist toggle button click on product cards
+    const wishlistToggle = e.target.closest('[data-toggle-wishlist]');
+    if (wishlistToggle) {
+      const card = wishlistToggle.closest('[data-product-card]');
+      if (card) {
+        const handle = card.getAttribute('data-handle');
+        const title = card.getAttribute('data-title');
+        const price = card.getAttribute('data-price-formatted');
+        const comparePrice = card.getAttribute('data-compare-formatted');
+        const image = card.getAttribute('data-image');
+        const variantId = card.getAttribute('data-variant-id');
+
+        let wishlist = getWishlistItems();
+        const existingIndex = wishlist.findIndex((i) => i.handle === handle);
+        if (existingIndex > -1) {
+          wishlist.splice(existingIndex, 1);
+          wishlistToggle.textContent = '♥';
+          wishlistToggle.classList.remove('bg-white', 'text-black');
+          wishlistToggle.classList.add('bg-black/60', 'text-white');
+          showToast('REMOVED FROM WISHLIST', `${title} cleared from your archive list.`);
+        } else {
+          wishlist.push({ handle, title, price, comparePrice, image, variantId });
+          wishlistToggle.textContent = '★';
+          wishlistToggle.classList.remove('bg-black/60', 'text-white');
+          wishlistToggle.classList.add('bg-white', 'text-black');
+          showToast('SAVED TO WISHLIST', `${title} added to your archive list.`);
+        }
+        saveWishlistItems(wishlist);
+      }
+      return;
+    }
+
+    // Remove item directly from wishlist drawer
+    const removeWishlistBtn = e.target.closest('[data-remove-wishlist]');
+    if (removeWishlistBtn) {
+      const handle = removeWishlistBtn.getAttribute('data-remove-wishlist');
+      let wishlist = getWishlistItems();
+      wishlist = wishlist.filter((i) => i.handle !== handle);
+      saveWishlistItems(wishlist);
+      renderWishlistDrawer();
+      showToast('WISHLIST UPDATED', 'Item removed from saved list.');
+      return;
+    }
+
+    // Mobile menu toggle
+    const mobileMenuToggle = e.target.closest('[data-toggle-mobile-menu]');
+    if (mobileMenuToggle) {
+      const menu = document.getElementById('rwnd-mobile-menu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('flex');
+      }
+      return;
+    }
+  });
+
+  /* ==========================================================================
+   * 8. CATEGORY FILTERING & LIVE SEARCH
+   * ========================================================================== */
+  const filterBtns = document.querySelectorAll('[data-filter-category]');
+  const searchInput = document.getElementById('rwnd-archive-search');
+  const sortSelect = document.getElementById('rwnd-archive-sort');
+  const productGrid = document.getElementById('rwnd-product-grid');
+  const showingCountEl = document.getElementById('rwnd-showing-count');
+
   let activeCategory = 'all';
   let searchQuery = '';
-  let sortMode = 'featured';
+  let activeSort = 'featured';
 
-  const productCards = Array.from(document.querySelectorAll('[data-product-card]'));
-  const productGrid = document.getElementById('rwnd-product-grid');
-  const categoryButtons = document.querySelectorAll('[data-fi
+  function filterAndSortProducts() {
+    if (!productGrid) return;
+    const cards = Array.from(productGrid.querySelectorAll('[data-product-card]'));
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const category = (card.getAttribute('data-category') || '').toLowerCase();
+      const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+      const title = (card.getAttribute('data-title') || '').toLowerCase();
+      const subtitle = (card.getAttribute('data-subtitle') || '').toLowerCase();
+
+      // Category match check
+      let matchesCategory = false;
+      if (activeCategory === 'all') {
+        matchesCategory = true;
+      } else if (activeCategory === 'bundles' && (category.includes('bundle') || tags.includes('bundle'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'audio' && (category.includes('audio') || tags.includes('audio') || title.includes('earphone'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'rings' && (category.includes('ring') || tags.includes('ring') || title.includes('ring'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'chains' && (category.includes('chain') || tags.includes('chain') || title.includes('chain'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'bracelets' && (category.includes('bracelet') || tags.includes('bracelet') || title.includes('bracelet'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'earrings' && (category.includes('earring') || tags.includes('stud'))) {
+        matchesCategory = true;
+      } else if (activeCategory === 'watches' && (category.includes('watch') || tags.includes('watch') || title.includes('watch'))) {
+        matchesCategory = true;
+      } else {
+        matchesCategory = category.includes(activeCategory) || tags.includes(activeCategory);
+      }
+
+      // Search match check
+      const matchesSearch =
+        !searchQuery ||
+        title.includes(searchQuery) ||
+        subtitle.includes(searchQuery) ||
+        tags.includes(searchQuery);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Sorting logic
+    if (sortSelect && productGrid) {
+      const visibleCards = cards.filter((c) => c.style.display !== 'none');
+      visibleCards.sort((a, b) => {
+        const priceA = Number(a.getAttribute('data-price')) || 0;
+        const priceB = Number(b.getAttribute('data-price')) || 0;
+        if (activeSort === 'price-asc') return priceA - priceB;
+        if (activeSort === 'price-desc') return priceB - priceA;
+        return 0; // featured default order
+      });
+      visibleCards.forEach((card) => productGrid.appendChild(card));
+    }
+
+    if (showingCountEl) {
+      showingCountEl.textContent = `SHOWING ${visibleCount} PIECES · FREE SHIPPING ABOVE ₹999`;
+    }
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.getAttribute('data-filter-category') || 'all';
+      filterBtns.forEach((b) => {
+        const isTarget = b === btn;
+        b.className = isTarget
+          ? 'rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-sm cursor-pointer'
+          : 'rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition';
+      });
+      filterAndSortProducts();
+    });
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target.value || '').trim().toLowerCase();
+    filterAndSortProducts();
+  });
+
+  sortSelect?.addEventListener('change', (e) => {
+    activeSort = e.target.value;
+    filterAndSortProducts();
+  });
+
+  /* ==========================================================================
+   * 9. KEYBOARD SHORTCUTS (b, w, s, Escape)
+   * ========================================================================== */
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+
+    const key = e.key.toLowerCase();
+    if (key === 'b') {
+      openCartDrawer('bag');
+    } else if (key === 'w') {
+      openCartDrawer('wishlist');
+    } else if (key === 's') {
+      searchInput?.focus();
+      e.preventDefault();
+    } else if (key === 'escape') {
+      closeCartDrawer();
+      closeWelcomePopup();
+    }
+  });
+
+  // Initial fetch on page load
+  fetchCartState();
+});
