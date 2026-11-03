@@ -1,1 +1,113 @@
 
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
+  <div class="mx-auto max-w-7xl">
+    <!-- Collection Header & Controls Toolbar -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#09090B]/20 pb-8 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-[#09090B]/30 bg-white/70 px-3 py-1 font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#09090B]">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          ARCHIVE VAULT // ALL ARTIFACTS
+        </div>
+        <h1 class="font-display text-4xl sm:text-5xl font-extrabold uppercase tracking-tight mt-3 text-[#09090B]">
+          {{ collection.title | default: 'DROP 01 CATALOG' }}
+        </h1>
+        <p class="mt-2 font-mono-tech text-xs sm:text-sm text-[#3F3F46] max-w-xl" id="rwnd-showing-count">
+          SHOWING {{ collection.products.size }} PIECES · FREE SHIPPING ABOVE ₹999
+        </p>
+      </div>
+
+      <!-- Search & Sort Controls -->
+      <div class="flex flex-wrap items-center gap-3">
+        <input type="text" id="rwnd-archive-search" placeholder="SEARCH SPEC..." class="rounded-full border border-[#09090B]/20 bg-white/80 px-4 py-2 font-mono-tech text-xs text-[#09090B] focus:outline-none focus:border-[#09090B] shadow-sm w-44 sm:w-56">
+        <select id="rwnd-archive-sort" class="rounded-full border border-[#09090B]/20 bg-white/80 px-4 py-2 font-mono-tech text-xs text-[#09090B] focus:outline-none focus:border-[#09090B] shadow-sm cursor-pointer">
+          <option value="featured">SORT: FEATURED SPEC</option>
+          <option value="price-asc">PRICE: LOW TO HIGH</option>
+          <option value="price-desc">PRICE: HIGH TO LOW</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex flex-wrap items-center gap-2 mb-8" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-filter-category="all" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+        ALL SPEC
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="hardware" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        316L HARDWARE
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="earphones" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        CHROME AUDIO
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="watch" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        TIMEPIECES
+      </button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="rwnd-product-grid">
+      {% for product in collection.products %}
+        <div data-product-card 
+             data-category="{{ product.type | handle }}" 
+             data-tags="{{ product.tags | join: ' ' | handle }}" 
+             data-title="{{ product.title | escape }}" 
+             data-price="{{ product.price }}"
+             data-price-formatted="{{ product.price | money }}"
+             data-compare-formatted="{{ product.compare_at_price | money }}"
+             data-image="{{ product.featured_image | image_url: width: 600 }}"
+             data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+             data-url="{{ product.url }}"
+             data-description="{{ product.description | strip_html | escape }}"
+             class="group rounded-3xl border border-[#09090B]/20 bg-white p-4 shadow-md flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#09090B]">
+          
+          <div>
+            <!-- Card Image Box -->
+            <div class="relative rounded-2xl bg-[#D4D8E0] p-4 overflow-hidden aspect-square flex items-center justify-center">
+              <span class="absolute top-3 left-3 z-10 font-mono-tech text-[9px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-2.5 py-1 rounded-full">
+                {% if product.compare_at_price > product.price %}SALE{% else %}DROP 01{% endif %}
+              </span>
+              <button type="button" data-toggle-wishlist aria-label="Save to Wishlist" class="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-white/80 border border-[#09090B]/20 flex items-center justify-center text-[#09090B] hover:bg-white cursor-pointer">
+                ♡
+              </button>
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105">
+              {% else %}
+                <div class="font-mono-tech text-xs text-[#52525B]">NO IMAGE</div>
+              {% endif %}
+            </div>
+
+            <!-- Card Titles -->
+            <div class="mt-4">
+              <p class="font-mono-tech text-[10px] text-[#52525B] uppercase tracking-widest">{{ product.vendor | default: 'RWND20S' }}</p>
+              <h3 class="font-display text-sm font-bold uppercase text-[#09090B] mt-0.5 line-clamp-1">{{ product.title }}</h3>
+            </div>
+          </div>
+
+          <!-- Price & Action Toolbar -->
+          <div class="mt-6 pt-4 border-t border-[#09090B]/10 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono-tech text-sm font-extrabold text-[#09090B]">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="block font-mono-tech text-[10px] text-[#52525B] line-through">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button type="button" data-open-quick-view class="rounded-full border border-[#09090B]/20 bg-white px-3 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#09090B] hover:border-[#09090B] cursor-pointer">
+                VIEW
+              </button>
+              <button type="button" data-add-to-cart variant-id="{{ product.selected_or_first_available_variant.id }}" class="rounded-full border border-[#09090B] bg-[#09090B] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase text-white hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer">
+                + BAG
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Main Catalog",
+  "settings": []
+}
+{% endschema %}
