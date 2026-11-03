@@ -36,14 +36,6 @@
               editorial: ['Playfair Display', 'Georgia', 'serif'],
               sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
               'mono-tech': ['JetBrains Mono', 'monospace']
-            },
-            colors: {
-              chrome: {
-                base: '#DCDFE5',
-                panel: '#E4E7EC',
-                ink: '#09090B',
-                accent: '#FFFFFF'
-              }
             }
           }
         }
@@ -53,89 +45,69 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
+    <!-- MASTER CINEMATIC STYLES -->
     <style>
-      /* Animated 3D Road to Hell */
-      .road-to-hell {
+      /* Cinematic High-End 3D Midnight Highway */
+      .goth-highway-3d {
         transform-origin: bottom center;
         transform: perspective(60vh) rotateX(75deg);
         background-image: 
-          linear-gradient(to top, rgba(0,0,0,1) 10%, transparent 100%),
-          linear-gradient(to right, rgba(0,0,0,0) 49.5%, #8a0303 49.5%, #8a0303 50.5%, rgba(0,0,0,0) 50.5%),
-          repeating-linear-gradient(to bottom, transparent 0, transparent 40px, #2a0000 40px, #2a0000 42px);
-        background-size: 100% 100%, 100% 100%, 100% 42px;
-        animation: drive 0.5s linear infinite;
+          linear-gradient(to top, rgba(3,3,3,1) 20%, transparent 100%),
+          linear-gradient(to right, rgba(138,3,3,0) 48%, #ff1a1a 48%, #ff1a1a 52%, rgba(138,3,3,0) 52%),
+          repeating-linear-gradient(to bottom, transparent 0, transparent 50px, rgba(220,38,38,0.4) 50%, rgba(220,38,38,0.4) 54px);
+        background-size: 100% 100%, 100% 100%, 100% 54px;
+        animation: highwayDrive 0.45s linear infinite;
       }
-      
-      @keyframes drive {
+      @keyframes highwayDrive {
         from { background-position: 0 0, 0 0, 0 0; }
-        to { background-position: 0 0, 0 0, 0 42px; }
+        to { background-position: 0 0, 0 0, 0 54px; }
+      }
+
+      /* Foggy Glassmorphism Cards */
+      .foggy-glass {
+        background: rgba(8, 8, 8, 0.7) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.85);
+      }
+      .foggy-glass:hover {
+        border-color: rgba(220, 38, 38, 0.5);
+        box-shadow: 0 15px 50px 0 rgba(138, 3, 3, 0.4);
       }
     </style>
-
-  /* Foggy Glassmorphism Card Style */
-  .foggy-glass {
-    background: rgba(6, 6, 6, 0.65);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
-  }
-  .foggy-glass:hover {
-    border-color: rgba(220, 38, 38, 0.4);
-    box-shadow: 0 12px 40px 0 rgba(138, 3, 3, 0.3);
-  }
-
-  /* Drifting Fog Animation for Product Cards / Tabs */
-  @keyframes fogDrift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .fog-overlay {
-    background: linear-gradient(120deg, rgba(255,255,255,0.03) 0%, rgba(138,3,3,0.05) 50%, rgba(255,255,255,0.02) 100%);
-    background-size: 200% 200%;
-    animation: fogDrift 8s ease infinite;
-  }
-</style>
-
   </head>
 
-  <!-- Removed solid background colors so the permanent 3D road is visible behind the store -->
-  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0">
+  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- PERMANENT ANIMATED BACKGROUND (Stays behind the whole site) -->
+    <!-- PERMANENT GLOBAL BACKGROUND (Stays locked behind the whole store) -->
     <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#1a0000_0%,#000000_80%)] opacity-90"></div>
-      <div class="absolute top-[5%] left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-red-900 blur-[120px] opacity-20"></div>
-      <div class="absolute bottom-0 w-[200vw] h-[50vh] left-1/2 -translate-x-1/2 road-to-hell opacity-30"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#3a0000_0%,#030303_80%)] opacity-95"></div>
+      <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] h-[350px] rounded-full bg-red-700 blur-[150px] opacity-30"></div>
+      <div class="absolute bottom-0 w-[200vw] h-[60vh] left-1/2 -translate-x-1/2 goth-highway-3d opacity-50"></div>
     </div>
 
-    <!-- ATMOSPHERIC NIGHT INTRO OVERLAY (Locked to screen, no scrolling) -->
-    <div id="rwnd-night-intro" class="fixed top-0 left-0 w-full h-[100dvh] overflow-hidden z-[100] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none origin-center">
+    <!-- CINEMATIC INTRO OVERLAY (Guaranteed full-screen cover) -->
+    <div id="rwnd-night-intro" class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
       
-      <!-- Intro specific heavy fog and moon -->
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#3a0000_0%,#000000_70%)] opacity-80 pointer-events-none transition-opacity duration-1000" id="intro-fog"></div>
-      <div class="absolute top-[25%] left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-red-700 blur-[60px] opacity-60 animate-pulse pointer-events-none"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#5a0000_0%,#030303_70%)] opacity-95 pointer-events-none" id="intro-fog"></div>
+      <div class="absolute top-[22%] left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-red-600 blur-[90px] opacity-75 animate-pulse pointer-events-none"></div>
+      <div class="absolute bottom-0 w-[200vw] h-[70vh] left-1/2 -translate-x-1/2 goth-highway-3d opacity-90"></div>
       
-      <!-- The Intro Road -->
-      <div class="absolute bottom-0 w-[200vw] h-[60vh] left-1/2 -translate-x-1/2 road-to-hell opacity-60"></div>
-      
-      <!-- Main Content (Pulled up so it hits eye level immediately) -->
-      <div class="relative z-10 flex flex-col items-center text-center px-6 -mt-16 sm:-mt-24 transition-opacity duration-500" id="intro-content">
-        <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-500 mb-6 drop-shadow-lg">ATMOSPHERE: MIDNIGHT</p>
-        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_40px_rgba(220,38,38,0.5)]">
-          THE NIGHT <br><span class="text-zinc-600">CALLS</span>
+      <div class="relative z-10 flex flex-col items-center text-center px-6 transition-opacity duration-500" id="intro-content">
+        <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-4">ATMOSPHERE: MIDNIGHT</p>
+        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_60px_rgba(220,38,38,0.8)]">
+          THE NIGHT <br><span class="text-red-600">CALLS</span>
         </h1>
-        <p class="mt-6 text-xs text-zinc-400 max-w-md leading-relaxed tracking-wider drop-shadow-md">
+        <p class="mt-4 text-xs text-zinc-300 max-w-sm leading-relaxed tracking-wider">
           Heavy 316L hardware engineered for the dark road.
         </p>
-        <button id="rwnd-enter-night-btn" type="button" class="mt-10 group relative inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/60 backdrop-blur-xl px-10 py-5 text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase transition-all hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] cursor-pointer active:scale-95">
+        <button id="rwnd-enter-night-btn" type="button" class="mt-8 group relative inline-flex items-center gap-3 rounded-full border border-red-900/60 bg-black/80 backdrop-blur-xl px-10 py-4 text-[11px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] cursor-pointer active:scale-95">
           <span>DESCEND INTO ARCHIVE</span>
         </button>
       </div>
 
-      <!-- Ticker Locked to Bottom -->
-      <div class="absolute bottom-8 w-full px-8 flex justify-between items-center text-[9px] text-zinc-600 tracking-widest uppercase transition-opacity duration-500" id="intro-ticker">
+      <div class="absolute bottom-6 w-full px-8 flex justify-between items-center text-[9px] text-zinc-500 tracking-widest uppercase transition-opacity duration-500" id="intro-ticker">
         <span>LOC: MADURAI_TN</span>
         <span>VISIBILITY: ZERO</span>
       </div>
@@ -157,20 +129,17 @@
       enterBtn?.addEventListener('click', () => {
         sessionStorage.setItem('rwnd_night_played', 'true');
         
-        // 1. Hide the text instantly
         introContent.style.opacity = '0';
         introTicker.style.opacity = '0';
         introFog.style.opacity = '0';
         
-        // 2. Trigger a 3.5-second violent cinematic zoom into the road/moon
-        introOverlay.style.transition = 'all 3.5s cubic-bezier(0.7, 0, 0.2, 1)';
-        introOverlay.style.transform = 'scale(4) translateY(20%)';
-        introOverlay.style.filter = 'blur(15px) brightness(1.5)';
+        introOverlay.style.transition = 'all 3s cubic-bezier(0.7, 0, 0.2, 1)';
+        introOverlay.style.transform = 'scale(4) translateY(15%)';
+        introOverlay.style.filter = 'blur(25px) brightness(2)';
         introOverlay.style.opacity = '0';
         introOverlay.style.pointerEvents = 'none';
         
-        // 3. Remove overlay from DOM after animation completes
-        setTimeout(() => { introOverlay.remove(); }, 3500);
+        setTimeout(() => { introOverlay.remove(); }, 3000);
       });
     });
     </script>
@@ -210,49 +179,6 @@
 
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
-
-    <!-- PHASE 3: GLOBAL SMOOTH SCROLL ANIMATIONS -->
-    <style>
-      .reveal-on-scroll {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        will-change: opacity, transform;
-      }
-      .reveal-on-scroll.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    </style>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const selectors = [
-          '.rounded-3xl', 
-          '.rounded-2xl', 
-          '#rwnd-product-grid > div', 
-          'footer > div > div',
-          'h2'
-        ];
-        
-        const elementsToReveal = document.querySelectorAll(selectors.join(', '));
-        elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target); 
-            }
-          });
-        }, { 
-          rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1 
-        });
-
-        elementsToReveal.forEach(el => revealObserver.observe(el));
-      });
-    </script>
 
   </body>
 </html>
