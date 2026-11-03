@@ -185,36 +185,58 @@
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- GLOBAL SMOOTH SCROLL ANIMATIONS -->
-    <style>
-      .reveal-on-scroll {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-      }
-      .reveal-on-scroll.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    </style>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const elementsToReveal = document.querySelectorAll('.rounded-3xl, .rounded-2xl, h1, h2, h3, .group');
-        elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
+<!-- PHASE 3: GLOBAL SMOOTH SCROLL ANIMATIONS -->
+<style>
+  /* The hidden starting state for all elements */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+  }
+  
+  /* The revealed state when scrolling hits them */
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target); 
-            }
-          });
-        }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Target all the elements that should animate (Manifesto cards, Product cards, Headings, Footer blocks)
+    const selectors = [
+      '.rounded-3xl', 
+      '.rounded-2xl', 
+      '#rwnd-product-grid > div', 
+      'footer > div > div',
+      'h2'
+    ];
+    
+    const elementsToReveal = document.querySelectorAll(selectors.join(', '));
+    
+    // 2. Attach the hidden state class instantly
+    elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
 
-        elementsToReveal.forEach(el => revealObserver.observe(el));
+    // 3. Create the observer to watch for scrolling
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Trigger the slide-up animation
+          entry.target.classList.add('is-visible');
+          // Unobserve so it only plays once per session for better performance
+          observer.unobserve(entry.target); 
+        }
       });
-    </script>
+    }, { 
+      rootMargin: '0px 0px -50px 0px', // Triggers right as it crosses the bottom threshold
+      threshold: 0.1 
+    });
 
-    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    // 4. Start watching all targeted elements
+    elementsToReveal.forEach(el => revealObserver.observe(el));
+  });
+</script>
+
   </body>
 </html>
