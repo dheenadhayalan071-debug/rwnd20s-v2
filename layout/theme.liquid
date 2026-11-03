@@ -226,6 +226,29 @@
       {{ content_for_layout }}
     </main>
 
+    </main>
+
+    <!-- PASTE INDUSTRIAL SYS_BACK CAPSULE RIGHT HERE -->
+    <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
+      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
+        <span class="text-zinc-500 group-hover:text-black">←</span>
+        <span>SYS_RETURN</span>
+      </button>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const backBar = document.getElementById('rwnd-sys-back-bar');
+        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
+          backBar.classList.remove('hidden');
+          backBar.classList.add('flex');
+        }
+      });
+    </script>
+
+    <!-- Footer Section -->
+    {% section 'footer' %}
+
     <!-- Footer Section -->
     {% section 'footer' %}
 
