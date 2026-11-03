@@ -1,59 +1,60 @@
-<div class="metallic-chrome-bg min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 text-[#09090B] font-mono-tech">
+<!-- sections/main-product.liquid -->
+<div class="relative w-full min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 text-[#E9E3D5] font-mono-tech">
   <div class="max-w-6xl mx-auto">
     
     {% assign current_variant = product.selected_or_first_available_variant %}
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
       
-      <!-- Left Column: Product Gallery / Immersive View -->
+      <!-- Left Column: Product Gallery with Smoky Glass -->
       <div class="space-y-4">
-        <div class="relative aspect-square w-full overflow-hidden rounded-3xl border border-black/20 bg-white p-6 shadow-md flex items-center justify-center">
-          <span class="absolute top-4 left-4 z-10 rounded-full border border-black/15 bg-white px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-xs">
+        <div class="relative aspect-square w-full overflow-hidden rounded-3xl foggy-glass p-6 flex items-center justify-center border border-white/10 shadow-2xl">
+          <span class="absolute top-4 left-4 z-10 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 text-[10px] font-bold tracking-widest uppercase text-red-400 backdrop-blur-md shadow-sm">
             ✦ DROP 01 // 316L SPEC
           </span>
           {% if product.featured_image %}
-            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain mix-blend-multiply">
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain filter contrast-125 transition-transform duration-500 hover:scale-105">
           {% else %}
-            <div class="text-xs text-[#71717A]">NO ASSET AVAILABLE</div>
+            <div class="text-xs text-zinc-500">NO ASSET AVAILABLE</div>
           {% endif %}
         </div>
       </div>
 
-      <!-- Right Column: Product Specs & Brutalist CTA -->
+      <!-- Right Column: Product Specs & Brutalist Goth CTA -->
       <div class="space-y-6">
         
         <!-- Category & Title -->
         <div>
-          <p class="text-xs font-bold tracking-widest text-[#52525B] uppercase">{{ product.vendor | default: 'rwnd20s.' }}</p>
-          <h1 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#09090B]">
+          <p class="text-xs font-bold tracking-widest text-zinc-400 uppercase">{{ product.vendor | default: 'rwnd20s.' }}</p>
+          <h1 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white drop-shadow-md">
             {{ product.title }}
           </h1>
         </div>
 
-        <!-- Price Display -->
-        <div class="flex items-center gap-3 border-y border-black/15 py-4">
-          <span class="font-display text-2xl sm:text-3xl font-extrabold text-[#09090B]">
+        <!-- Price Display & Stock Status -->
+        <div class="flex items-center gap-3 border-y border-white/15 py-4">
+          <span class="font-display text-2xl sm:text-3xl font-extrabold text-white">
             {{ current_variant.price | money }}
           </span>
           {% if current_variant.compare_at_price > current_variant.price %}
-            <span class="text-sm font-bold text-[#71717A] line-through">
+            <span class="text-sm font-bold text-zinc-500 line-through">
               {{ current_variant.compare_at_price | money }}
             </span>
           {% endif %}
-          <span class="ml-auto rounded-full bg-[#09090B] text-white px-3 py-1 text-[10px] font-bold tracking-wider uppercase">
+          <span class="ml-auto rounded-full border border-red-900/40 bg-red-950/40 text-red-400 px-3.5 py-1 text-[10px] font-bold tracking-wider uppercase backdrop-blur-md">
             IN STOCK // DISPATCH MDU
           </span>
         </div>
 
-        <!-- Variant Picker (If multiple variants) -->
+        <!-- Variant Picker -->
         {% unless product.has_only_default_variant %}
           <div class="space-y-3">
-            <label class="block text-xs font-bold tracking-wider uppercase text-[#09090B]">SELECT SPECIFICATION</label>
+            <label class="block text-xs font-bold tracking-wider uppercase text-zinc-300">SELECT SPECIFICATION</label>
             <div class="grid grid-cols-2 gap-2">
               {% for variant in product.variants %}
                 <button type="button" 
                         onclick="window.location.href='?variant={{ variant.id }}'" 
-                        class="rounded-2xl border p-3 text-left text-xs font-bold transition-all cursor-pointer {% if variant.id == current_variant.id %}border-[#09090B] bg-[#09090B] text-white shadow-md{% else %}border-black/20 bg-white text-[#09090B] hover:border-[#09090B]{% endif %}">
+                        class="rounded-2xl border p-3 text-left text-xs font-bold transition-all cursor-pointer backdrop-blur-md {% if variant.id == current_variant.id %}border-red-600 bg-red-950/50 text-white shadow-[0_0_20px_rgba(220,38,38,0.3)]{% else %}border-white/10 bg-black/40 text-zinc-300 hover:border-white/30 hover:text-white{% endif %}">
                   {{ variant.title }}
                 </button>
               {% endfor %}
@@ -61,31 +62,31 @@
           </div>
         {% endunless %}
 
-        <!-- Brutalist CTA Buttons -->
+        <!-- Brutalist Goth CTA Buttons -->
         <div class="space-y-3 pt-2">
           <button type="button" 
                   onclick="addVariantToBag('{{ current_variant.id }}')" 
-                  class="w-full rounded-full border border-black bg-[#09090B] py-4 text-xs font-bold tracking-widest text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] shadow-sm cursor-pointer">
+                  class="w-full rounded-full border border-red-900/60 bg-black/80 py-4 text-xs font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_30px_rgba(220,38,38,0.5)] cursor-pointer backdrop-blur-md">
             + ADD TO HARDWARE BAG
           </button>
           
-          <a href="/checkout" class="block w-full text-center rounded-full border border-black/20 bg-white py-4 text-xs font-bold tracking-widest text-[#09090B] uppercase transition hover:bg-black hover:text-white shadow-xs">
+          <a href="/checkout" class="block w-full text-center rounded-full border border-white/20 bg-white py-4 text-xs font-bold tracking-widest text-black uppercase transition-all hover:bg-zinc-200 shadow-sm">
             INSTANT CHECKOUT →
           </a>
         </div>
 
-        <!-- Accordion Specifications -->
-        <div class="space-y-3 pt-6 border-t border-black/15">
-          <div class="rounded-2xl border border-black/15 bg-white p-4 shadow-xs">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-[#09090B]">✦ MATERIAL SPECIFICATION</h3>
-            <p class="mt-2 text-xs leading-relaxed text-[#3F3F46]">
-              Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed in Madurai.
+        <!-- Accordion Specifications (Foggy Glass Cards) -->
+        <div class="space-y-3 pt-6 border-t border-white/15">
+          <div class="rounded-2xl border border-white/10 bg-black/50 p-4 backdrop-blur-md">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white">✦ MATERIAL SPECIFICATION</h3>
+            <p class="mt-2 text-xs leading-relaxed text-zinc-400">
+              Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed and dispatched from Madurai, Tamil Nadu.
             </p>
           </div>
-          <div class="rounded-2xl border border-black/15 bg-white p-4 shadow-xs">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-[#09090B]">✦ SHIPPING & DISPATCH</h3>
-            <p class="mt-2 text-xs leading-relaxed text-[#3F3F46]">
-              Free express shipping across India on all orders above ₹999. Cash on Delivery (COD) available at checkout.
+          <div class="rounded-2xl border border-white/10 bg-black/50 p-4 backdrop-blur-md">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white">✦ SHIPPING & DISPATCH</h3>
+            <p class="mt-2 text-xs leading-relaxed text-zinc-400">
+              Free express shipping across India on all orders above ₹999. Cash on Delivery (COD) available at checkout with zero advance payment.
             </p>
           </div>
         </div>
