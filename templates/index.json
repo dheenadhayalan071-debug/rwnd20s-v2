@@ -17,11 +17,11 @@
     "main": {
       "type": "main-storefront",
       "settings": {
+        "collection": "",
         "hero_badge": "+ DROP 01 // LIVE NOW",
         "hero_title_line_1": "TIMELESS",
         "hero_title_line_2": "BUT MAKE IT Y2K.",
-        "hero_subtitle": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.",
-        "collection": ""
+        "hero_subtitle": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available."
       }
     }
   },
