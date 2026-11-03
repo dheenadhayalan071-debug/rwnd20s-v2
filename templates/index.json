@@ -23,22 +23,10 @@
         "hero_subtitle": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.",
         "collection": ""
       }
-    },
-    "gothic_cinematic_hero_htQBFL": {
-      "type": "gothic-cinematic-hero",
-      "name": "Gothic Cinematic Hero",
-      "settings": {
-        "subheading": "ATMOSPHERE: MIDNIGHT",
-        "heading_line_1": "THE NIGHT",
-        "heading_line_2": "CALLS",
-        "description": "Heavy 316L hardware engineered for the dark road.",
-        "button_text": "DESCEND INTO ARCHIVE"
-      }
     }
   },
   "order": [
     "gothic_hero_banner_w77WLH",
-    "main",
-    "gothic_cinematic_hero_htQBFL"
+    "main"
   ]
 }
