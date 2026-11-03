@@ -110,16 +110,15 @@
         </button>
       </div>
 
-      <!-- 3D Video Container -->
+       <!-- 3D Video Container (Fixed 16:9 Aspect Ratio Containment) -->
       <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center w-full h-[100dvh]">
-        <video id="rwnd-intro-video" class="h-full w-full object-cover" playsinline muted autoplay>
+        <video id="rwnd-intro-video" class="max-h-full max-w-full w-auto h-auto object-contain" playsinline muted autoplay>
           <source src="https://cdn.shopify.com/videos/c/o/v/8918b1477fce4b87aaacba0810779b7b.mp4" type="video/mp4">
         </video>
         <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer">
           SKIP INTRO [ ESC ]
         </button>
       </div>
-    </div>
 
     <!-- VIVID STRIKING GOTHIC BACKGROUND -->
     <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
