@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{ page_title }}</title>
     {{ content_for_header }}
-    <!-- Tailwind & Custom Styles -->
+    
+    <!-- Tailwind Play CDN for Instant Mobile/GitHub Compilation -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Theme Styles & Animations -->
     <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
   </head>
   <body class="bg-[#DCDFE5] text-[#09090B] font-mono-tech antialiased">
