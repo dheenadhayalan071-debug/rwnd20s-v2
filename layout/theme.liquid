@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#111111">
+    <meta name="theme-color" content="#060606">
     <link rel="canonical" href="{{ canonical_url }}">
 
     <title>
@@ -52,97 +52,92 @@
 
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
-  </head>
-
-  <body class="metallic-chrome-bg min-h-screen text-[#09090B] antialiased selection:bg-red-900 selection:text-white">
-
-    <!-- IMMERSIVE BLOOD MOON VORTEX INTRO -->
+    
     <style>
-      .blood-vortex-out {
-        animation: swirlDescent 2.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-      }
-      @keyframes swirlDescent {
-        0% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0px); }
-        30% { transform: scale(1.15) rotate(4deg); opacity: 1; filter: blur(1px) contrast(1.2) brightness(1.2); }
-        100% { transform: scale(0.01) rotate(60deg); opacity: 0; filter: blur(30px) contrast(2); }
-      }
-      .goth-road-perspective {
-        transform: perspective(50vh) rotateX(70deg);
+      /* Permanent Subtle Gothic Highway */
+      .goth-highway-bg {
+        transform: perspective(60vh) rotateX(75deg);
         background: 
           linear-gradient(to top, #000 0%, transparent 100%),
-          repeating-linear-gradient(90deg, #050505 0%, #050505 48%, #8a0303 49%, #8a0303 51%, #050505 52%, #050505 100%);
-        background-size: 20vw 100px;
+          repeating-linear-gradient(90deg, #060606 0%, #060606 48%, #1a0202 49%, #1a0202 51%, #060606 52%, #060606 100%);
+        background-size: 15vw 100px;
+      }
+      
+      /* Cinematic Fade Out for Intro */
+      .night-fade-out {
+        opacity: 0;
+        filter: blur(20px);
+        transform: scale(1.05);
+        pointer-events: none;
       }
     </style>
+  </head>
 
-    <div id="rwnd-gothic-intro" class="fixed inset-0 z-[100] bg-black text-[#E9E3D5] font-mono-tech select-none overflow-hidden origin-center">
-      <!-- The Blood Moon & Sky -->
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#2b0000_0%,#000000_70%)] pointer-events-none"></div>
-      <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-40 h-40 rounded-full bg-red-600 blur-[2px] shadow-[0_0_80px_40px_rgba(220,38,38,0.4)] animate-pulse pointer-events-none"></div>
+  <body class="bg-[#060606] min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0">
+
+    <!-- PERMANENT GOTHIC NIGHT BACKGROUND (Stays behind the whole site) -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+      <!-- Dim Blood Moon Glow -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#1a0000_0%,#000000_80%)] opacity-90"></div>
+      <div class="absolute top-[5%] left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-red-900 blur-[120px] opacity-20"></div>
       
-      <!-- The 3D Goth Road -->
-      <div class="absolute bottom-0 w-[200vw] h-[60vh] left-1/2 -translate-x-1/2 goth-road-perspective pointer-events-none opacity-80"></div>
+      <!-- Subtle 3D Highway -->
+      <div class="absolute bottom-0 w-[200vw] h-[50vh] left-1/2 -translate-x-1/2 goth-highway-bg opacity-30"></div>
+    </div>
+
+    <!-- ATMOSPHERIC NIGHT INTRO OVERLAY -->
+    <div id="rwnd-night-intro" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none transition-all duration-[2000ms] ease-in-out">
       
-      <!-- Streetlamp Flares -->
-      <div class="absolute bottom-[20%] left-[20%] w-32 h-32 bg-amber-600/20 blur-[40px] pointer-events-none"></div>
-      <div class="absolute bottom-[20%] right-[20%] w-32 h-32 bg-amber-600/20 blur-[40px] pointer-events-none"></div>
+      <!-- Heavy Intro Fog & Moon (Fades away when clicked) -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#3a0000_0%,#000000_70%)] opacity-80 pointer-events-none"></div>
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-red-700 blur-[60px] opacity-50 animate-pulse pointer-events-none"></div>
+      
+      <div class="relative z-10 flex flex-col items-center text-center px-6">
+        <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-500 mb-6">ATMOSPHERE: MIDNIGHT</p>
+        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_40px_rgba(220,38,38,0.3)]">
+          THE NIGHT <br><span class="text-zinc-600">CALLS</span>
+        </h1>
+        
+        <p class="mt-6 text-xs text-zinc-400 max-w-md leading-relaxed tracking-wider">
+          Heavy 316L hardware engineered for the dark road.
+        </p>
 
-      <!-- Interface & Button -->
-      <div class="relative z-20 h-full w-full flex flex-col items-center justify-between py-10 px-6">
-        <div class="w-full flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <span class="inline-block h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
-            <span class="text-[10px] tracking-widest uppercase font-bold text-red-500">MDU_DISPATCH // ONLINE</span>
-          </div>
-          <button id="rwnd-skip-intro" class="text-[9px] text-zinc-500 hover:text-white uppercase tracking-widest cursor-pointer">SKIP [ESC]</button>
-        </div>
+        <button id="rwnd-enter-night-btn" type="button" class="mt-12 group relative inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/60 backdrop-blur-xl px-10 py-5 text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase transition-all hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] cursor-pointer active:scale-95">
+          <span>WALK THE ROAD</span>
+        </button>
+      </div>
 
-        <!-- Center Content -->
-        <div class="flex flex-col items-center text-center mt-[-10vh]">
-          <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-6 drop-shadow-md">THE ARCHIVE IS BLEEDING</p>
-          <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]">
-            BLOOD &<br>CHROME
-          </h1>
-          <button id="rwnd-ignite-btn" type="button" class="mt-12 group relative inline-flex items-center gap-3 rounded-full border border-red-900/50 bg-black/60 backdrop-blur-xl px-10 py-5 text-[12px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white cursor-pointer shadow-[0_0_40px_rgba(138,3,3,0.5)] active:scale-95 hover:scale-105">
-            <span>DESCEND INTO ARCHIVE</span>
-          </button>
-        </div>
-
-        <div class="text-[9px] text-zinc-600 tracking-widest uppercase">ENCRYPTED // 316L HARDWARE</div>
+      <!-- Location Ticker -->
+      <div class="absolute bottom-8 w-full px-8 flex justify-between items-center text-[9px] text-zinc-600 tracking-widest uppercase">
+        <span>LOC: MADURAI_TN</span>
+        <span>VISIBILITY: LOW</span>
       </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const introOverlay = document.getElementById('rwnd-gothic-intro');
-      const igniteBtn = document.getElementById('rwnd-ignite-btn');
-      const skipBtn = document.getElementById('rwnd-skip-intro');
+      const introOverlay = document.getElementById('rwnd-night-intro');
+      const enterBtn = document.getElementById('rwnd-enter-night-btn');
 
-      if (sessionStorage.getItem('rwnd_vortex_played') === 'true') {
+      if (sessionStorage.getItem('rwnd_night_played') === 'true') {
         if (introOverlay) introOverlay.remove();
         return;
       }
 
-      function triggerVortex() {
-        sessionStorage.setItem('rwnd_vortex_played', 'true');
-        introOverlay.classList.add('blood-vortex-out');
-        setTimeout(() => { introOverlay.remove(); }, 2500);
-      }
-
-      igniteBtn?.addEventListener('click', triggerVortex);
-      skipBtn?.addEventListener('click', triggerVortex);
+      enterBtn?.addEventListener('click', () => {
+        sessionStorage.setItem('rwnd_night_played', 'true');
+        // Smoothly fade out and blur the intro, revealing the permanent background behind it
+        introOverlay.classList.add('night-fade-out');
+        setTimeout(() => { introOverlay.remove(); }, 2000);
+      });
     });
     </script>
-
-    {% if settings.enable_crt_flicker != false %}
-      <div aria-hidden="true" data-testid="crt-flicker-overlay" class="crt-flicker-overlay fixed inset-0 z-[55]"></div>
-    {% endif %}
 
     <!-- Header Section -->
     {% section 'header' %}
 
     <!-- Main Content -->
-    <main id="MainContent" role="main" tabindex="-1">
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10">
       {{ content_for_layout }}
     </main>
 
@@ -150,7 +145,7 @@
     <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
       <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
         <span class="text-zinc-500 group-hover:text-black">←</span>
-        <span>SYS_RETURN</span>
+        <span>RETURN</span>
       </button>
     </div>
     <script>
@@ -164,7 +159,9 @@
     </script>
 
     <!-- Footer Section -->
-    {% section 'footer' %}
+    <div class="relative z-10">
+      {% section 'footer' %}
+    </div>
 
     <!-- Slide-Out Cart Drawer -->
     {% render 'cart-drawer' %}
@@ -172,58 +169,48 @@
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-<!-- PHASE 3: GLOBAL SMOOTH SCROLL ANIMATIONS -->
-<style>
-  /* The hidden starting state for all elements */
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: opacity, transform;
-  }
-  
-  /* The revealed state when scrolling hits them */
-  .reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+    <!-- PHASE 3: GLOBAL SMOOTH SCROLL ANIMATIONS -->
+    <style>
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity, transform;
+      }
+      .reveal-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1. Target all the elements that should animate (Manifesto cards, Product cards, Headings, Footer blocks)
-    const selectors = [
-      '.rounded-3xl', 
-      '.rounded-2xl', 
-      '#rwnd-product-grid > div', 
-      'footer > div > div',
-      'h2'
-    ];
-    
-    const elementsToReveal = document.querySelectorAll(selectors.join(', '));
-    
-    // 2. Attach the hidden state class instantly
-    elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const selectors = [
+          '.rounded-3xl', 
+          '.rounded-2xl', 
+          '#rwnd-product-grid > div', 
+          'footer > div > div',
+          'h2'
+        ];
+        
+        const elementsToReveal = document.querySelectorAll(selectors.join(', '));
+        elementsToReveal.forEach(el => el.classList.add('reveal-on-scroll'));
 
-    // 3. Create the observer to watch for scrolling
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Trigger the slide-up animation
-          entry.target.classList.add('is-visible');
-          // Unobserve so it only plays once per session for better performance
-          observer.unobserve(entry.target); 
-        }
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target); 
+            }
+          });
+        }, { 
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1 
+        });
+
+        elementsToReveal.forEach(el => revealObserver.observe(el));
       });
-    }, { 
-      rootMargin: '0px 0px -50px 0px', // Triggers right as it crosses the bottom threshold
-      threshold: 0.1 
-    });
-
-    // 4. Start watching all targeted elements
-    elementsToReveal.forEach(el => revealObserver.observe(el));
-  });
-</script>
+    </script>
 
   </body>
 </html>
