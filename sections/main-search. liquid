@@ -1,1 +1,107 @@
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
+  <div class="mx-auto max-w-7xl">
+    <!-- Breadcrumb Nav -->
+    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
+      <ol class="flex items-center gap-2 uppercase tracking-wider">
+        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li>/</li>
+        <li class="text-[#09090B] font-bold">SEARCH VAULT</li>
+      </ol>
+    </nav>
+
+    <!-- Search Header & Input Bar -->
+    <div class="border-b border-[#09090B]/20 pb-8 mb-8">
+      <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#09090B]">
+        SEARCH ARCHIVE
+      </h1>
+      <p class="mt-2 font-mono-tech text-xs sm:text-sm text-[#3F3F46]">
+        Query results for: <strong class="text-[#09090B]">"{{ search.terms }}"</strong>
+      </p>
+
+      <form action="{{ routes.search_url }}" method="get" class="mt-6 flex items-center gap-3 max-w-xl">
+        <input type="text" name="q" value="{{ search.terms | escape }}" placeholder="SEARCH SPEC, HARDWARE, WATCHES..." class="flex-1 rounded-full border border-[#09090B]/20 bg-white px-5 py-3 font-mono-tech text-xs text-[#09090B] focus:outline-none focus:border-[#09090B] shadow-sm">
+        <button type="submit" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer">
+          SEARCH //
+        </button>
+      </form>
+    </div>
+
+    <!-- Search Results Grid -->
+    {% if search.performed %}
+      <div class="mb-6 font-mono-tech text-xs text-[#52525B] uppercase">
+        Found {{ search.results_count }} matching artifact{{ search.results_count | pluralize: '', 's' }}
+      </div>
+
+      {% if search.results.size > 0 %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="rwnd-product-grid">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              <div data-product-card 
+                   data-category="{{ item.type | handle }}" 
+                   data-tags="{{ item.tags | join: ' ' | handle }}" 
+                   data-title="{{ item.title | escape }}" 
+                   data-price="{{ item.price }}"
+                   data-price-formatted="{{ item.price | money }}"
+                   data-compare-formatted="{{ item.compare_at_price | money }}"
+                   data-image="{{ item.featured_image | image_url: width: 600 }}"
+                   data-variant-id="{{ item.selected_or_first_available_variant.id }}"
+                   data-url="{{ item.url }}"
+                   data-description="{{ item.description | strip_html | escape }}"
+                   class="group rounded-3xl border border-[#09090B]/20 bg-white p-4 shadow-md flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#09090B]">
+                
+                <div>
+                  <div class="relative rounded-2xl bg-[#D4D8E0] p-4 overflow-hidden aspect-square flex items-center justify-center">
+                    <span class="absolute top-3 left-3 z-10 font-mono-tech text-[9px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-2.5 py-1 rounded-full">
+                      SPEC
+                    </span>
+                    <button type="button" data-toggle-wishlist aria-label="Save to Wishlist" class="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-white/80 border border-[#09090B]/20 flex items-center justify-center text-[#09090B] hover:bg-white cursor-pointer">
+                      ♡
+                    </button>
+                    {% if item.featured_image %}
+                      <img src="{{ item.featured_image | image_url: width: 600 }}" alt="{{ item.title | escape }}" class="h-full w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105">
+                    {% else %}
+                      <div class="font-mono-tech text-xs text-[#52525B]">NO IMAGE</div>
+                    {% endif %}
+                  </div>
+
+                  <div class="mt-4">
+                    <p class="font-mono-tech text-[10px] text-[#52525B] uppercase tracking-widest">{{ item.vendor | default: 'RWND20S' }}</p>
+                    <h3 class="font-display text-sm font-bold uppercase text-[#09090B] mt-0.5 line-clamp-1">{{ item.title }}</h3>
+                  </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-[#09090B]/10 flex items-center justify-between gap-2">
+                  <span class="font-mono-tech text-sm font-extrabold text-[#09090B]">{{ item.price | money }}</span>
+                  <div class="flex items-center gap-1.5">
+                    <button type="button" data-open-quick-view class="rounded-full border border-[#09090B]/20 bg-white px-3 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#09090B] hover:border-[#09090B] cursor-pointer">
+                      VIEW
+                    </button>
+                    <button type="button" data-add-to-cart variant-id="{{ item.selected_or_first_available_variant.id }}" class="rounded-full border border-[#09090B] bg-[#09090B] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase text-white hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer">
+                      + BAG
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="flex h-64 flex-col items-center justify-center text-center rounded-3xl border border-[#09090B]/20 bg-white p-8 shadow-sm">
+          <p class="font-display text-base font-bold text-[#09090B] uppercase">NO ARTIFACTS MATCHED YOUR QUERY</p>
+          <p class="mt-1 text-xs text-[#3F3F46]">Try searching with broader keywords like 'hardware', 'ring', 'watch', or 'earphones'.</p>
+          <a href="/collections/all" class="mt-4 rounded-full border border-[#09090B] bg-[#09090B] px-6 py-2 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+            BROWSE FULL DROP 01
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search Main Catalog",
+  "settings": []
+}
+{% endschema %}
 
