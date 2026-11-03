@@ -62,24 +62,6 @@
       <div aria-hidden="true" data-testid="crt-flicker-overlay" class="crt-flicker-overlay fixed inset-0 z-[55]"></div>
     {% endif %}
 
-    <!-- Initial Full-Screen 3D Chrome Loader -->
-    <div id="rwnd-archive-loader" role="status" aria-live="polite" aria-label="Loading rwnd20s hardware archive" class="metallic-chrome-bg fixed inset-0 z-[100] flex flex-col items-center justify-center text-[#09090B] transition-opacity duration-300">
-      <div class="retro-scanlines pointer-events-none absolute inset-0 opacity-35"></div>
-      <div class="relative flex flex-col items-center px-6 text-center">
-        <div class="relative flex h-28 w-28 items-center justify-center">
-          <div class="studio-spotlight-intense pointer-events-none absolute inset-0 rounded-full scale-125"></div>
-          <div class="chrome-3d-spin relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#09090B] bg-white shadow-[0_0_40px_rgba(255,255,255,0.9)]">
-            <span class="font-display text-sm font-extrabold tracking-tighter text-[#09090B]">RWND20s.</span>
-          </div>
-        </div>
-        <div class="mt-6 rounded-xl border border-black/20 bg-white px-4 py-2.5 shadow-md">
-          <p class="font-mono-tech text-xs font-bold tracking-[0.2em] text-[#09090B] lowercase">
-            connecting to archive...
-          </p>
-        </div>
-      </div>
-    </div>
-
     <!-- Welcome Offer Email Popup (5% OFF Current Order + 10% OFF Next Purchase) -->
     {% if settings.enable_welcome_popup != false %}
       <div id="rwnd-welcome-popup" role="dialog" aria-modal="true" aria-labelledby="welcome-offer-title" data-testid="welcome-offer-popup" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 sm:p-6">
