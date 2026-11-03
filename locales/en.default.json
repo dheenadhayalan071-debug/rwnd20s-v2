@@ -1,0 +1,26 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_text": "Skip to content",
+      "close": "Close"
+    },
+    "search": {
+      "placeholder": "Search archive hardware..."
+    },
+    "cart": {
+      "title": "Shopping Bag",
+      "empty": "YOUR HARDWARE BAG IS EMPTY",
+      "subtotal": "SUBTOTAL (MRP INCL. TAX)",
+      "checkout": "PROCEED TO CHECKOUT →",
+      "free_shipping_unlocked": "You've unlocked FREE Express Shipping!"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "ADD TO BAG +",
+      "sold_out": "SOLD OUT",
+      "unavailable": "UNAVAILABLE",
+      "Save": "SAVE"
+    }
+  }
+}
