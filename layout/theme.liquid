@@ -45,10 +45,9 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
-    <!-- MASTER GOTHIC ATMOSPHERIC STYLES -->
     <style>
       .foggy-glass {
-        background: rgba(12, 12, 12, 0.75) !important;
+        background: rgba(12, 12, 12, 0.85) !important;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -63,88 +62,19 @@
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- PERMANENT BLOOD MOON ATMOSPHERE BACKGROUND -->
+    <!-- PERMANENT BLOOD MOON BACKGROUND -->
     <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#450a0a_0%,#030303_75%)] opacity-90"></div>
       <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-red-800 blur-[160px] opacity-25"></div>
     </div>
 
-    <!-- CINEMATIC INTRO OVERLAY -->
-    <div id="rwnd-night-intro" class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#5a0000_0%,#030303_70%)] opacity-95 pointer-events-none" id="intro-fog"></div>
-      <div class="absolute top-[25%] left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-red-600 blur-[90px] opacity-75 animate-pulse pointer-events-none"></div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center px-6 transition-opacity duration-500" id="intro-content">
-        <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-4">ATMOSPHERE: MIDNIGHT</p>
-        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_60px_rgba(220,38,38,0.8)]">
-          THE NIGHT <br><span class="text-red-600">CALLS</span>
-        </h1>
-        <p class="mt-4 text-xs text-zinc-300 max-w-sm leading-relaxed tracking-wider">
-          Heavy 316L hardware engineered for the dark road.
-        </p>
-        <button id="rwnd-enter-night-btn" type="button" class="mt-8 group relative inline-flex items-center gap-3 rounded-full border border-red-900/60 bg-black/80 backdrop-blur-xl px-10 py-4 text-[11px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] cursor-pointer active:scale-95">
-          <span>DESCEND INTO ARCHIVE</span>
-        </button>
-      </div>
-
-      <div class="absolute bottom-6 w-full px-8 flex justify-between items-center text-[9px] text-zinc-500 tracking-widest uppercase transition-opacity duration-500" id="intro-ticker">
-        <span>LOC: MADURAI_TN</span>
-        <span>VISIBILITY: ZERO</span>
-      </div>
-    </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const introOverlay = document.getElementById('rwnd-night-intro');
-      const enterBtn = document.getElementById('rwnd-enter-night-btn');
-      const introContent = document.getElementById('intro-content');
-      const introTicker = document.getElementById('intro-ticker');
-      const introFog = document.getElementById('intro-fog');
-
-      if (sessionStorage.getItem('rwnd_night_played') === 'true') {
-        if (introOverlay) introOverlay.remove();
-        return;
-      }
-
-      enterBtn?.addEventListener('click', () => {
-        sessionStorage.setItem('rwnd_night_played', 'true');
-        introContent.style.opacity = '0';
-        introTicker.style.opacity = '0';
-        introFog.style.opacity = '0';
-        introOverlay.style.transition = 'all 2.5s cubic-bezier(0.7, 0, 0.2, 1)';
-        introOverlay.style.transform = 'scale(3.5) translateY(10%)';
-        introOverlay.style.filter = 'blur(20px) brightness(1.8)';
-        introOverlay.style.opacity = '0';
-        introOverlay.style.pointerEvents = 'none';
-        setTimeout(() => { introOverlay.remove(); }, 2500);
-      });
-    });
-    </script>
-
     <!-- Header Section -->
     {% section 'header' %}
 
-    <!-- Main Content -->
+    <!-- Main Store Content -->
     <main id="MainContent" role="main" tabindex="-1" class="relative z-10">
       {{ content_for_layout }}
     </main>
-
-    <!-- INDUSTRIAL SYS_BACK CAPSULE -->
-    <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
-      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
-        <span class="text-zinc-500 group-hover:text-black">←</span>
-        <span>RETURN</span>
-      </button>
-    </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const backBar = document.getElementById('rwnd-sys-back-bar');
-        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
-          backBar.classList.remove('hidden');
-          backBar.classList.add('flex');
-        }
-      });
-    </script>
 
     <!-- Footer Section -->
     <div class="relative z-10">
@@ -152,9 +82,8 @@
     </div>
 
     <!-- Slide-Out Cart Drawer -->
-    {% render 'cart-drawer' %}
+    {% render 'cart-drawer' %>
 
-    <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
   </body>
