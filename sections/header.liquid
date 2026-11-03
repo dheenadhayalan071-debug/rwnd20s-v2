@@ -1,3 +1,123 @@
+<!-- sections/header.liquid -->
+<div class="w-full border-b border-[#09090B]/15 bg-white/85 px-4 py-2 text-center backdrop-blur-sm">
+  <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-3">
+    <p class="font-mono-tech text-[11px] font-bold tracking-widest text-[#09090B] uppercase">
+      {{ section.settings.announcement_text }}
+    </p>
+    <button
+      id="rwnd-open-welcome-popup"
+      type="button"
+      class="inline-flex items-center gap-1 rounded-full border border-[#09090B]/30 bg-white px-2.5 py-0.5 font-mono-tech text-[10px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+    >
+      GET 5% NOW + 10% NEXT ORDER
+    </button>
+  </div>
+</div>
+
+<header class="sticky top-0 z-40 border-b border-[#09090B]/15 bg-[#DCDFE5]/90 backdrop-blur-md">
+  <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-4 py-3.5 sm:px-6 lg:px-8">
+    <!-- Left: Official rwnd20s. Wordmark -->
+    <a
+      href="{{ routes.root_url }}"
+      aria-label="{{ shop.name | default: 'rwnd20s.' }} Home"
+      class="inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 transition-opacity hover:opacity-90"
+    >
+      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/25 bg-[#09090B] font-mono-tech text-[10px] font-bold text-white shadow-xs">
+        ⏪
+      </span>
+      <span class="font-display text-xl font-extrabold tracking-tight text-[#09090B]">
+        {{ settings.brand_name | default: 'rwnd20s.' }}
+      </span>
+    </a>
+
+    <!-- Center Navigation (Desktop) -->
+    <nav aria-label="Primary Navigation" class="hidden lg:flex items-center gap-8">
+      <a href="{{ routes.root_url }}#home" class="py-1 text-sm font-bold text-[#09090B] hover:opacity-75">Home</a>
+      <a href="{{ routes.root_url }}#collections" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Collections</a>
+      <a href="{{ routes.root_url }}#shop" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Shop</a>
+      <a href="{{ routes.root_url }}#testimonials" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Cardholders</a>
+      <a href="{{ routes.root_url }}#about" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">About</a>
+    </nav>
+
+    <!-- Right Actions: Search, Wishlist, Bag with Live Count, Mobile Menu -->
+    <div class="flex items-center gap-2.5 shrink-0">
+      <a
+        href="#shop"
+        aria-label="Search hardware archive"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B] shadow-xs transition-colors hover:border-[#09090B]"
+      >
+        ⌕
+      </a>
+
+      <button
+        type="button"
+        data-open-cart="wishlist"
+        aria-label="Open wishlist"
+        class="hidden lg:inline-flex items-center gap-2 rounded-full border border-white bg-white px-3.5 py-2 font-mono-tech text-xs font-bold text-[#09090B] shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+      >
+        <span>♥ WISHLIST</span>
+        <span data-wishlist-count class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#09090B] px-1.5 font-mono-tech text-[11px] font-bold text-white">
+          0
+        </span>
+      </button>
+
+      <button
+        type="button"
+        data-open-cart="bag"
+        aria-label="Open shopping bag"
+        class="inline-flex items-center gap-1.5 rounded-full border border-white bg-white px-3 py-2 font-mono-tech text-xs font-bold text-[#09090B] shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+      >
+        <span class="hidden sm:inline">BAG</span>
+        <span data-cart-count class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#09090B] px-1.5 font-mono-tech text-[11px] font-bold text-white">
+          {{ cart.item_count }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        data-toggle-mobile-menu
+        aria-label="Toggle mobile navigation menu"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B] shadow-xs lg:hidden cursor-pointer"
+      >
+        ☰
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div
+  id="rwnd-mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile Navigation Menu"
+  class="metallic-chrome-bg fixed inset-0 z-50 hidden flex-col justify-between bg-[#DCDFE5] p-6 text-[#09090B] lg:hidden"
+>
+  <div class="flex items-center justify-between border-b border-[#09090B]/15 pb-4">
+    <span class="font-display text-xl font-extrabold text-[#09090B]">{{ settings.brand_name | default: 'rwnd20s.' }}</span>
+    <button
+      type="button"
+      data-toggle-mobile-menu
+      aria-label="Close mobile menu"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B]"
+    >
+      ✕
+    </button>
+  </div>
+
+  <nav class="my-auto flex flex-col space-y-4">
+    <a href="#home" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">01 // HOME</a>
+    <a href="#collections" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">02 // COLLECTIONS</a>
+    <a href="#shop" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">03 // SHOP ARCHIVE</a>
+    <a href="#testimonials" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">04 // CARDHOLDERS</a>
+    <a href="#about" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">05 // ABOUT</a>
+  </nav>
+
+  <div class="border-t border-[#09090B]/15 pt-4 font-mono-tech text-xs font-bold text-[#3F3F46]">
+    FREE EXPRESS SHIPPING ABOVE ₹999 · 316L ARCHIVE HARDWARE
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "Header & Announcement",
@@ -6,7 +126,7 @@
       "type": "text",
       "id": "announcement_text",
       "label": "Top Announcement Bar Text",
-      "default": "Free shipping on orders above ₹999 + Limited drops only"
+      "default": "Free shipping on orders above ₹999  +  Limited drops only"
     }
   ]
 }
