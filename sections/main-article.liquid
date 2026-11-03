@@ -1,1 +1,56 @@
 
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
+  <div class="mx-auto max-w-4xl">
+    <!-- Breadcrumb Nav -->
+    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
+      <ol class="flex items-center gap-2 uppercase tracking-wider">
+        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li>/</li>
+        <li><a href="{{ blog.url }}" class="hover:text-[#09090B]">JOURNAL</a></li>
+        <li>/</li>
+        <li class="text-[#09090B] font-bold truncate max-w-[200px] sm:max-w-none">{{ article.title }}</li>
+      </ol>
+    </nav>
+
+    <!-- Article Container -->
+    <article class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-12 shadow-2xl">
+      <div class="border-b border-[#09090B]/10 pb-6 mb-8">
+        <div class="flex items-center justify-between font-mono-tech text-xs text-[#52525B] uppercase tracking-widest mb-3">
+          <span>PUBLISHED: {{ article.published_at | date: "%d %b %Y" }}</span>
+          <span>AUTHOR: {{ article.author | default: 'RWND20S' }}</span>
+        </div>
+        <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#09090B]">
+          {{ article.title }}
+        </h1>
+      </div>
+
+      {% if article.image %}
+        <div class="rounded-2xl bg-[#D4D8E0] overflow-hidden aspect-video mb-8 border border-[#09090B]/10">
+          <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" class="h-full w-full object-cover">
+        </div>
+      {% endif %}
+
+      <!-- Article Content Body -->
+      <div class="prose font-mono-tech text-xs sm:text-sm text-[#3F3F46] leading-relaxed space-y-4">
+        {{ article.content }}
+      </div>
+
+      <!-- Footer Navigation & Back to Journal -->
+      <div class="mt-12 pt-6 border-t border-[#09090B]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a href="{{ blog.url }}" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+          ← BACK TO ARCHIVE JOURNAL
+        </a>
+        <a href="/collections/all" class="rounded-full border border-[#09090B]/20 bg-white px-6 py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
+          EXPLORE DROP 01 HARDWARE
+        </a>
+      </div>
+    </article>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article Main View",
+  "settings": []
+}
+{% endschema %}
