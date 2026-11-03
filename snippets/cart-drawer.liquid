@@ -1,177 +1,65 @@
 <!-- snippets/cart-drawer.liquid -->
 <div
   id="rwnd-cart-drawer"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Shopping Bag and Wishlist Drawer"
-  class="fixed inset-0 z-50 hidden justify-end"
+  class="fixed inset-0 z-50 hidden justify-end bg-black/60 backdrop-blur-sm"
 >
-  <!-- Backdrop -->
-  <div data-close-cart class="fixed inset-0 bg-[#09090B]/55 backdrop-blur-sm"></div>
-
-  <!-- Slide-Out Panel -->
-  <aside class="metallic-chrome-bg relative z-10 flex h-full w-full max-w-md flex-col border-l border-white bg-[#DCDFE5] text-[#09090B] shadow-2xl">
+  <div class="relative flex w-full max-w-md flex-col bg-[#DCDFE5] text-[#09090B] shadow-2xl h-full sm:h-auto sm:max-h-[90vh] sm:rounded-l-3xl overflow-hidden">
+    
     <!-- Drawer Header -->
-    <div class="border-b border-[#09090B]/15 bg-white/60 px-6 py-4 backdrop-blur-md">
-      <div class="flex items-center justify-between gap-3">
-        <div role="tablist" aria-label="Drawer view switcher" class="flex items-center gap-2">
-          <button
-            role="tab"
-            type="button"
-            data-drawer-tab="bag"
-            aria-selected="true"
-            class="inline-flex items-center gap-2 rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer"
-          >
-            <span>BAG (<span data-cart-count>{{ cart.item_count }}</span>)</span>
-          </button>
-
-          <button
-            role="tab"
-            type="button"
-            data-drawer-tab="wishlist"
-            aria-selected="false"
-            class="inline-flex items-center gap-2 rounded-full border border-[#09090B]/20 bg-white/50 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#3F3F46] uppercase hover:text-[#09090B] cursor-pointer"
-          >
-            <span>WISHLIST (<span data-wishlist-count>0</span>)</span>
-          </button>
-        </div>
-
-        <button
-          type="button"
-          data-close-cart
-          aria-label="Close drawer"
-          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#09090B]/20 bg-white text-[#09090B] transition-colors hover:border-[#09090B] cursor-pointer"
-        >
-          ✕
+    <div class="flex items-center justify-between border-b border-black/15 px-6 py-4 bg-white">
+      <div role="tablist" class="flex items-center gap-2">
+        <button type="button" data-drawer-tab="bag" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase">
+          HARDWARE BAG
+        </button>
+        <button type="button" data-drawer-tab="wishlist" class="rounded-full border border-[#09090B]/20 bg-white/50 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#3F3F46] uppercase">
+          WISHLIST
         </button>
       </div>
+      <button type="button" data-close-cart class="flex h-8 w-8 items-center justify-center rounded-full border border-black/20 bg-white text-xs font-bold text-[#09090B] hover:bg-black hover:text-white cursor-pointer">
+        ✕
+      </button>
     </div>
 
-    <!-- Bag Panel -->
-    <div id="rwnd-drawer-bag-panel" class="flex flex-1 flex-col overflow-hidden">
-      <!-- Live ₹999 Free Shipping Progress Bar -->
-      <div class="border-b border-[#09090B]/15 bg-white/75 px-6 py-3.5">
-        <div class="flex items-center justify-between text-xs font-mono-tech">
-          <p id="rwnd-shipping-message" class="text-[#27272A]">
-            {% if cart.total_price >= 99900 %}
-              <span class="font-bold text-[#09090B]">✦ You've unlocked FREE Express Shipping!</span>
-            {% else %}
-              {% assign remaining = 99900 | minus: cart.total_price %}
-              Add <strong class="text-[#09090B]">{{ remaining | money }}</strong> more to unlock FREE Shipping
-            {% endif %}
-          </p>
+    <!-- Scrollable Items Area (Prevents massive gaps) -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-3" id="rwnd-cart-items">
+      <!-- Dynamic cart items load here -->
+    </div>
+
+    <!-- Fixed Footer Summary & Checkout -->
+    <div class="border-t border-black/15 bg-white p-6 shrink-0 space-y-4">
+      <div id="rwnd-shipping-message" class="font-mono-tech text-xs text-[#3F3F46]">
+        Free shipping unlocked on orders above ₹999
+      </div>
+      
+      <div class="w-full bg-[#E4E7EC] h-1.5 rounded-full overflow-hidden">
+        <div id="rwnd-shipping-bar" class="bg-[#09090B] h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <div class="space-y-1.5 font-mono-tech text-xs">
+        <div class="flex justify-between text-[#3F3F46]">
+          <span>SUBTOTAL</span>
+          <span id="rwnd-cart-subtotal" class="font-bold text-[#09090B]">₹0</span>
         </div>
-        <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#09090B]/15">
-          <div
-            id="rwnd-shipping-bar"
-            class="h-full rounded-full bg-[#09090B] transition-all duration-300"
-            style="width: {% if cart.total_price >= 99900 %}100%{% else %}{{ cart.total_price | divided_by: 999 }}%{% endif %};"
-          ></div>
+        <div id="rwnd-cart-discount-row" class="hidden justify-between text-emerald-700">
+          <span>WELCOME PASS (5%)</span>
+          <span id="rwnd-cart-discount-amount">-₹0</span>
+        </div>
+        <div class="flex justify-between text-sm font-bold text-[#09090B] border-t border-black/10 pt-2">
+          <span>TOTAL</span>
+          <span id="rwnd-cart-total">₹0</span>
         </div>
       </div>
 
-      <!-- Cart Items List -->
-      <div id="rwnd-cart-items" class="flex-1 space-y-4 overflow-y-auto px-6 py-5">
-        {% if cart.item_count == 0 %}
-          <div class="flex h-64 flex-col items-center justify-center text-center">
-            <p class="font-display text-lg font-bold text-[#09090B] uppercase">
-              {{ 'general.cart.empty' | t }}
-            </p>
-            <p class="mt-1 max-w-xs text-xs text-[#3F3F46]">
-              Explore Drop 01 watches, pink chrome Type-C wired earphones, heavy 316L rings, chains, and bracelets.
-            </p>
-          </div>
-        {% else %}
-          {% for item in cart.items %}
-            <div class="flex gap-4 rounded-2xl border border-white bg-white/90 p-3.5 shadow-sm">
-              <img
-                src="{{ item.image | image_url: width: 240 }}"
-                alt="{{ item.title | escape }}"
-                class="h-20 w-20 shrink-0 rounded-xl border border-[#09090B]/15 bg-[#D4D8E0] object-contain p-1.5"
-              >
-              <div class="flex flex-1 flex-col justify-between">
-                <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 class="font-display text-xs font-bold text-[#09090B] uppercase">{{ item.product.title }}</h4>
-                    <p class="mt-0.5 font-mono-tech text-[11px] text-[#52525B]">{{ item.variant.title }}</p>
-                  </div>
-                  <button
-                    type="button"
-                    data-cart-change-id="{{ item.key }}"
-                    data-cart-qty="0"
-                    class="font-mono-tech text-xs font-bold text-[#52525B] hover:text-[#09090B] cursor-pointer"
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div class="mt-3 flex items-center justify-between">
-                  <div class="inline-flex items-center rounded-full border border-[#09090B]/20 bg-white px-1.5 py-0.5">
-                    <button
-                      type="button"
-                      data-cart-change-id="{{ item.key }}"
-                      data-cart-qty="{{ item.quantity | minus: 1 }}"
-                      class="h-6 w-6 rounded-full font-mono-tech text-xs font-bold text-[#09090B] hover:bg-[#09090B]/10 cursor-pointer"
-                    >
-                      -
-                    </button>
-                    <span class="w-6 text-center font-mono-tech text-xs font-bold text-[#09090B]">{{ item.quantity }}</span>
-                    <button
-                      type="button"
-                      data-cart-change-id="{{ item.key }}"
-                      data-cart-qty="{{ item.quantity | plus: 1 }}"
-                      class="h-6 w-6 rounded-full font-mono-tech text-xs font-bold text-[#09090B] hover:bg-[#09090B]/10 cursor-pointer"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <span class="font-mono-tech text-sm font-bold text-[#09090B]">{{ item.final_line_price | money }}</span>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-
-      <!-- Drawer Footer -->
-      <div class="border-t border-[#09090B]/15 bg-white/85 px-6 py-5 backdrop-blur-md">
-        <div class="space-y-1.5 font-mono-tech text-xs">
-          <div class="flex justify-between text-[#3F3F46]">
-            <span>{{ 'general.cart.subtotal' | t }}</span>
-            <span id="rwnd-cart-subtotal" class="font-bold text-[#09090B]">{{ cart.total_price | money }}</span>
-          </div>
-          <div id="rwnd-cart-discount-row" class="hidden justify-between font-bold text-[#09090B]">
-            <span>WELCOME OFFER (5% OFF · RWND5NOW)</span>
-            <span id="rwnd-cart-discount-amount">-₹0</span>
-          </div>
-          <div class="flex justify-between text-[#3F3F46]">
-            <span>EXPRESS SHIPPING</span>
-            <span class="font-bold text-[#09090B]">
-              {% if cart.total_price >= 99900 %}FREE{% else %}₹79{% endif %}
-            </span>
-          </div>
-          <div class="flex justify-between border-t border-[#09090B]/15 pt-2 text-sm font-bold text-[#09090B]">
-            <span>ESTIMATED TOTAL</span>
-            <span id="rwnd-cart-total">{{ cart.total_price | money }}</span>
-          </div>
-        </div>
-
+      <form action="/checkout" method="post">
         <button
-          type="button"
-          data-shopify-checkout
-          class="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-[#09090B] bg-white px-6 py-3.5 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
+          type="submit"
+          name="checkout"
+          class="w-full rounded-full bg-[#09090B] py-4 font-mono-tech text-xs font-bold tracking-widest text-white uppercase shadow-lg transition-transform active:scale-[0.99] hover:bg-zinc-800 cursor-pointer"
         >
-          <span>{{ 'general.cart.checkout' | t }}</span>
+          PROCEED TO SECURE CHECKOUT →
         </button>
-
-        <p class="mt-3 text-center font-mono-tech text-[11px] text-[#3F3F46]">
-          256-Bit SSL · ₹0-Advance COD &amp; Prepaid Across India
-        </p>
-      </div>
+      </form>
     </div>
 
-    <!-- Wishlist Panel -->
-    <div id="rwnd-drawer-wishlist-panel" class="hidden flex-1 overflow-y-auto px-6 py-5">
-      <div id="rwnd-wishlist-items" class="space-y-3.5"></div>
-    </div>
-  </aside>
+  </div>
 </div>
