@@ -14,12 +14,13 @@
   </head>
   <body class="bg-[#DCDFE5] text-[#09090B] font-mono-tech antialiased">
 
-    <!-- Global Initial Archive Loader -->
-    <div id="rwnd-archive-loader" class="fixed inset-0 z-50 flex items-center justify-center bg-[#09090B] text-white transition-opacity duration-300">
-      <div class="text-center">
-        <p class="font-mono-tech text-xs tracking-widest uppercase animate-pulse">BOOTING RWND20S.SYS...</p>
-      </div>
-    </div>
+    <!-- Global Header Section -->
+    {% section 'header' %}
+
+    <!-- Dynamic Main Content (Renders whichever modular section matches the current page template) -->
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
     <!-- Global Footer Section -->
     {% section 'footer' %}
