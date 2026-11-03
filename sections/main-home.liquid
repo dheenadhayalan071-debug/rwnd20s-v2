@@ -1,1 +1,134 @@
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] pb-24">
+  <!-- Hero Stage Header & Switcher -->
+  <section class="relative px-4 pt-8 md:px-8 lg:px-12">
+    <div class="mx-auto max-w-7xl">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#09090B]/20 pb-8">
+        <div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#09090B]/30 bg-white/70 px-3 py-1 font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#09090B]">
+            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            SYSTEM: DROP 01 LIVE // MADURAI DISPATCH HUB
+          </div>
+          <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight mt-3 text-[#09090B]">
+            {{ section.settings.hero_title | default: 'RWND20S. ARCHIVE' }}
+          </h1>
+          <p class="mt-2 font-mono-tech text-xs sm:text-sm text-[#3F3F46] max-w-xl">
+            {{ section.settings.hero_subtitle | default: 'Industrial 316L chrome hardware, Y2K timepieces, and custom Type-C wired peripherals engineered for the millennium rewind.' }}
+          </p>
+        </div>
 
+        <!-- Hero Stage Switcher Tabs -->
+        <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Hero Stages">
+          <button type="button" role="tab" aria-selected="true" data-hero-stage-btn="1" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+            01 // 316L HARDWARE
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-hero-stage-btn="2" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+            02 // CHROME AUDIO
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-hero-stage-btn="3" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+            03 // TIMEPIECES
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Stage Slide 1 -->
+      <div data-hero-stage-slide="1" class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-7 rounded-3xl border border-[#09090B]/20 bg-white/80 p-6 sm:p-10 shadow-lg relative overflow-hidden">
+          <div class="absolute top-4 right-4 font-mono-tech text-[10px] font-bold text-[#52525B] uppercase tracking-widest border border-[#09090B]/20 rounded-full px-3 py-1">
+            FEATURED SPEC
+          </div>
+          <p class="font-mono-tech text-xs text-[#52525B] uppercase tracking-widest">3-Piece Cyber Set</p>
+          <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase text-[#09090B] mt-1">HEAVY 316L CHROME RING + CHAIN + BRACELET</h2>
+          <p class="mt-3 text-xs sm:text-sm text-[#3F3F46]">Engineered from surgical-grade stainless steel with polished mirror finish. Built to withstand daily oxidation and heavy wear.</p>
+          <div class="mt-6 flex flex-wrap items-center gap-4">
+            <a href="/collections/all" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+              EXPLORE DROP 01
+            </a>
+            <span class="font-mono-tech text-xs font-bold text-[#09090B]">₹1,695.00</span>
+          </div>
+        </div>
+        <div class="lg:col-span-5 rounded-3xl border border-[#09090B]/20 bg-[#D4D8E0] p-6 sm:p-10 flex flex-col justify-between min-h-[280px]">
+          <div class="flex items-center justify-between">
+            <span class="font-mono-tech text-[10px] uppercase font-bold tracking-widest text-[#52525B]">BATCH CLOCK</span>
+            <span class="font-mono-tech text-[10px] text-emerald-700 font-bold uppercase">ACTIVE DROP</span>
+          </div>
+          <div class="my-auto py-6">
+            <p class="font-mono-tech text-xs text-[#3F3F46] uppercase">Next Limited Drop Closing In:</p>
+            <div class="mt-2 flex items-center gap-2 font-mono-tech text-2xl sm:text-3xl font-extrabold text-[#09090B]">
+              <span id="rwnd-countdown-h">14H</span> : <span id="rwnd-countdown-m">28M</span> : <span id="rwnd-countdown-s">19S</span>
+            </div>
+          </div>
+          <p class="font-mono-tech text-[11px] text-[#52525B]">✦ Free Express Shipping across India on orders above ₹999.</p>
+        </div>
+      </div>
+
+      <!-- Hero Stage Slide 2 (Hidden by default) -->
+      <div data-hero-stage-slide="2" class="mt-8 hidden grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-7 rounded-3xl border border-[#09090B]/20 bg-white/80 p-6 sm:p-10 shadow-lg">
+          <p class="font-mono-tech text-xs text-[#52525B] uppercase tracking-widest">Acoustic Spec</p>
+          <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase text-[#09090B] mt-1">PINK CHROME WIRED EARPHONES (TYPE-C)</h2>
+          <p class="mt-3 text-xs sm:text-sm text-[#3F3F46]">Direct-plug digital DAC chipset with metallic pink chrome finish housing and heavy-duty reinforced braided cabling.</p>
+          <div class="mt-6 flex items-center gap-4">
+            <a href="/collections/all" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+              VIEW SPECIFICATION
+            </a>
+            <span class="font-mono-tech text-xs font-bold text-[#09090B]">₹899.00</span>
+          </div>
+        </div>
+        <div class="lg:col-span-5 rounded-3xl border border-[#09090B]/20 bg-[#D4D8E0] p-6 sm:p-10 flex flex-col justify-between min-h-[280px]">
+          <span class="font-mono-tech text-[10px] uppercase font-bold tracking-widest text-[#52525B]">AUDIO PERIPHERAL</span>
+          <div class="my-auto">
+            <p class="font-display text-xl font-bold uppercase text-[#09090B]">Zero Latency Direct USB-C Audio</p>
+            <p class="mt-1 text-xs text-[#3F3F46]">Designed for mobile creators, traders, and daily media consumption.</p>
+          </div>
+        </div>
+      </div>
+
+        <!-- Hero Stage Slide 3 (Hidden by default) -->
+      <div data-hero-stage-slide="3" class="mt-8 hidden grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-7 rounded-3xl border border-[#09090B]/20 bg-white/80 p-6 sm:p-10 shadow-lg">
+          <p class="font-mono-tech text-xs text-[#52525B] uppercase tracking-widest">Chronograph Vault</p>
+          <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase text-[#09090B] mt-1">Y2K METALLIC CHROME TIMEPIECES</h2>
+          <p class="mt-3 text-xs sm:text-sm text-[#3F3F46]">Industrial resin bezel encasing digital precision modules with retro backlighting and stainless steel link bracelets.</p>
+          <div class="mt-6 flex items-center gap-4">
+            <a href="/collections/all" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+              BROWSE TIMEPIECES
+            </a>
+            <span class="font-mono-tech text-xs font-bold text-[#09090B]">₹1,495.00</span>
+          </div>
+        </div>
+        <div class="lg:col-span-5 rounded-3xl border border-[#09090B]/20 bg-[#D4D8E0] p-6 sm:p-10 flex flex-col justify-between min-h-[280px]">
+          <span class="font-mono-tech text-[10px] uppercase font-bold tracking-widest text-[#52525B]">CHRONO SPEC</span>
+          <div class="my-auto">
+            <p class="font-display text-xl font-bold uppercase text-[#09090B]">Millennium Vault Series</p>
+            <p class="mt-1 text-xs text-[#3F3F46]">Limited inventory allocation per region.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Homepage Main Stage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Main Title",
+      "default": "RWND20S. ARCHIVE"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Industrial 316L chrome hardware, Y2K timepieces, and custom Type-C wired peripherals engineered for the millennium rewind."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Main Stage"
+    }
+  ]
+}
+{% endschema %}
