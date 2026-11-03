@@ -1,184 +1,43 @@
 <!doctype html>
-<html class="no-js dark" lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#060606">
-    <link rel="canonical" href="{{ canonical_url }}">
-
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}
-    </title>
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% else %}
-      <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
-    {% endif %}
-
-    <!-- Google Fonts: Syne, Playfair Display, Plus Jakarta Sans & JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS Browser Runtime -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
-              editorial: ['Playfair Display', 'Georgia', 'serif'],
-              sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-              'mono-tech': ['JetBrains Mono', 'monospace']
-            },
-            colors: {
-              chrome: {
-                base: '#060606',
-                panel: '#0E0E0E',
-                ink: '#FFFFFF',
-                accent: '#D4D4D8'
-              }
-            }
-          }
-        }
-      };
-    </script>
-
-    {{ 'theme.css' | asset_url | stylesheet_tag }}
-
-    <!-- Global Obsidian Luxury & Mobile Scrollbar Overrides -->
-    <style>
-      :root {
-        color-scheme: dark;
-      }
-      html,
-      body,
-      .metallic-chrome-bg {
-        background-color: #060606 !important;
-        background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 55%) !important;
-        color: #FFFFFF !important;
-      }
-      /* Hide ugly mobile horizontal scrollbars on filter pills */
-      * {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-      *::-webkit-scrollbar {
-        display: none;
-        width: 0;
-        height: 0;
-      }
-      /* Studio radial spotlight behind hardware */
-      .studio-spotlight {
-        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, transparent 72%);
-      }
-      .crt-flicker-overlay {
-        display: none !important;
-      }
-    </style>
-
-    <!-- Mandatory Shopify Header Injection -->
+    <title>{{ page_title }}</title>
     {{ content_for_header }}
+    <!-- Tailwind & Custom Styles -->
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
   </head>
+  <body class="bg-[#DCDFE5] text-[#09090B] font-mono-tech antialiased">
 
-  <body class="metallic-chrome-bg min-h-screen bg-[#060606] text-white antialiased selection:bg-white selection:text-[#060606] overflow-x-hidden">
-    <!-- Welcome Offer Email Popup (Obsidian Dark Edition) -->
-    {% if settings.enable_welcome_popup != false %}
-      <div id="rwnd-welcome-popup" role="dialog" aria-modal="true" aria-labelledby="welcome-offer-title" data-testid="welcome-offer-popup" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 sm:p-6">
-        <div data-close-welcome class="fixed inset-0 bg-black/80 backdrop-blur-md"></div>
-        <div class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border border-white/15 bg-[#0C0C0E] p-6 sm:p-8 text-white shadow-[0_24px_80px_rgba(0,0,0,0.85)]">
-          <button type="button" data-close-welcome aria-label="Close welcome offer popup" class="absolute top-4 right-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer">
-            ✕
-          </button>
-
-          <div class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-zinc-200 uppercase">
-            <span>✦ DROP 01 ACCESS PASS</span>
-          </div>
-
-          <h2 id="welcome-offer-title" class="mt-4 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white uppercase">
-            UNLOCK 5% NOW + 10% NEXT DROP
-          </h2>
-
-          <p class="mt-2 text-sm leading-relaxed text-zinc-400">
-            Join the <strong class="text-white">rwnd20s.</strong> archive list for an instant <strong class="text-white">5% OFF</strong> your first order plus <strong class="text-white">10% OFF</strong> Drop 02.
-          </p>
-
-          <div class="mt-5 grid grid-cols-2 gap-3">
-            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-zinc-400 uppercase">CURRENT ORDER</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-white">5% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-zinc-400">Code: RWND5NOW</p>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-zinc-400 uppercase">NEXT DROP</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-white">10% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-zinc-400">Code: RWND10NEXT</p>
-            </div>
-          </div>
-
-          <form id="rwnd-welcome-form" class="mt-6 space-y-3" novalidate>
-            <div>
-              <label for="welcome-offer-email" class="block font-mono-tech text-[11px] font-bold tracking-wider text-zinc-300 uppercase">
-                Email Address
-              </label>
-              <input id="welcome-offer-email" name="email" type="email" required placeholder="Enter your email..." class="mt-1.5 w-full rounded-2xl border border-white/15 bg-white/5 py-3 px-4 font-mono-tech text-xs text-white placeholder-zinc-500 focus:border-white focus:outline-none">
-              <p id="welcome-offer-error" class="mt-1.5 hidden font-mono-tech text-[11px] font-semibold text-red-400"></p>
-            </div>
-            <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-mono-tech text-xs font-bold tracking-widest text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer">
-              <span>UNLOCK MY 5% + 10% CODES →</span>
-            </button>
-            <button type="button" data-close-welcome class="w-full py-1 text-center font-mono-tech text-[11px] text-zinc-500 underline hover:text-zinc-300 cursor-pointer">
-              Continue without discount
-            </button>
-          </form>
-
-          <div id="rwnd-welcome-unlocked" class="mt-6 hidden space-y-3 rounded-2xl border border-white/15 bg-white/5 p-4">
-            <p class="font-mono-tech text-xs font-bold text-white">
-              ✓ PASS UNLOCKED (<span id="rwnd-welcome-email-display"></span>)
-            </p>
-            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 font-mono-tech text-xs">
-              <div class="flex items-center justify-between rounded-xl border border-white/10 bg-black/50 px-3 py-2">
-                <span class="text-zinc-400">5% NOW:</span>
-                <span class="font-bold text-white">RWND5NOW</span>
-              </div>
-              <div class="flex items-center justify-between rounded-xl border border-white/10 bg-black/50 px-3 py-2">
-                <span class="text-zinc-400">10% NEXT:</span>
-                <span class="font-bold text-white">RWND10NEXT</span>
-              </div>
-            </div>
-            <button type="button" data-close-welcome class="mt-2 w-full rounded-full bg-white px-6 py-3 font-mono-tech text-xs font-bold tracking-wider text-black uppercase transition-colors hover:bg-zinc-200 cursor-pointer">
-              SHOP DROP 01 →
-            </button>
-          </div>
-        </div>
+    <!-- Global Initial Archive Loader -->
+    <div id="rwnd-archive-loader" class="fixed inset-0 z-50 flex items-center justify-center bg-[#09090B] text-white transition-opacity duration-300">
+      <div class="text-center">
+        <p class="font-mono-tech text-xs tracking-widest uppercase animate-pulse">BOOTING RWND20S.SYS...</p>
       </div>
-    {% endif %}
+    </div>
 
-    <!-- Header Section -->
+    <!-- Global Header Section -->
     {% section 'header' %}
 
-    <!-- Main Page Content Injection -->
+    <!-- Dynamic Main Content (Renders whichever modular section matches the current page template) -->
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    <!-- Footer Section -->
+    <!-- Global Footer Section -->
     {% section 'footer' %}
 
-    <!-- Custom AJAX Slide-Out Cart & Wishlist Drawer Snippet -->
+    <!-- Slide-out Cart & Wishlist Drawer -->
     {% render 'cart-drawer' %}
 
-    <!-- Toast Notification Container -->
-    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
+    <!-- Welcome Offer Popup -->
+    {% render 'welcome-popup' %}
 
-    <!-- Global Theme Vanilla JS -->
+    <!-- Global Toast Notification Container -->
+    <div id="rwnd-toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Main JavaScript Architecture -->
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
