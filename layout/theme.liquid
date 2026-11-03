@@ -84,13 +84,13 @@
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- CINEMATIC INTRO GATEWAY (Step 1 & 2 Splash Intro) -->
-    <div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000">
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
+        <!-- CINEMATIC INTRO GATEWAY (Full-Screen Edge-to-Edge Fix) -->
+    <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
+      <div class="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+      <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
 
       <!-- Initial Entry Prompt -->
-      <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6">
+      <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6 max-w-lg mx-auto">
         <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
           <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
           <span class="font-mono-tech text-[10px] font-bold tracking-widest text-red-400 uppercase">SECTOR // MDU_DISPATCH</span>
@@ -111,9 +111,9 @@
       </div>
 
       <!-- 3D Video Container -->
-      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center">
+      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center w-full h-[100dvh]">
         <video id="rwnd-intro-video" class="h-full w-full object-cover" playsinline muted autoplay>
-          <source src="https://cdn.shopify.com/videos/c/o/v/8918b1477fce4b87aaacba0810779b7b.mp4">
+          <source src="https://cdn.shopify.com/videos/c/o/v/8918b1477fce4b87aaacba0810779b7b.mp4" type="video/mp4">
         </video>
         <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer">
           SKIP INTRO [ ESC ]
