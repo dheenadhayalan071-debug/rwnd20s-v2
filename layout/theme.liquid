@@ -45,7 +45,7 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
-    <!-- MASTER GOTHIC ATMOSPHERIC STYLES -->
+    <!-- MASTER GOTHIC ATMOSPHERIC & SPOOKY FOG STYLES -->
     <style>
       .foggy-glass {
         background: rgba(12, 12, 12, 0.75) !important;
@@ -58,16 +58,66 @@
         border-color: rgba(220, 38, 38, 0.5);
         box-shadow: 0 15px 50px 0 rgba(138, 3, 3, 0.4);
       }
+
+      /* Spooky Rolling Fog Keyframes */
+      @keyframes fogDriftLeft {
+        0% { transform: translateX(0) scale(1); }
+        50% { transform: translateX(-5%) scale(1.05); }
+        100% { transform: translateX(0) scale(1); }
+      }
+
+      @keyframes eeriePulse {
+        0%, 100% { opacity: 0.2; filter: blur(140px); }
+        50% { opacity: 0.45; filter: blur(110px); }
+      }
+
+      .gothic-fog-layer-1 {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: radial-gradient(circle at 30% 40%, rgba(138, 3, 3, 0.25) 0%, transparent 60%);
+        animation: eeriePulse 8s ease-in-out infinite;
+      }
+
+      .gothic-fog-layer-2 {
+        position: fixed;
+        bottom: 0;
+        left: -20%;
+        width: 140%;
+        height: 60vh;
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(to top, rgba(12, 12, 12, 0.9) 0%, rgba(138, 3, 3, 0.1) 40%, transparent 100%);
+        opacity: 0.6;
+        filter: blur(50px);
+        animation: fogDriftLeft 14s ease-in-out infinite;
+      }
+
+      /* Heavy Industrial Scroll Materialization */
+      .gothic-scroll-reveal {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+
+      .gothic-scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     </style>
   </head>
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- PERMANENT BLOOD MOON ATMOSPHERE BACKGROUND -->
+    <!-- PERMANENT CUSTOM GOTHIC STREET BACKGROUND & FOG LAYERS -->
     <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#450a0a_0%,#030303_75%)] opacity-90"></div>
-      <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-red-800 blur-[160px] opacity-25"></div>
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80"></div>
     </div>
+    <div class="gothic-fog-layer-1"></div>
+    <div class="gothic-fog-layer-2"></div>
 
     <!-- Header Section -->
     {% section 'header' %}
@@ -84,15 +134,6 @@
         <span>RETURN</span>
       </button>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const backBar = document.getElementById('rwnd-sys-back-bar');
-        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
-          backBar.classList.remove('hidden');
-          backBar.classList.add('flex');
-        }
-      });
-    </script>
 
     <!-- Footer Section -->
     <div class="relative z-10">
@@ -105,5 +146,97 @@
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
+    <!-- GLOBAL INTERACTION & SCROLL ANIMATION SCRIPTS -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Back bar visibility
+        const backBar = document.getElementById('rwnd-sys-back-bar');
+        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
+          backBar.classList.remove('hidden');
+          backBar.classList.add('flex');
+        }
+
+        // Mobile Menu Toggle Fix
+        const mobileMenu = document.getElementById('rwnd-mobile-menu');
+        const menuTriggers = document.querySelectorAll('[data-toggle-mobile-menu]');
+        
+        menuTriggers.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (mobileMenu) {
+              const isHidden = mobileMenu.classList.contains('hidden');
+              if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+              } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                document.body.style.overflow = '';
+              }
+            }
+          });
+        });
+
+        // Cart Drawer Open Triggers
+        const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"]');
+        cartTriggers.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const drawer = document.getElementById('rwnd-cart-drawer');
+            if (drawer) {
+              drawer.classList.remove('translate-x-full', 'hidden');
+            } else {
+              window.location.href = '/cart';
+            }
+          });
+        });
+
+        // Spooky Scroll Materialization Observer
+        const spookyElements = document.querySelectorAll('.foggy-glass, article, section > div > div, h1, h2');
+        spookyElements.forEach(el => {
+          el.classList.add('gothic-scroll-reveal');
+        });
+
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+            }
+          });
+        }, { 
+          threshold: 0.08,
+          rootMargin: '0px 0px -50px 0px' 
+        });
+
+        spookyElements.forEach(el => observer.observe(el));
+      });
+
+      // Industrial Toast Notification Helper
+      function showRwndToast(title, message) {
+        const container = document.getElementById('rwnd-toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = "pointer-events-auto flex flex-col rounded-2xl border border-red-900/60 bg-black/90 p-4 text-white shadow-[0_0_30px_rgba(220,38,38,0.4)] backdrop-blur-xl transition-all duration-300 translate-y-4 opacity-0";
+        toast.innerHTML = `
+          <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-1">
+            <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500">✦ ${title}</span>
+            <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
+          </div>
+          <p class="font-mono-tech text-xs text-zinc-300 mt-1">${message}</p>
+        `;
+
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.classList.remove('translate-y-4', 'opacity-0');
+        }, 10);
+
+        setTimeout(() => {
+          toast.classList.add('translate-y-4', 'opacity-0');
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      }
+    </script>
   </body>
 </html>
