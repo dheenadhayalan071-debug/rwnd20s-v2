@@ -6,154 +6,154 @@
 {% endif %}
 
 <!-- 1. D1 Milano-Style Split Stack Hero -->
-<section id="home" class="metallic-chrome-bg relative overflow-hidden border-b border-black/15">
-  <div class="retro-scanlines pointer-events-none absolute inset-0 opacity-30"></div>
-  <div class="mx-auto max-w-[1280px] px-4 pt-6 pb-14 sm:px-6 lg:px-8 lg:py-20">
+<section id="home" class="relative overflow-hidden border-b border-white/10 bg-[#060606]">
+  <div class="mx-auto max-w-7xl px-4 pt-6 pb-14 sm:px-6 lg:px-8 lg:py-20">
     <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
-      <!-- Top on Mobile / Right on Desktop: Studio Spotlight Stage -->
+      
+      <!-- Studio Spotlight Stage (Top on Mobile / Right on Desktop) -->
       <div class="order-1 lg:order-2 lg:col-span-7">
-        <div class="relative mx-auto flex min-h-[340px] w-full max-w-[540px] flex-col items-center justify-center sm:min-h-[420px]">
-          <div class="studio-spotlight-intense pointer-events-none absolute inset-0 rounded-full scale-110"></div>
+        <div class="relative mx-auto flex min-h-[320px] w-full max-w-[540px] flex-col items-center justify-center sm:min-h-[400px]">
+          <div class="studio-spotlight pointer-events-none absolute inset-0 rounded-full scale-110"></div>
 
-          <!-- Stage Slide 0 -->
+          <!-- Stage Slide 0: Cyber Set Bundle -->
           <div data-hero-stage-slide="0" class="relative z-10 flex w-full flex-col items-center">
-            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
-              ★ MOST POPULAR BUNDLE · SAVE ₹1,695
+            <span class="mb-3 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-md">
+              ★ MOST POPULAR BUNDLE · SAVE ₹248
             </span>
-            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[#0F0F0F] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.8)] sm:h-72 sm:w-72">
               {% if archive_collection.products.size > 0 and archive_collection.products.first.featured_image %}
                 <img
                   src="{{ archive_collection.products.first.featured_image | image_url: width: 800 }}"
                   alt="{{ archive_collection.products.first.title | escape }}"
-                  class="h-full w-full rounded-2xl object-contain"
+                  class="h-full w-full rounded-2xl object-cover filter grayscale contrast-125 brightness-95"
                 >
               {% else %}
-                <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
-                  <span class="font-mono-tech text-xs font-bold text-[#52525B]">BUN-01 // 316L STEEL</span>
-                  <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">3-PIECE Y2K CYBER SET</p>
-                  <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Ring + Chain + Bracelet</p>
+                <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black p-6 text-center">
+                  <span class="font-mono-tech text-xs font-bold text-zinc-400">316L ARCHIVE HARDWARE</span>
+                  <p class="mt-2 font-display text-xl font-extrabold text-white uppercase">3-PIECE Y2K CYBER SET</p>
+                  <p class="mt-1 font-mono-tech text-xs text-zinc-400">Ring + Chain + Bracelet</p>
                 </div>
               {% endif %}
             </div>
-            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-[#0F0F0F] px-5 py-2.5 shadow-xl backdrop-blur-md">
               <div class="text-left">
-                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">3-PIECE Y2K CYBER SET</p>
-                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Ring + Chain + Bracelet Included</p>
+                <p class="font-display text-xs font-bold tracking-wider text-white uppercase">3-PIECE Y2K CYBER SET</p>
+                <p class="font-mono-tech text-[11px] text-zinc-400">Ring + Chain + Bracelet Included</p>
               </div>
-              <div class="h-6 w-px bg-black/15"></div>
+              <div class="h-6 w-px bg-white/15"></div>
               <div class="flex items-baseline gap-2">
-                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹1,199</span>
-                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹2,894</span>
+                <span class="font-mono-tech text-sm font-bold text-white">₹1,199</span>
+                <span class="font-mono-tech text-xs text-zinc-500 line-through">₹1,447</span>
               </div>
             </div>
           </div>
 
-          <!-- Stage Slide 1 -->
+          <!-- Stage Slide 1: Pink Chrome Earphones -->
           <div data-hero-stage-slide="1" class="relative z-10 hidden w-full flex-col items-center">
-            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+            <span class="mb-3 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-md">
               LIMITED DROP · ONLY 16 LEFT
             </span>
-            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
-              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
-                <span class="font-mono-tech text-xs font-bold text-[#52525B]">EAR-01 // TYPE-C AUDIO</span>
-                <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">PINK CHROME WIRED EARPHONES</p>
-                <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Direct Type-C Plug + Carry Case</p>
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[#0F0F0F] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.8)] sm:h-72 sm:w-72">
+              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black p-6 text-center">
+                <span class="font-mono-tech text-xs font-bold text-zinc-400">TYPE-C AUDIO HARDWARE</span>
+                <p class="mt-2 font-display text-xl font-extrabold text-white uppercase">PINK CHROME WIRED EARPHONES</p>
+                <p class="mt-1 font-mono-tech text-xs text-zinc-400">Metallic Finish + Carry Case</p>
               </div>
             </div>
-            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-[#0F0F0F] px-5 py-2.5 shadow-xl backdrop-blur-md">
               <div class="text-left">
-                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">PINK CHROME EARPHONES</p>
-                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Type-C Wired Audio + Case</p>
+                <p class="font-display text-xs font-bold tracking-wider text-white uppercase">PINK CHROME EARPHONES</p>
+                <p class="font-mono-tech text-[11px] text-zinc-400">Direct Type-C Plug</p>
               </div>
-              <div class="h-6 w-px bg-black/15"></div>
+              <div class="h-6 w-px bg-white/15"></div>
               <div class="flex items-baseline gap-2">
-                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹999</span>
-                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹2,998</span>
+                <span class="font-mono-tech text-sm font-bold text-white">₹999</span>
+                <span class="font-mono-tech text-xs text-zinc-500 line-through">₹1,499</span>
               </div>
             </div>
           </div>
 
-          <!-- Stage Slide 2 -->
+          <!-- Stage Slide 2: Y2K Watch -->
           <div data-hero-stage-slide="2" class="relative z-10 hidden w-full flex-col items-center">
-            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+            <span class="mb-3 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-md">
               PHASE 2 PRE-ORDER · 10 UNITS
             </span>
-            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
-              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
-                <span class="font-mono-tech text-xs font-bold text-[#52525B]">W-01 // PHASE 2 CHRONO</span>
-                <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">Y2K ANALOG-DIGITAL WATCH</p>
-                <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Brushed 316L Steel Case</p>
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[#0F0F0F] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.8)] sm:h-72 sm:w-72">
+              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black p-6 text-center">
+                <span class="font-mono-tech text-xs font-bold text-zinc-400">ANALOG CHRONOGRAPH</span>
+                <p class="mt-2 font-display text-xl font-extrabold text-white uppercase">Y2K STEEL WATCH</p>
+                <p class="mt-1 font-mono-tech text-xs text-zinc-400">Brushed 316L Stainless Steel</p>
               </div>
             </div>
-            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-[#0F0F0F] px-5 py-2.5 shadow-xl backdrop-blur-md">
               <div class="text-left">
-                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">Y2K WATCH</p>
-                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Analog-Digital Chronograph</p>
+                <p class="font-display text-xs font-bold tracking-wider text-white uppercase">Y2K WATCH</p>
+                <p class="font-mono-tech text-[11px] text-zinc-400">Analog-Digital Hybrid</p>
               </div>
-              <div class="h-6 w-px bg-black/15"></div>
+              <div class="h-6 w-px bg-white/15"></div>
               <div class="flex items-baseline gap-2">
-                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹1,999</span>
-                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹4,998</span>
+                <span class="font-mono-tech text-sm font-bold text-white">₹1,999</span>
+                <span class="font-mono-tech text-xs text-zinc-500 line-through">₹3,499</span>
               </div>
             </div>
           </div>
 
-          <!-- Interactive Stage Switcher Pills -->
-          <div role="tablist" aria-label="Hero hardware showcase switcher" class="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-2">
-            <button role="tab" type="button" data-hero-stage-btn="0" aria-selected="true" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+          <!-- Interactive Switcher Pills -->
+          <div role="tablist" aria-label="Hero showcase switcher" class="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-2">
+            <button role="tab" type="button" data-hero-stage-btn="0" aria-selected="true" class="rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md cursor-pointer transition">
               01 CYBER SET
             </button>
-            <button role="tab" type="button" data-hero-stage-btn="1" aria-selected="false" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+            <button role="tab" type="button" data-hero-stage-btn="1" aria-selected="false" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
               02 PINK CHROME EARPHONES
             </button>
-            <button role="tab" type="button" data-hero-stage-btn="2" aria-selected="false" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+            <button role="tab" type="button" data-hero-stage-btn="2" aria-selected="false" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
               03 Y2K WATCH
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Bottom on Mobile / Left on Desktop: Editorial Copy Stack -->
+      <!-- Editorial Copy Stack (Bottom on Mobile / Left on Desktop) -->
       <div class="order-2 mt-8 flex flex-col items-center text-center lg:order-1 lg:col-span-5 lg:mt-0 lg:items-start lg:text-left">
-        <div class="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-4 py-1.5 shadow-xs">
-          <span class="font-mono-tech text-xs font-bold tracking-widest text-[#09090B] uppercase">
+        <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur-md">
+          <span class="font-mono-tech text-xs font-bold tracking-widest text-white uppercase">
             {{ section.settings.hero_badge }}
           </span>
         </div>
 
-        <h1 class="mt-5 font-display text-4xl leading-[0.98] font-extrabold tracking-tight text-[#09090B] uppercase sm:text-5xl lg:text-6xl">
+        <h1 class="mt-5 font-display text-4xl leading-[0.98] font-extrabold tracking-tight text-white uppercase sm:text-5xl lg:text-6xl">
           <span class="block">{{ section.settings.hero_title_line_1 }}</span>
-          <span class="mt-1 block font-editorial font-normal italic text-[#18181B]">
+          <span class="mt-1 block font-editorial font-normal italic text-zinc-300">
             {{ section.settings.hero_title_line_2 }}
           </span>
         </h1>
 
-        <p class="mt-4 max-w-md text-sm leading-relaxed text-[#27272A] sm:text-base">
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-zinc-400 sm:text-base">
           {{ section.settings.hero_subtitle }}
         </p>
 
         <!-- Drop Countdown Widget -->
-        <div data-testid="drop-countdown" class="mt-5 w-full max-w-md overflow-hidden rounded-2xl border border-black/20 bg-white/85 shadow-md backdrop-blur-md">
-          <div class="retro-window-bar flex items-center justify-between border-b border-black/15 px-3.5 py-2">
-            <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#09090B] uppercase">
-              ⏱ NEXT LIMITED DROP IN
+        <div data-testid="drop-countdown" class="mt-5 w-full max-w-md overflow-hidden rounded-2xl border border-white/15 bg-[#0F0F0F] shadow-xl backdrop-blur-md">
+          <div class="flex items-center justify-between border-b border-white/10 px-3.5 py-2">
+            <span class="font-mono-tech text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
+              ⏱ NEXT LIMITED DROP CLOSING
             </span>
             <div class="flex items-center gap-1.5">
-              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]"></span>
-              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]/50"></span>
-              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]/25"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-white/50"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-white/25"></span>
             </div>
           </div>
           <div class="flex items-center justify-between px-4 py-3">
-            <span class="font-mono-tech text-[11px] font-semibold tracking-wider text-[#27272A] uppercase">
-              BATCH ALLOCATION CLOCK
+            <span class="font-mono-tech text-[11px] font-semibold tracking-wider text-zinc-300 uppercase">
+              BATCH CLOCK
             </span>
-            <div class="flex items-center gap-1.5 font-mono-tech text-sm font-bold tracking-widest text-[#09090B]">
-              <span id="rwnd-countdown-h" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">14H</span>
+            <div class="flex items-center gap-1.5 font-mono-tech text-sm font-bold tracking-widest text-white">
+              <span id="rwnd-countdown-h" class="rounded border border-white/15 bg-white/5 px-2 py-0.5">14H</span>
               <span>:</span>
-              <span id="rwnd-countdown-m" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">28M</span>
+              <span id="rwnd-countdown-m" class="rounded border border-white/15 bg-white/5 px-2 py-0.5">28M</span>
               <span>:</span>
-              <span id="rwnd-countdown-s" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">19S</span>
+              <span id="rwnd-countdown-s" class="rounded border border-white/15 bg-white/5 px-2 py-0.5">19S</span>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@
         <div class="mt-6 w-full sm:w-auto">
           <a
             href="#shop"
-            class="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-black bg-white px-8 py-4 text-xs font-bold tracking-widest text-[#09090B] uppercase shadow-md transition-colors hover:bg-[#09090B] hover:text-white sm:w-auto"
+            class="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-white px-8 py-4 text-xs font-bold tracking-widest text-black uppercase shadow-lg transition-transform active:scale-[0.99] hover:bg-zinc-200 sm:w-auto cursor-pointer"
           >
             <span>SHOP DROP 01 →</span>
           </a>
@@ -171,48 +171,48 @@
   </div>
 </section>
 
-<!-- 2. Drop 01 Archive Section: Category Filter Tabs, Search, Sort & Product Grid -->
-<section id="shop" class="metallic-chrome-bg border-b border-black/15 py-12 sm:py-16">
-  <div class="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+<!-- 2. Drop 01 Archive Section -->
+<section id="shop" class="border-b border-white/10 bg-[#060606] py-12 sm:py-16">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="font-mono-tech text-xs font-bold tracking-widest text-[#3F3F46] uppercase">
+        <p class="font-mono-tech text-xs font-bold tracking-widest text-zinc-400 uppercase">
           02 · LIMITED HARDWARE RELEASE
         </p>
-        <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-[#09090B] uppercase sm:text-3xl">
+        <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-white uppercase sm:text-3xl">
           DROP 01 — ARCHIVE COLLECTION
         </h2>
       </div>
-      <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-[#27272A]">
+      <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-zinc-400">
         SHOWING {% if archive_collection.products.size > 0 %}{{ archive_collection.products.size }}{% else %}7{% endif %} PIECES · FREE SHIPPING ABOVE ₹999
       </p>
     </div>
 
     <!-- Filter & Search Bar -->
-    <div class="mt-6 flex flex-col gap-4 border-y border-black/15 py-4 lg:flex-row lg:items-center lg:justify-between">
-      <div role="tablist" aria-label="Filter products by category" class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0">
-        <button type="button" data-filter-category="all" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+    <div class="mt-6 flex flex-col gap-4 border-y border-white/10 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <div role="tablist" aria-label="Filter category" class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 whitespace-nowrap">
+        <button type="button" data-filter-category="all" class="rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-sm cursor-pointer">
           ALL
         </button>
-        <button type="button" data-filter-category="bundles" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="bundles" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           3-PC CYBER SET
         </button>
-        <button type="button" data-filter-category="audio" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="audio" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           PINK CHROME EARPHONES
         </button>
-        <button type="button" data-filter-category="rings" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="rings" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           Y2K RINGS
         </button>
-        <button type="button" data-filter-category="chains" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="chains" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           CHAINS
         </button>
-        <button type="button" data-filter-category="bracelets" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="bracelets" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           BRACELETS
         </button>
-        <button type="button" data-filter-category="earrings" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="earrings" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           Y2K STUDS
         </button>
-        <button type="button" data-filter-category="watches" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+        <button type="button" data-filter-category="watches" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white cursor-pointer transition">
           Y2K WATCH
         </button>
       </div>
@@ -222,13 +222,13 @@
           id="rwnd-archive-search"
           type="search"
           placeholder="Search watch, pink chrome, ring..."
-          aria-label="Search archive hardware"
-          class="w-full rounded-full border border-black/20 bg-white py-2 px-4 text-xs text-[#09090B] placeholder-[#71717A] focus:border-[#09090B] focus:outline-none sm:w-64"
+          aria-label="Search archive"
+          class="w-full rounded-full border border-white/15 bg-white/5 py-2 px-4 text-xs text-white placeholder-zinc-500 focus:border-white focus:outline-none sm:w-64"
         >
         <select
           id="rwnd-archive-sort"
-          aria-label="Sort archive products"
-          class="rounded-full border border-black/20 bg-white py-2 px-4 font-mono-tech text-xs font-bold text-[#09090B] focus:border-[#09090B] focus:outline-none cursor-pointer"
+          aria-label="Sort products"
+          class="rounded-full border border-white/15 bg-[#0F0F0F] py-2 px-4 font-mono-tech text-xs font-bold text-white focus:border-white focus:outline-none cursor-pointer"
         >
           <option value="featured">Sort: Featured</option>
           <option value="price-asc">Price: Low to High</option>
@@ -237,7 +237,7 @@
       </div>
     </div>
 
-    <!-- Product Grid: Dynamic Shopify Loop with 0-Product Onboarding Fallback -->
+    <!-- Product Grid -->
     <div id="rwnd-product-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {% if archive_collection.products.size > 0 %}
         {% for product in archive_collection.products %}
@@ -257,31 +257,27 @@
             data-image="{{ product.featured_image | image_url: width: 800 }}"
             data-variant-id="{{ default_variant.id }}"
             data-url="{{ product.url }}"
-            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-black/15 bg-white transition-all duration-300 hover:border-[#09090B] shadow-sm"
+            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/15 bg-[#0F0F0F] transition-all duration-300 hover:border-white/40 shadow-xl"
           >
-            <div class="relative aspect-square w-full overflow-hidden border-b border-black/10 bg-[#D4D8E0]">
+            <div class="relative aspect-square w-full overflow-hidden border-b border-white/10 bg-black">
               <a href="{{ product.url }}" class="block h-full w-full">
                 {% if product.featured_image %}
                   <img
                     src="{{ product.featured_image | image_url: width: 800 }}"
                     alt="{{ product.featured_image.alt | default: product.title | escape }}"
                     loading="lazy"
-                    class="h-full w-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
+                    class="h-full w-full object-cover p-4 transition-transform duration-500 group-hover:scale-105 filter grayscale contrast-125 brightness-95"
                   >
-                {% endif %}
-                {% if product.images[1] %}
-                  <img
-                    src="{{ product.images[1] | image_url: width: 800 }}"
-                    alt="{{ product.title | escape }} alternate view"
-                    loading="lazy"
-                    class="absolute inset-0 h-full w-full object-cover p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  >
+                {% else %}
+                  <div class="flex h-full w-full items-center justify-center p-6 text-center">
+                    <span class="font-mono-tech text-xs font-bold text-zinc-400 uppercase">{{ product.title }}</span>
+                  </div>
                 {% endif %}
               </a>
 
               <div class="pointer-events-none absolute top-3.5 left-3.5 flex flex-wrap gap-1.5">
                 {% if product.compare_at_price > product.price %}
-                  <span class="rounded-full border border-black/15 bg-white px-2.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+                  <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-md">
                     SAVE {{ savings | money }}
                   </span>
                 {% endif %}
@@ -290,29 +286,28 @@
               <button
                 type="button"
                 data-toggle-wishlist
-                aria-label="Save {{ product.title | escape }} to wishlist"
-                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-[#09090B] shadow-xs transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
-              >♥
-              </button>
+                aria-label="Save to wishlist"
+                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-black cursor-pointer"
+              >♥</button>
             </div>
 
-            <div class="flex flex-1 flex-col justify-between p-5">
+             <div class="flex flex-1 flex-col justify-between p-5">
               <div>
-                <h3 class="font-display text-lg font-extrabold tracking-wide text-[#09090B] uppercase">
+                <h3 class="font-display text-lg font-extrabold tracking-wide text-white uppercase">
                   <a href="{{ product.url }}">{{ product.title }}</a>
                 </h3>
-                <p class="mt-1 text-xs text-[#3F3F46]">
+                <p class="mt-1 text-xs text-zinc-400">
                   {{ product.type | default: 'Solid 316L Stainless Steel Hardware' }}
                 </p>
               </div>
 
-              <div class="mt-5 border-t border-black/10 pt-4">
+              <div class="mt-5 border-t border-white/10 pt-4">
                 <div class="flex flex-wrap items-baseline gap-2">
-                  <span class="font-mono-tech text-xl font-bold text-[#09090B]">
+                  <span class="font-mono-tech text-xl font-bold text-white">
                     {{ product.price | money }}
                   </span>
                   {% if product.compare_at_price > product.price %}
-                    <span class="font-mono-tech text-xs text-[#52525B] line-through">
+                    <span class="font-mono-tech text-xs text-zinc-500 line-through">
                       {{ product.compare_at_price | money }}
                     </span>
                   {% endif %}
@@ -323,26 +318,24 @@
                     type="button"
                     data-add-to-cart
                     variant-id="{{ default_variant.id }}"
-                    class="flex flex-1 items-center justify-center gap-2 rounded-full border border-black bg-[#09090B] px-5 py-3 text-xs font-bold tracking-wider text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] cursor-pointer"
+                    class="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-bold tracking-wider text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer"
                   >
-                    <span>{{ 'products.product.add_to_cart' | t }}</span>
+                    <span>ADD TO BAG +</span>
                   </button>
                   <button
                     type="button"
                     data-open-quick-view
-                    aria-label="Quick view {{ product.title | escape }}"
-                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/20 bg-white text-[#09090B] transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
-                  >
-                    👁
-                  </button>
+                    aria-label="Quick view"
+                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer"
+                  >👁</button>
                 </div>
               </div>
             </div>
           </article>
         {% endfor %}
       {% else %}
-        <!-- Onboarding Fallback Cards (Doubled Stash Prices Preserved) when Store Has 0 Products -->
-        {% assign onboarding_items = "3-PIECE Y2K CYBER SET|Ring + Chain + Bracelet Included|bundles|119900|₹1,199|₹2,894|SAVE ₹1,695|101::CYBER SIGNET RING|Chunky 316L Stainless Steel Signet Ring|rings|34900|₹349|₹998|SAVE ₹649|102::HEAVY CHAIN + PENDANT|Heavy 316L Stainless Steel Chain & Y2K Pendant|chains|54900|₹549|₹1,598|SAVE ₹1,049|103::CHAIN BRACELET|Industrial 316L Stainless Steel Link Bracelet|bracelets|54900|₹549|₹1,598|SAVE ₹1,049|104::PINK CHROME WIRED EARPHONES (TYPE-C)|Metallic Pink Chrome Finish · Direct Type-C Plug + Carry Case|audio|99900|₹999|₹2,998|SAVE ₹1,999|105::Y2K CYBER STUDS|Minimalist Silver Cyber Metallic Studs|earrings|29900|₹299|₹898|SAVE ₹599|106::Y2K WATCH|Analog-Digital Brushed Steel Chronograph|watches|199900|₹1,999|₹4,998|SAVE ₹2,999|107" | split: "::" %}
+        <!-- Onboarding Fallback Cards (Obsidian Dark Luxury Edition) -->
+        {% assign onboarding_items = "3-PIECE Y2K CYBER SET|Ring + Chain + Bracelet Included|bundles|119900|₹1,199|₹1,447|SAVE ₹248|101::CYBER SIGNET RING|Chunky 316L Stainless Steel Signet Ring|rings|34900|₹349|₹499|SAVE ₹150|102::HEAVY CHAIN + PENDANT|Heavy 316L Stainless Steel Chain & Y2K Pendant|chains|54900|₹549|₹799|SAVE ₹250|103::CHAIN BRACELET|Industrial 316L Stainless Steel Link Bracelet|bracelets|54900|₹549|₹799|SAVE ₹250|104::PINK CHROME WIRED EARPHONES (TYPE-C)|Metallic Pink Chrome Finish · Direct Type-C Plug + Carry Case|audio|99900|₹999|₹1,499|SAVE ₹500|105::Y2K CYBER STUDS|Minimalist Silver Cyber Metallic Studs|earrings|29900|₹299|₹449|SAVE ₹150|106::Y2K WATCH|Analog-Digital Brushed Steel Chronograph|watches|199900|₹1,999|₹3,499|SAVE ₹1,500|107" | split: "::" %}
         {% for raw_item in onboarding_items %}
           {% assign parts = raw_item | split: "|" %}
           <article
@@ -359,35 +352,33 @@
             data-image=""
             data-variant-id="{{ parts[7] }}"
             data-url="#shop"
-            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-black/15 bg-white transition-all duration-300 hover:border-[#09090B] shadow-sm"
+            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/15 bg-[#0F0F0F] transition-all duration-300 hover:border-white/40 shadow-xl"
           >
-            <div class="relative flex aspect-square w-full flex-col items-center justify-center overflow-hidden border-b border-black/10 bg-[#D4D8E0] p-6 text-center">
-              <span class="rounded-full border border-black/15 bg-white px-3 py-1 font-mono-tech text-[10px] font-bold text-[#09090B] uppercase">
+            <div class="relative flex aspect-square w-full flex-col items-center justify-center overflow-hidden border-b border-white/10 bg-black p-6 text-center">
+              <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 font-mono-tech text-[10px] font-bold text-white uppercase backdrop-blur-md">
                 {{ parts[6] }}
               </span>
-              <p class="mt-4 font-display text-lg font-extrabold text-[#09090B] uppercase">{{ parts[0] }}</p>
-              <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">{{ parts[1] }}</p>
+              <p class="mt-4 font-display text-lg font-extrabold text-white uppercase">{{ parts[0] }}</p>
+              <p class="mt-1 font-mono-tech text-xs text-zinc-400">{{ parts[1] }}</p>
               <button
                 type="button"
                 data-toggle-wishlist
-                aria-label="Save {{ parts[0] }} to wishlist"
-                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-[#09090B] shadow-xs transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
-              >
-                ♥
-              </button>
+                aria-label="Save to wishlist"
+                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-black cursor-pointer"
+              >♥</button>
             </div>
 
             <div class="flex flex-1 flex-col justify-between p-5">
               <div>
-                <h3 class="font-display text-lg font-extrabold tracking-wide text-[#09090B] uppercase">{{ parts[0] }}</h3>
-                <p class="mt-1 text-xs text-[#3F3F46]">{{ parts[1] }}</p>
+                <h3 class="font-display text-lg font-extrabold tracking-wide text-white uppercase">{{ parts[0] }}</h3>
+                <p class="mt-1 text-xs text-zinc-400">{{ parts[1] }}</p>
               </div>
 
-              <div class="mt-5 border-t border-black/10 pt-4">
+              <div class="mt-5 border-t border-white/10 pt-4">
                 <div class="flex flex-wrap items-baseline gap-2">
-                  <span class="font-mono-tech text-xl font-bold text-[#09090B]">{{ parts[4] }}</span>
-                  <span class="font-mono-tech text-xs text-[#52525B] line-through">{{ parts[5] }}</span>
-                  <span class="rounded border border-black/15 bg-[#EEF0F4] px-2 py-0.5 font-mono-tech text-[10px] font-bold text-[#09090B] uppercase">
+                  <span class="font-mono-tech text-xl font-bold text-white">{{ parts[4] }}</span>
+                  <span class="font-mono-tech text-xs text-zinc-500 line-through">{{ parts[5] }}</span>
+                  <span class="rounded border border-white/15 bg-white/5 px-2 py-0.5 font-mono-tech text-[10px] font-bold text-white uppercase">
                     {{ parts[6] }}
                   </span>
                 </div>
@@ -397,18 +388,16 @@
                     type="button"
                     data-add-to-cart
                     variant-id="{{ parts[7] }}"
-                    class="flex flex-1 items-center justify-center gap-2 rounded-full border border-black bg-[#09090B] px-5 py-3 text-xs font-bold tracking-wider text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] cursor-pointer"
+                    class="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-bold tracking-wider text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer"
                   >
                     <span>ADD TO BAG +</span>
                   </button>
                   <button
                     type="button"
                     data-open-quick-view
-                    aria-label="Quick view {{ parts[0] }}"
-                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/20 bg-white text-[#09090B] transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
-                  >
-                    👁
-                  </button>
+                    aria-label="Quick view"
+                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer"
+                  >👁</button>
                 </div>
               </div>
             </div>
