@@ -71,6 +71,33 @@
         to { background-position: 0 0, 0 0, 0 42px; }
       }
     </style>
+
+  /* Foggy Glassmorphism Card Style */
+  .foggy-glass {
+    background: rgba(6, 6, 6, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+  }
+  .foggy-glass:hover {
+    border-color: rgba(220, 38, 38, 0.4);
+    box-shadow: 0 12px 40px 0 rgba(138, 3, 3, 0.3);
+  }
+
+  /* Drifting Fog Animation for Product Cards / Tabs */
+  @keyframes fogDrift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .fog-overlay {
+    background: linear-gradient(120deg, rgba(255,255,255,0.03) 0%, rgba(138,3,3,0.05) 50%, rgba(255,255,255,0.02) 100%);
+    background-size: 200% 200%;
+    animation: fogDrift 8s ease infinite;
+  }
+</style>
+
   </head>
 
   <!-- Removed solid background colors so the permanent 3D road is visible behind the store -->
