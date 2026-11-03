@@ -1,0 +1,113 @@
+<!-- sections/intro-gateway.liquid -->
+<div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000">
+  
+  <!-- Atmospheric Background Glow -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
+
+  <!-- Initial Entry Screen (Pre-Click) -->
+  <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6">
+    <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+      <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
+      <span class="font-mono-tech text-[10px] font-bold tracking-widest text-red-400 uppercase">SECTOR // MDU_DISPATCH</span>
+    </div>
+
+    <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-white drop-shadow-2xl">
+      rwnd20s<span class="text-red-600">.</span>
+    </h1>
+
+    <p class="font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-sm">
+      Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.
+    </p>
+
+    <button type="button" id="rwnd-trigger-intro" class="group relative inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold tracking-widest text-red-200 uppercase shadow-[0_0_30px_rgba(220,38,38,0.4)] backdrop-blur-xl transition-all hover:bg-red-900 hover:text-white cursor-pointer active:scale-95">
+      <span>[ ENTER THE ARCHIVE ]</span>
+      <span class="text-red-500 group-hover:translate-x-1 transition-transform">→</span>
+    </button>
+  </div>
+
+  <!-- 3D Video Container (Hidden until entry is clicked) -->
+  <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center">
+    <video id="rwnd-intro-video" class="h-full w-full object-cover" playsinline muted autoplay>
+      <!-- Replace with your actual hosted 3D video URL or section setting -->
+      <source src="{{ section.settings.intro_video_url | default: 'https://cdn.shopify.com/videos/c/o/v/example-placeholder.mp4' }}" type="video/mp4">
+    </video>
+    
+    <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer">
+      SKIP INTRO [ ESC ]
+    </button>
+  </div>
+
+</div>
+
+<!-- Gateway & Welcome Email Popup Logic -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('rwnd-gateway-splash');
+    const triggerBtn = document.getElementById('rwnd-trigger-intro');
+    const videoContainer = document.getElementById('rwnd-video-container');
+    const introVideo = document.getElementById('rwnd-intro-video');
+    const skipBtn = document.getElementById('rwnd-skip-video');
+    const promptBox = document.getElementById('rwnd-entry-prompt');
+
+    // Check if user already saw intro this session
+    if (sessionStorage.getItem('rwnd_intro_seen') === 'true') {
+      if (splash) splash.remove();
+      return;
+    }
+
+    triggerBtn?.addEventListener('click', () => {
+      promptBox.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+      setTimeout(() => {
+        promptBox.classList.add('hidden');
+        videoContainer.classList.remove('hidden');
+        videoContainer.classList.add('flex');
+        introVideo.play().catch(() => {
+          // Fallback if autoplay is restricted
+          dismissGateway();
+        });
+      }, 500);
+    });
+
+    introVideo?.addEventListener('ended', () => {
+      dismissGateway();
+    });
+
+    skipBtn?.addEventListener('click', () => {
+      dismissGateway();
+    });
+
+    function dismissGateway() {
+      sessionStorage.setItem('rwnd_intro_seen', 'true');
+      if (introVideo) introVideo.pause();
+      
+      splash.classList.add('opacity-0');
+      setTimeout(() => {
+        splash.remove();
+        // Trigger Welcome Popup after gateway clears
+        if (typeof window.showRwndWelcomeModal === 'function') {
+          window.showRwndWelcomeModal();
+        }
+      }, 1000);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cinematic Intro Gateway",
+  "settings": [
+    {
+      "type": "text",
+      "id": "intro_video_url",
+      "label": "3D Video MP4 URL",
+      "info": "Upload your 3D video to Shopify Files and paste the CDN link here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cinematic Intro Gateway"
+    }
+  ]
+}
+{% endschema %}
