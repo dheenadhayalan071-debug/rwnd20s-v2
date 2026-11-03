@@ -45,7 +45,7 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
-    <!-- MASTER GOTHIC ATMOSPHERIC STYLES -->
+    <!-- MASTER GOTHIC ATMOSPHERIC & GLASSMORPHISM STYLES -->
     <style>
       html, body {
         max-width: 100vw;
@@ -53,21 +53,22 @@
         background-color: #030303 !important;
       }
 
+      /* Premium Gothic Glassmorphism */
       .foggy-glass {
-        background: rgba(12, 12, 12, 0.85) !important;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.85);
+        background: rgba(10, 10, 10, 0.75) !important;
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 16px 50px 0 rgba(0, 0, 0, 0.9), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
       }
       .foggy-glass:hover {
-        border-color: rgba(220, 38, 38, 0.5);
-        box-shadow: 0 15px 50px 0 rgba(138, 3, 3, 0.4);
+        border-color: rgba(220, 38, 38, 0.6);
+        box-shadow: 0 20px 60px 0 rgba(138, 3, 3, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
       }
 
       @keyframes eeriePulse {
-        0%, 100% { opacity: 0.3; filter: blur(140px); }
-        50% { opacity: 0.6; filter: blur(100px); }
+        0%, 100% { opacity: 0.35; filter: blur(130px); }
+        50% { opacity: 0.65; filter: blur(90px); }
       }
 
       .gothic-fog-layer {
@@ -75,18 +76,18 @@
         inset: 0;
         z-index: -1;
         pointer-events: none;
-        background: radial-gradient(circle at 50% 30%, rgba(138, 3, 3, 0.35) 0%, transparent 70%);
-        animation: eeriePulse 7s ease-in-out infinite;
+        background: radial-gradient(circle at 50% 25%, rgba(138, 3, 3, 0.4) 0%, transparent 65%);
+        animation: eeriePulse 6s ease-in-out infinite;
       }
     </style>
   </head>
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-    <!-- VIVID CUSTOM GOTHIC STREET BACKGROUND (Fully Visible & Striking) -->
+    <!-- VIVID STRIKING GOTHIC BACKGROUND -->
     <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90 filter contrast-110" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-[#030303]/40"></div>
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-95 filter contrast-125 brightness-90" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent"></div>
     </div>
     <div class="gothic-fog-layer"></div>
 
@@ -145,7 +146,7 @@
       {% section 'footer' %}
     </div>
 
-    <!-- SLIDE-OUT CART DRAWER (Checkout pinned firmly to the bottom with zero dead space) -->
+    <!-- SLIDE-OUT CART DRAWER (Strictly Pinned Bottom Checkout) -->
     <div id="rwnd-cart-drawer" class="fixed inset-0 z-[100] hidden justify-end bg-black/85 backdrop-blur-md transition-opacity">
       <div class="w-full max-w-md h-full bg-[#060606] border-l border-red-900/40 p-5 flex flex-col justify-between text-white shadow-2xl">
         
@@ -208,7 +209,7 @@
     <!-- Toast Container -->
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- GLOBAL INTERACTION SCRIPTS -->
+    <!-- ROBUST GLOBAL INTERACTION SCRIPTS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const backBar = document.getElementById('rwnd-sys-back-bar');
@@ -216,6 +217,7 @@
           backBar.classList.remove('hidden');
         }
 
+        // Mobile Menu Toggles
         const mobileMenu = document.getElementById('rwnd-mobile-menu');
         const menuTriggers = document.querySelectorAll('[data-toggle-mobile-menu]');
         
@@ -237,8 +239,9 @@
           });
         });
 
+        // Cart Drawer Interception (Hooks into standard Shopify cart icons & triggers)
         const cartDrawer = document.getElementById('rwnd-cart-drawer');
-        const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"]');
+        const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"], a[href="/cart"], .cart-count-bubble, [id*="cart"]');
         const closeCartBtn = document.querySelector('[data-close-cart]');
 
         cartTriggers.forEach(btn => {
