@@ -111,3 +111,77 @@
   "settings": []
 }
 {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('rwnd-archive-search');
+  const sortSelect = document.getElementById('rwnd-archive-sort');
+  const filterButtons = document.querySelectorAll('[data-filter-category]');
+  const productGrid = document.getElementById('rwnd-product-grid');
+  const productCards = Array.from(productGrid ? productGrid.querySelectorAll('[data-product-card]') : []);
+  const showingCount = document.getElementById('rwnd-showing-count');
+
+  let activeCategory = 'all';
+  let searchTerm = '';
+  let sortBy = 'featured';
+
+  function filterAndSortProducts() {
+    if (!productGrid) return;
+    let visibleCount = 0;
+
+    productCards.forEach(card => {
+      const category = card.getAttribute('data-category') || '';
+      const tags = card.getAttribute('data-tags') || '';
+      const title = (card.getAttribute('data-title') || '').toLowerCase();
+
+      const matchesCategory = (activeCategory === 'all') || (category.includes(activeCategory)) || (tags.includes(activeCategory));
+      const matchesSearch = title.includes(searchTerm);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const visibleCards = productCards.filter(card => card.style.display !== 'none');
+    visibleCards.sort((a, b) => {
+      const priceA = parseFloat(a.getAttribute('data-price')) || 0;
+      const priceB = parseFloat(b.getAttribute('data-price')) || 0;
+      if (sortBy === 'price-asc') return priceA - priceB;
+      if (sortBy === 'price-desc') return priceB - priceA;
+      return 0;
+    });
+
+    visibleCards.forEach(card => productGrid.appendChild(card));
+    if (showingCount) {
+      showingCount.textContent = `SHOWING ${visibleCount} PIECES · FREE SHIPPING ABOVE ₹999`;
+    }
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    searchTerm = e.target.value.toLowerCase().trim();
+    filterAndSortProducts();
+  });
+
+  sortSelect?.addEventListener('change', (e) => {
+    sortBy = e.target.value;
+    filterAndSortProducts();
+  });
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => {
+        b.setAttribute('aria-selected', 'false');
+        b.className = "rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer";
+      });
+      btn.setAttribute('aria-selected', 'true');
+      btn.className = "rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer";
+
+      activeCategory = btn.getAttribute('data-filter-category');
+      filterAndSortProducts();
+    });
+  });
+});
+</script>
