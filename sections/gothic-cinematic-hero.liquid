@@ -1,0 +1,144 @@
+<!-- sections/gothic-cinematic-hero.liquid -->
+<style>
+  /* Scoped Animations & Styles for Gothic Cinematic Hero */
+  @keyframes driveRoad {
+    from { background-position: 0 0, 0 0, 0 0; }
+    to { background-position: 0 0, 0 0, 0 45px; }
+  }
+
+  .gothic-road-anim {
+    transform-origin: bottom center;
+    transform: perspective(50vh) rotateX(72deg);
+    background-image: 
+      linear-gradient(to top, rgba(3,3,3,1) 15%, transparent 100%),
+      linear-gradient(to right, rgba(0,0,0,0) 49%, #8a0303 49%, #8a0303 51%, rgba(0,0,0,0) 51%),
+      repeating-linear-gradient(to bottom, transparent 0, transparent 40px, #ff1a1a 40px, #ff1a1a 43px);
+    background-size: 100% 100%, 100% 100%, 100% 43px;
+    animation: driveRoad 0.4s linear infinite;
+  }
+
+  .gothic-foggy-card {
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8);
+  }
+
+  @keyframes fogDriftLoop {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .gothic-fog-layer {
+    background: linear-gradient(120deg, rgba(255,255,255,0.04) 0%, rgba(138,3,3,0.08) 50%, rgba(255,255,255,0.03) 100%);
+    background-size: 200% 200%;
+    animation: fogDriftLoop 7s ease infinite;
+  }
+</style>
+
+<!-- PERMANENT BACKGROUND ROAD CONTAINER (Active across the page) -->
+<div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,#2a0000_0%,#030303_75%)] opacity-100"></div>
+  <div class="absolute top-[2%] left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-red-800 blur-[140px] opacity-35"></div>
+  <div class="absolute bottom-0 w-[200vw] h-[55vh] left-1/2 -translate-x-1/2 gothic-road-anim opacity-55"></div>
+</div>
+
+<!-- CINEMATIC INTRO OVERLAY -->
+<div id="rwnd-cinematic-intro" class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#4a0000_0%,#030303_70%)] opacity-90 pointer-events-none" id="hero-fog"></div>
+  <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-red-600 blur-[80px] opacity-70 animate-pulse pointer-events-none"></div>
+  <div class="absolute bottom-0 w-[200vw] h-[65vh] left-1/2 -translate-x-1/2 gothic-road-anim opacity-85"></div>
+  
+  <div class="relative z-10 flex flex-col items-center text-center px-6 transition-opacity duration-500" id="hero-content">
+    <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-4">{{ section.settings.subheading | escape }}</p>
+    <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_50px_rgba(220,38,38,0.7)]">
+      {{ section.settings.heading_line_1 }} <br><span class="text-red-600">{{ section.settings.heading_line_2 }}</span>
+    </h1>
+    <p class="mt-4 text-xs text-zinc-300 max-w-sm leading-relaxed tracking-wider">
+      {{ section.settings.description | escape }}
+    </p>
+    <button id="rwnd-hero-enter-btn" type="button" class="mt-8 group relative inline-flex items-center gap-3 rounded-full border border-red-900/60 bg-black/80 backdrop-blur-xl px-10 py-4 text-[11px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] cursor-pointer active:scale-95">
+      <span>{{ section.settings.button_text | escape }}</span>
+    </button>
+  </div>
+
+  <div class="absolute bottom-6 w-full px-8 flex justify-between items-center text-[9px] text-zinc-500 tracking-widest uppercase transition-opacity duration-500" id="hero-ticker">
+    <span>LOC: MADURAI_TN</span>
+    <span>VISIBILITY: ZERO</span>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const introOverlay = document.getElementById('rwnd-cinematic-intro');
+  const enterBtn = document.getElementById('rwnd-hero-enter-btn');
+  const heroContent = document.getElementById('hero-content');
+  const heroTicker = document.getElementById('hero-ticker');
+  const heroFog = document.getElementById('hero-fog');
+
+  if (sessionStorage.getItem('rwnd_cinematic_played') === 'true') {
+    if (introOverlay) introOverlay.remove();
+    return;
+  }
+
+  enterBtn?.addEventListener('click', () => {
+    sessionStorage.setItem('rwnd_cinematic_played', 'true');
+    
+    heroContent.style.opacity = '0';
+    heroTicker.style.opacity = '0';
+    heroFog.style.opacity = '0';
+    
+    introOverlay.style.transition = 'all 3s cubic-bezier(0.7, 0, 0.2, 1)';
+    introOverlay.style.transform = 'scale(4) translateY(15%)';
+    introOverlay.style.filter = 'blur(20px) brightness(1.8)';
+    introOverlay.style.opacity = '0';
+    introOverlay.style.pointerEvents = 'none';
+    
+    setTimeout(() => { introOverlay.remove(); }, 3000);
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Gothic Cinematic Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "ATMOSPHERE: MIDNIGHT"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading Line 1",
+      "default": "THE NIGHT"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading Line 2",
+      "default": "CALLS"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description Text",
+      "default": "Heavy 316L hardware engineered for the dark road."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "DESCEND INTO ARCHIVE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gothic Cinematic Hero"
+    }
+  ]
+}
+{% endschema %}
