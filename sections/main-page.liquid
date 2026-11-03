@@ -1,43 +1,50 @@
-<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
-  <div class="mx-auto max-w-4xl">
+<!-- sections/main-page.liquid -->
+<div class="relative w-full min-h-screen bg-transparent text-[#E9E3D5] py-16 px-4 sm:px-6 lg:px-12 font-mono-tech">
+  <div class="max-w-4xl mx-auto">
+    
     <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
+    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-zinc-400">
       <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li><a href="/" class="hover:text-white transition-colors">BASE</a></li>
         <li>/</li>
-        <li class="text-[#09090B] font-bold">{{ page.title }}</li>
+        <li class="text-white font-bold">{{ page.title }}</li>
       </ol>
     </nav>
 
-    <!-- Page Container -->
-    <div class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-12 shadow-2xl">
-      <div class="border-b border-[#09090B]/10 pb-6 mb-8">
-        <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-3 py-1 rounded-full">
+    <!-- Page Container with Smoky Frosted Glass -->
+    <div class="rounded-3xl border border-white/12 foggy-glass p-6 sm:p-12 shadow-2xl relative overflow-hidden">
+      
+      <!-- Subtle Crimson Glow inside Card -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+      <div class="border-b border-white/10 pb-6 mb-8 relative z-10">
+        <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest bg-red-950 text-red-200 px-3 py-1 rounded-full border border-red-800/50">
           OFFICIAL ARCHIVE DOC
         </span>
-        <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#09090B] mt-3">
+        <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white mt-3 drop-shadow-md">
           {{ page.title }}
         </h1>
       </div>
 
       <!-- Page Content Body -->
-      <div class="prose font-mono-tech text-xs sm:text-sm text-[#3F3F46] leading-relaxed space-y-4">
+      <div class="prose font-mono-tech text-xs sm:text-sm text-zinc-300 leading-relaxed space-y-4 relative z-10">
         {% if page.content != blank %}
           {{ page.content }}
         {% else %}
-          <p>No content specified for this page spec yet.</p>
+          <p class="text-zinc-500">No content specified for this page spec yet.</p>
         {% endif %}
       </div>
 
       <!-- Footer Navigation -->
-      <div class="mt-12 pt-6 border-t border-[#09090B]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
+      <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+        <a href="/" class="rounded-full border border-red-900/60 bg-black/80 px-6 py-3 font-mono-tech text-xs font-bold text-red-100 uppercase tracking-wider hover:bg-red-900 hover:text-white transition-all backdrop-blur-md">
           RETURN TO STOREFRONT BASE
         </a>
-        <a href="/collections/all" class="rounded-full border border-[#09090B]/20 bg-white px-6 py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
+        <a href="/collections/all" class="rounded-full border border-white/20 bg-white/5 px-6 py-3 font-mono-tech text-xs font-bold text-[#E9E3D5] uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all backdrop-blur-md">
           EXPLORE DROP 01 HARDWARE
         </a>
       </div>
+
     </div>
   </div>
 </div>
