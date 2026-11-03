@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartTotalEl) cartTotalEl.textContent = formatMoneyINR(finalTotalPaise);
   }
 
-  async function addItemToShopifyCart(variantId, quantity = 1) {
+    async function addItemToShopifyCart(variantId, quantity = 1) {
     try {
       const response = await fetch('/cart/add.js', {
         method: 'POST',
@@ -322,17 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
         await fetchCartState();
-        openCartDrawer('bag');
-        showToast('ADDED TO HARDWARE BAG', 'Artifact synced with Shopify Cart.');
+        // Discreet toast notification allowing the user to keep shopping
+        showToast('ADDED TO HARDWARE BAG', 'Artifact synced. Continue shopping or open bag when ready.');
       } else {
-        openCartDrawer('bag');
         showToast('BAG UPDATED', 'Artifact added to bag preview.');
       }
     } catch {
-      openCartDrawer('bag');
       showToast('BAG UPDATED', 'Artifact added to bag preview.');
     }
-  }
+    }
 
   async function updateShopifyCartItem(lineKey, quantity) {
     try {
