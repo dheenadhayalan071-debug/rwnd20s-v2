@@ -45,7 +45,7 @@
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
     
-    <!-- MASTER CINEMATIC STYLES -->
+    <!-- MASTER GOTHIC CINEMATIC STYLES -->
     <style>
       /* Cinematic High-End 3D Midnight Highway */
       .goth-highway-3d {
@@ -63,9 +63,9 @@
         to { background-position: 0 0, 0 0, 0 54px; }
       }
 
-      /* Foggy Glassmorphism Cards */
+      /* Foggy Glassmorphism Cards & Containers */
       .foggy-glass {
-        background: rgba(8, 8, 8, 0.7) !important;
+        background: rgba(10, 10, 10, 0.75) !important;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -87,7 +87,7 @@
       <div class="absolute bottom-0 w-[200vw] h-[60vh] left-1/2 -translate-x-1/2 goth-highway-3d opacity-50"></div>
     </div>
 
-    <!-- CINEMATIC INTRO OVERLAY (Guaranteed full-screen cover) -->
+    <!-- CINEMATIC INTRO OVERLAY (Strictly covers everything at absolute top layer z-[99999]) -->
     <div id="rwnd-night-intro" class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
       
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#5a0000_0%,#030303_70%)] opacity-95 pointer-events-none" id="intro-fog"></div>
