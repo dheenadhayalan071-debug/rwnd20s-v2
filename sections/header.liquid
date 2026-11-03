@@ -1,62 +1,62 @@
-<!-- sections/header.liquid -->
-<div class="w-full border-b border-[#09090B]/15 bg-white/85 px-4 py-2 text-center backdrop-blur-sm">
-  <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-3">
-    <p class="font-mono-tech text-[11px] font-bold tracking-widest text-[#09090B] uppercase">
+<!-- Top Announcement Bar -->
+<div class="w-full border-b border-white/10 bg-[#060606] px-3 py-2 text-center">
+  <div class="mx-auto flex max-w-7xl items-center justify-center gap-3">
+    <p class="font-mono-tech text-[10px] sm:text-[11px] font-medium tracking-[0.16em] text-zinc-300 uppercase truncate">
       {{ section.settings.announcement_text }}
     </p>
     <button
       id="rwnd-open-welcome-popup"
       type="button"
-      class="inline-flex items-center gap-1 rounded-full border border-[#09090B]/30 bg-white px-2.5 py-0.5 font-mono-tech text-[10px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+      class="hidden md:inline-flex items-center rounded-full border border-white/20 bg-white/5 px-2.5 py-0.5 font-mono-tech text-[10px] font-semibold tracking-wider text-white uppercase transition hover:bg-white hover:text-black cursor-pointer shrink-0"
     >
-      GET 5% NOW + 10% NEXT ORDER
+      + 5% OFF PASS
     </button>
   </div>
 </div>
 
-<header class="sticky top-0 z-40 border-b border-[#09090B]/15 bg-[#DCDFE5]/90 backdrop-blur-md">
-  <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-4 py-3.5 sm:px-6 lg:px-8">
-    <!-- Left: Official rwnd20s. Wordmark -->
+<!-- Sticky Obsidian Header -->
+<header class="sticky top-0 z-40 border-b border-white/10 bg-[#060606]/90 backdrop-blur-xl">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+    
+    <!-- Left: Clean Typographic Wordmark -->
     <a
       href="{{ routes.root_url }}"
-      aria-label="{{ shop.name | default: 'rwnd20s.' }} Home"
-      class="inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 transition-opacity hover:opacity-90"
+      aria-label="{{ shop.name | default: 'rwnd20s.' }}"
+      class="inline-flex items-center whitespace-nowrap shrink-0 transition-opacity hover:opacity-80"
     >
-      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/25 bg-[#09090B] font-mono-tech text-[10px] font-bold text-white shadow-xs">
-        ⏪
-      </span>
-      <span class="font-display text-xl font-extrabold tracking-tight text-[#09090B]">
+      <span class="font-display text-xl sm:text-2xl font-extrabold tracking-tighter text-white">
         {{ settings.brand_name | default: 'rwnd20s.' }}
       </span>
     </a>
 
-    <!-- Center Navigation (Desktop) -->
-    <nav aria-label="Primary Navigation" class="hidden lg:flex items-center gap-8">
-      <a href="{{ routes.root_url }}#home" class="py-1 text-sm font-bold text-[#09090B] hover:opacity-75">Home</a>
-      <a href="{{ routes.root_url }}#collections" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Collections</a>
-      <a href="{{ routes.root_url }}#shop" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Shop</a>
-      <a href="{{ routes.root_url }}#testimonials" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">Cardholders</a>
-      <a href="{{ routes.root_url }}#about" class="py-1 text-sm font-bold text-[#3F3F46] hover:text-[#09090B]">About</a>
+    <!-- Center: Desktop Navigation -->
+    <nav aria-label="Main Navigation" class="hidden lg:flex items-center gap-9">
+      <a href="{{ routes.root_url }}#home" class="text-xs font-semibold tracking-widest text-white uppercase border-b border-white pb-0.5">Home</a>
+      <a href="{{ routes.root_url }}#collections" class="text-xs font-semibold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">Collections</a>
+      <a href="{{ routes.root_url }}#shop" class="text-xs font-semibold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">Shop</a>
+      <a href="{{ routes.root_url }}#about" class="text-xs font-semibold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">About</a>
     </nav>
 
-    <!-- Right Actions: Search, Wishlist, Bag with Live Count, Mobile Menu -->
-    <div class="flex items-center gap-2.5 shrink-0">
+    <!-- Right: Search, Wishlist, Bag & Mobile Menu Trigger -->
+    <div class="flex items-center gap-2 shrink-0">
       <a
         href="#shop"
-        aria-label="Search hardware archive"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B] shadow-xs transition-colors hover:border-[#09090B]"
+        aria-label="Search Archive"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-colors hover:border-white/40 hover:bg-white/10"
       >
-        ⌕
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </a>
 
       <button
         type="button"
         data-open-cart="wishlist"
-        aria-label="Open wishlist"
-        class="hidden lg:inline-flex items-center gap-2 rounded-full border border-white bg-white px-3.5 py-2 font-mono-tech text-xs font-bold text-[#09090B] shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+        aria-label="Wishlist"
+        class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-colors hover:border-white/40 cursor-pointer"
       >
-        <span>♥ WISHLIST</span>
-        <span data-wishlist-count class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#09090B] px-1.5 font-mono-tech text-[11px] font-bold text-white">
+        <span>WISHLIST</span>
+        <span data-wishlist-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-white px-1 font-mono-tech text-[10px] font-bold text-black">
           0
         </span>
       </button>
@@ -64,11 +64,13 @@
       <button
         type="button"
         data-open-cart="bag"
-        aria-label="Open shopping bag"
-        class="inline-flex items-center gap-1.5 rounded-full border border-white bg-white px-3 py-2 font-mono-tech text-xs font-bold text-[#09090B] shadow-xs transition-colors hover:border-[#09090B] cursor-pointer"
+        aria-label="Shopping Bag"
+        class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-colors hover:border-white/40 cursor-pointer"
       >
-        <span class="hidden sm:inline">BAG</span>
-        <span data-cart-count class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#09090B] px-1.5 font-mono-tech text-[11px] font-bold text-white">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span data-cart-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-white px-1 font-mono-tech text-[10px] font-bold text-black">
           {{ cart.item_count }}
         </span>
       </button>
@@ -76,45 +78,48 @@
       <button
         type="button"
         data-toggle-mobile-menu
-        aria-label="Toggle mobile navigation menu"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B] shadow-xs lg:hidden cursor-pointer"
+        aria-label="Open Menu"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-colors hover:border-white/40 lg:hidden cursor-pointer"
       >
-        ☰
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
       </button>
     </div>
   </div>
 </header>
 
-<!-- Mobile Navigation Drawer -->
+<!-- Full-Screen Obsidian Mobile Drawer -->
 <div
   id="rwnd-mobile-menu"
   role="dialog"
   aria-modal="true"
-  aria-label="Mobile Navigation Menu"
-  class="metallic-chrome-bg fixed inset-0 z-50 hidden flex-col justify-between bg-[#DCDFE5] p-6 text-[#09090B] lg:hidden"
+  aria-label="Mobile Navigation"
+  class="fixed inset-0 z-50 hidden flex-col justify-between bg-[#060606] p-6 text-white lg:hidden"
 >
-  <div class="flex items-center justify-between border-b border-[#09090B]/15 pb-4">
-    <span class="font-display text-xl font-extrabold text-[#09090B]">{{ settings.brand_name | default: 'rwnd20s.' }}</span>
+  <div class="flex items-center justify-between border-b border-white/10 pb-4">
+    <span class="font-display text-xl font-extrabold tracking-tighter text-white">
+      {{ settings.brand_name | default: 'rwnd20s.' }}
+    </span>
     <button
       type="button"
       data-toggle-mobile-menu
-      aria-label="Close mobile menu"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white text-[#09090B]"
+      aria-label="Close Menu"
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white"
     >
       ✕
     </button>
   </div>
 
-  <nav class="my-auto flex flex-col space-y-4">
-    <a href="#home" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">01 // HOME</a>
-    <a href="#collections" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">02 // COLLECTIONS</a>
-    <a href="#shop" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">03 // SHOP ARCHIVE</a>
-    <a href="#testimonials" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">04 // CARDHOLDERS</a>
-    <a href="#about" data-toggle-mobile-menu class="border-b border-[#09090B]/15 py-4 font-display text-3xl font-extrabold text-[#09090B] uppercase">05 // ABOUT</a>
+  <nav class="my-auto flex flex-col space-y-2">
+    <a href="#home" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase">01 // HOME</a>
+    <a href="#collections" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase">02 // COLLECTIONS</a>
+    <a href="#shop" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase">03 // SHOP DROP 01</a>
+    <a href="#about" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase">04 // MANIFESTO</a>
   </nav>
 
-  <div class="border-t border-[#09090B]/15 pt-4 font-mono-tech text-xs font-bold text-[#3F3F46]">
-    FREE EXPRESS SHIPPING ABOVE ₹999 · 316L ARCHIVE HARDWARE
+  <div class="border-t border-white/10 pt-4 font-mono-tech text-[11px] tracking-wider text-zinc-400 uppercase">
+    FREE EXPRESS SHIPPING ABOVE ₹999 · COD AVAILABLE
   </div>
 </div>
 
