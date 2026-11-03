@@ -1,0 +1,309 @@
+<!-- sections/main-storefront.liquid -->
+{% assign archive_collection = section.settings.collection | default: collections.all %}
+
+<!-- 1. D1 Milano-Style Split Stack Hero -->
+<section id="home" class="metallic-chrome-bg relative overflow-hidden border-b border-black/15">
+  <div class="retro-scanlines pointer-events-none absolute inset-0 opacity-30"></div>
+  <div class="mx-auto max-w-[1280px] px-4 pt-6 pb-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
+      <!-- Top on Mobile / Right on Desktop: Studio Spotlight Stage -->
+      <div class="order-1 lg:order-2 lg:col-span-7">
+        <div class="relative mx-auto flex min-h-[340px] w-full max-w-[540px] flex-col items-center justify-center sm:min-h-[420px]">
+          <div class="studio-spotlight-intense pointer-events-none absolute inset-0 rounded-full scale-110"></div>
+
+          <!-- Stage Slide 0 -->
+          <div data-hero-stage-slide="0" class="relative z-10 flex w-full flex-col items-center">
+            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+              ★ MOST POPULAR BUNDLE · SAVE ₹1,695
+            </span>
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
+              {% if archive_collection.products.size > 0 and archive_collection.products.first.featured_image %}
+                <img
+                  src="{{ archive_collection.products.first.featured_image | image_url: width: 800 }}"
+                  alt="{{ archive_collection.products.first.title | escape }}"
+                  class="h-full w-full rounded-2xl object-contain"
+                >
+              {% else %}
+                <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
+                  <span class="font-mono-tech text-xs font-bold text-[#52525B]">BUN-01 // 316L STEEL</span>
+                  <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">3-PIECE Y2K CYBER SET</p>
+                  <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Ring + Chain + Bracelet</p>
+                </div>
+              {% endif %}
+            </div>
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+              <div class="text-left">
+                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">3-PIECE Y2K CYBER SET</p>
+                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Ring + Chain + Bracelet Included</p>
+              </div>
+              <div class="h-6 w-px bg-black/15"></div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹1,199</span>
+                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹2,894</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage Slide 1 -->
+          <div data-hero-stage-slide="1" class="relative z-10 hidden w-full flex-col items-center">
+            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+              LIMITED DROP · ONLY 16 LEFT
+            </span>
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
+              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
+                <span class="font-mono-tech text-xs font-bold text-[#52525B]">EAR-01 // TYPE-C AUDIO</span>
+                <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">PINK CHROME WIRED EARPHONES</p>
+                <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Direct Type-C Plug + Carry Case</p>
+              </div>
+            </div>
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+              <div class="text-left">
+                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">PINK CHROME EARPHONES</p>
+                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Type-C Wired Audio + Case</p>
+              </div>
+              <div class="h-6 w-px bg-black/15"></div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹999</span>
+                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹2,998</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage Slide 2 -->
+          <div data-hero-stage-slide="2" class="relative z-10 hidden w-full flex-col items-center">
+            <span class="mb-3 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+              PHASE 2 PRE-ORDER · 10 UNITS
+            </span>
+            <div class="relative flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white bg-[#D4D8E0] p-4 shadow-[0_24px_60px_rgba(9,9,11,0.18)] sm:h-76 sm:w-76">
+              <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-black/15 bg-white p-6 text-center">
+                <span class="font-mono-tech text-xs font-bold text-[#52525B]">W-01 // PHASE 2 CHRONO</span>
+                <p class="mt-2 font-display text-xl font-extrabold text-[#09090B] uppercase">Y2K ANALOG-DIGITAL WATCH</p>
+                <p class="mt-1 font-mono-tech text-xs text-[#3F3F46]">Brushed 316L Steel Case</p>
+              </div>
+            </div>
+            <div class="mt-6 flex items-center gap-4 rounded-full border border-black/15 bg-white px-5 py-2.5 shadow-md">
+              <div class="text-left">
+                <p class="font-display text-xs font-bold tracking-wider text-[#09090B] uppercase">Y2K WATCH</p>
+                <p class="font-mono-tech text-[11px] text-[#3F3F46]">Analog-Digital Chronograph</p>
+              </div>
+              <div class="h-6 w-px bg-black/15"></div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-mono-tech text-sm font-bold text-[#09090B]">₹1,999</span>
+                <span class="font-mono-tech text-xs text-[#52525B] line-through">₹4,998</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Stage Switcher Pills -->
+          <div role="tablist" aria-label="Hero hardware showcase switcher" class="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-2">
+            <button role="tab" type="button" data-hero-stage-btn="0" aria-selected="true" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+              01 CYBER SET
+            </button>
+            <button role="tab" type="button" data-hero-stage-btn="1" aria-selected="false" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+              02 PINK CHROME EARPHONES
+            </button>
+            <button role="tab" type="button" data-hero-stage-btn="2" aria-selected="false" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+              03 Y2K WATCH
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom on Mobile / Left on Desktop: Editorial Copy Stack -->
+      <div class="order-2 mt-8 flex flex-col items-center text-center lg:order-1 lg:col-span-5 lg:mt-0 lg:items-start lg:text-left">
+        <div class="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-4 py-1.5 shadow-xs">
+          <span class="font-mono-tech text-xs font-bold tracking-widest text-[#09090B] uppercase">
+            {{ section.settings.hero_badge }}
+          </span>
+        </div>
+
+        <h1 class="mt-5 font-display text-4xl leading-[0.98] font-extrabold tracking-tight text-[#09090B] uppercase sm:text-5xl lg:text-6xl">
+          <span class="block">{{ section.settings.hero_title_line_1 }}</span>
+          <span class="mt-1 block font-editorial font-normal italic text-[#18181B]">
+            {{ section.settings.hero_title_line_2 }}
+          </span>
+        </h1>
+
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-[#27272A] sm:text-base">
+          {{ section.settings.hero_subtitle }}
+        </p>
+
+        <!-- Drop Countdown Widget -->
+        <div data-testid="drop-countdown" class="mt-5 w-full max-w-md overflow-hidden rounded-2xl border border-black/20 bg-white/85 shadow-md backdrop-blur-md">
+          <div class="retro-window-bar flex items-center justify-between border-b border-black/15 px-3.5 py-2">
+            <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#09090B] uppercase">
+              ⏱ NEXT LIMITED DROP IN
+            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]/50"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[#09090B]/25"></span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="font-mono-tech text-[11px] font-semibold tracking-wider text-[#27272A] uppercase">
+              BATCH ALLOCATION CLOCK
+            </span>
+            <div class="flex items-center gap-1.5 font-mono-tech text-sm font-bold tracking-widest text-[#09090B]">
+              <span id="rwnd-countdown-h" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">14H</span>
+              <span>:</span>
+              <span id="rwnd-countdown-m" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">28M</span>
+              <span>:</span>
+              <span id="rwnd-countdown-s" class="rounded border border-black/20 bg-white px-2 py-0.5 shadow-2xs">19S</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 w-full sm:w-auto">
+          <a
+            href="#shop"
+            class="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-black bg-white px-8 py-4 text-xs font-bold tracking-widest text-[#09090B] uppercase shadow-md transition-colors hover:bg-[#09090B] hover:text-white sm:w-auto"
+          >
+            <span>SHOP DROP 01 →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Drop 01 Archive Section: Category Filter Tabs, Search, Sort & Product Grid -->
+<section id="shop" class="metallic-chrome-bg border-b border-black/15 py-12 sm:py-16">
+  <div class="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="font-mono-tech text-xs font-bold tracking-widest text-[#3F3F46] uppercase">
+          02 · LIMITED HARDWARE RELEASE
+        </p>
+        <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-[#09090B] uppercase sm:text-3xl">
+          DROP 01 — ARCHIVE COLLECTION
+        </h2>
+      </div>
+      <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-[#27272A]">
+        SHOWING {% if archive_collection.products.size > 0 %}{{ archive_collection.products.size }}{% else %}7{% endif %} PIECES · FREE SHIPPING ABOVE ₹999
+      </p>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="mt-6 flex flex-col gap-4 border-y border-black/15 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <div role="tablist" aria-label="Filter products by category" class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0">
+        <button type="button" data-filter-category="all" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer">
+          ALL
+        </button>
+        <button type="button" data-filter-category="bundles" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          3-PC CYBER SET
+        </button>
+        <button type="button" data-filter-category="audio" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          PINK CHROME EARPHONES
+        </button>
+        <button type="button" data-filter-category="rings" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          Y2K RINGS
+        </button>
+        <button type="button" data-filter-category="chains" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          CHAINS
+        </button>
+        <button type="button" data-filter-category="bracelets" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          BRACELETS
+        </button>
+        <button type="button" data-filter-category="earrings" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          Y2K STUDS
+        </button>
+        <button type="button" data-filter-category="watches" class="rounded-full border border-[#09090B]/20 bg-white/55 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#3F3F46] uppercase hover:border-[#09090B] hover:text-[#09090B] cursor-pointer">
+          Y2K WATCH
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <input
+          id="rwnd-archive-search"
+          type="search"
+          placeholder="Search watch, pink chrome, ring..."
+          aria-label="Search archive hardware"
+          class="w-full rounded-full border border-black/20 bg-white py-2 px-4 text-xs text-[#09090B] placeholder-[#71717A] focus:border-[#09090B] focus:outline-none sm:w-64"
+        >
+        <select
+          id="rwnd-archive-sort"
+          aria-label="Sort archive products"
+          class="rounded-full border border-black/20 bg-white py-2 px-4 font-mono-tech text-xs font-bold text-[#09090B] focus:border-[#09090B] focus:outline-none cursor-pointer"
+        >
+          <option value="featured">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid: Dynamic Shopify Loop with 0-Product Onboarding Fallback -->
+    <div id="rwnd-product-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {% if archive_collection.products.size > 0 %}
+        {% for product in archive_collection.products %}
+          {% assign default_variant = product.selected_or_first_available_variant %}
+          {% assign savings = product.compare_at_price | minus: product.price %}
+          <article
+            data-product-card
+            data-handle="{{ product.handle }}"
+            data-title="{{ product.title | escape }}"
+            data-subtitle="{{ product.type | default: '316L Archive Hardware' | escape }}"
+            data-category="{{ product.type | downcase }}"
+            data-tags="{{ product.tags | join: ',' | downcase }}"
+            data-price="{{ product.price }}"
+            data-price-formatted="{{ product.price | money }}"
+            data-compare-formatted="{{ product.compare_at_price | money }}"
+            data-description="{{ product.description | strip_html | truncate: 220 | escape }}"
+            data-image="{{ product.featured_image | image_url: width: 800 }}"
+            data-variant-id="{{ default_variant.id }}"
+            data-url="{{ product.url }}"
+            class="group flex flex-col justify-between overflow-hidden rounded-2xl border border-black/15 bg-white transition-all duration-300 hover:border-[#09090B] shadow-sm"
+          >
+            <div class="relative aspect-square w-full overflow-hidden border-b border-black/10 bg-[#D4D8E0]">
+              <a href="{{ product.url }}" class="block h-full w-full">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 800 }}"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    loading="lazy"
+                    class="h-full w-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
+                  >
+                {% endif %}
+                {% if product.images[1] %}
+                  <img
+                    src="{{ product.images[1] | image_url: width: 800 }}"
+                    alt="{{ product.title | escape }} alternate view"
+                    loading="lazy"
+                    class="absolute inset-0 h-full w-full object-cover p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  >
+                {% endif %}
+              </a>
+
+              <div class="pointer-events-none absolute top-3.5 left-3.5 flex flex-wrap gap-1.5">
+                {% if product.compare_at_price > product.price %}
+                  <span class="rounded-full border border-black/15 bg-white px-2.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
+                    SAVE {{ savings | money }}
+                  </span>
+                {% endif %}
+              </div>
+
+              <button
+                type="button"
+                data-toggle-wishlist
+                aria-label="Save {{ product.title | escape }} to wishlist"
+                class="absolute top-3.5 right-3.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-[#09090B] shadow-xs transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer"
+              >
+                ♥
+              </button>
+            </div>
+
+            <div class="flex flex-1 flex-col justify-between p-5">
+              <div>
+                <h3 class="font-display text-lg font-extrabold tracking-wide text-[#09090B] uppercase">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                <p class="mt-1 text-xs text-[#3F3F46]">
+                  {{ product.type | default: 'Solid 316L Stainless Steel Hardware' }}
+                </p>
+              </div>
+
+              <div class="mt-5 border-t border-black/10 pt-4">
+                <div class="flex flex-wrap items-baseline gap-2">
+                  <span class="font-mono-tech text-xl font-bold text-[#09090B]">
+           
