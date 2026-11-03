@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="theme-color" content="#030303">
     <link rel="canonical" href="{{ canonical_url }}">
 
@@ -47,8 +47,15 @@
     
     <!-- MASTER GOTHIC ATMOSPHERIC & SPOOKY FOG STYLES -->
     <style>
+      /* Prevent horizontal overflow white space globally */
+      html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+        background-color: #030303 !important;
+      }
+
       .foggy-glass {
-        background: rgba(12, 12, 12, 0.75) !important;
+        background: rgba(12, 12, 12, 0.85) !important;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -109,12 +116,12 @@
     </style>
   </head>
 
-  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
+  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303] overflow-x-hidden">
 
     <!-- PERMANENT CUSTOM GOTHIC STREET BACKGROUND & FOG LAYERS -->
-    <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none">
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80"></div>
+    <div class="fixed inset-0 z-[-1] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-45 mix-blend-luminosity filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/90"></div>
     </div>
     <div class="gothic-fog-layer-1"></div>
     <div class="gothic-fog-layer-2"></div>
@@ -122,38 +129,96 @@
     <!-- Header Section -->
     {% section 'header' %}
 
-    <!-- Main Content -->
-    <main id="MainContent" role="main" tabindex="-1" class="relative z-10">
-      {{ content_for_layout }}
-    </main>
-
-    <!-- INDUSTRIAL SYS_BACK CAPSULE -->
-    <div id="rwnd-sys-back-bar" class="fixed bottom-6 left-6 z-[60] hidden sm:block">
-      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-5 py-2.5 font-mono-tech text-[11px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-200 hover:border-[#E9E3D5] hover:bg-[#E9E3D5] hover:text-black cursor-pointer active:scale-95">
-        <span class="text-zinc-500 group-hover:text-black">←</span>
-        <span>RETURN</span>
+    <!-- UNIVERSAL SUB-PAGE BACK BUTTON (Top Left Center Alignment) -->
+    <div id="rwnd-sys-back-bar" class="w-full max-w-7xl mx-auto px-4 pt-6 hidden">
+      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-4 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-lg transition-all hover:border-red-600 hover:bg-red-950/40 cursor-pointer">
+        <span class="text-red-500">←</span>
+        <span>RETURN TO BASE</span>
       </button>
     </div>
 
+    <!-- Main Content -->
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full overflow-x-hidden">
+      {{ content_for_layout }}
+    </main>
+
     <!-- Footer Section -->
-    <div class="relative z-10">
+    <div class="relative z-10 w-full overflow-x-hidden">
       {% section 'footer' %}
     </div>
 
-    <!-- Slide-Out Cart Drawer -->
-    {% render 'cart-drawer' %}
+    <!-- Slide-Out Dark Gothic Cart Drawer with Community Hot Deals -->
+    <div id="rwnd-cart-drawer" class="fixed inset-0 z-[100] hidden justify-end bg-black/80 backdrop-blur-md transition-opacity">
+      <div class="w-full max-w-md h-full bg-[#060606] border-l border-red-900/40 p-6 flex flex-col justify-between text-white shadow-2xl overflow-y-auto">
+        
+        <!-- Header & Cart Items -->
+        <div>
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <span class="font-display text-lg font-bold uppercase tracking-wider">HARDWARE BAG</span>
+            <button type="button" data-close-cart class="h-9 w-9 rounded-full border border-white/20 bg-black/60 flex items-center justify-center text-white hover:border-red-600 cursor-pointer">✕</button>
+          </div>
+
+          <div id="rwnd-drawer-items-list" class="py-4 space-y-4 border-b border-white/10">
+            <p class="font-mono-tech text-xs text-zinc-400 text-center py-2">Your hardware bag is currently empty.</p>
+          </div>
+
+          <!-- HOT COMMUNITY DEALS (Replaces empty dead scroll space) -->
+          <div class="mt-6 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500">✦ HOT COMMUNITY DEALS</span>
+              <span class="font-mono-tech text-[9px] text-zinc-500 uppercase">LIMITED STOCK</span>
+            </div>
+
+            <!-- Deal Item 1 -->
+            <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/40 p-3 hover:border-red-600/60 transition-all">
+              <div>
+                <p class="font-display text-xs font-bold text-white uppercase">3-Piece Y2K Cyber Set</p>
+                <p class="font-mono-tech text-[10px] text-zinc-400">Ring + Chain + Bracelet</p>
+                <p class="font-mono-tech text-xs font-bold text-red-400 mt-1">₹1,199 <span class="text-[10px] text-zinc-500 line-through">₹1,447</span></p>
+              </div>
+              <button type="button" onclick="addQuickDealToBag(44123456789, '3-Piece Y2K Cyber Set')" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all cursor-pointer">
+                + ADD
+              </button>
+            </div>
+
+            <!-- Deal Item 2 -->
+            <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/40 p-3 hover:border-red-600/60 transition-all">
+              <div>
+                <p class="font-display text-xs font-bold text-white uppercase">Pink Chrome Earphones</p>
+                <p class="font-mono-tech text-[10px] text-zinc-400">Type-C DAC Audio</p>
+                <p class="font-mono-tech text-xs font-bold text-red-400 mt-1">₹999 <span class="text-[10px] text-zinc-500 line-through">₹1,499</span></p>
+              </div>
+              <button type="button" onclick="addQuickDealToBag(44987654321, 'Pink Chrome Earphones')" class="rounded-full border border-red-900/60 bg-red-950/40 px-3 py-1.5 font-mono-tech text-[10px] font-bold text-red-200 uppercase hover:bg-red-900 hover:text-white transition-all cursor-pointer">
+                + ADD
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer / Checkout Actions -->
+        <div class="border-t border-white/10 pt-4 space-y-3 mt-6">
+          <div class="flex justify-between items-center font-mono-tech text-xs">
+            <span class="text-zinc-400">SHIPPING (MDU DISPATCH)</span>
+            <span class="text-emerald-400 font-bold">FREE OVER ₹999</span>
+          </div>
+          <a href="/checkout" class="block w-full text-center rounded-full border border-red-900/60 bg-red-950/50 py-3.5 font-mono-tech text-xs font-bold text-red-200 uppercase tracking-widest hover:bg-red-900 hover:text-white transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+            PROCEED TO SECURE CHECKOUT →
+          </a>
+        </div>
+
+      </div>
+    </div>
 
     <!-- Toast Container -->
-    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[80] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
+    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[110] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
     <!-- GLOBAL INTERACTION & SCROLL ANIMATION SCRIPTS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Back bar visibility
+        // Back bar visibility (shows on sub-pages)
         const backBar = document.getElementById('rwnd-sys-back-bar');
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
           backBar.classList.remove('hidden');
-          backBar.classList.add('flex');
         }
 
         // Mobile Menu Toggle Fix
@@ -178,18 +243,37 @@
           });
         });
 
-        // Cart Drawer Open Triggers
+        // Cart Drawer Open & Close Triggers
+        const cartDrawer = document.getElementById('rwnd-cart-drawer');
         const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"]');
+        const closeCartBtn = document.querySelector('[data-close-cart]');
+
         cartTriggers.forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
-            const drawer = document.getElementById('rwnd-cart-drawer');
-            if (drawer) {
-              drawer.classList.remove('translate-x-full', 'hidden');
-            } else {
-              window.location.href = '/cart';
+            if (cartDrawer) {
+              cartDrawer.classList.remove('hidden');
+              cartDrawer.classList.add('flex');
+              document.body.style.overflow = 'hidden';
             }
           });
+        });
+
+        closeCartBtn?.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (cartDrawer) {
+            cartDrawer.classList.add('hidden');
+            cartDrawer.classList.remove('flex');
+            document.body.style.overflow = '';
+          }
+        });
+
+        cartDrawer?.addEventListener('click', (e) => {
+          if (e.target === cartDrawer) {
+            cartDrawer.classList.add('hidden');
+            cartDrawer.classList.remove('flex');
+            document.body.style.overflow = '';
+          }
         });
 
         // Spooky Scroll Materialization Observer
@@ -211,6 +295,24 @@
 
         spookyElements.forEach(el => observer.observe(el));
       });
+
+      // Quick Add Hot Deal to Bag Helper
+      async function addQuickDealToBag(variantId, title) {
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: Number(variantId), quantity: 1 })
+          });
+          if (response.ok) {
+            showRwndToast('ARTIFACT SECURED', `${title} added to your hardware bag.`);
+          } else {
+            showRwndToast('DISPATCH ERROR', 'Unable to add deal right now.');
+          }
+        } catch {
+          showRwndToast('NETWORK ERROR', 'Could not sync with hardware vault.');
+        }
+      }
 
       // Industrial Toast Notification Helper
       function showRwndToast(title, message) {
