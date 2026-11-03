@@ -1,52 +1,54 @@
 <!-- snippets/cart-drawer.liquid -->
 <div
   id="rwnd-cart-drawer"
-  class="fixed inset-0 z-50 hidden justify-end bg-black/60 backdrop-blur-sm"
+  class="fixed inset-0 z-[100] hidden justify-end bg-black/85 backdrop-blur-md transition-opacity"
 >
-  <div class="relative flex w-full max-w-md flex-col bg-[#DCDFE5] text-[#09090B] shadow-2xl h-full sm:h-auto sm:max-h-[90vh] sm:rounded-l-3xl overflow-hidden">
+  <div class="relative flex w-full max-w-md flex-col bg-[#060606] text-[#E9E3D5] shadow-2xl h-full sm:h-auto sm:max-h-[90vh] sm:rounded-l-3xl overflow-hidden border-l border-red-900/40">
     
     <!-- Drawer Header -->
-    <div class="flex items-center justify-between border-b border-black/15 px-6 py-4 bg-white">
+    <div class="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-black/80 backdrop-blur-xl">
       <div role="tablist" class="flex items-center gap-2">
-        <button type="button" data-drawer-tab="bag" class="rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase">
+        <button type="button" data-drawer-tab="bag" class="rounded-full border border-red-900/60 bg-red-950/50 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-white uppercase shadow-[0_0_15px_rgba(220,38,38,0.3)]">
           HARDWARE BAG
         </button>
-        <button type="button" data-drawer-tab="wishlist" class="rounded-full border border-[#09090B]/20 bg-white/50 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#3F3F46] uppercase">
+        <button type="button" data-drawer-tab="wishlist" class="rounded-full border border-white/20 bg-black/40 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-zinc-400 uppercase hover:border-white hover:text-white transition-colors">
           WISHLIST
         </button>
       </div>
-      <button type="button" data-close-cart class="flex h-8 w-8 items-center justify-center rounded-full border border-black/20 bg-white text-xs font-bold text-[#09090B] hover:bg-black hover:text-white cursor-pointer">
+      <button type="button" data-close-cart class="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-black/60 text-xs font-bold text-white hover:border-red-600 hover:text-red-500 cursor-pointer transition-colors">
         ✕
       </button>
     </div>
 
-    <!-- Scrollable Items Area (Prevents massive gaps) -->
+    <!-- Scrollable Items Area -->
     <div class="flex-1 overflow-y-auto p-4 space-y-3" id="rwnd-cart-items">
-      <!-- Dynamic cart items load here -->
+      <div class="flex h-40 flex-col items-center justify-center text-center rounded-2xl border border-white/10 bg-black/40 p-6">
+        <p class="font-mono-tech text-xs text-zinc-400 uppercase tracking-widest">LOADING HARDWARE BAG...</p>
+      </div>
     </div>
 
     <!-- Fixed Footer Summary & Checkout -->
-    <div class="border-t border-black/15 bg-white p-6 shrink-0 space-y-4">
-      <div id="rwnd-shipping-message" class="font-mono-tech text-xs text-[#3F3F46]">
+    <div class="border-t border-white/10 bg-black/90 p-6 shrink-0 space-y-4 backdrop-blur-xl">
+      <div id="rwnd-shipping-message" class="font-mono-tech text-xs text-zinc-300">
         Free shipping unlocked on orders above ₹999
       </div>
       
-      <div class="w-full bg-[#E4E7EC] h-1.5 rounded-full overflow-hidden">
-        <div id="rwnd-shipping-bar" class="bg-[#09090B] h-full w-0 transition-all duration-300"></div>
+      <div class="w-full bg-black/60 h-1.5 rounded-full overflow-hidden border border-white/10">
+        <div id="rwnd-shipping-bar" class="bg-red-600 h-full w-0 transition-all duration-300 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
       </div>
 
       <div class="space-y-1.5 font-mono-tech text-xs">
-        <div class="flex justify-between text-[#3F3F46]">
+        <div class="flex justify-between text-zinc-400">
           <span>SUBTOTAL</span>
-          <span id="rwnd-cart-subtotal" class="font-bold text-[#09090B]">₹0</span>
+          <span id="rwnd-cart-subtotal" class="font-bold text-white">₹0.00</span>
         </div>
-        <div id="rwnd-cart-discount-row" class="hidden justify-between text-emerald-700">
+        <div id="rwnd-cart-discount-row" class="hidden justify-between text-emerald-400">
           <span>WELCOME PASS (5%)</span>
-          <span id="rwnd-cart-discount-amount">-₹0</span>
+          <span id="rwnd-cart-discount-amount">-₹0.00</span>
         </div>
-        <div class="flex justify-between text-sm font-bold text-[#09090B] border-t border-black/10 pt-2">
+        <div class="flex justify-between text-sm font-bold text-white border-t border-white/10 pt-2">
           <span>TOTAL</span>
-          <span id="rwnd-cart-total">₹0</span>
+          <span id="rwnd-cart-total" class="font-mono-tech text-base font-extrabold text-red-400">₹0.00</span>
         </div>
       </div>
 
@@ -54,7 +56,7 @@
         <button
           type="submit"
           name="checkout"
-          class="w-full rounded-full bg-[#09090B] py-4 font-mono-tech text-xs font-bold tracking-widest text-white uppercase shadow-lg transition-transform active:scale-[0.99] hover:bg-zinc-800 cursor-pointer"
+          class="w-full rounded-full border border-red-900/60 bg-red-950/60 py-4 font-mono-tech text-xs font-bold tracking-widest text-red-100 uppercase shadow-[0_0_25px_rgba(220,38,38,0.4)] transition-all active:scale-[0.99] hover:bg-red-900 hover:text-white cursor-pointer backdrop-blur-md"
         >
           PROCEED TO SECURE CHECKOUT →
         </button>
@@ -63,3 +65,112 @@
 
   </div>
 </div>
+
+<!-- Drawer Dynamic Engine Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initial fetch when drawer is present
+    fetchDrawerCart();
+
+    // Re-fetch whenever any add-to-bag button is triggered on the site
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('form[action*="/cart/add"] button, [data-add-to-bag]')) {
+        setTimeout(fetchDrawerCart, 600);
+      }
+    });
+  });
+
+  async function fetchDrawerCart() {
+    try {
+      const res = await fetch('/cart.js');
+      const cart = await res.json();
+      renderDrawerCartUI(cart);
+    } catch (err) {
+      console.error('Drawer cart fetch error:', err);
+    }
+  }
+
+  async function updateDrawerItem(lineKey, quantity) {
+    try {
+      const res = await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: lineKey, quantity: quantity })
+      });
+      const cart = await res.json();
+      renderDrawerCartUI(cart);
+    } catch (err) {
+      console.error('Drawer item update error:', err);
+    }
+  }
+
+  function renderDrawerCartUI(cart) {
+    const container = document.getElementById('rwnd-cart-items');
+    const subtotalEl = document.getElementById('rwnd-cart-subtotal');
+    const totalEl = document.getElementById('rwnd-cart-total');
+    const shippingMsg = document.getElementById('rwnd-shipping-message');
+    const shippingBar = document.getElementById('rwnd-shipping-bar');
+
+    if (!container) return;
+
+    const formattedSubtotal = '₹' + (cart.total_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    subtotalEl.textContent = formattedSubtotal;
+    totalEl.textContent = formattedSubtotal;
+
+    // Shipping threshold calculation (₹999)
+    const threshold = 99900;
+    const currentPrice = cart.total_price;
+    const percent = Math.min(100, Math.round((currentPrice / threshold) * 100));
+    shippingBar.style.width = percent + '%';
+
+    if (currentPrice >= threshold) {
+      shippingMsg.innerHTML = '<span class="text-emerald-400 font-bold">✦ Free Express Shipping Unlocked!</span>';
+    } else {
+      const remaining = '₹' + ((threshold - currentPrice) / 100).toLocaleString('en-IN');
+      shippingMsg.textContent = `Add ${remaining} more for free express shipping.`;
+    }
+
+    if (!cart.items || cart.items.length === 0) {
+      container.innerHTML = `
+        <div class="flex h-48 flex-col items-center justify-center text-center rounded-2xl border border-white/10 bg-black/40 p-6">
+          <p class="font-display text-sm font-bold text-white uppercase tracking-wider">HARDWARE BAG IS EMPTY</p>
+          <p class="mt-1 text-xs text-zinc-400">No Drop 01 artifacts loaded.</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    cart.items.forEach(item => {
+      const itemPrice = '₹' + (item.final_line_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      html += `
+        <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/60 p-3 shadow-md backdrop-blur-md">
+          <div class="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black p-1 flex items-center justify-center">
+            <img src="${item.image}" alt="${item.title}" class="h-full w-full object-contain filter contrast-125">
+          </div>
+          <div class="flex flex-1 flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="font-display text-xs font-bold text-white uppercase line-clamp-1">${item.product_title}</h4>
+                ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="text-[10px] text-zinc-400">${item.variant_title}</p>` : ''}
+              </div>
+              <span class="font-mono-tech text-xs font-bold text-white">${itemPrice}</span>
+            </div>
+            <div class="mt-3 flex items-center justify-between border-t border-white/10 pt-2">
+              <div class="flex items-center rounded-full border border-white/15 bg-black/50 px-2.5 py-0.5">
+                <button type="button" onclick="updateDrawerItem('${item.key}', ${item.quantity - 1})" class="text-zinc-400 hover:text-white px-1.5 text-xs font-bold cursor-pointer">-</button>
+                <span class="mx-2 font-mono-tech text-xs font-bold text-white">${item.quantity}</span>
+                <button type="button" onclick="updateDrawerItem('${item.key}', ${item.quantity + 1})" class="text-zinc-400 hover:text-white px-1.5 text-xs font-bold cursor-pointer">+</button>
+              </div>
+              <button type="button" onclick="updateDrawerItem('${item.key}', 0)" class="font-mono-tech text-[10px] font-bold text-red-400 hover:text-red-300 uppercase tracking-widest cursor-pointer">
+                REMOVE
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  }
+</script>
