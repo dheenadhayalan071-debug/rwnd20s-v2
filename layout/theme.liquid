@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js dark" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#DCDFE5">
+    <meta name="theme-color" content="#060606">
     <link rel="canonical" href="{{ canonical_url }}">
 
     <title>
@@ -25,10 +25,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS Browser Runtime (Zero Local Build Required) -->
+    <!-- Tailwind CSS Browser Runtime -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -39,10 +40,10 @@
             },
             colors: {
               chrome: {
-                base: '#DCDFE5',
-                panel: '#E4E7EC',
-                ink: '#09090B',
-                accent: '#FFFFFF'
+                base: '#060606',
+                panel: '#0E0E0E',
+                ink: '#FFFFFF',
+                accent: '#D4D4D8'
               }
             }
           }
@@ -52,82 +53,108 @@
 
     {{ 'theme.css' | asset_url | stylesheet_tag }}
 
+    <!-- Global Obsidian Luxury & Mobile Scrollbar Overrides -->
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body,
+      .metallic-chrome-bg {
+        background-color: #060606 !important;
+        background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 55%) !important;
+        color: #FFFFFF !important;
+      }
+      /* Hide ugly mobile horizontal scrollbars on filter pills */
+      * {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+      /* Studio radial spotlight behind hardware */
+      .studio-spotlight {
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, transparent 72%);
+      }
+      .crt-flicker-overlay {
+        display: none !important;
+      }
+    </style>
+
     <!-- Mandatory Shopify Header Injection -->
     {{ content_for_header }}
   </head>
 
-  <body class="metallic-chrome-bg min-h-screen text-[#09090B] antialiased selection:bg-[#09090B] selection:text-white">
-    {% if settings.enable_crt_flicker != false %}
-      <!-- Global High-Frequency CRT Brightness Flicker Overlay -->
-      <div aria-hidden="true" data-testid="crt-flicker-overlay" class="crt-flicker-overlay fixed inset-0 z-[55]"></div>
-    {% endif %}
-
-    <!-- Welcome Offer Email Popup (5% OFF Current Order + 10% OFF Next Purchase) -->
+  <body class="metallic-chrome-bg min-h-screen bg-[#060606] text-white antialiased selection:bg-white selection:text-[#060606] overflow-x-hidden">
+    <!-- Welcome Offer Email Popup (Obsidian Dark Edition) -->
     {% if settings.enable_welcome_popup != false %}
       <div id="rwnd-welcome-popup" role="dialog" aria-modal="true" aria-labelledby="welcome-offer-title" data-testid="welcome-offer-popup" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 sm:p-6">
-        <div data-close-welcome class="fixed inset-0 bg-black/45 backdrop-blur-sm"></div>
-        <div class="metallic-chrome-bg relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border border-black/20 p-6 sm:p-8 text-[#09090B] shadow-[0_24px_70px_rgba(9,9,11,0.35)]">
-          <button type="button" data-close-welcome aria-label="Close welcome offer popup" class="absolute top-4 right-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-[#09090B] transition-colors hover:bg-black hover:text-white cursor-pointer">
+        <div data-close-welcome class="fixed inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border border-white/15 bg-[#0C0C0E] p-6 sm:p-8 text-white shadow-[0_24px_80px_rgba(0,0,0,0.85)]">
+          <button type="button" data-close-welcome aria-label="Close welcome offer popup" class="absolute top-4 right-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:bg-white hover:text-black cursor-pointer">
             ✕
           </button>
 
-          <div class="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase shadow-xs">
-            <span>✦ ARCHIVE ENTRY PASS // DUAL REWARD</span>
+          <div class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 font-mono-tech text-[11px] font-bold tracking-wider text-zinc-200 uppercase">
+            <span>✦ DROP 01 ACCESS PASS</span>
           </div>
 
-          <h2 id="welcome-offer-title" class="mt-4 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#09090B] uppercase">
+          <h2 id="welcome-offer-title" class="mt-4 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white uppercase">
             UNLOCK 5% NOW + 10% NEXT DROP
           </h2>
 
-          <p class="mt-2 text-sm leading-relaxed text-[#27272A]">
-            Enter your email to join the <strong class="text-[#09090B]">rwnd20s.</strong> collector list. Receive an instant <strong class="text-[#09090B]">5% OFF</strong> your current order plus a <strong class="text-[#09090B]">10% OFF</strong> voucher for your next purchase.
+          <p class="mt-2 text-sm leading-relaxed text-zinc-400">
+            Join the <strong class="text-white">rwnd20s.</strong> archive list for an instant <strong class="text-white">5% OFF</strong> your first order plus <strong class="text-white">10% OFF</strong> Drop 02.
           </p>
 
           <div class="mt-5 grid grid-cols-2 gap-3">
-            <div class="rounded-2xl border border-black/15 bg-white p-3.5 shadow-xs">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#52525B] uppercase">CURRENT ORDER</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-[#09090B]">5% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-[#3F3F46]">Code: RWND5NOW</p>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5">
+              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-zinc-400 uppercase">CURRENT ORDER</span>
+              <p class="mt-1 font-display text-2xl font-extrabold text-white">5% OFF</p>
+              <p class="mt-0.5 font-mono-tech text-[11px] text-zinc-400">Code: RWND5NOW</p>
             </div>
-            <div class="rounded-2xl border border-black/15 bg-white p-3.5 shadow-xs">
-              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-[#52525B] uppercase">NEXT PURCHASE</span>
-              <p class="mt-1 font-display text-2xl font-extrabold text-[#09090B]">10% OFF</p>
-              <p class="mt-0.5 font-mono-tech text-[11px] text-[#3F3F46]">Code: RWND10NEXT</p>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5">
+              <span class="font-mono-tech text-[10px] font-bold tracking-widest text-zinc-400 uppercase">NEXT DROP</span>
+              <p class="mt-1 font-display text-2xl font-extrabold text-white">10% OFF</p>
+              <p class="mt-0.5 font-mono-tech text-[11px] text-zinc-400">Code: RWND10NEXT</p>
             </div>
           </div>
 
           <form id="rwnd-welcome-form" class="mt-6 space-y-3" novalidate>
             <div>
-              <label for="welcome-offer-email" class="block font-mono-tech text-[11px] font-bold tracking-wider text-[#09090B] uppercase">
+              <label for="welcome-offer-email" class="block font-mono-tech text-[11px] font-bold tracking-wider text-zinc-300 uppercase">
                 Email Address
               </label>
-              <input id="welcome-offer-email" name="email" type="email" required placeholder="Enter your email for 5% + 10% off..." class="mt-1.5 w-full rounded-2xl border border-black/20 bg-white py-3 px-4 font-mono-tech text-xs text-[#09090B] placeholder-[#71717A] focus:border-[#09090B] focus:outline-none">
-              <p id="welcome-offer-error" class="mt-1.5 hidden font-mono-tech text-[11px] font-semibold text-[#09090B]"></p>
+              <input id="welcome-offer-email" name="email" type="email" required placeholder="Enter your email..." class="mt-1.5 w-full rounded-2xl border border-white/15 bg-white/5 py-3 px-4 font-mono-tech text-xs text-white placeholder-zinc-500 focus:border-white focus:outline-none">
+              <p id="welcome-offer-error" class="mt-1.5 hidden font-mono-tech text-[11px] font-semibold text-red-400"></p>
             </div>
-            <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black bg-white px-6 py-3.5 font-mono-tech text-xs font-bold tracking-widest text-[#09090B] uppercase shadow-sm transition-colors hover:bg-[#09090B] hover:text-white cursor-pointer">
-              <span>CLAIM 5% OFF NOW + 10% NEXT PURCHASE</span>
+            <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-mono-tech text-xs font-bold tracking-widest text-black uppercase transition-transform active:scale-[0.99] hover:bg-zinc-200 cursor-pointer">
+              <span>UNLOCK MY 5% + 10% CODES →</span>
             </button>
-            <button type="button" data-close-welcome class="w-full py-1 text-center font-mono-tech text-[11px] text-[#3F3F46] underline hover:text-[#09090B] cursor-pointer">
-              No thanks, I'll pay full price
+            <button type="button" data-close-welcome class="w-full py-1 text-center font-mono-tech text-[11px] text-zinc-500 underline hover:text-zinc-300 cursor-pointer">
+              Continue without discount
             </button>
           </form>
 
-          <div id="rwnd-welcome-unlocked" class="mt-6 hidden space-y-3 rounded-2xl border border-black/20 bg-white p-4 shadow-xs">
-            <p class="font-mono-tech text-xs font-bold text-[#09090B]">
-              ✓ ARCHIVE PASS UNLOCKED (<span id="rwnd-welcome-email-display"></span>)
+          <div id="rwnd-welcome-unlocked" class="mt-6 hidden space-y-3 rounded-2xl border border-white/15 bg-white/5 p-4">
+            <p class="font-mono-tech text-xs font-bold text-white">
+              ✓ PASS UNLOCKED (<span id="rwnd-welcome-email-display"></span>)
             </p>
             <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 font-mono-tech text-xs">
-              <div class="flex items-center justify-between rounded-xl border border-black/15 bg-[#EEF0F4] px-3 py-2">
-                <span class="text-[#3F3F46]">5% NOW:</span>
-                <span class="font-bold text-[#09090B]">RWND5NOW</span>
+              <div class="flex items-center justify-between rounded-xl border border-white/10 bg-black/50 px-3 py-2">
+                <span class="text-zinc-400">5% NOW:</span>
+                <span class="font-bold text-white">RWND5NOW</span>
               </div>
-              <div class="flex items-center justify-between rounded-xl border border-black/15 bg-[#EEF0F4] px-3 py-2">
-                <span class="text-[#3F3F46]">10% NEXT:</span>
-                <span class="font-bold text-[#09090B]">RWND10NEXT</span>
+              <div class="flex items-center justify-between rounded-xl border border-white/10 bg-black/50 px-3 py-2">
+                <span class="text-zinc-400">10% NEXT:</span>
+                <span class="font-bold text-white">RWND10NEXT</span>
               </div>
             </div>
-            <button type="button" data-close-welcome class="mt-2 w-full rounded-full border border-black bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold tracking-wider text-white uppercase transition-colors hover:bg-white hover:text-[#09090B] cursor-pointer">
-              CONTINUE TO ARCHIVE →
+            <button type="button" data-close-welcome class="mt-2 w-full rounded-full bg-white px-6 py-3 font-mono-tech text-xs font-bold tracking-wider text-black uppercase transition-colors hover:bg-zinc-200 cursor-pointer">
+              SHOP DROP 01 →
             </button>
           </div>
         </div>
@@ -137,7 +164,7 @@
     <!-- Header Section -->
     {% section 'header' %}
 
-    <!-- Main Page Content Injection (Mandatory Shopify Tag) -->
+    <!-- Main Page Content Injection -->
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
