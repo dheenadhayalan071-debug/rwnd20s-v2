@@ -1,0 +1,231 @@
+:root {
+  --font-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #DCDFE5;
+  background-image: linear-gradient(
+    135deg,
+    #E8EBF0 0%,
+    #D0D4DD 45%,
+    #E4E7ED 75%,
+    #D5D9E2 100%
+  );
+  background-attachment: fixed;
+  color: #09090B;
+  filter: brightness(1.002) contrast(1.005);
+}
+
+/* Metallic Chrome Clean Surface Utilities */
+.metallic-chrome-bg {
+  background-color: #DCDFE5;
+  background-image: linear-gradient(
+    135deg,
+    #EAEDF2 0%,
+    #D1D5DE 38%,
+    #E6E9EF 72%,
+    #CFD4DD 100%
+  );
+}
+
+.metallic-chrome-panel {
+  background-color: #E4E7EC;
+  background-image: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(220, 224, 232, 0.92) 55%,
+    rgba(244, 246, 250, 0.95) 100%
+  );
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.studio-spotlight {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.35) 45%,
+    transparent 75%
+  );
+}
+
+.studio-spotlight-intense {
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.42) 45%,
+    transparent 72%
+  );
+}
+
+.chrome-text-gradient {
+  background: linear-gradient(180deg, #09090B 0%, #27272A 52%, #52525B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Retro Y2K CRT Scanline & Halftone Dot-Matrix Accents */
+.retro-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(9, 9, 11, 0.04) 0px,
+    rgba(9, 9, 11, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.retro-halftone-grid {
+  background-image: radial-gradient(rgba(9, 9, 11, 0.12) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.retro-window-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(228, 231, 236, 0.75) 100%
+  );
+}
+
+/* Subtle High-Frequency CRT Monitor Brightness Flicker */
+@keyframes crtBrightnessFlicker {
+  0% {
+    opacity: 0.55;
+  }
+  25% {
+    opacity: 0.88;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  75% {
+    opacity: 0.82;
+  }
+  100% {
+    opacity: 0.64;
+  }
+}
+
+.crt-flicker-overlay {
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.045) 0px,
+    rgba(9, 9, 11, 0.022) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: crtBrightnessFlicker 0.12s steps(2, start) infinite;
+}
+
+/* Classic 90s Command-Line Blinking Terminal Block Cursor */
+@keyframes terminalCursorBlink {
+  0%, 49% {
+    opacity: 1;
+    visibility: visible;
+  }
+  50%, 100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.terminal-block-cursor {
+  display: inline-block;
+  width: 0.65em;
+  height: 1.05em;
+  vertical-align: text-bottom;
+  background-color: #09090B;
+  color: #09090B;
+  animation: terminalCursorBlink 0.95s steps(2, start) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .crt-flicker-overlay {
+    animation: none !important;
+    filter: none !important;
+  }
+}
+
+@keyframes y2kStarburstPulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(0.94);
+    opacity: 0.78;
+  }
+  50% {
+    transform: rotate(14deg) scale(1.08);
+    opacity: 1;
+  }
+}
+
+.y2k-starburst-pulse {
+  animation: y2kStarburstPulse 6s ease-in-out infinite;
+}
+
+@keyframes chrome3dSpin {
+  0% {
+    transform: perspective(900px) rotateY(0deg) rotateX(14deg) rotateZ(-6deg);
+  }
+  50% {
+    transform: perspective(900px) rotateY(180deg) rotateX(-14deg) rotateZ(6deg);
+  }
+  100% {
+    transform: perspective(900px) rotateY(360deg) rotateX(14deg) rotateZ(-6deg);
+  }
+}
+
+.chrome-3d-spin {
+  transform-style: preserve-3d;
+  animation: chrome3dSpin 2.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+@keyframes retroTickerMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.retro-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: retroTickerMarquee 26s linear infinite;
+}
+
+.retro-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Chrome Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D1D5DE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #09090B;
+  border-radius: 9999px;
+  }
