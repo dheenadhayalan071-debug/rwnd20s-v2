@@ -84,7 +84,7 @@
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-        <!-- CINEMATIC INTRO GATEWAY (Full-Screen Edge-to-Edge Fix) -->
+            <!-- CINEMATIC INTRO GATEWAY (Bulletproof Video Container) -->
     <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
       <div class="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
       <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
@@ -110,15 +110,65 @@
         </button>
       </div>
 
-             <!-- 3D Video Container (Fixed Display & Sizing) -->
-      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center w-full h-[100dvh] overflow-hidden">
-        <video id="rwnd-intro-video" class="absolute inset-0 w-full h-full object-contain bg-black" playsinline muted autoplay>
+      <!-- 3D Video Container (Guaranteed Display & Fallback) -->
+      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center w-full h-[100dvh]">
+        <video id="rwnd-intro-video" class="absolute inset-0 w-full h-full object-contain bg-black" playsinline autoplay muted>
           <source src="https://cdn.shopify.com/videos/c/o/v/8918b1477fce4b87aaacba0810779b7b.mp4" type="video/mp4">
+          Your browser does not support the video tag.
         </video>
-        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer">
+        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer shadow-lg">
           SKIP INTRO [ ESC ]
         </button>
       </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('rwnd-gateway-splash');
+        const triggerBtn = document.getElementById('rwnd-trigger-intro');
+        const videoContainer = document.getElementById('rwnd-video-container');
+        const introVideo = document.getElementById('rwnd-intro-video');
+        const skipBtn = document.getElementById('rwnd-skip-video');
+        const promptBox = document.getElementById('rwnd-entry-prompt');
+
+        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') {
+          if (splash) splash.remove();
+        } else {
+          triggerBtn?.addEventListener('click', () => {
+            promptBox.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+            setTimeout(() => {
+              promptBox.classList.add('hidden');
+              videoContainer.classList.remove('hidden');
+              videoContainer.classList.add('flex');
+              
+              const playPromise = introVideo.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                  console.log("Autoplay blocked or video error, skipping to store:", error);
+                  dismissGateway();
+                });
+              }
+            }, 300);
+          });
+
+          introVideo?.addEventListener('ended', () => dismissGateway());
+          skipBtn?.addEventListener('click', () => dismissGateway());
+
+          function dismissGateway() {
+            sessionStorage.setItem('rwnd_intro_seen', 'true');
+            if (introVideo) introVideo.pause();
+            
+            splash.classList.add('opacity-0');
+            setTimeout(() => {
+              splash.remove();
+              if (typeof window.showRwndWelcomeModal === 'function') {
+                window.showRwndWelcomeModal();
+              }
+            }, 600);
+          }
+        }
+      });
+    </script>
 
     <!-- VIVID STRIKING GOTHIC BACKGROUND -->
     <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
