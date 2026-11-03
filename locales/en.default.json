@@ -17,10 +17,10 @@
       "placeholder": "Search archive hardware..."
     },
     "cart": {
-      "title": "Shopping Bag",
-      "empty": "YOUR HARDWARE BAG IS EMPTY",
+      "title": "your identity",
+      "empty": "oops! seems you're not ready",
       "subtotal": "SUBTOTAL (MRP INCL. TAX)",
-      "checkout": "PROCEED TO CHECKOUT →",
+      "checkout": "wear different",
       "free_shipping_unlocked": "You've unlocked FREE Express Shipping!"
     }
   },
