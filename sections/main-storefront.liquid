@@ -4,60 +4,49 @@
 {% else %}
   {% assign archive_collection = collections['all'] %}
 {% endif %}
-{% assign hero_cyber = archive_collection.products[0] %}
-{% assign hero_audio = archive_collection.products[1] %}
-{% assign hero_watch = archive_collection.products[2] %}
 
-<section class="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+{% assign hero_cyber = blank %}
+{% assign hero_audio = blank %}
+{% assign hero_watch = blank %}
+{% for product in archive_collection.products %}
+  {% assign title_key = product.title | downcase %}
+  {% assign handle_key = product.handle | downcase %}
+  {% if hero_cyber == blank and (title_key contains 'cyber set' or handle_key contains 'cyber-set') %}
+    {% assign hero_cyber = product %}
+  {% endif %}
+  {% if hero_audio == blank and (title_key contains 'earphone' or handle_key contains 'earphone' or handle_key contains 'audio') %}
+    {% assign hero_audio = product %}
+  {% endif %}
+  {% if hero_watch == blank and (title_key contains 'watch' or title_key contains 'chronograph' or handle_key contains 'watch') %}
+    {% assign hero_watch = product %}
+  {% endif %}
+{% endfor %}
+{% assign first_product = archive_collection.products[0] %}
+{% assign second_product = archive_collection.products[1] %}
+{% assign third_product = archive_collection.products[2] %}
+{% if hero_cyber == blank %}{% assign hero_cyber = first_product %}{% endif %}
+{% if hero_audio == blank %}
+  {% if second_product and second_product.id != hero_cyber.id %}{% assign hero_audio = second_product %}{% elsif first_product and first_product.id != hero_cyber.id %}{% assign hero_audio = first_product %}{% endif %}
+{% endif %}
+{% if hero_watch == blank %}
+  {% if third_product and third_product.id != hero_cyber.id and third_product.id != hero_audio.id %}{% assign hero_watch = third_product %}{% endif %}
+{% endif %}
+
+<section class="rwnd-home-hero relative mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
   <div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center">
-    <div role="tablist" aria-label="Featured archive pieces" class="relative z-10 mt-6 flex w-full flex-wrap items-center justify-center gap-2.5">
-      {% if hero_cyber %}<button role="tab" type="button" data-hero-btn="0" aria-selected="true" aria-controls="hero-slide-0" class="rwnd-hero-tab rounded-full border border-red-500 bg-red-600 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-white uppercase">01 // CYBER SET</button>{% endif %}
-      {% if hero_audio %}<button role="tab" type="button" data-hero-btn="1" aria-selected="false" aria-controls="hero-slide-1" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500">02 // AUDIO ARTIFACT</button>{% endif %}
-      {% if hero_watch %}<button role="tab" type="button" data-hero-btn="2" aria-selected="false" aria-controls="hero-slide-2" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500">03 // TIMEPIECE</button>{% endif %}
+    <div role="tablist" aria-label="Featured archive pieces" class="relative z-10 flex w-full flex-wrap items-center justify-center gap-2">
+      {% if hero_cyber %}<button id="hero-tab-0" role="tab" type="button" data-hero-btn="0" aria-selected="true" aria-controls="hero-slide-0" class="rwnd-hero-tab rounded-full border border-red-500 bg-red-600 px-3 py-2 font-mono-tech text-[10px] font-bold tracking-wider text-white uppercase sm:px-4 sm:text-xs">01 // CYBER SET</button>{% endif %}
+      {% if hero_audio %}<button id="hero-tab-1" role="tab" type="button" data-hero-btn="1" aria-selected="false" aria-controls="hero-slide-1" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-3 py-2 font-mono-tech text-[10px] font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500 sm:px-4 sm:text-xs">02 // AUDIO ARTIFACT</button>{% endif %}
+      {% if hero_watch %}<button id="hero-tab-2" role="tab" type="button" data-hero-btn="2" aria-selected="false" aria-controls="hero-slide-2" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-3 py-2 font-mono-tech text-[10px] font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500 sm:px-4 sm:text-xs">03 // TIMEPIECE</button>{% endif %}
     </div>
 
-    <div class="relative mx-auto mt-8 flex min-h-[520px] w-full max-w-[540px] flex-col items-center justify-start text-center sm:min-h-[590px]">
+    <div class="relative mx-auto mt-5 flex min-h-[440px] w-full max-w-[540px] flex-col items-center justify-start text-center sm:mt-7 sm:min-h-[560px]">
       <div class="studio-spotlight pointer-events-none absolute inset-0 rounded-full scale-110 bg-red-900/20 blur-[100px]"></div>
-
-      {% for hero_product in archive_collection.products limit: 3 %}
-        {% assign hero_variant = hero_product.selected_or_first_available_variant %}
-        {% assign hero_index = forloop.index0 %}
-        <article id="hero-slide-{{ hero_index }}" data-hero-stage-slide="{{ hero_index }}" class="rwnd-hero-slide relative z-10 flex w-full flex-col items-center justify-start text-center{% unless forloop.first %} hidden{% endunless %}" role="tabpanel" aria-labelledby="hero-tab-{{ hero_index }}">
-          <span class="mb-3 inline-flex rounded-full border border-red-800/60 bg-[#060606]/95 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-300 uppercase">ARCHIVE 01 // NO RULES</span>
-
-          <a href="{{ hero_product.url }}" class="relative mx-auto flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-red-700/40 bg-[#060606]/95 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.8)] backdrop-blur-3xl sm:h-72 sm:w-72" aria-label="Inspect {{ hero_product.title | escape }}">
-            {% if hero_product.featured_image %}
-              <img src="{{ hero_product.featured_image | image_url: width: 1000 }}" alt="{{ hero_product.featured_image.alt | default: hero_product.title | escape }}" width="1000" height="1000" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" class="h-full w-full object-contain" {% if forloop.first %}fetchpriority="high"{% endif %}>
-            {% else %}
-              <span class="font-mono-tech text-xs font-bold uppercase tracking-widest text-[#E9E3D5]">{{ hero_product.title | escape }}</span>
-            {% endif %}
-          </a>
-
-          <div class="mt-5 flex w-full flex-col items-center justify-center text-center">
-            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">// MDU_DISPATCH · HEAVYWEIGHT BRUTALISM</p>
-            <h2 class="mt-2 max-w-lg font-display text-xl font-extrabold uppercase tracking-tight text-white sm:text-2xl">{{ hero_product.title | escape }}</h2>
-            <div class="mt-3 flex items-baseline justify-center gap-3">
-              <span class="font-mono-tech text-lg font-bold text-white">{{ hero_variant.price | money }}</span>
-              {% if hero_variant.compare_at_price > hero_variant.price %}<span class="font-mono-tech text-sm text-zinc-400 line-through">{{ hero_variant.compare_at_price | money }}</span>{% endif %}
-            </div>
-
-            <div class="mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3">
-              {% if hero_variant %}
-                <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="w-full">
-                  <input type="hidden" name="id" value="{{ hero_variant.id }}">
-                  <input type="hidden" name="quantity" value="1">
-                  <button type="submit" name="add" class="w-full border border-red-500 bg-red-600 px-5 py-4 font-mono-tech text-xs font-extrabold uppercase tracking-[0.16em] text-white shadow-[0_0_24px_rgba(220,38,38,0.28)] transition-colors hover:bg-red-700">[ + ADD TO HARDWARE BAG ]</button>
-                </form>
-                <a href="/checkout" class="w-full border border-red-800/60 bg-[#060606]/95 px-5 py-4 text-center font-mono-tech text-xs font-bold uppercase tracking-[0.16em] text-[#E9E3D5] transition-colors hover:border-red-500 hover:text-white">[ INSTANT SECURE CHECKOUT → ]</a>
-              {% endif %}
-              <a href="{{ hero_product.url }}" class="mt-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-300 underline decoration-red-700 underline-offset-4">Inspect artifact</a>
-            </div>
-          </div>
-        </article>
-      {% endfor %}
-
+      {% if hero_cyber %}{% render 'hero-product-slide', hero_product: hero_cyber, hero_index: 0 %}{% endif %}
+      {% if hero_audio %}{% render 'hero-product-slide', hero_product: hero_audio, hero_index: 1 %}{% endif %}
+      {% if hero_watch %}{% render 'hero-product-slide', hero_product: hero_watch, hero_index: 2 %}{% endif %}
       {% if archive_collection.products.size == 0 %}
-        <div class="relative z-10 flex min-h-[420px] w-full flex-col items-center justify-center rounded-3xl border border-red-800/40 bg-[#060606]/95 p-8 text-center backdrop-blur-3xl">
+        <div class="relative z-10 flex min-h-[340px] w-full flex-col items-center justify-center rounded-3xl border border-red-800/40 bg-[#060606]/95 p-6 text-center backdrop-blur-3xl sm:min-h-[420px] sm:p-8">
           <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.22em] text-red-300">// MDU_DISPATCH</p>
           <h2 class="mt-3 font-display text-2xl font-extrabold uppercase text-white">NO ARTIFACTS IN THIS ARCHIVE</h2>
           <p class="mt-2 max-w-sm font-mono-tech text-xs leading-relaxed text-[#E9E3D5]">The drop is quiet for now. Check back when the next transmission lands.</p>
@@ -65,33 +54,32 @@
       {% endif %}
     </div>
 
-    <div class="mt-8 max-w-2xl">
-      <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.24em] text-red-300">{{ section.settings.hero_badge | escape }}</p>
-      <h1 class="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-6xl">
+    <div class="mt-5 max-w-2xl sm:mt-8">
+      <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.2em] text-red-300 sm:text-xs sm:tracking-[0.24em]">{{ section.settings.hero_badge | escape }}</p>
+      <h1 class="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight text-white sm:mt-3 sm:text-6xl">
         <span class="block">{{ section.settings.hero_title_line_1 | escape }}</span>
         <span class="mt-1 block font-editorial font-normal italic text-[#E9E3D5]">{{ section.settings.hero_title_line_2 | escape }}</span>
       </h1>
-      <p class="mx-auto mt-4 max-w-xl font-mono-tech text-xs leading-relaxed text-[#E9E3D5] sm:text-sm">{{ section.settings.hero_subtitle | escape }}</p>
-      <a href="#shop" class="mt-6 inline-flex items-center justify-center border border-red-700 bg-red-700 px-8 py-4 font-mono-tech text-xs font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-red-800">ENTER THE ARCHIVE →</a>
+      <p class="mx-auto mt-3 max-w-xl font-mono-tech text-xs leading-relaxed text-[#E9E3D5] sm:mt-4 sm:text-sm">{{ section.settings.hero_subtitle | escape }}</p>
+      <a href="#shop" class="mt-4 inline-flex items-center justify-center border border-red-700 bg-red-700 px-6 py-3 font-mono-tech text-[10px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-red-800 sm:mt-6 sm:px-8 sm:py-4 sm:text-xs">ENTER THE ARCHIVE →</a>
     </div>
   </div>
 </section>
 
-<section id="shop" class="mx-auto max-w-7xl border-t border-red-950/60 px-4 py-12 sm:px-6 lg:px-8">
-  <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+<section id="shop" class="mx-auto max-w-7xl border-t border-red-950/60 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
     <div>
-      <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.22em] text-red-300">02 // MDU_DISPATCH</p>
-      <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-white uppercase sm:text-3xl">NOCTURNAL ARTIFACTS</h2>
+      <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.18em] text-red-300 sm:text-xs sm:tracking-[0.22em]">02 // MDU_DISPATCH</p>
+      <h2 class="mt-1 font-display text-xl font-extrabold tracking-tight text-white uppercase sm:text-3xl">NOCTURNAL ARTIFACTS</h2>
     </div>
-    <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-[#E9E3D5]">{{ archive_collection.products.size }} ARTIFACTS // ARCHIVE OPEN</p>
+    <p id="rwnd-showing-count" class="font-mono-tech text-[10px] font-bold text-[#E9E3D5] sm:text-xs">{{ archive_collection.products.size }} ARTIFACTS // ARCHIVE OPEN</p>
   </div>
 
-  <div id="rwnd-product-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div id="rwnd-product-grid" class="mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
     {% for product in archive_collection.products %}
-      {% assign default_variant = product.selected_or_first_available_variant %}
       {% assign savings = product.compare_at_price | minus: product.price %}
-      <article class="group flex flex-col justify-between overflow-hidden rounded-3xl foggy-glass p-5 transition-transform duration-300 hover:scale-[1.01]">
-        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border border-red-900/40 bg-[#060606]/95 p-4">
+      <article class="group flex flex-col justify-between overflow-hidden rounded-3xl foggy-glass p-4 transition-transform duration-300 hover:scale-[1.01] sm:p-5">
+        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border border-red-900/40 bg-[#060606]/95 p-3 sm:p-4">
           <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
             {% if product.featured_image %}
               <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="800" height="800" loading="lazy" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105">
@@ -102,14 +90,14 @@
           {% if product.compare_at_price > product.price %}<span class="absolute left-3 top-3 rounded-full border border-red-700/60 bg-[#060606] px-2.5 py-1 font-mono-tech text-[10px] font-bold uppercase text-red-200">SAVE {{ savings | money }}</span>{% endif %}
         </div>
 
-        <div class="flex flex-1 flex-col justify-between pt-5">
+        <div class="flex flex-1 flex-col justify-between pt-4 sm:pt-5">
           <div>
-            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">// ARCHIVE ARTIFACT</p>
-            <h3 class="mt-1 font-display text-base font-bold tracking-wide text-white uppercase"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.16em] text-red-300">// ARCHIVE ARTIFACT</p>
+            <h3 class="rwnd-product-title mt-1 font-display text-sm font-bold tracking-tight text-white uppercase sm:text-base sm:tracking-wide"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
             <p class="mt-1 text-xs text-[#E9E3D5]">{{ product.type | default: 'UNBREAKABLE 316L ALLOY' | escape }}</p>
           </div>
 
-          <div class="mt-5 flex items-center justify-between border-t border-red-900/40 pt-4">
+          <div class="mt-4 flex items-center justify-between border-t border-red-900/40 pt-3 sm:mt-5 sm:pt-4">
             <div class="flex flex-wrap items-baseline gap-2">
               <span class="font-mono-tech text-base font-bold text-white">{{ product.price | money }}</span>
               {% if product.compare_at_price > product.price %}<span class="font-mono-tech text-xs text-zinc-400 line-through">{{ product.compare_at_price | money }}</span>{% endif %}
