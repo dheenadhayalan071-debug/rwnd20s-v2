@@ -1,37 +1,17 @@
 <!-- sections/header.liquid -->
-
-<!-- Top Announcement Bar -->
 <div class="w-full border-b border-red-950/40 bg-[#030303] px-3 py-2 text-center relative z-40">
   <div class="mx-auto flex max-w-7xl items-center justify-center gap-3">
-    <p class="font-mono-tech text-[10px] sm:text-[11px] font-medium tracking-[0.16em] text-zinc-300 uppercase truncate">
-      {{ section.settings.announcement_text }}
-    </p>
-    <button
-      id="rwnd-open-welcome-popup"
-      type="button"
-      class="hidden md:inline-flex items-center rounded-full border border-red-900/60 bg-red-950/40 px-2.5 py-0.5 font-mono-tech text-[10px] font-semibold tracking-wider text-red-300 uppercase transition-all hover:bg-red-900 hover:text-white cursor-pointer shrink-0 backdrop-blur-md"
-    >
-      + 5% OFF PASS
-    </button>
+    <p class="font-mono-tech text-[10px] sm:text-[11px] font-medium tracking-[0.16em] text-zinc-300 uppercase truncate">{{ section.settings.announcement_text }}</p>
+    <button id="rwnd-open-welcome-popup" type="button" class="hidden md:inline-flex items-center rounded-full border border-red-900/60 bg-red-950/40 px-2.5 py-0.5 font-mono-tech text-[10px] font-semibold tracking-wider text-red-300 uppercase transition-colors hover:bg-red-900/50">+ 5% OFF PASS</button>
   </div>
 </div>
 
-<!-- Sticky Frosted Glass Obsidian Header -->
 <header class="sticky top-0 z-40 border-b border-white/10 bg-[#030303]/80 backdrop-blur-2xl">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
-    
-    <!-- Left: Clean Typographic Wordmark -->
-    <a
-      href="{{ routes.root_url }}"
-      aria-label="{{ shop.name | default: 'rwnd20s.' }}"
-      class="inline-flex items-center whitespace-nowrap shrink-0 transition-opacity hover:opacity-80"
-    >
-      <span class="font-display text-xl sm:text-2xl font-extrabold tracking-tighter text-white drop-shadow-sm">
-        {{ settings.brand_name | default: 'rwnd20s.' }}
-      </span>
+    <a href="{{ routes.root_url }}" aria-label="{{ shop.name | default: 'rwnd20s.' }}" class="inline-flex items-center whitespace-nowrap shrink-0 transition-opacity hover:opacity-80">
+      <span class="font-display text-xl sm:text-2xl font-extrabold tracking-tighter text-white drop-shadow-sm">{{ settings.brand_name | default: 'rwnd20s.' }}</span>
     </a>
 
-    <!-- Center: Desktop Navigation -->
     <nav aria-label="Main Navigation" class="hidden lg:flex items-center gap-9">
       <a href="{{ routes.root_url }}#home" class="text-xs font-semibold tracking-widest text-white uppercase border-b border-red-600 pb-0.5">Home</a>
       <a href="{{ routes.root_url }}#collections" class="text-xs font-semibold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">Collections</a>
@@ -39,90 +19,37 @@
       <a href="{{ routes.root_url }}#about" class="text-xs font-semibold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">About</a>
     </nav>
 
-    <!-- Right: Search, Wishlist, Bag & Mobile Menu Trigger -->
     <div class="flex items-center gap-2 shrink-0">
-      <a
-        href="#shop"
-        aria-label="Search Archive"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white transition-all hover:border-red-600 hover:bg-red-950/30 backdrop-blur-md"
-      >
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+      <a href="{{ routes.root_url }}#shop" aria-label="Search Archive" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white transition-all hover:border-red-600 hover:bg-red-950/30 backdrop-blur-md">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
       </a>
-
-      <button
-        type="button"
-        data-open-cart="wishlist"
-        aria-label="Wishlist"
-        class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-all hover:border-red-600 hover:bg-red-950/30 cursor-pointer backdrop-blur-md"
-      >
-        <span>WISHLIST</span>
-        <span data-wishlist-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 font-mono-tech text-[10px] font-bold text-white">
-          0
-        </span>
+      <button type="button" data-open-cart="wishlist" aria-label="Wishlist" class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-all hover:border-red-600">
+        <span>WISHLIST</span><span data-wishlist-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 font-mono-tech text-[10px] font-bold text-white">0</span>
       </button>
-
-      <button
-        type="button"
-        data-open-cart="bag"
-        aria-label="Shopping Bag"
-        class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-all hover:border-red-600 hover:bg-red-950/30 cursor-pointer backdrop-blur-md"
-      >
-        <svg class="h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-        </svg>
-        <span data-cart-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 font-mono-tech text-[10px] font-bold text-white">
-          {{ cart.item_count }}
-        </span>
-      </button>
-
-      <button
-        type="button"
-        data-toggle-mobile-menu
-        aria-label="Open Menu"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white transition-all hover:border-red-600 hover:bg-red-950/30 lg:hidden cursor-pointer backdrop-blur-md"
-      >
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
-        </svg>
+      <a href="/cart" aria-label="Shopping Bag" class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 font-mono-tech text-[11px] font-semibold text-white transition-all hover:border-red-600">
+        <svg class="h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+        <span data-cart-count class="inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 font-mono-tech text-[10px] font-bold text-white">{{ cart.item_count }}</span>
+      </a>
+      <button type="button" data-toggle-mobile-menu aria-label="Open Menu" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white transition-all hover:border-red-600 hover:bg-red-950/30 lg:hidden cursor-pointer">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
       </button>
     </div>
   </div>
 </header>
 
-<!-- Full-Screen Obsidian Goth Mobile Drawer -->
-<div
-  id="rwnd-mobile-menu"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Mobile Navigation"
-  class="fixed inset-0 z-50 hidden flex-col justify-between bg-[#030303]/95 p-6 text-white lg:hidden backdrop-blur-2xl border-l border-red-900/30"
->
+<div id="rwnd-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation" class="fixed inset-0 z-50 hidden flex-col justify-between bg-[#030303]/95 p-6 text-white lg:hidden backdrop-blur-2xl border-l border-red-900/30">
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
-    <span class="font-display text-xl font-extrabold tracking-tighter text-white">
-      {{ settings.brand_name | default: 'rwnd20s.' }}
-    </span>
-    <button
-      type="button"
-      data-toggle-mobile-menu
-      aria-label="Close Menu"
-      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white hover:border-red-600 transition-colors"
-    >
-      ✕
-    </button>
+    <span class="font-display text-xl font-extrabold tracking-tighter text-white">{{ settings.brand_name | default: 'rwnd20s.' }}</span>
+    <button type="button" data-toggle-mobile-menu aria-label="Close Menu" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white hover:border-red-600 transition-colors">✕</button>
   </div>
-
   <nav class="my-auto flex flex-col space-y-2">
-    <a href="#home" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">01 // HOME</a>
-    <a href="#collections" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">02 // COLLECTIONS</a>
-    <a href="#shop" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">03 // SHOP DROP 01</a>
-    <a href="#about" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">04 // MANIFESTO</a>
+    <a href="{{ routes.root_url }}#home" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">01 // HOME</a>
+    <a href="{{ routes.root_url }}#collections" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">02 // COLLECTIONS</a>
+    <a href="{{ routes.root_url }}#shop" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">03 // SHOP</a>
+    <a href="/cart" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">04 // HARDWARE BAG</a>
+    <a href="{{ routes.root_url }}#about" data-toggle-mobile-menu class="border-b border-white/10 py-4 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">05 // ABOUT</a>
   </nav>
-
-  <div class="border-t border-white/10 pt-4 font-mono-tech text-[11px] tracking-wider text-zinc-400 uppercase">
-    FREE EXPRESS SHIPPING ABOVE ₹999 · COD AVAILABLE
-  </div>
+  <div class="border-t border-white/10 pt-4 font-mono-tech text-[11px] tracking-wider text-zinc-400 uppercase">FREE EXPRESS SHIPPING ABOVE ₹999 · COD AVAILABLE</div>
 </div>
 
 {% schema %}
