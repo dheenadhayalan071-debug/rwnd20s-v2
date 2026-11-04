@@ -153,208 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
-   * 4. SHOPIFY NATIVE AJAX CART API & SLIDE-OUT DRAWER
-   * ========================================================================== */
-  const cartDrawer = document.getElementById('rwnd-cart-drawer');
-  const cartItemsContainer = document.getElementById('rwnd-cart-items');
-  const cartSubtotalEl = document.getElementById('rwnd-cart-subtotal');
-  const cartDiscountRow = document.getElementById('rwnd-cart-discount-row');
-  const cartDiscountAmountEl = document.getElementById('rwnd-cart-discount-amount');
-  const cartTotalEl = document.getElementById('rwnd-cart-total');
-  const cartShippingMsgEl = document.getElementById('rwnd-shipping-message');
-  const cartShippingBarEl = document.getElementById('rwnd-shipping-bar');
-  const cartCountBadges = document.querySelectorAll('[data-cart-count]');
-  const drawerTabs = document.querySelectorAll('[data-drawer-tab]');
-  const bagPanel = document.getElementById('rwnd-drawer-bag-panel');
-  const wishlistPanel = document.getElementById('rwnd-drawer-wishlist-panel');
-
-  function openCartDrawer(tab = 'bag') {
-    if (!cartDrawer) return;
-    cartDrawer.classList.remove('hidden');
-    cartDrawer.classList.add('flex');
-    switchDrawerTab(tab);
-    if (tab === 'bag') {
-      fetchCartState();
-    } else {
-      renderWishlistDrawer();
-    }
-  }
-
-  function closeCartDrawer() {
-    if (!cartDrawer) return;
-    cartDrawer.classList.add('hidden');
-    cartDrawer.classList.remove('flex');
-  }
-
-  function switchDrawerTab(tabName) {
-    drawerTabs.forEach((btn) => {
-      const isTarget = btn.getAttribute('data-drawer-tab') === tabName;
-      btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
-      if (isTarget) {
-        btn.className =
-          'inline-flex items-center gap-2 rounded-full border border-[#09090B] bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#09090B] uppercase shadow-sm cursor-pointer';
-      } else {
-        btn.className =
-          'inline-flex items-center gap-2 rounded-full border border-[#09090B]/20 bg-white/50 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-[#3F3F46] uppercase hover:text-[#09090B] cursor-pointer';
-      }
-    });
-
-    if (tabName === 'wishlist') {
-      bagPanel?.classList.add('hidden');
-      wishlistPanel?.classList.remove('hidden');
-      renderWishlistDrawer();
-    } else {
-      wishlistPanel?.classList.add('hidden');
-      bagPanel?.classList.remove('hidden');
-    }
-  }
-
-  async function fetchCartState() {
-    try {
-      const response = await fetch('/cart.js', {
-        headers: { Accept: 'application/json' }
-      });
-      if (!response.ok) return;
-      const cart = await response.json();
-      renderCartDrawer(cart);
-    } catch {
-      // Fallback if previewed outside Shopify server
-    }
-  }
-
-  function renderCartDrawer(cart) {
-    const itemCount = Number(cart?.item_count) || 0;
-    const totalPricePaise = Number(cart?.total_price) || 0;
-
-    cartCountBadges.forEach((el) => {
-      el.textContent = String(itemCount);
-    });
-
-    // Free Shipping Bar Calculation
-    const remainingPaise = Math.max(0, FREE_SHIPPING_THRESHOLD_PAISE - totalPricePaise);
-    const progressPercent = Math.min(
-      100,
-      Math.round((totalPricePaise / FREE_SHIPPING_THRESHOLD_PAISE) * 100)
-    );
-
-    if (cartShippingMsgEl) {
-      if (remainingPaise === 0 && itemCount > 0) {
-        cartShippingMsgEl.innerHTML =
-          '<span class="font-bold text-[#09090B]">✦ You\'ve unlocked FREE Express Shipping!</span>';
-      } else {
-        cartShippingMsgEl.innerHTML = `Add <strong class="text-[#09090B]">${formatMoneyINR(
-          remainingPaise
-        )}</strong> more to unlock FREE Shipping`;
-      }
-    }
-    if (cartShippingBarEl) {
-      cartShippingBarEl.style.width = `${progressPercent}%`;
-    }
-
-    if (!cartItemsContainer) return;
-
-    if (!cart.items || cart.items.length === 0) {
-      cartItemsContainer.innerHTML = `
-        <div class="flex h-64 flex-col items-center justify-center text-center">
-          <p class="font-display text-lg font-bold text-[#09090B] uppercase">YOUR HARDWARE BAG IS EMPTY</p>
-          <p class="mt-1 max-w-xs text-xs text-[#3F3F46]">Explore Drop 01 watches, pink chrome Type-C wired earphones, heavy 316L rings, chains, and bracelets.</p>
-        </div>
-      `;
-    } else {
-      cartItemsContainer.innerHTML = cart.items
-        .map(
-          (item) => `
-        <div class="flex gap-4 rounded-2xl border border-white bg-white/90 p-3.5 shadow-sm">
-          <img src="${item.image || ''}" alt="${item.product_title}" class="h-20 w-20 shrink-0 rounded-xl border border-[#09090B]/15 bg-[#D4D8E0] object-contain p-1.5">
-          <div class="flex flex-1 flex-col justify-between">
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <h4 class="font-display text-xs font-bold text-[#09090B] uppercase">${item.product_title}</h4>
-                <p class="mt-0.5 font-mono-tech text-[11px] text-[#52525B]">${item.variant_title || 'Standard Spec'}</p>
-              </div>
-              <button type="button" data-cart-change-id="${item.key}" data-cart-qty="0" aria-label="Remove item" class="font-mono-tech text-xs font-bold text-[#52525B] hover:text-[#09090B] cursor-pointer">✕</button>
-            </div>
-            <div class="mt-3 flex items-center justify-between">
-              <div class="inline-flex items-center rounded-full border border-[#09090B]/20 bg-white px-1.5 py-0.5">
-                <button type="button" data-cart-change-id="${item.key}" data-cart-qty="${item.quantity - 1}" class="h-6 w-6 rounded-full font-mono-tech text-xs font-bold text-[#09090B] hover:bg-[#09090B]/10 cursor-pointer">-</button>
-                <span class="w-6 text-center font-mono-tech text-xs font-bold text-[#09090B]">${item.quantity}</span>
-                <button type="button" data-cart-change-id="${item.key}" data-cart-qty="${item.quantity + 1}" class="h-6 w-6 rounded-full font-mono-tech text-xs font-bold text-[#09090B] hover:bg-[#09090B]/10 cursor-pointer">+</button>
-              </div>
-              <span class="font-mono-tech text-sm font-bold text-[#09090B]">${formatMoneyINR(item.final_line_price)}</span>
-            </div>
-          </div>
-        </div>
-      `
-        )
-        .join('');
-    }
-
-    const offer = getSavedWelcomeOffer();
-    const discountPaise = offer ? Math.round(totalPricePaise * 0.05) : 0;
-    const finalTotalPaise = Math.max(0, totalPricePaise - discountPaise);
-
-    if (cartSubtotalEl) cartSubtotalEl.textContent = formatMoneyINR(totalPricePaise);
-    if (cartDiscountRow && cartDiscountAmountEl) {
-      if (discountPaise > 0) {
-        cartDiscountRow.classList.remove('hidden');
-        cartDiscountRow.classList.add('flex');
-        cartDiscountAmountEl.textContent = '-' + formatMoneyINR(discountPaise);
-      } else {
-        cartDiscountRow.classList.add('hidden');
-      }
-    }
-    if (cartTotalEl) cartTotalEl.textContent = formatMoneyINR(finalTotalPaise);
-  }
-
-    async function addItemToShopifyCart(variantId, quantity = 1) {
-    try {
-      const response = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          id: Number(variantId) || variantId,
-          quantity: Number(quantity) || 1
-        })
-      });
-
-      if (response.ok) {
-        await fetchCartState();
-        // Discreet toast notification allowing the user to keep shopping
-        showToast('ADDED TO HARDWARE BAG', 'Artifact synced. Continue shopping or open bag when ready.');
-      } else {
-        showToast('BAG UPDATED', 'Artifact added to bag preview.');
-      }
-    } catch {
-      showToast('BAG UPDATED', 'Artifact added to bag preview.');
-    }
-    }
-
-  async function updateShopifyCartItem(lineKey, quantity) {
-    try {
-      const response = await fetch('/cart/change.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          id: lineKey,
-          quantity: Math.max(0, Number(quantity) || 0)
-        })
-      });
-      if (response.ok) {
-        const updatedCart = await response.json();
-        renderCartDrawer(updatedCart);
-      }
-    } catch {
-      // ignore network error in preview mode
-    }
-  }
-
-  /* ==========================================================================
    * 5. WISHLIST PERSISTENCE (localStorage)
    * ========================================================================== */
   function getWishlistItems() {
@@ -471,53 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateCountdown();
 
-  /* ==========================================================================
+    /* ==========================================================================
    * 7. EVENT DELEGATION & GLOBAL CLICKS
    * ========================================================================== */
   document.addEventListener('click', (e) => {
-    // Open Bag / Wishlist triggers
-    const openCartTrigger = e.target.closest('[data-open-cart]');
-    if (openCartTrigger) {
-      const tab = openCartTrigger.getAttribute('data-open-cart') || 'bag';
-      openCartDrawer(tab);
-      return;
-    }
-
-    // Close Cart Drawer triggers
-    const closeDrawerTrigger = e.target.closest('[data-close-cart]');
-    if (closeDrawerTrigger || e.target === cartDrawer) {
-      closeCartDrawer();
-      return;
-    }
-
-    // Switch Drawer Tab buttons
-    const tabTrigger = e.target.closest('[data-drawer-tab]');
-    if (tabTrigger) {
-      switchDrawerTab(tabTrigger.getAttribute('data-drawer-tab'));
-      return;
-    }
-
-    // Add to cart click handler
-    const addToCartBtn = e.target.closest('[data-add-to-cart]');
-    if (addToCartBtn) {
-      const variantId = addToCartBtn.getAttribute('variant-id');
-      if (variantId) {
-        addItemToShopifyCart(variantId, 1);
-      }
-      return;
-    }
-
-    // Cart quantity changer (+ / - / remove)
-    const changeBtn = e.target.closest('[data-cart-change-id]');
-    if (changeBtn) {
-      const lineKey = changeBtn.getAttribute('data-cart-change-id');
-      const newQty = changeBtn.getAttribute('data-cart-qty');
-      if (lineKey !== null && newQty !== null) {
-        updateShopifyCartItem(lineKey, newQty);
-      }
-      return;
-    }
-
+    
     // Wishlist toggle button click on product cards
     const wishlistToggle = e.target.closest('[data-toggle-wishlist]');
     if (wishlistToggle) {
@@ -537,32 +293,36 @@ document.addEventListener('DOMContentLoaded', () => {
           wishlistToggle.textContent = '♥';
           wishlistToggle.classList.remove('bg-white', 'text-black');
           wishlistToggle.classList.add('bg-black/60', 'text-white');
-          showToast('REMOVED FROM WISHLIST', `${title} cleared from your archive list.`);
+          if (typeof showToast === 'function') showToast('REMOVED FROM WISHLIST', `${title} cleared from your archive list.`);
         } else {
           wishlist.push({ handle, title, price, comparePrice, image, variantId });
           wishlistToggle.textContent = '★';
           wishlistToggle.classList.remove('bg-black/60', 'text-white');
           wishlistToggle.classList.add('bg-white', 'text-black');
-          showToast('SAVED TO WISHLIST', `${title} added to your archive list.`);
+          if (typeof showToast === 'function') showToast('SAVED TO WISHLIST', `${title} added to your archive list.`);
         }
         saveWishlistItems(wishlist);
       }
       return;
     }
 
-    // Remove item directly from wishlist drawer
+    // Remove item directly from wishlist
     const removeWishlistBtn = e.target.closest('[data-remove-wishlist]');
     if (removeWishlistBtn) {
       const handle = removeWishlistBtn.getAttribute('data-remove-wishlist');
       let wishlist = getWishlistItems();
       wishlist = wishlist.filter((i) => i.handle !== handle);
       saveWishlistItems(wishlist);
-      renderWishlistDrawer();
-      showToast('WISHLIST UPDATED', 'Item removed from saved list.');
+      
+      // Update UI if on a dedicated wishlist page
+      const cardToRemove = removeWishlistBtn.closest('.wishlist-item-card');
+      if (cardToRemove) cardToRemove.remove();
+
+      if (typeof showToast === 'function') showToast('WISHLIST UPDATED', 'Item removed from saved list.');
       return;
     }
 
-    // Mobile menu toggle
+    // Mobile menu toggle (Fallback support)
     const mobileMenuToggle = e.target.closest('[data-toggle-mobile-menu]');
     if (mobileMenuToggle) {
       const menu = document.getElementById('rwnd-mobile-menu');
