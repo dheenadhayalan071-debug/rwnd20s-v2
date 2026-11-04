@@ -1,9 +1,9 @@
 <!-- sections/main-cart.liquid -->
-<div class="relative w-full min-h-screen bg-transparent text-[#E9E3D5] py-16 px-4 sm:px-6 lg:px-12 font-mono-tech">
+<div class="relative w-full min-h-[80vh] py-10 px-4 sm:px-6 lg:px-12 text-[#E9E3D5] font-mono-tech">
   <div class="max-w-5xl mx-auto">
     
     <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-zinc-400">
+    <nav aria-label="Breadcrumb" class="mb-6 font-mono-tech text-xs text-zinc-400">
       <ol class="flex items-center gap-2 uppercase tracking-wider">
         <li><a href="/" class="hover:text-white transition-colors">BASE</a></li>
         <li>/</li>
@@ -11,8 +11,8 @@
       </ol>
     </nav>
 
-    <div class="border-b border-white/15 pb-6 mb-8">
-      <h1 class="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white drop-shadow-md">
+    <div class="border-b border-white/15 pb-4 mb-6">
+      <h1 class="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white drop-shadow-md">
         YOUR HARDWARE BAG
       </h1>
       <p class="mt-1 font-mono-tech text-xs text-zinc-400">
@@ -20,30 +20,30 @@
       </p>
     </div>
 
-    <!-- Free Shipping Progress Bar (Smoky Frosted Glass) -->
-    <div class="mb-8 rounded-2xl border border-white/15 foggy-glass p-4 shadow-lg backdrop-blur-md">
+    <!-- Free Shipping Progress Bar -->
+    <div class="mb-6 rounded-2xl border border-white/15 foggy-glass p-4 shadow-lg backdrop-blur-md">
       <div class="flex items-center justify-between font-mono-tech text-xs mb-2">
-        <span id="rwnd-shipping-message" class="text-zinc-300">Calculating shipping threshold...</span>
+        <span id="rwnd-cart-shipping-msg" class="text-zinc-300">Calculating shipping threshold...</span>
         <span class="font-bold text-white">FREE SHIPPING @ ₹999</span>
       </div>
       <div class="h-2 w-full rounded-full bg-black/60 overflow-hidden border border-white/10">
-        <div id="rwnd-shipping-bar" class="h-full bg-red-600 transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.9)]" style="width: 0%;"></div>
+        <div id="rwnd-cart-shipping-bar" class="h-full bg-red-600 transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.9)]" style="width: 0%;"></div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <!-- Main Grid Container -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
       <!-- Cart Items List (Left Column) -->
-      <div class="lg:col-span-7 space-y-4" id="rwnd-cart-items-container">
-        <!-- Dynamic items will inject here -->
-        <div class="flex h-48 flex-col items-center justify-center text-center rounded-3xl border border-white/15 foggy-glass p-6 shadow-xl">
-          <p class="font-display text-base font-bold text-white uppercase tracking-wider">LOADING HARDWARE VAULT...</p>
+      <div class="lg:col-span-7 space-y-3" id="rwnd-main-cart-items">
+        <div class="flex h-40 flex-col items-center justify-center text-center rounded-2xl border border-white/15 foggy-glass p-6 shadow-xl">
+          <p class="font-display text-sm font-bold text-white uppercase tracking-wider">LOADING HARDWARE VAULT...</p>
         </div>
       </div>
 
-      <!-- Cart Summary & Checkout Box (Right Column) -->
-      <div class="lg:col-span-5 sticky top-24">
-        <div class="rounded-3xl border border-white/15 foggy-glass p-6 sm:p-8 shadow-2xl space-y-4 backdrop-blur-xl">
+      <!-- Cart Summary & Checkout Box (Right Column - Sticky) -->
+      <div class="lg:col-span-5 lg:sticky lg:top-24">
+        <div class="rounded-3xl border border-white/15 foggy-glass p-5 sm:p-6 shadow-2xl space-y-4 backdrop-blur-xl">
           <h2 class="font-mono-tech text-xs font-bold uppercase tracking-widest text-white pb-3 border-b border-white/10 flex items-center justify-between">
             <span>TRANSMISSION SUMMARY</span>
             <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
@@ -52,11 +52,7 @@
           <div class="space-y-2 font-mono-tech text-xs">
             <div class="flex justify-between text-zinc-300">
               <span>BAG SUBTOTAL</span>
-              <span id="rwnd-cart-subtotal" class="font-bold text-white">₹0.00</span>
-            </div>
-            <div id="rwnd-cart-discount-row" class="hidden justify-between text-emerald-400">
-              <span>WELCOME PASS (DISCOUNT)</span>
-              <span id="rwnd-cart-discount-amount" class="font-bold">-₹0.00</span>
+              <span id="rwnd-main-cart-subtotal" class="font-bold text-white">₹0.00</span>
             </div>
             <div class="flex justify-between text-zinc-300">
               <span>EXPRESS SHIPPING</span>
@@ -64,21 +60,21 @@
             </div>
           </div>
 
-          <div class="pt-4 border-t border-white/10 flex justify-between items-baseline">
+          <div class="pt-3 border-t border-white/10 flex justify-between items-baseline">
             <span class="font-display text-sm font-bold uppercase text-white">TOTAL AMOUNT</span>
-            <span id="rwnd-cart-total" class="font-mono-tech text-xl font-extrabold text-white">₹0.00</span>
+            <span id="rwnd-main-cart-total" class="font-mono-tech text-lg font-extrabold text-white">₹0.00</span>
           </div>
 
-          <div class="pt-4 space-y-3">
-            <button type="button" onclick="window.location.href='/checkout'" class="w-full rounded-full border border-red-900/60 bg-black/80 py-4 font-mono-tech text-xs font-bold text-red-100 uppercase tracking-widest hover:bg-red-900 hover:text-white transition-all cursor-pointer shadow-[0_0_25px_rgba(220,38,38,0.4)] backdrop-blur-md">
+          <div class="pt-2 space-y-2.5">
+            <button type="button" onclick="window.location.href='/checkout'" class="w-full rounded-full border border-red-900/60 bg-black/80 py-3.5 font-mono-tech text-xs font-bold text-red-100 uppercase tracking-widest hover:bg-red-900 hover:text-white transition-all cursor-pointer shadow-[0_0_25px_rgba(220,38,38,0.4)] backdrop-blur-md">
               PROCEED TO SECURE CHECKOUT //
             </button>
-            <a href="/collections/all" class="block text-center rounded-full border border-white/20 bg-white/5 py-3 font-mono-tech text-xs font-bold text-[#E9E3D5] uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all backdrop-blur-md">
+            <a href="/collections/all" class="block text-center rounded-full border border-white/20 bg-white/5 py-2.5 font-mono-tech text-xs font-bold text-[#E9E3D5] uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all backdrop-blur-md">
               CONTINUE BROWSING CATALOG
             </a>
           </div>
 
-          <div class="pt-4 border-t border-white/10 font-mono-tech text-[10px] text-zinc-500 text-center">
+          <div class="pt-3 border-t border-white/10 font-mono-tech text-[10px] text-zinc-500 text-center">
             ✦ Encrypted 256-bit SSL transaction via Shopify Checkout.
           </div>
         </div>
@@ -88,23 +84,23 @@
   </div>
 </div>
 
-<!-- Dynamic Cart Engine Script -->
+<!-- Dynamic Cart Page Engine Script -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    fetchCartData();
+    fetchMainCartData();
   });
 
-  async function fetchCartData() {
+  async function fetchMainCartData() {
     try {
       const res = await fetch('/cart.js');
       const cart = await res.json();
-      renderCartUI(cart);
+      renderMainCartUI(cart);
     } catch (err) {
-      console.error('Failed to load cart:', err);
+      console.error('Failed to load main cart:', err);
     }
   }
 
-  async function updateCartItem(lineKey, quantity) {
+  async function updateMainCartItem(lineKey, quantity) {
     try {
       const res = await fetch('/cart/change.js', {
         method: 'POST',
@@ -112,28 +108,31 @@
         body: JSON.stringify({ id: lineKey, quantity: quantity })
       });
       const cart = await res.json();
-      renderCartUI(cart);
-      if (typeof showRwndToast === 'function') {
-        showRwndToast('BAG UPDATED', 'Hardware configuration modified.');
+      renderMainCartUI(cart);
+      
+      // Also update drawer if present
+      if (typeof fetchDrawerCart === 'function') {
+        fetchDrawerCart();
       }
     } catch (err) {
       console.error('Failed to update cart item:', err);
     }
   }
 
-  function renderCartUI(cart) {
-    const container = document.getElementById('rwnd-cart-items-container');
-    const subtotalEl = document.getElementById('rwnd-cart-subtotal');
-    const totalEl = document.getElementById('rwnd-cart-total');
-    const shippingMsg = document.getElementById('rwnd-shipping-message');
-    const shippingBar = document.getElementById('rwnd-shipping-bar');
+  function renderMainCartUI(cart) {
+    const container = document.getElementById('rwnd-main-cart-items');
+    const subtotalEl = document.getElementById('rwnd-main-cart-subtotal');
+    const totalEl = document.getElementById('rwnd-main-cart-total');
+    const shippingMsg = document.getElementById('rwnd-cart-shipping-msg');
+    const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
 
-    // Subtotal & Total Formatting (in INR/paise from Shopify API)
-    const subtotalFormatted = '₹' + (cart.total_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    subtotalEl.textContent = subtotalFormatted;
-    totalEl.textContent = subtotalFormatted;
+    if (!container) return;
 
-    // Free Shipping Progress calculation (Threshold = ₹999 = 99900 paise)
+    const formattedSubtotal = '₹' + (cart.total_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    subtotalEl.textContent = formattedSubtotal;
+    totalEl.textContent = formattedSubtotal;
+
+    // Free shipping threshold (₹999)
     const threshold = 99900;
     const currentPrice = cart.total_price;
     const percent = Math.min(100, Math.round((currentPrice / threshold) * 100));
@@ -146,13 +145,12 @@
       shippingMsg.textContent = `Add ${remaining} more for free express shipping.`;
     }
 
-    // Render Items
     if (!cart.items || cart.items.length === 0) {
       container.innerHTML = `
-        <div class="flex h-56 flex-col items-center justify-center text-center rounded-3xl border border-white/15 foggy-glass p-8 shadow-xl">
-          <p class="font-display text-base font-bold text-white uppercase tracking-wider">YOUR HARDWARE BAG IS EMPTY</p>
-          <p class="mt-2 text-xs text-zinc-400">No Drop 01 artifacts selected yet.</p>
-          <a href="/collections/all" class="mt-6 rounded-full border border-red-900/60 bg-red-950/40 px-6 py-2.5 font-mono-tech text-xs font-bold text-red-200 uppercase tracking-widest hover:bg-red-900 hover:text-white transition-all">
+        <div class="flex h-48 flex-col items-center justify-center text-center rounded-2xl border border-white/15 foggy-glass p-6 shadow-xl">
+          <p class="font-display text-sm font-bold text-white uppercase tracking-wider">YOUR HARDWARE BAG IS EMPTY</p>
+          <p class="mt-1 text-xs text-zinc-400">No Drop 01 artifacts selected yet.</p>
+          <a href="/collections/all" class="mt-4 rounded-full border border-red-900/60 bg-red-950/40 px-5 py-2 font-mono-tech text-xs font-bold text-red-200 uppercase tracking-widest hover:bg-red-900 hover:text-white transition-all">
             EXPLORE CATALOG →
           </a>
         </div>
@@ -161,34 +159,30 @@
     }
 
     let html = '';
-    cart.items.forEach((item, index) => {
+    cart.items.forEach(item => {
       const itemPrice = '₹' + (item.final_line_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      const unitPrice = '₹' + (item.price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-
       html += `
-        <div class="flex items-center gap-4 rounded-3xl border border-white/15 foggy-glass p-4 sm:p-5 shadow-xl backdrop-blur-md transition-all hover:border-red-900/50">
-          <div class="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-2 flex items-center justify-center">
+        <div class="flex items-center gap-3 rounded-2xl border border-white/15 foggy-glass p-4 shadow-xl backdrop-blur-md">
+          <div class="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2 flex items-center justify-center">
             <img src="${item.image}" alt="${item.title}" class="h-full w-full object-contain filter contrast-125">
           </div>
-
           <div class="flex flex-1 flex-col justify-between">
             <div class="flex justify-between items-start">
               <div>
                 <p class="font-mono-tech text-[10px] text-zinc-500 uppercase">${item.vendor || 'rwnd20s.'}</p>
-                <h3 class="font-display text-sm font-bold text-white uppercase line-clamp-1">${item.product_title}</h3>
-                ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="text-[11px] text-zinc-400 mt-0.5">${item.variant_title}</p>` : ''}
+                <h3 class="font-display text-xs sm:text-sm font-bold text-white uppercase line-clamp-1">${item.product_title}</h3>
+                ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="text-[10px] text-zinc-400">${item.variant_title}</p>` : ''}
               </div>
               <span class="font-mono-tech text-sm font-bold text-white">${itemPrice}</span>
             </div>
-
-            <div class="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
-              <div class="flex items-center rounded-full border border-white/15 bg-black/50 px-3 py-1">
-                <button type="button" onclick="updateCartItem('${item.key}', ${item.quantity - 1})" class="text-zinc-400 hover:text-white px-2 font-bold cursor-pointer">-</button>
-                <span class="mx-3 font-mono-tech text-xs font-bold text-white">${item.quantity}</span>
-                <button type="button" onclick="updateCartItem('${item.key}', ${item.quantity + 1})" class="text-zinc-400 hover:text-white px-2 font-bold cursor-pointer">+</button>
+            
+            <div class="mt-3 flex items-center justify-between border-t border-white/10 pt-2">
+              <div class="flex items-center rounded-full border border-white/15 bg-black/50 px-3 py-1 font-mono-tech text-xs">
+                <button type="button" onclick="updateMainCartItem('${item.key}', ${item.quantity - 1})" class="text-zinc-400 hover:text-white px-2 font-bold cursor-pointer">-</button>
+                <span class="mx-3 font-bold text-white">${item.quantity}</span>
+                <button type="button" onclick="updateMainCartItem('${item.key}', ${item.quantity + 1})" class="text-zinc-400 hover:text-white px-2 font-bold cursor-pointer">+</button>
               </div>
-
-              <button type="button" onclick="updateCartItem('${item.key}', 0)" class="font-mono-tech text-[10px] font-bold text-red-400 hover:text-red-300 uppercase tracking-widest cursor-pointer">
+              <button type="button" onclick="updateMainCartItem('${item.key}', 0)" class="font-mono-tech text-[10px] font-bold text-red-400 hover:text-red-300 uppercase tracking-widest cursor-pointer">
                 REMOVE
               </button>
             </div>
