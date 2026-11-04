@@ -7,15 +7,8 @@
     </div>
     <a href="/collections/all" class="hidden border-b border-red-900/50 pb-0.5 font-mono-tech text-xs uppercase text-red-400 transition-colors hover:text-white sm:inline-block">+ ADD MORE</a>
   </header>
-
   <div class="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)] lg:gap-8">
-    <div id="rwnd-main-cart-items" class="flex min-w-0 flex-col gap-3 sm:gap-4" aria-live="polite">
-      <div class="flex min-h-32 flex-col items-center justify-center border border-white/10 bg-black/40 p-6 text-center">
-        <p class="animate-pulse font-mono-tech text-xs uppercase tracking-widest text-zinc-400">Scanning Archive...</p>
-      </div>
-    </div>
-
-    <!-- Natural flow on mobile prevents the summary from overlaying cart items; sticky on desktop. -->
+    <div id="rwnd-main-cart-items" class="flex min-w-0 flex-col gap-3 sm:gap-4" aria-live="polite"></div>
     <aside class="relative z-40 w-full self-start lg:sticky lg:top-8 lg:bottom-4">
       <div class="border border-red-900/60 bg-[#060606] p-4 shadow-[0_0_32px_rgba(0,0,0,0.8)] sm:p-6">
         <h2 class="border-b border-white/10 pb-3 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-zinc-400">TRANSMISSION SUMMARY</h2>
@@ -24,61 +17,43 @@
           <div class="flex justify-between gap-3 text-zinc-300"><span>MDU DISPATCH</span><span id="rwnd-cart-shipping-msg" class="text-right font-bold text-emerald-400">CALCULATING...</span></div>
           <div class="h-1.5 w-full overflow-hidden border border-white/10 bg-black"><div id="rwnd-cart-shipping-bar" class="h-full bg-red-600 transition-all duration-500" style="width:0%"></div></div>
         </div>
-        <div class="mb-4 flex items-baseline justify-between border-t border-white/10 pt-3">
-          <span class="font-display text-sm font-bold uppercase text-white">TOTAL</span><span id="rwnd-main-cart-total" class="font-mono-tech text-xl font-extrabold text-white">₹0.00</span>
-        </div>
-        <form action="/checkout" method="post"><button type="submit" name="checkout" class="w-full border border-red-700 bg-red-950/80 px-4 py-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-100 transition-colors hover:bg-red-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">PROCEED TO CHECKOUT →</button></form>
+        <div class="mb-4 flex items-baseline justify-between border-t border-white/10 pt-3"><span class="font-display text-sm font-bold uppercase text-white">TOTAL</span><span id="rwnd-main-cart-total" class="font-mono-tech text-xl font-extrabold text-white">₹0.00</span></div>
+        <form action="/checkout" method="post"><button type="submit" name="checkout" class="w-full border border-red-700 bg-red-950/80 px-4 py-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-100 transition-colors hover:bg-red-800 hover:text-white">PROCEED TO CHECKOUT →</button></form>
         <p class="mt-3 text-center font-mono-tech text-[9px] uppercase tracking-wider text-zinc-500">Taxes calculated at checkout.</p>
       </div>
     </aside>
   </div>
 </section>
-
 <script>
   (() => {
     const money = (amount) => `₹${(amount / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
     const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-
     async function fetchMainCartData() {
       try {
         const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
         if (!response.ok) throw new Error('Unable to load your hardware bag.');
         renderMainCartUI(await response.json());
-      } catch (error) {
-        console.error('Main cart fetch error:', error);
-      }
+      } catch (error) { console.error('Main cart fetch error:', error); }
     }
-
     async function updateMainCartItem(lineKey, quantity) {
       const container = document.getElementById('rwnd-main-cart-items');
       if (container) container.setAttribute('aria-busy', 'true');
       try {
-        const response = await fetch('/cart/change.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ id: lineKey, quantity })
-        });
+        const response = await fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ id: lineKey, quantity }) });
         if (!response.ok) {
           const error = await response.json().catch(() => ({}));
           throw new Error(error.description || 'Unable to update this item. Please try again.');
         }
         renderMainCartUI(await response.json());
-      } catch (error) {
-        console.error('Cart update error:', error);
-        if (typeof window.showCartToast === 'function') window.showCartToast('CART UPDATE FAILED', error.message);
-        else window.alert(error.message);
-      } finally {
-        if (container) container.removeAttribute('aria-busy');
-      }
+      } catch (error) { console.error('Cart update error:', error); }
+      finally { if (container) container.removeAttribute('aria-busy'); }
     }
-
     function renderMainCartUI(cart) {
       const container = document.getElementById('rwnd-main-cart-items');
       if (!container) return;
       const subtotal = money(cart.total_price || 0);
       document.getElementById('rwnd-main-cart-subtotal').textContent = subtotal;
       document.getElementById('rwnd-main-cart-total').textContent = subtotal;
-
       const threshold = 99900;
       const totalPrice = cart.total_price || 0;
       document.getElementById('rwnd-cart-shipping-bar').style.width = `${Math.min(100, Math.round((totalPrice / threshold) * 100))}%`;
@@ -91,34 +66,18 @@
         shippingMessage.classList.replace('text-emerald-400', 'text-zinc-300');
       }
       document.querySelectorAll('[data-cart-count]').forEach((badge) => { badge.textContent = String(cart.item_count || 0); });
-
       if (!cart.items?.length) {
         container.innerHTML = '<div class="flex min-h-48 flex-col items-center justify-center border border-white/10 bg-black/40 p-6 text-center"><p class="mb-3 font-display text-sm font-bold uppercase tracking-wider text-white">YOUR HARDWARE BAG IS EMPTY</p><a href="/collections/all" class="border border-red-700 bg-red-950/40 px-6 py-2.5 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-200 hover:bg-red-900">EXPLORE CATALOG →</a></div>';
         return;
       }
-
       container.innerHTML = cart.items.map((item) => {
         const key = escapeHTML(item.key);
         const title = escapeHTML(item.product_title);
         const variant = item.variant_title && item.variant_title !== 'Default Title' ? `<p class="mt-0.5 text-[10px] text-zinc-400">${escapeHTML(item.variant_title)}</p>` : '';
         const image = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title)}" class="h-full w-full object-contain contrast-125">` : '';
-        return `<article class="flex flex-col items-start gap-4 border border-white/10 bg-black/60 p-4 shadow-lg sm:flex-row sm:items-center">
-          <div class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-black p-2">${image}</div>
-          <div class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3">
-            <div class="flex items-start justify-between gap-3"><div class="min-w-0"><h3 class="line-clamp-2 font-display text-sm font-bold uppercase text-white">${title}</h3>${variant}</div><span class="shrink-0 font-mono-tech text-sm font-bold text-white">${money(item.final_line_price)}</span></div>
-            <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-3">
-              <div class="flex items-center border border-white/20 bg-black/80 px-2 py-1 font-mono-tech text-xs">
-                <button type="button" data-cart-change="${key}" data-quantity="${Math.max(0, item.quantity - 1)}" aria-label="Decrease ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 transition-colors hover:text-white">−</button>
-                <span class="mx-2 w-4 text-center font-bold text-white">${item.quantity}</span>
-                <button type="button" data-cart-change="${key}" data-quantity="${item.quantity + 1}" aria-label="Increase ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 transition-colors hover:text-white">+</button>
-              </div>
-              <button type="button" data-cart-change="${key}" data-quantity="0" class="cursor-pointer font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500 transition-colors hover:text-red-400">REMOVE</button>
-            </div>
-          </div>
-        </article>`;
+        return `<article class="flex flex-col items-start gap-4 border border-white/10 bg-black/60 p-4 shadow-lg sm:flex-row sm:items-center"><div class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-black p-2">${image}</div><div class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><h3 class="line-clamp-2 font-display text-sm font-bold uppercase text-white">${title}</h3>${variant}</div><span class="shrink-0 font-mono-tech text-sm font-bold text-white">${money(item.final_line_price)}</span></div><div class="mt-auto flex items-center justify-between border-t border-white/10 pt-3"><div class="flex items-center border border-white/20 bg-black/80 px-2 py-1 font-mono-tech text-xs"><button type="button" data-cart-change="${key}" data-quantity="${Math.max(0, item.quantity - 1)}" aria-label="Decrease ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 hover:text-white">−</button><span class="mx-2 w-4 text-center font-bold text-white">${item.quantity}</span><button type="button" data-cart-change="${key}" data-quantity="${item.quantity + 1}" aria-label="Increase ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 hover:text-white">+</button></div><button type="button" data-cart-change="${key}" data-quantity="0" class="cursor-pointer font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400">REMOVE</button></div></div></article>`;
       }).join('');
     }
-
     window.fetchMainCartData = fetchMainCartData;
     window.updateMainCartItem = updateMainCartItem;
     document.addEventListener('click', (event) => {
@@ -129,7 +88,6 @@
     else fetchMainCartData();
   })();
 </script>
-
 {% schema %}
 {
   "name": "Dedicated Cart Page",
