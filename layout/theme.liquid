@@ -46,15 +46,15 @@
       html,
       body {
         max-width: 100vw;
+        min-height: 100%;
         overflow-x: hidden;
-        background-color: transparent !important;
-        background-image: none !important;
+        background-color: #030303 !important;
+        background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649') !important;
+        background-size: cover !important;
+        background-position: center center !important;
         background-attachment: fixed !important;
-      }
-
-      body.intro-active {
-        overflow: hidden !important;
-        height: 100dvh !important;
+        background-repeat: no-repeat !important;
+        filter: none !important;
       }
 
       .foggy-glass {
@@ -77,11 +77,10 @@
   </head>
 
   <body class="relative z-0 min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white">
-    <div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000">
-      <canvas id="rwnd-fog-canvas" class="pointer-events-none absolute inset-0 z-0 h-full w-full"></canvas>
-      <div class="absolute inset-0 z-[1] h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
+    <div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-[#030303] text-[#E9E3D5] transition-opacity duration-700">
+      <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
 
-      <div id="rwnd-entry-prompt" class="relative z-10 mx-auto flex max-w-lg flex-col items-center space-y-6 p-6 text-center">
+      <div id="rwnd-entry-prompt" class="relative z-10 mx-auto flex max-w-lg flex-col items-center space-y-6 p-6 text-center transition-opacity duration-500">
         <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
           <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-600"></span>
           <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400">SECTOR // MDU_DISPATCH</span>
@@ -102,7 +101,7 @@
       </div>
 
       <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden h-[100dvh] w-full items-center justify-center bg-black">
-        <video id="rwnd-intro-video" class="absolute inset-0 h-full w-full bg-black object-contain" playsinline autoplay muted>
+        <video id="rwnd-intro-video" class="absolute inset-0 h-full w-full bg-black object-contain" playsinline muted>
           <source src="https://cdn.shopify.com/videos/c/o/v/e8e2f809aecd408cadfa5c08fef2c7f6.mp4">
           Your browser does not support the video tag.
         </video>
@@ -135,151 +134,56 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const body = document.body;
         const splash = document.getElementById('rwnd-gateway-splash');
         const trigger = document.getElementById('rwnd-trigger-intro');
         const videoContainer = document.getElementById('rwnd-video-container');
         const video = document.getElementById('rwnd-intro-video');
         const prompt = document.getElementById('rwnd-entry-prompt');
-        const canvas = document.getElementById('rwnd-fog-canvas');
+        const skipButton = document.getElementById('rwnd-skip-video');
 
-        class FogDissolveCanvas {
-          constructor(canvasEl) {
-            this.canvas = canvasEl;
-            this.ctx = canvasEl?.getContext('2d');
-            this.particles = [];
-            this.dissolving = false;
-            this.startTime = 0;
-            this.progress = 0;
-            this.resize();
-            window.addEventListener('resize', () => this.resize());
-          }
-
-          resize() {
-            if (!this.canvas || !this.ctx) return;
-            const ratio = window.devicePixelRatio || 1;
-            const { innerWidth, innerHeight } = window;
-            this.canvas.width = innerWidth * ratio;
-            this.canvas.height = innerHeight * ratio;
-            this.canvas.style.width = `${innerWidth}px`;
-            this.canvas.style.height = `${innerHeight}px`;
-            this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-            this.particles = Array.from({ length: 42 }, (_, index) => ({
-              x: Math.random() * innerWidth,
-              y: Math.random() * innerHeight,
-              radius: 40 + Math.random() * 140,
-              alpha: 0.12 + Math.random() * 0.38,
-              drift: (Math.random() - 0.5) * 0.8,
-              vx: (Math.random() - 0.5) * 0.7,
-              vy: (Math.random() - 0.5) * 0.7,
-              seed: index
-            }));
-          }
-
-          setDissolving(value) {
-            this.dissolving = value;
-            if (value) this.startTime = performance.now();
-          }
-
-          render(now) {
-            if (!this.canvas || !this.ctx) return;
-            const width = this.canvas.clientWidth || window.innerWidth;
-            const height = this.canvas.clientHeight || window.innerHeight;
-            this.ctx.clearRect(0, 0, width, height);
-
-            const base = this.ctx.createRadialGradient(width * 0.5, height * 0.5, 0, width * 0.5, height * 0.5, width * 0.7);
-            base.addColorStop(0, 'rgba(120, 0, 0, 0.26)');
-            base.addColorStop(0.4, 'rgba(78, 0, 0, 0.12)');
-            base.addColorStop(1, 'rgba(3, 3, 3, 0)');
-            this.ctx.fillStyle = base;
-            this.ctx.fillRect(0, 0, width, height);
-
-            for (const particle of this.particles) {
-              const wobble = Math.sin((now / 900) + particle.seed) * 25;
-              const x = particle.x + Math.cos((now / 1400) + particle.seed) * 28 + wobble;
-              const y = particle.y + Math.sin((now / 1600) + particle.seed) * 28;
-              const radius = particle.radius + Math.sin((now / 700) + particle.seed) * 18;
-              const progress = this.dissolving ? Math.min((now - this.startTime) / 3000, 1) : 0;
-              const expansion = this.dissolving ? progress * 1.8 : 0;
-              const alpha = this.dissolving ? Math.max(0, 0.36 - progress * 0.32) : particle.alpha;
-
-              const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, radius * (1 + expansion));
-              gradient.addColorStop(0, `rgba(255, 90, 90, ${alpha})`);
-              gradient.addColorStop(0.35, `rgba(120, 20, 20, ${alpha * 0.7})`);
-              gradient.addColorStop(0.8, 'rgba(20, 10, 12, 0)');
-              this.ctx.fillStyle = gradient;
-              this.ctx.beginPath();
-              this.ctx.arc(x, y, radius * (1 + expansion), 0, Math.PI * 2);
-              this.ctx.fill();
-
-              particle.x += particle.vx + (this.dissolving ? 0.6 : 0);
-              particle.y += particle.vy + (this.dissolving ? 0.5 : 0);
-
-              if (particle.x < -radius) particle.x = width + radius;
-              if (particle.x > width + radius) particle.x = -radius;
-              if (particle.y < -radius) particle.y = height + radius;
-              if (particle.y > height + radius) particle.y = -radius;
-            }
-
-            requestAnimationFrame((next) => this.render(next));
-          }
-
-          start() {
-            requestAnimationFrame((now) => this.render(now));
-          }
-        }
-
-        const fogCanvas = canvas ? new FogDissolveCanvas(canvas) : null;
-        fogCanvas?.start();
-
-        function closeSplash() {
+        const dismissGateway = () => {
           if (!splash || splash.dataset.dismissing === 'true') return;
           splash.dataset.dismissing = 'true';
-          sessionStorage.setItem('rwnd_intro_seen', 'true');
-          body.classList.remove('intro-active');
-
-          if (video) {
-            video.pause();
-            video.currentTime = 0;
+          try {
+            sessionStorage.setItem('rwnd_intro_seen', 'true');
+          } catch (error) {
+            // Continue dismissing if browser storage is unavailable.
           }
+          video?.pause();
+          splash.classList.add('opacity-0', 'pointer-events-none');
+          window.setTimeout(() => {
+            splash.remove();
+            window.showRwndWelcomeModal?.();
+          }, 700);
+        };
 
-          prompt?.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-          fogCanvas?.setDissolving(true);
-
-          setTimeout(() => {
-            splash?.classList.add('opacity-0');
-            setTimeout(() => {
-              splash?.remove();
-              window.showRwndWelcomeModal?.();
-            }, 2600);
-          }, 250);
+        let introSeen = false;
+        try {
+          introSeen = sessionStorage.getItem('rwnd_intro_seen') === 'true';
+        } catch (error) {
+          // Treat storage as unavailable and show the intro for this page view.
         }
 
-        const seenIntro = sessionStorage.getItem('rwnd_intro_seen') === 'true';
-        if (seenIntro) {
+        if (introSeen) {
           splash?.remove();
-          body.classList.remove('intro-active');
-          return;
+        } else {
+          trigger?.addEventListener('click', () => {
+            prompt?.classList.add('opacity-0', 'pointer-events-none');
+            window.setTimeout(() => {
+              if (!splash || splash.dataset.dismissing === 'true') return;
+              prompt?.classList.add('hidden');
+              videoContainer?.classList.remove('hidden');
+              videoContainer?.classList.add('flex');
+              if (video) video.play().catch(dismissGateway);
+            }, 500);
+          }, { once: true });
+
+          video?.addEventListener('ended', dismissGateway, { once: true });
+          skipButton?.addEventListener('click', dismissGateway);
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && splash?.isConnected) dismissGateway();
+          });
         }
-
-        body.classList.add('intro-active');
-
-        trigger?.addEventListener('click', () => {
-          closeSplash();
-        });
-
-        document.getElementById('rwnd-skip-video')?.addEventListener('click', () => closeSplash());
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape') closeSplash();
-        });
-
-        trigger?.addEventListener('click', () => {
-          videoContainer?.classList.remove('hidden');
-          videoContainer?.classList.add('flex');
-          video?.play().catch(() => {});
-        });
-
-        video?.addEventListener('ended', closeSplash);
 
         const backBar = document.getElementById('rwnd-sys-back-bar');
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
