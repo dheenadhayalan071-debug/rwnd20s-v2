@@ -233,29 +233,29 @@
           });
         });
 
-        // Global Add-to-Cart Interceptor (NO DRAWER POPUP, ONLY TOAST)
-        document.addEventListener('submit', async (e) => {
-          const form = e.target;
-          
-          if (form.getAttribute('action') && form.getAttribute('action').includes('/cart/add')) {
-            e.preventDefault();
-            
-            const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], button[name="add"]');
-            const originalContent = submitBtn ? submitBtn.innerHTML : 'ADD TO BAG';
+        // ---------------------------------------------------------
+        // INVINCIBLE ADD-TO-CART INTERCEPTOR (Overrides theme.js)
+        // ---------------------------------------------------------
+        document.addEventListener('click', async (e) => {
+          // Look for any add to cart button
+          const addBtn = e.target.closest('button[name="add"], button[type="submit"].add-to-cart, [data-add-to-cart], form[action*="/cart/add"] button[type="submit"]');
 
-            if (submitBtn) {
-              // BUTTON STATE: LOADING
-              submitBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
-              submitBtn.style.pointerEvents = 'none';
-            }
+          if (addBtn && addBtn.closest('form[action*="/cart/add"]')) {
+            e.preventDefault(); // Stop normal submission
+            e.stopPropagation(); // BLOCK theme.js FROM HIJACKING THIS CLICK!
+
+            const form = addBtn.closest('form');
+            const originalContent = addBtn.innerHTML;
+
+            // 1. BUTTON STATE: LOADING
+            addBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
+            addBtn.style.pointerEvents = 'none';
 
             try {
               const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
               if (res.ok) {
-                // BUTTON STATE: SUCCESS
-                if (submitBtn) {
-                  submitBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
-                }
+                // 2. BUTTON STATE: SUCCESS
+                addBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
                 
                 // Update Main Cart page data silently if user happens to be on it
                 if (typeof fetchMainCartData === 'function') fetchMainCartData();
@@ -263,31 +263,25 @@
                 // SHOW TOAST MESSAGE INSTEAD OF DRAWER
                 showRwndToast('ARTIFACT SECURED', 'Item added to your hardware bag.');
 
-                // REVERT BUTTON
+                // 3. REVERT BUTTON AFTER 2 SECONDS
                 setTimeout(() => {
-                  if (submitBtn) {
-                    submitBtn.innerHTML = originalContent;
-                    submitBtn.style.pointerEvents = 'auto';
-                  }
+                  addBtn.innerHTML = originalContent;
+                  addBtn.style.pointerEvents = 'auto';
                 }, 2000);
 
               } else {
                 const err = await res.json();
-                if (submitBtn) {
-                  submitBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
-                  setTimeout(() => { submitBtn.innerHTML = originalContent; submitBtn.style.pointerEvents = 'auto'; }, 2000);
-                }
+                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
+                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
                 showRwndToast('DISPATCH FAILED', err.description || 'Could not add item.');
               }
             } catch (err) {
               console.error('Cart add error:', err);
-              if (submitBtn) {
-                submitBtn.innerHTML = originalContent;
-                submitBtn.style.pointerEvents = 'auto';
-              }
+              addBtn.innerHTML = originalContent;
+              addBtn.style.pointerEvents = 'auto';
             }
           }
-        });
+        }, true); // <-- THE 'TRUE' FLAG FORCES THIS TO RUN BEFORE ANY OTHER THEME SCRIPTS
         
         // Remove rogue data-attributes from header cart links so theme.js doesn't stop navigation
         document.querySelectorAll('a[href="/cart"]').forEach(link => {
