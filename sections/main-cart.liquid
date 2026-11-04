@@ -45,6 +45,8 @@
           throw new Error(error.description || 'Unable to update this item. Please try again.');
         }
         renderMainCartUI(await response.json());
+        // Force the header cart badge to update if fetchCartState exists in theme.js
+        if (typeof window.fetchCartState === 'function') window.fetchCartState();
       } catch (error) { console.error('Cart update error:', error); }
       finally { if (container) container.removeAttribute('aria-busy'); }
     }
