@@ -4,199 +4,142 @@
 {% else %}
   {% assign archive_collection = collections['all'] %}
 {% endif %}
+{% assign hero_cyber = archive_collection.products[0] %}
+{% assign hero_audio = archive_collection.products[1] %}
+{% assign hero_watch = archive_collection.products[2] %}
 
 <section class="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
   <div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center">
-    <div role="tablist" aria-label="Hero showcase switcher" class="relative z-10 mt-6 flex w-full flex-wrap items-center justify-center gap-2.5">
-      <button role="tab" type="button" data-hero-btn="0" aria-selected="true" class="rwnd-hero-tab rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md transition-all hover:border-red-500">
-        01 CYBER SET
-      </button>
-      <button role="tab" type="button" data-hero-btn="1" aria-selected="false" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/60 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-300 uppercase transition-all hover:border-white hover:text-white">
-        02 EARPHONES
-      </button>
-      <button role="tab" type="button" data-hero-btn="2" aria-selected="false" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/60 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-300 uppercase transition-all hover:border-white hover:text-white">
-        03 Y2K WATCH
-      </button>
+    <div role="tablist" aria-label="Featured archive pieces" class="relative z-10 mt-6 flex w-full flex-wrap items-center justify-center gap-2.5">
+      {% if hero_cyber %}<button role="tab" type="button" data-hero-btn="0" aria-selected="true" aria-controls="hero-slide-0" class="rwnd-hero-tab rounded-full border border-red-500 bg-red-600 px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-white uppercase">01 // CYBER SET</button>{% endif %}
+      {% if hero_audio %}<button role="tab" type="button" data-hero-btn="1" aria-selected="false" aria-controls="hero-slide-1" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500">02 // AUDIO ARTIFACT</button>{% endif %}
+      {% if hero_watch %}<button role="tab" type="button" data-hero-btn="2" aria-selected="false" aria-controls="hero-slide-2" class="rwnd-hero-tab rounded-full border border-white/20 bg-black/70 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-[#E9E3D5] uppercase transition-colors hover:border-red-500">03 // TIMEPIECE</button>{% endif %}
     </div>
 
-    <div class="relative mx-auto flex min-h-[320px] w-full max-w-[540px] flex-col items-center justify-center text-center sm:min-h-[400px]">
+    <div class="relative mx-auto mt-8 flex min-h-[520px] w-full max-w-[540px] flex-col items-center justify-start text-center sm:min-h-[590px]">
       <div class="studio-spotlight pointer-events-none absolute inset-0 rounded-full scale-110 bg-red-900/20 blur-[100px]"></div>
 
-      <div data-hero-stage-slide="0" class="rwnd-hero-slide relative z-10 flex w-full flex-col items-center justify-center text-center">
-        <span class="mb-3 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-400 uppercase backdrop-blur-md shadow-sm">
-          ★ MOST POPULAR BUNDLE · SAVE ₹248
-        </span>
-        <div class="relative mx-auto flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 foggy-glass p-4 shadow-2xl sm:h-72 sm:w-72">
-          <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black/50 p-6 text-center backdrop-blur-md">
-            <span class="font-mono-tech text-xs font-bold text-zinc-400">316L ARCHIVE HARDWARE</span>
-            <p class="mt-2 font-display text-xl font-extrabold uppercase text-white">3-PIECE Y2K CYBER SET</p>
-            <p class="mt-1 font-mono-tech text-xs text-zinc-400">Ring + Chain + Bracelet</p>
-          </div>
-        </div>
-        <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-black/60 px-5 py-2.5 shadow-xl backdrop-blur-xl">
-          <div class="text-left">
-            <p class="font-display text-xs font-bold tracking-wider text-white uppercase">3-PIECE Y2K CYBER SET</p>
-            <p class="font-mono-tech text-[11px] text-zinc-400">Ring + Chain + Bracelet Included</p>
-          </div>
-          <div class="h-6 w-px bg-white/15"></div>
-          <div class="flex items-baseline gap-2">
-            <span class="font-mono-tech text-sm font-bold text-white">₹1,199</span>
-            <span class="font-mono-tech text-xs text-zinc-500 line-through">₹1,447</span>
-          </div>
-        </div>
-      </div>
+      {% for hero_product in archive_collection.products limit: 3 %}
+        {% assign hero_variant = hero_product.selected_or_first_available_variant %}
+        {% assign hero_index = forloop.index0 %}
+        <article id="hero-slide-{{ hero_index }}" data-hero-stage-slide="{{ hero_index }}" class="rwnd-hero-slide relative z-10 flex w-full flex-col items-center justify-start text-center{% unless forloop.first %} hidden{% endunless %}" role="tabpanel" aria-labelledby="hero-tab-{{ hero_index }}">
+          <span class="mb-3 inline-flex rounded-full border border-red-800/60 bg-[#060606]/95 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-300 uppercase">ARCHIVE 01 // NO RULES</span>
 
-      <div data-hero-stage-slide="1" class="rwnd-hero-slide relative z-10 hidden w-full flex-col items-center justify-center text-center">
-        <span class="mb-3 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-400 uppercase backdrop-blur-md shadow-sm">
-          LIMITED DROP · ONLY 16 LEFT
-        </span>
-        <div class="relative mx-auto flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 foggy-glass p-4 shadow-2xl sm:h-72 sm:w-72">
-          <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black/50 p-6 text-center backdrop-blur-md">
-            <span class="font-mono-tech text-xs font-bold text-zinc-400">TYPE-C AUDIO HARDWARE</span>
-            <p class="mt-2 font-display text-xl font-extrabold uppercase text-white">PINK CHROME WIRED EARPHONES</p>
-            <p class="mt-1 font-mono-tech text-xs text-zinc-400">Metallic Finish + Carry Case</p>
-          </div>
-        </div>
-        <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-black/60 px-5 py-2.5 shadow-xl backdrop-blur-xl">
-          <div class="text-left">
-            <p class="font-display text-xs font-bold tracking-wider text-white uppercase">PINK CHROME EARPHONES</p>
-            <p class="font-mono-tech text-[11px] text-zinc-400">Direct Type-C Plug</p>
-          </div>
-          <div class="h-6 w-px bg-white/15"></div>
-          <div class="flex items-baseline gap-2">
-            <span class="font-mono-tech text-sm font-bold text-white">₹999</span>
-            <span class="font-mono-tech text-xs text-zinc-500 line-through">₹1,499</span>
-          </div>
-        </div>
-      </div>
-
-      <div data-hero-stage-slide="2" class="rwnd-hero-slide relative z-10 hidden w-full flex-col items-center justify-center text-center">
-        <span class="mb-3 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-400 uppercase backdrop-blur-md shadow-sm">
-          PHASE 2 PRE-ORDER · 10 UNITS
-        </span>
-        <div class="relative mx-auto flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-white/15 foggy-glass p-4 shadow-2xl sm:h-72 sm:w-72">
-          <div class="flex h-full w-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-black/50 p-6 text-center backdrop-blur-md">
-            <span class="font-mono-tech text-xs font-bold text-zinc-400">ANALOG CHRONOGRAPH</span>
-            <p class="mt-2 font-display text-xl font-extrabold uppercase text-white">Y2K STEEL WATCH</p>
-            <p class="mt-1 font-mono-tech text-xs text-zinc-400">Brushed 316L Stainless Steel</p>
-          </div>
-        </div>
-        <div class="mt-6 flex items-center gap-4 rounded-full border border-white/15 bg-black/60 px-5 py-2.5 shadow-xl backdrop-blur-xl">
-          <div class="text-left">
-            <p class="font-display text-xs font-bold tracking-wider text-white uppercase">Y2K WATCH</p>
-            <p class="font-mono-tech text-[11px] text-zinc-400">Analog-Digital Hybrid</p>
-          </div>
-          <div class="h-6 w-px bg-white/15"></div>
-          <div class="flex items-baseline gap-2">
-            <span class="font-mono-tech text-sm font-bold text-white">₹1,999</span>
-            <span class="font-mono-tech text-xs text-zinc-500 line-through">₹3,499</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="relative mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-  <div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center">
-    <div class="inline-flex items-center gap-2 rounded-full border border-red-900/40 bg-black/60 px-4 py-1.5 backdrop-blur-md shadow-sm">
-      <span class="font-mono-tech text-xs font-bold tracking-widest text-red-400 uppercase">{{ section.settings.hero_badge }}</span>
-    </div>
-
-    <h1 class="mt-5 font-display text-4xl leading-[0.98] font-extrabold tracking-tight text-white uppercase sm:text-5xl lg:text-6xl drop-shadow-md">
-      <span class="block">{{ section.settings.hero_title_line_1 }}</span>
-      <span class="mt-1 block font-editorial font-normal italic text-zinc-300">{{ section.settings.hero_title_line_2 }}</span>
-    </h1>
-
-    <p class="mt-4 max-w-md text-sm leading-relaxed text-zinc-400 sm:text-base">{{ section.settings.hero_subtitle }}</p>
-
-    <div class="mt-6 w-full sm:w-auto">
-      <a href="#shop" class="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-red-900/60 bg-black/80 px-8 py-4 text-xs font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white">
-        <span>SHOP DROP 01 →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<div id="shop" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-  <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <p class="font-mono-tech text-xs font-bold tracking-widest text-red-500 uppercase">02 · LIMITED HARDWARE RELEASE</p>
-      <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-white uppercase sm:text-3xl drop-shadow-md">DROP 01 — ARCHIVE COLLECTION</h2>
-    </div>
-    <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-zinc-400">
-      SHOWING {% if archive_collection.products.size > 0 %}{{ archive_collection.products.size }}{% else %}7{% endif %} PIECES · FREE SHIPPING ABOVE ₹999
-    </p>
-  </div>
-
-  <div id="rwnd-product-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {% if archive_collection.products.size > 0 %}
-      {% for product in archive_collection.products %}
-        {% assign default_variant = product.selected_or_first_available_variant %}
-        {% assign savings = product.compare_at_price | minus: product.price %}
-        <article class="group flex flex-col justify-between overflow-hidden rounded-3xl foggy-glass p-5 transition-all duration-300 hover:scale-[1.01] border border-white/12 shadow-xl">
-          <div class="relative aspect-square w-full overflow-hidden rounded-2xl border border-white/10 bg-black/50 p-4 flex items-center justify-center">
-            <a href="{{ product.url }}" class="block h-full w-full flex items-center justify-center">
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" class="h-full w-full object-contain filter contrast-125 transition-transform duration-500 group-hover:scale-105">
-              {% else %}
-                <div class="flex h-full w-full items-center justify-center p-6 text-center">
-                  <span class="font-mono-tech text-xs font-bold text-zinc-400 uppercase">{{ product.title }}</span>
-                </div>
-              {% endif %}
-            </a>
-            {% if product.compare_at_price > product.price %}
-              <div class="pointer-events-none absolute top-3.5 left-3.5 flex flex-wrap gap-1.5">
-                <span class="rounded-full border border-red-800/50 bg-red-950 px-2.5 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-200 uppercase backdrop-blur-md">SAVE {{ savings | money }}</span>
-              </div>
+          <a href="{{ hero_product.url }}" class="relative mx-auto flex h-60 w-60 items-center justify-center overflow-hidden rounded-3xl border border-red-700/40 bg-[#060606]/95 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.8)] backdrop-blur-3xl sm:h-72 sm:w-72" aria-label="Inspect {{ hero_product.title | escape }}">
+            {% if hero_product.featured_image %}
+              <img src="{{ hero_product.featured_image | image_url: width: 1000 }}" alt="{{ hero_product.featured_image.alt | default: hero_product.title | escape }}" width="1000" height="1000" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" class="h-full w-full object-contain" {% if forloop.first %}fetchpriority="high"{% endif %}>
+            {% else %}
+              <span class="font-mono-tech text-xs font-bold uppercase tracking-widest text-[#E9E3D5]">{{ hero_product.title | escape }}</span>
             {% endif %}
-          </div>
+          </a>
 
-          <div class="flex flex-1 flex-col justify-between pt-5">
-            <div>
-              <p class="font-mono-tech text-[10px] text-zinc-500 uppercase tracking-widest">{{ product.vendor | default: 'rwnd20s.' }}</p>
-              <h3 class="mt-0.5 font-display text-base font-bold tracking-wide text-white uppercase line-clamp-1"><a href="{{ product.url }}">{{ product.title }}</a></h3>
-              <p class="mt-1 text-xs text-[#E9E3D5]/80">{{ product.type | default: 'Solid 316L Stainless Steel Hardware' }}</p>
+          <div class="mt-5 flex w-full flex-col items-center justify-center text-center">
+            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">// MDU_DISPATCH · HEAVYWEIGHT BRUTALISM</p>
+            <h2 class="mt-2 max-w-lg font-display text-xl font-extrabold uppercase tracking-tight text-white sm:text-2xl">{{ hero_product.title | escape }}</h2>
+            <div class="mt-3 flex items-baseline justify-center gap-3">
+              <span class="font-mono-tech text-lg font-bold text-white">{{ hero_variant.price | money }}</span>
+              {% if hero_variant.compare_at_price > hero_variant.price %}<span class="font-mono-tech text-sm text-zinc-400 line-through">{{ hero_variant.compare_at_price | money }}</span>{% endif %}
             </div>
 
-            <div class="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
-              <div class="flex flex-wrap items-baseline gap-2">
-                <span class="font-mono-tech text-base font-bold text-white">{{ product.price | money }}</span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="font-mono-tech text-xs text-zinc-500 line-through">{{ product.compare_at_price | money }}</span>
-                {% endif %}
-              </div>
-              <a href="{{ product.url }}" class="rounded-full border border-white/20 bg-white/5 px-4 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#E9E3D5] hover:bg-red-900 hover:border-red-900">INSPECT →</a>
+            <div class="mt-5 flex w-full max-w-sm flex-col items-center justify-center gap-3">
+              {% if hero_variant %}
+                <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="w-full">
+                  <input type="hidden" name="id" value="{{ hero_variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" name="add" class="w-full border border-red-500 bg-red-600 px-5 py-4 font-mono-tech text-xs font-extrabold uppercase tracking-[0.16em] text-white shadow-[0_0_24px_rgba(220,38,38,0.28)] transition-colors hover:bg-red-700">[ + ADD TO HARDWARE BAG ]</button>
+                </form>
+                <a href="/checkout" class="w-full border border-red-800/60 bg-[#060606]/95 px-5 py-4 text-center font-mono-tech text-xs font-bold uppercase tracking-[0.16em] text-[#E9E3D5] transition-colors hover:border-red-500 hover:text-white">[ INSTANT SECURE CHECKOUT → ]</a>
+              {% endif %}
+              <a href="{{ hero_product.url }}" class="mt-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-300 underline decoration-red-700 underline-offset-4">Inspect artifact</a>
             </div>
           </div>
         </article>
       {% endfor %}
-    {% endif %}
+
+      {% if archive_collection.products.size == 0 %}
+        <div class="relative z-10 flex min-h-[420px] w-full flex-col items-center justify-center rounded-3xl border border-red-800/40 bg-[#060606]/95 p-8 text-center backdrop-blur-3xl">
+          <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.22em] text-red-300">// MDU_DISPATCH</p>
+          <h2 class="mt-3 font-display text-2xl font-extrabold uppercase text-white">NO ARTIFACTS IN THIS ARCHIVE</h2>
+          <p class="mt-2 max-w-sm font-mono-tech text-xs leading-relaxed text-[#E9E3D5]">The drop is quiet for now. Check back when the next transmission lands.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="mt-8 max-w-2xl">
+      <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.24em] text-red-300">{{ section.settings.hero_badge | escape }}</p>
+      <h1 class="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-6xl">
+        <span class="block">{{ section.settings.hero_title_line_1 | escape }}</span>
+        <span class="mt-1 block font-editorial font-normal italic text-[#E9E3D5]">{{ section.settings.hero_title_line_2 | escape }}</span>
+      </h1>
+      <p class="mx-auto mt-4 max-w-xl font-mono-tech text-xs leading-relaxed text-[#E9E3D5] sm:text-sm">{{ section.settings.hero_subtitle | escape }}</p>
+      <a href="#shop" class="mt-6 inline-flex items-center justify-center border border-red-700 bg-red-700 px-8 py-4 font-mono-tech text-xs font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-red-800">ENTER THE ARCHIVE →</a>
+    </div>
   </div>
-</div>
+</section>
+
+<section id="shop" class="mx-auto max-w-7xl border-t border-red-950/60 px-4 py-12 sm:px-6 lg:px-8">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="font-mono-tech text-xs font-bold uppercase tracking-[0.22em] text-red-300">02 // MDU_DISPATCH</p>
+      <h2 class="mt-1 font-display text-2xl font-extrabold tracking-tight text-white uppercase sm:text-3xl">NOCTURNAL ARTIFACTS</h2>
+    </div>
+    <p id="rwnd-showing-count" class="font-mono-tech text-xs font-bold text-[#E9E3D5]">{{ archive_collection.products.size }} ARTIFACTS // ARCHIVE OPEN</p>
+  </div>
+
+  <div id="rwnd-product-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for product in archive_collection.products %}
+      {% assign default_variant = product.selected_or_first_available_variant %}
+      {% assign savings = product.compare_at_price | minus: product.price %}
+      <article class="group flex flex-col justify-between overflow-hidden rounded-3xl foggy-glass p-5 transition-transform duration-300 hover:scale-[1.01]">
+        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border border-red-900/40 bg-[#060606]/95 p-4">
+          <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="800" height="800" loading="lazy" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105">
+            {% else %}
+              <span class="font-mono-tech text-xs font-bold uppercase text-[#E9E3D5]">{{ product.title | escape }}</span>
+            {% endif %}
+          </a>
+          {% if product.compare_at_price > product.price %}<span class="absolute left-3 top-3 rounded-full border border-red-700/60 bg-[#060606] px-2.5 py-1 font-mono-tech text-[10px] font-bold uppercase text-red-200">SAVE {{ savings | money }}</span>{% endif %}
+        </div>
+
+        <div class="flex flex-1 flex-col justify-between pt-5">
+          <div>
+            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">// ARCHIVE ARTIFACT</p>
+            <h3 class="mt-1 font-display text-base font-bold tracking-wide text-white uppercase"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+            <p class="mt-1 text-xs text-[#E9E3D5]">{{ product.type | default: 'UNBREAKABLE 316L ALLOY' | escape }}</p>
+          </div>
+
+          <div class="mt-5 flex items-center justify-between border-t border-red-900/40 pt-4">
+            <div class="flex flex-wrap items-baseline gap-2">
+              <span class="font-mono-tech text-base font-bold text-white">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}<span class="font-mono-tech text-xs text-zinc-400 line-through">{{ product.compare_at_price | money }}</span>{% endif %}
+            </div>
+            <a href="{{ product.url }}" class="border border-red-800/60 bg-black/70 px-4 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#E9E3D5] transition-colors hover:border-red-500 hover:text-white">INSPECT →</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.rwnd-hero-tab');
-    const slides = document.querySelectorAll('.rwnd-hero-slide');
-
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const targetIndex = tab.getAttribute('data-hero-btn');
-
-        tabs.forEach((t) => {
-          t.setAttribute('aria-selected', 'false');
-          t.className = 'rwnd-hero-tab rounded-full border border-white/20 bg-black/60 px-4 py-2 font-mono-tech text-xs font-medium tracking-wider text-zinc-300 uppercase transition-all hover:border-white hover:text-white';
-        });
-
-        tab.setAttribute('aria-selected', 'true');
-        tab.className = 'rwnd-hero-tab rounded-full border border-white bg-white px-4 py-2 font-mono-tech text-xs font-bold tracking-wider text-black uppercase shadow-md transition-all';
-
-        slides.forEach((s) => s.classList.add('hidden'));
-        const activeSlide = document.querySelector(`[data-hero-stage-slide="${targetIndex}"]`);
-        if (activeSlide) activeSlide.classList.remove('hidden');
+    const tabs = [...document.querySelectorAll('.rwnd-hero-tab')];
+    const slides = [...document.querySelectorAll('.rwnd-hero-slide')];
+    tabs.forEach((tab) => tab.addEventListener('click', () => {
+      const target = tab.dataset.heroBtn;
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.classList.toggle('bg-red-600', selected);
+        item.classList.toggle('border-red-500', selected);
+        item.classList.toggle('text-white', selected);
+        item.classList.toggle('bg-black/70', !selected);
+        item.classList.toggle('border-white/20', !selected);
+        item.classList.toggle('text-[#E9E3D5]', !selected);
       });
-    });
+      slides.forEach((slide) => slide.classList.toggle('hidden', slide.dataset.heroStageSlide !== target));
+    }));
   });
 </script>
 
@@ -204,40 +147,12 @@
 {
   "name": "Main Storefront Stage",
   "settings": [
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Archive Collection"
-    },
-    {
-      "type": "text",
-      "id": "hero_badge",
-      "label": "Hero Badge",
-      "default": "+ DROP 01 // LIVE NOW"
-    },
-    {
-      "type": "text",
-      "id": "hero_title_line_1",
-      "label": "Hero Title Line 1",
-      "default": "TIMELESS"
-    },
-    {
-      "type": "text",
-      "id": "hero_title_line_2",
-      "label": "Hero Title Line 2",
-      "default": "BUT MAKE IT Y2K."
-    },
-    {
-      "type": "textarea",
-      "id": "hero_subtitle",
-      "label": "Hero Subtitle",
-      "default": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available."
-    }
+    { "type": "collection", "id": "collection", "label": "Archive Collection" },
+    { "type": "text", "id": "hero_badge", "label": "Hero Badge", "default": "// MDU_DISPATCH · AFTER DARK" },
+    { "type": "text", "id": "hero_title_line_1", "label": "Hero Title Line 1", "default": "NOCTURNAL" },
+    { "type": "text", "id": "hero_title_line_2", "label": "Hero Title Line 2", "default": "ARTIFACTS ONLY." },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Hero Subtitle", "default": "UNBREAKABLE 316L ALLOY. HEAVYWEIGHT BRUTALISM. BUILT FOR THE HOURS AFTER DARK." }
   ],
-  "presets": [
-    {
-      "name": "Main Storefront Stage"
-    }
-  ]
+  "presets": [{ "name": "Main Storefront Stage" }]
 }
 {% endschema %}

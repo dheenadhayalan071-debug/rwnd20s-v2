@@ -13,14 +13,12 @@
       "type": "main-storefront",
       "settings": {
         "collection": "",
-        "hero_badge": "+ DROP 01 // LIVE NOW",
-        "hero_title_line_1": "TIMELESS",
-        "hero_title_line_2": "BUT MAKE IT Y2K.",
-        "hero_subtitle": "Heavy 316L steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available."
+        "hero_badge": "// MDU_DISPATCH · AFTER DARK",
+        "hero_title_line_1": "NOCTURNAL",
+        "hero_title_line_2": "ARTIFACTS ONLY.",
+        "hero_subtitle": "UNBREAKABLE 316L ALLOY. HEAVYWEIGHT BRUTALISM. BUILT FOR THE HOURS AFTER DARK."
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
