@@ -361,32 +361,29 @@
           }
         });
 
-        // Global Add-to-Cart Interceptor for all product buttons
-        document.addEventListener('click', async (e) => {
-          const addBtn = e.target.closest('form[action*="/cart/add"] button, [data-add-to-bag], button[name="add"]');
-          if (addBtn) {
+        // Global Add-to-Cart Interceptor (Listens for Form Submit for 100% Reliability)
+        document.addEventListener('submit', async (e) => {
+          const form = e.target;
+          
+          if (form.getAttribute('action') && form.getAttribute('action').includes('/cart/add')) {
             e.preventDefault();
-            const form = addBtn.closest('form');
-            let formData = form ? new FormData(form) : null;
             
-            if (!formData) {
-              const variantId = addBtn.dataset.variantId;
-              if (!variantId) return;
-              formData = new FormData();
-              formData.append('id', variantId);
-              formData.append('quantity', 1);
+            const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], button[name="add"]');
+            const originalContent = submitBtn ? submitBtn.innerHTML : 'ADD TO BAG';
+
+            if (submitBtn) {
+              // 1. BUTTON STATE: LOADING
+              submitBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
+              submitBtn.style.pointerEvents = 'none';
             }
 
-            // BUTTON STATE: LOADING
-            const originalContent = addBtn.innerHTML;
-            addBtn.innerHTML = '<span class="animate-pulse tracking-widest">[ AUTHORIZING... ]</span>';
-            addBtn.style.pointerEvents = 'none';
-
             try {
-              const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+              const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
               if (res.ok) {
-                // BUTTON STATE: SUCCESS
-                addBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
+                // 2. BUTTON STATE: SUCCESS
+                if (submitBtn) {
+                  submitBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
+                }
                 
                 await fetchDrawerCart();
                 if (cartDrawer) {
@@ -396,22 +393,28 @@
                 }
                 showRwndToast('ARTIFACT SECURED', 'Item added to your hardware bag.');
 
-                // REVERT BUTTON AFTER 2 SECONDS
+                // 3. REVERT BUTTON
                 setTimeout(() => {
-                  addBtn.innerHTML = originalContent;
-                  addBtn.style.pointerEvents = 'auto';
+                  if (submitBtn) {
+                    submitBtn.innerHTML = originalContent;
+                    submitBtn.style.pointerEvents = 'auto';
+                  }
                 }, 2000);
 
               } else {
                 const err = await res.json();
-                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
-                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
+                if (submitBtn) {
+                  submitBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
+                  setTimeout(() => { submitBtn.innerHTML = originalContent; submitBtn.style.pointerEvents = 'auto'; }, 2000);
+                }
                 showRwndToast('DISPATCH FAILED', err.description || 'Could not add item.');
               }
             } catch (err) {
               console.error('Cart add error:', err);
-              addBtn.innerHTML = originalContent;
-              addBtn.style.pointerEvents = 'auto';
+              if (submitBtn) {
+                submitBtn.innerHTML = originalContent;
+                submitBtn.style.pointerEvents = 'auto';
+              }
             }
           }
         });
