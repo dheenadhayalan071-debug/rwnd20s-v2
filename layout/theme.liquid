@@ -63,16 +63,17 @@
         box-shadow: 0 20px 60px rgba(138, 3, 3, 0.25);
       }
 
+      /* REDUCED FOG EFFECT: Subtler opacity and softer pulse */
       @keyframes eeriePulse {
         0%,
         100% {
-          opacity: 0.35;
-          filter: blur(130px);
+          opacity: 0.15;
+          filter: blur(150px);
         }
 
         50% {
-          opacity: 0.65;
-          filter: blur(90px);
+          opacity: 0.30;
+          filter: blur(110px);
         }
       }
 
@@ -81,14 +82,14 @@
         inset: 0;
         z-index: -1;
         pointer-events: none;
-        background: radial-gradient(circle at 50% 25%, rgba(138, 3, 3, 0.4) 0%, transparent 65%);
-        animation: eeriePulse 6s ease-in-out infinite;
+        background: radial-gradient(circle at 50% 20%, rgba(138, 3, 3, 0.25) 0%, transparent 70%);
+        animation: eeriePulse 8s ease-in-out infinite;
       }
     </style>
   </head>
 
   <body class="relative z-0 min-h-screen bg-[#030303] text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white">
-    <!-- Place atmospheric fog before the page content. -->
+    <!-- Reduced Atmospheric Fog Layer -->
     <div class="gothic-fog-layer" aria-hidden="true"></div>
 
     <!-- CINEMATIC INTRO GATEWAY -->
@@ -149,7 +150,6 @@
 
     {% render 'welcome-popup' %}
 
-    <!-- Global interactions, including the sole layout-level cart-add interceptor. -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('rwnd-gateway-splash');
@@ -262,7 +262,6 @@
           }
         }
 
-        // Capture clicks before theme scripts and intercept form submits (including Enter-key submits).
         document.addEventListener('click', (event) => {
           const button = event.target.closest('button[name="add"], button[type="submit"].add-to-cart, form[action*="/cart/add"] button[type="submit"]');
           const form = button?.closest('form[action*="/cart/add"]');
