@@ -48,13 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = form.querySelector('button[name="add"], button[type="submit"], input[type="submit"]');
     if (!button || button.dataset.cartSubmitting === 'true') return;
     const originalContent = button.tagName === 'INPUT' ? button.value : button.innerHTML;
+    const originalClasses = button.className;
+    
     const setContent = (content) => {
       if (button.tagName === 'INPUT') button.value = content;
       else button.innerHTML = content;
     };
+    
     button.dataset.cartSubmitting = 'true';
     button.style.pointerEvents = 'none';
-    setContent('<span class="animate-pulse">[ AUTHORIZING... ]</span>');
+    setContent('<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>');
 
     try {
       const response = await fetch('/cart/add.js', {
@@ -67,19 +70,25 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(error.description || 'Could not add item to your bag.');
       }
       const addedItem = await response.json();
-      setContent('<span class="text-emerald-400">✦ SECURED</span>');
-      showToast('ARTIFACT SECURED', `${addedItem.product_title || 'Item'} added to your hardware bag.`);
+      
+      // Update Button state to Red/Archive Added
+      button.className = "w-full rounded-full border border-red-900 bg-red-600 py-3.5 font-mono-tech text-xs font-bold text-white uppercase tracking-widest shadow-[0_0_20px_rgba(220,38,38,0.6)]";
+      setContent('<span class="font-bold tracking-widest text-white">✦ ARCHIVE ADDED</span>');
+      
+      // We removed the showToast notification here per your request to have zero popups.
+      
       await refreshCartBadges();
       if (typeof window.fetchMainCartData === 'function') window.fetchMainCartData();
     } catch (error) {
       setContent('<span class="text-red-500">FAILED</span>');
-      showToast('DISPATCH FAILED', error.message);
+      // showToast('DISPATCH FAILED', error.message);
     } finally {
       setTimeout(() => {
         setContent(originalContent);
+        button.className = originalClasses;
         button.style.pointerEvents = '';
         delete button.dataset.cartSubmitting;
-      }, 2000);
+      }, 2500);
     }
   }, true);
 
@@ -245,3 +254,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   refreshCartBadges();
 });
+  
