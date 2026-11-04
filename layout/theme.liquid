@@ -84,7 +84,7 @@
 
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
 
-            <!-- CINEMATIC INTRO GATEWAY (Bulletproof Video Container) -->
+    <!-- CINEMATIC INTRO GATEWAY (Bulletproof Video Container) -->
     <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
       <div class="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
       <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
@@ -121,54 +121,6 @@
         </button>
       </div>
     </div>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const splash = document.getElementById('rwnd-gateway-splash');
-        const triggerBtn = document.getElementById('rwnd-trigger-intro');
-        const videoContainer = document.getElementById('rwnd-video-container');
-        const introVideo = document.getElementById('rwnd-intro-video');
-        const skipBtn = document.getElementById('rwnd-skip-video');
-        const promptBox = document.getElementById('rwnd-entry-prompt');
-
-        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') {
-          if (splash) splash.remove();
-        } else {
-          triggerBtn?.addEventListener('click', () => {
-            promptBox.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-            setTimeout(() => {
-              promptBox.classList.add('hidden');
-              videoContainer.classList.remove('hidden');
-              videoContainer.classList.add('flex');
-              
-              const playPromise = introVideo.play();
-              if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                  console.log("Autoplay blocked or video error, skipping to store:", error);
-                  dismissGateway();
-                });
-              }
-            }, 300);
-          });
-
-          introVideo?.addEventListener('ended', () => dismissGateway());
-          skipBtn?.addEventListener('click', () => dismissGateway());
-
-          function dismissGateway() {
-            sessionStorage.setItem('rwnd_intro_seen', 'true');
-            if (introVideo) introVideo.pause();
-            
-            splash.classList.add('opacity-0');
-            setTimeout(() => {
-              splash.remove();
-              if (typeof window.showRwndWelcomeModal === 'function') {
-                window.showRwndWelcomeModal();
-              }
-            }, 600);
-          }
-        }
-      });
-    </script>
 
     <!-- VIVID STRIKING GOTHIC BACKGROUND -->
     <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
@@ -236,15 +188,16 @@
     <div id="rwnd-cart-drawer" class="fixed inset-0 z-[100] hidden justify-end bg-black/85 backdrop-blur-md transition-opacity">
       <div class="w-full max-w-md h-full bg-[#060606] border-l border-red-900/40 p-5 flex flex-col justify-between text-white shadow-2xl">
         
-        <!-- Header & Hot Deals -->
+        <!-- Header & Dynamic Items List -->
         <div class="overflow-y-auto pr-1">
           <div class="flex items-center justify-between border-b border-white/10 pb-3">
             <span class="font-display text-base font-bold uppercase tracking-wider">HARDWARE BAG</span>
             <button type="button" data-close-cart class="h-8 w-8 rounded-full border border-white/20 bg-black/60 flex items-center justify-center text-white hover:border-red-600 cursor-pointer">✕</button>
           </div>
 
+          <!-- DYNAMIC CART ITEMS RENDER CONTAINER -->
           <div id="rwnd-drawer-items-list" class="py-3 space-y-3 border-b border-white/10">
-            <p class="font-mono-tech text-xs text-zinc-400 text-center py-2">Your hardware bag is currently empty.</p>
+            <p class="font-mono-tech text-xs text-zinc-400 text-center py-2">Loading hardware bag...</p>
           </div>
 
           <!-- HOT COMMUNITY DEALS -->
@@ -281,6 +234,10 @@
         <!-- Sticky Footer Checkout Action -->
         <div class="border-t border-white/10 pt-3 space-y-2 mt-2 bg-[#060606]">
           <div class="flex justify-between items-center font-mono-tech text-xs">
+            <span class="text-zinc-400">SUBTOTAL</span>
+            <span id="rwnd-drawer-subtotal" class="text-white font-bold">₹0.00</span>
+          </div>
+          <div class="flex justify-between items-center font-mono-tech text-xs">
             <span class="text-zinc-400">SHIPPING (MDU DISPATCH)</span>
             <span class="text-emerald-400 font-bold">FREE OVER ₹999</span>
           </div>
@@ -298,9 +255,12 @@
     <!-- WELCOME EMAIL COLLECTION POPUP -->
     {% render 'welcome-popup' %}
 
-    <!-- ROBUST GLOBAL INTERACTION & GATEWAY SCRIPTS -->
+    <!-- ROBUST GLOBAL INTERACTION & LIVE CART ENGINE SCRIPTS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        // Fetch and load cart data immediately on startup
+        fetchDrawerCart();
+
         // Gateway Splash Logic
         const splash = document.getElementById('rwnd-gateway-splash');
         const triggerBtn = document.getElementById('rwnd-trigger-intro');
@@ -367,7 +327,7 @@
           });
         });
 
-        // Cart Drawer Interception
+        // Cart Drawer Interception & Opening
         const cartDrawer = document.getElementById('rwnd-cart-drawer');
         const cartTriggers = document.querySelectorAll('[data-open-cart="bag"], [data-open-cart="wishlist"], a[href="/cart"], .cart-count-bubble, [id*="cart"]');
         const closeCartBtn = document.querySelector('[data-close-cart]');
@@ -375,6 +335,7 @@
         cartTriggers.forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
+            fetchDrawerCart();
             if (cartDrawer) {
               cartDrawer.classList.remove('hidden');
               cartDrawer.classList.add('flex');
@@ -399,7 +360,114 @@
             document.body.style.overflow = '';
           }
         });
+
+        // Global Add-to-Cart Interceptor for all product buttons
+        document.addEventListener('click', async (e) => {
+          const addBtn = e.target.closest('form[action*="/cart/add"] button, [data-add-to-bag], button[name="add"]');
+          if (addBtn) {
+            e.preventDefault();
+            const form = addBtn.closest('form');
+            let formData = form ? new FormData(form) : null;
+            
+            if (!formData) {
+              const variantId = addBtn.dataset.variantId;
+              if (!variantId) return;
+              formData = new FormData();
+              formData.append('id', variantId);
+              formData.append('quantity', 1);
+            }
+
+            try {
+              const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+              if (res.ok) {
+                await fetchDrawerCart();
+                if (cartDrawer) {
+                  cartDrawer.classList.remove('hidden');
+                  cartDrawer.classList.add('flex');
+                  document.body.style.overflow = 'hidden';
+                }
+                showRwndToast('ARTIFACT SECURED', 'Item added to your hardware bag.');
+              } else {
+                const err = await res.json();
+                showRwndToast('DISPATCH FAILED', err.description || 'Could not add item.');
+              }
+            } catch (err) {
+              console.error('Cart add error:', err);
+            }
+          }
+        });
       });
+
+      // Live Cart Fetch and Render Functions
+      async function fetchDrawerCart() {
+        try {
+          const res = await fetch('/cart.js');
+          const cart = await res.json();
+          renderDrawerCart(cart);
+        } catch (err) {
+          console.error('Error fetching cart:', err);
+        }
+      }
+
+      async function updateCartQuantity(lineKey, quantity) {
+        try {
+          const res = await fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: lineKey, quantity: quantity })
+          });
+          const cart = await res.json();
+          renderDrawerCart(cart);
+        } catch (err) {
+          console.error('Error updating cart quantity:', err);
+        }
+      }
+
+      function renderDrawerCart(cart) {
+        const container = document.getElementById('rwnd-drawer-items-list');
+        const subtotalEl = document.getElementById('rwnd-drawer-subtotal');
+        if (!container) return;
+
+        const formattedSubtotal = '₹' + (cart.total_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        if (subtotalEl) subtotalEl.textContent = formattedSubtotal;
+
+        if (!cart.items || cart.items.length === 0) {
+          container.innerHTML = `<p class="font-mono-tech text-xs text-zinc-400 text-center py-4">Your hardware bag is currently empty.</p>`;
+          return;
+        }
+
+        let html = '';
+        cart.items.forEach((item, index) => {
+          const itemPrice = '₹' + (item.final_line_price / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          html += `
+            <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/60 p-3 shadow-md backdrop-blur-md">
+              <div class="h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black p-1 flex items-center justify-center">
+                <img src="${item.image}" alt="${item.title}" class="h-full w-full object-contain filter contrast-125">
+              </div>
+              <div class="flex flex-1 flex-col justify-between">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="font-display text-xs font-bold text-white uppercase line-clamp-1">${item.product_title}</h4>
+                    ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="text-[10px] text-zinc-400">${item.variant_title}</p>` : ''}
+                  </div>
+                  <span class="font-mono-tech text-xs font-bold text-white">${itemPrice}</span>
+                </div>
+                <div class="mt-2 flex items-center justify-between border-t border-white/10 pt-2">
+                  <div class="flex items-center rounded-full border border-white/15 bg-black/50 px-2 py-0.5">
+                    <button type="button" onclick="updateCartQuantity('${item.key}', ${item.quantity - 1})" class="text-zinc-400 hover:text-white px-1.5 text-xs font-bold cursor-pointer">-</button>
+                    <span class="mx-2 font-mono-tech text-xs font-bold text-white">${item.quantity}</span>
+                    <button type="button" onclick="updateCartQuantity('${item.key}', ${item.quantity + 1})" class="text-zinc-400 hover:text-white px-1.5 text-xs font-bold cursor-pointer">+</button>
+                  </div>
+                  <button type="button" onclick="updateCartQuantity('${item.key}', 0)" class="font-mono-tech text-[10px] font-bold text-red-400 hover:text-red-300 uppercase tracking-widest cursor-pointer">
+                    REMOVE
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
 
       function showRwndToast(title, message) {
         const container = document.getElementById('rwnd-toast-container');
