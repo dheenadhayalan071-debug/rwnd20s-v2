@@ -26,6 +26,8 @@
     </style>
   </head>
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
+    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
+
     <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
       <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
       <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6 max-w-lg mx-auto">
@@ -48,7 +50,6 @@
     </div>
     <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">{{ content_for_layout }}</main>
     <div class="relative z-10 w-full">{% section 'footer' %}</div>
-    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
     {% render 'welcome-popup' %}
 
     <script>
@@ -76,6 +77,54 @@
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') backBar.classList.remove('hidden');
       });
     </script>
+
+    <!-- AGGRESSIVE ADD-TO-CART RED BUTTON FIX (KILLS NATIVE ALERTS) -->
+    <script>
+      document.addEventListener('click', async (e) => {
+        const cartForm = e.target.closest('form[action*="/cart/add"]');
+        if (cartForm) {
+          const addBtn = e.target.closest('button, input[type="submit"], input[type="button"]');
+          if (addBtn) {
+            e.preventDefault(); 
+            e.stopPropagation(); // THIS KILLS THE OLD POPUP ALERT AND PREVENTS THEME.JS DUPLICATES
+
+            const originalContent = addBtn.innerHTML;
+            const originalClasses = addBtn.className;
+
+            // 1. LOADING STATE
+            addBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
+            addBtn.style.pointerEvents = 'none';
+
+            try {
+              const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(cartForm) });
+              if (res.ok) {
+                // 2. SUCCESS STATE: SOLID RED BUTTON + NEW TEXT
+                addBtn.className = "w-full rounded-full border border-red-900 bg-red-600 py-3.5 font-mono-tech text-xs font-bold text-white uppercase tracking-widest shadow-[0_0_20px_rgba(220,38,38,0.6)] transition-all";
+                addBtn.innerHTML = '<span class="font-bold tracking-widest text-white">✦ ARCHIVE ADDED</span>';
+                
+                if (typeof fetchMainCartData === 'function') fetchMainCartData();
+                if (typeof fetchCartState === 'function') fetchCartState();
+
+                // 3. REVERT STATE
+                setTimeout(() => {
+                  addBtn.innerHTML = originalContent;
+                  addBtn.className = originalClasses;
+                  addBtn.style.pointerEvents = 'auto';
+                }, 2500);
+
+              } else {
+                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
+                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
+              }
+            } catch (err) {
+              addBtn.innerHTML = originalContent;
+              addBtn.style.pointerEvents = 'auto';
+            }
+          }
+        }
+      }, true); // The 'true' flag guarantees this runs before anything else
+    </script>
+    
     {{ 'theme.js' | asset_url | script_tag }}
   </body>
 </html>
