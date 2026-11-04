@@ -6,310 +6,76 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="theme-color" content="#030303">
     <link rel="canonical" href="{{ canonical_url }}">
-
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}
-    </title>
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% else %}
-      <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
-    {% endif %}
-
-    <!-- Google Fonts -->
+    <title>{{ page_title }}{%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}{%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}{%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}</title>
+    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% else %}<meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">{% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS Browser Runtime -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
-              editorial: ['Playfair Display', 'Georgia', 'serif'],
-              sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-              'mono-tech': ['JetBrains Mono', 'monospace']
-            }
-          }
-        }
-      };
+      tailwind.config = { theme: { extend: { fontFamily: { display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'], editorial: ['Playfair Display', 'Georgia', 'serif'], sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'], 'mono-tech': ['JetBrains Mono', 'monospace'] } } };
     </script>
-
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
-    
-    <!-- MASTER GOTHIC ATMOSPHERIC & GLASSMORPHISM STYLES -->
     <style>
-      html, body {
-        max-width: 100vw;
-        overflow-x: hidden;
-        background-color: #030303 !important;
-      }
-
-      /* Premium Gothic Glassmorphism */
-      .foggy-glass {
-        background: rgba(10, 10, 10, 0.75) !important;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 16px 50px 0 rgba(0, 0, 0, 0.9), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-      }
-      .foggy-glass:hover {
-        border-color: rgba(220, 38, 38, 0.6);
-        box-shadow: 0 20px 60px 0 rgba(138, 3, 3, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
-      }
-
-      @keyframes eeriePulse {
-        0%, 100% { opacity: 0.35; filter: blur(130px); }
-        50% { opacity: 0.65; filter: blur(90px); }
-      }
-
-      .gothic-fog-layer {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        background: radial-gradient(circle at 50% 25%, rgba(138, 3, 3, 0.4) 0%, transparent 65%);
-        animation: eeriePulse 6s ease-in-out infinite;
-      }
+      html, body { max-width: 100vw; overflow-x: hidden; background-color: #030303 !important; }
+      .foggy-glass { background: rgba(10,10,10,.75) !important; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 16px 50px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.15); }
+      .foggy-glass:hover { border-color: rgba(220,38,38,.6); box-shadow: 0 20px 60px rgba(138,3,3,.45), inset 0 1px 0 rgba(255,255,255,.25); }
+      @keyframes eeriePulse { 0%,100% { opacity:.35; filter:blur(130px); } 50% { opacity:.65; filter:blur(90px); } }
+      .gothic-fog-layer { position:fixed; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(circle at 50% 25%,rgba(138,3,3,.4) 0%,transparent 65%); animation:eeriePulse 6s ease-in-out infinite; }
     </style>
   </head>
-
   <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
-
-    <!-- CINEMATIC INTRO GATEWAY -->
     <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
-      <div class="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none filter contrast-125" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
       <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
-
       <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6 max-w-lg mx-auto">
-        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
-          <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
-          <span class="font-mono-tech text-[10px] font-bold tracking-widest text-red-400 uppercase">SECTOR // MDU_DISPATCH</span>
-        </div>
-        <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-white drop-shadow-2xl">
-          rwnd20s<span class="text-red-600">.</span>
-        </h1>
-        <p class="font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-sm">
-          Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.
-        </p>
-        <button type="button" id="rwnd-trigger-intro" class="group relative inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold tracking-widest text-red-200 uppercase shadow-[0_0_30px_rgba(220,38,38,0.4)] backdrop-blur-xl transition-all hover:bg-red-900 hover:text-white cursor-pointer active:scale-95">
-          <span>[ ENTER THE ARCHIVE ]</span>
-          <span class="text-red-500 group-hover:translate-x-1 transition-transform">→</span>
-        </button>
+        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md"><span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span><span class="font-mono-tech text-[10px] font-bold tracking-widest text-red-400 uppercase">SECTOR // MDU_DISPATCH</span></div>
+        <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-white drop-shadow-2xl">{{ settings.brand_name | default: 'rwnd20s.' }}</h1>
+        <p class="font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-sm">Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.</p>
+        <button type="button" id="rwnd-trigger-intro" class="group relative inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold tracking-widest text-red-200 uppercase transition-all hover:bg-red-900 hover:text-white cursor-pointer"><span>[ ENTER THE ARCHIVE ]</span><span class="text-red-500">→</span></button>
       </div>
-
-      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black flex items-center justify-center w-full h-[100dvh]">
-        <video id="rwnd-intro-video" class="absolute inset-0 w-full h-full object-contain bg-black" playsinline autoplay muted>
-          <source src="https://cdn.shopify.com/videos/c/o/v/e8e2f809aecd408cadfa5c08fef2c7f6.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-xl hover:border-red-600 cursor-pointer shadow-lg">
-          SKIP INTRO [ ESC ]
-        </button>
+      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black items-center justify-center w-full h-[100dvh]">
+        <video id="rwnd-intro-video" class="absolute inset-0 w-full h-full object-contain bg-black" playsinline autoplay muted><source src="https://cdn.shopify.com/videos/c/o/v/e8e2f809aecd408cadfa5c08fef2c7f6.mp4">Your browser does not support the video tag.</video>
+        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase">SKIP INTRO [ ESC ]</button>
       </div>
     </div>
-
-    <!-- BACKGROUND -->
-    <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full">
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-95 filter contrast-125 brightness-90" style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.png?v=1793723403');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent"></div>
-    </div>
+    <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full"><div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent"></div></div>
     <div class="gothic-fog-layer"></div>
 
-    <!-- Header Section -->
     {% section 'header' %}
-
-    <!-- MOBILE NAVIGATION DRAWER -->
-    <div id="rwnd-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation" class="fixed inset-0 z-[120] hidden flex-col justify-between bg-[#030303]/98 p-6 text-white backdrop-blur-2xl border-l border-red-900/30">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <span class="font-display text-xl font-extrabold tracking-tighter text-white">{{ settings.brand_name | default: 'rwnd20s.' }}</span>
-        <button type="button" data-toggle-mobile-menu class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white hover:border-red-600 transition-colors cursor-pointer">✕</button>
-      </div>
-      <nav class="my-auto flex flex-col space-y-4">
-        <a href="/" data-toggle-mobile-menu class="border-b border-white/10 py-3 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">01 // HOME</a>
-        <a href="/collections/all" data-toggle-mobile-menu class="border-b border-white/10 py-3 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">02 // CATALOG</a>
-        <a href="/cart" data-toggle-mobile-menu class="border-b border-white/10 py-3 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">03 // HARDWARE BAG</a>
-        <a href="/#about" data-toggle-mobile-menu class="border-b border-white/10 py-3 font-display text-2xl font-extrabold tracking-tight text-white uppercase hover:text-red-500 transition-colors">04 // MANIFESTO</a>
-      </nav>
-      <div class="border-t border-white/10 pt-4 font-mono-tech text-[11px] tracking-wider text-zinc-400 uppercase">FREE EXPRESS SHIPPING ABOVE ₹999 · COD AVAILABLE</div>
-    </div>
-
-    <!-- UNIVERSAL SUB-PAGE BACK BUTTON -->
     <div id="rwnd-sys-back-bar" class="w-full max-w-7xl mx-auto px-4 pt-6 hidden">
-      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 backdrop-blur-xl px-4 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-lg transition-all hover:border-red-600 hover:bg-red-950/40 cursor-pointer">
-        <span class="text-red-500">←</span>
-        <span>RETURN TO BASE</span>
-      </button>
+      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 px-4 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-lg transition-all hover:border-red-600 hover:bg-red-950/40 cursor-pointer"><span class="text-red-500">←</span><span>RETURN TO BASE</span></button>
     </div>
-
-    <!-- Main Content -->
-    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">
-      {{ content_for_layout }}
-    </main>
-
-    <!-- Footer Section -->
-    <div class="relative z-10 w-full">
-      {% section 'footer' %}
-    </div>
-
-    <!-- Toast Container -->
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">{{ content_for_layout }}</main>
+    <div class="relative z-10 w-full">{% section 'footer' %}</div>
     <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
-
-    <!-- WELCOME EMAIL COLLECTION POPUP -->
     {% render 'welcome-popup' %}
 
-    <!-- ROBUST GLOBAL INTERACTION & LIVE CART ENGINE SCRIPTS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        
-        // Gateway Splash Logic
         const splash = document.getElementById('rwnd-gateway-splash');
-        const triggerBtn = document.getElementById('rwnd-trigger-intro');
+        const trigger = document.getElementById('rwnd-trigger-intro');
         const videoContainer = document.getElementById('rwnd-video-container');
-        const introVideo = document.getElementById('rwnd-intro-video');
-        const skipBtn = document.getElementById('rwnd-skip-video');
-        const promptBox = document.getElementById('rwnd-entry-prompt');
-
-        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') {
-          if (splash) splash.remove();
-        } else {
-          triggerBtn?.addEventListener('click', () => {
-            promptBox.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-            setTimeout(() => {
-              promptBox.classList.add('hidden');
-              videoContainer.classList.remove('hidden');
-              videoContainer.classList.add('flex');
-              introVideo.play().catch(() => dismissGateway());
-            }, 500);
+        const video = document.getElementById('rwnd-intro-video');
+        const prompt = document.getElementById('rwnd-entry-prompt');
+        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') splash?.remove();
+        else {
+          trigger?.addEventListener('click', () => {
+            prompt?.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            setTimeout(() => { prompt?.classList.add('hidden'); videoContainer?.classList.remove('hidden'); videoContainer?.classList.add('flex'); video?.play().catch(dismissGateway); }, 500);
           });
-          introVideo?.addEventListener('ended', () => dismissGateway());
-          skipBtn?.addEventListener('click', () => dismissGateway());
-
+          video?.addEventListener('ended', dismissGateway);
+          document.getElementById('rwnd-skip-video')?.addEventListener('click', dismissGateway);
           function dismissGateway() {
             sessionStorage.setItem('rwnd_intro_seen', 'true');
-            if (introVideo) introVideo.pause();
-            splash.classList.add('opacity-0');
-            setTimeout(() => {
-              splash.remove();
-              if (typeof window.showRwndWelcomeModal === 'function') {
-                window.showRwndWelcomeModal();
-              }
-            }, 1000);
+            video?.pause(); splash?.classList.add('opacity-0');
+            setTimeout(() => { splash?.remove(); window.showRwndWelcomeModal?.(); }, 1000);
           }
         }
-
-        // Back bar visibility
         const backBar = document.getElementById('rwnd-sys-back-bar');
-        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
-          backBar.classList.remove('hidden');
-        }
-
-        // Mobile Menu Toggles
-        const mobileMenu = document.getElementById('rwnd-mobile-menu');
-        const menuTriggers = document.querySelectorAll('[data-toggle-mobile-menu]');
-        menuTriggers.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (mobileMenu) {
-              const isHidden = mobileMenu.classList.contains('hidden');
-              if (isHidden) {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('flex');
-                document.body.style.overflow = 'hidden';
-              } else {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-                document.body.style.overflow = '';
-              }
-            }
-          });
-        });
-
-        // ---------------------------------------------------------
-        // INVINCIBLE ADD-TO-CART INTERCEPTOR (Overrides theme.js)
-        // ---------------------------------------------------------
-        document.addEventListener('click', async (e) => {
-          // Look for any add to cart button
-          const addBtn = e.target.closest('button[name="add"], button[type="submit"].add-to-cart, [data-add-to-cart], form[action*="/cart/add"] button[type="submit"]');
-
-          if (addBtn && addBtn.closest('form[action*="/cart/add"]')) {
-            e.preventDefault(); // Stop normal submission
-            e.stopPropagation(); // BLOCK theme.js FROM HIJACKING THIS CLICK!
-
-            const form = addBtn.closest('form');
-            const originalContent = addBtn.innerHTML;
-
-            // 1. BUTTON STATE: LOADING
-            addBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
-            addBtn.style.pointerEvents = 'none';
-
-            try {
-              const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
-              if (res.ok) {
-                // 2. BUTTON STATE: SUCCESS
-                addBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
-                
-                // Update Main Cart page data silently if user happens to be on it
-                if (typeof fetchMainCartData === 'function') fetchMainCartData();
-                
-                // SHOW TOAST MESSAGE INSTEAD OF DRAWER
-                showRwndToast('ARTIFACT SECURED', 'Item added to your hardware bag.');
-
-                // 3. REVERT BUTTON AFTER 2 SECONDS
-                setTimeout(() => {
-                  addBtn.innerHTML = originalContent;
-                  addBtn.style.pointerEvents = 'auto';
-                }, 2000);
-
-              } else {
-                const err = await res.json();
-                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
-                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
-                showRwndToast('DISPATCH FAILED', err.description || 'Could not add item.');
-              }
-            } catch (err) {
-              console.error('Cart add error:', err);
-              addBtn.innerHTML = originalContent;
-              addBtn.style.pointerEvents = 'auto';
-            }
-          }
-        }, true); // <-- THE 'TRUE' FLAG FORCES THIS TO RUN BEFORE ANY OTHER THEME SCRIPTS
-        
-        // Remove rogue data-attributes from header cart links so theme.js doesn't stop navigation
-        document.querySelectorAll('a[href="/cart"]').forEach(link => {
-            link.removeAttribute('data-open-cart');
-        });
+        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') backBar.classList.remove('hidden');
       });
-
-      function showRwndToast(title, message) {
-        const container = document.getElementById('rwnd-toast-container');
-        if (!container) return;
-
-        const toast = document.createElement('div');
-        toast.className = "pointer-events-auto flex flex-col rounded-2xl border border-red-900/60 bg-black/90 p-4 text-white shadow-[0_0_30px_rgba(220,38,38,0.4)] backdrop-blur-xl transition-all duration-300 translate-y-4 opacity-0";
-        toast.innerHTML = `
-          <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-1">
-            <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500">✦ ${title}</span>
-            <span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span>
-          </div>
-          <p class="font-mono-tech text-xs text-zinc-300 mt-1">${message}</p>
-        `;
-
-        container.appendChild(toast);
-        setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
-        setTimeout(() => {
-          toast.classList.add('translate-y-4', 'opacity-0');
-          setTimeout(() => toast.remove(), 300);
-        }, 3500);
-      }
     </script>
+    {{ 'theme.js' | asset_url | script_tag }}
   </body>
 </html>
