@@ -6,52 +6,150 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="theme-color" content="#030303">
     <link rel="canonical" href="{{ canonical_url }}">
-    <title>{{ page_title }}{%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}{%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}{%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}</title>
-    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% else %}<meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">{% endif %}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% else %}
+      <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
+    {% endif %}
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = { theme: { extend: { fontFamily: { display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'], editorial: ['Playfair Display', 'Georgia', 'serif'], sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'], 'mono-tech': ['JetBrains Mono', 'monospace'] } } };
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
+              sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+              'mono-tech': ['JetBrains Mono', 'monospace']
+            }
+          }
+        }
+      };
     </script>
+
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
+
     <style>
-      html, body { max-width: 100vw; overflow-x: hidden; background-color: #030303 !important; }
-      .foggy-glass { background: rgba(10,10,10,.75) !important; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 16px 50px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.15); }
-      .foggy-glass:hover { border-color: rgba(220,38,38,.6); box-shadow: 0 20px 60px rgba(138,3,3,.45), inset 0 1px 0 rgba(255,255,255,.25); }
-      @keyframes eeriePulse { 0%,100% { opacity:.35; filter:blur(130px); } 50% { opacity:.65; filter:blur(90px); } }
-      .gothic-fog-layer { position:fixed; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(circle at 50% 25%,rgba(138,3,3,.4) 0%,transparent 65%); animation:eeriePulse 6s ease-in-out infinite; }
+      html,
+      body {
+        max-width: 100vw;
+        overflow-x: hidden;
+        background-color: #030303 !important;
+      }
+
+      .foggy-glass {
+        background: rgba(10, 10, 10, 0.75) !important;
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(127, 29, 29, 0.35);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.9);
+      }
+
+      .foggy-glass:hover {
+        border-color: rgba(220, 38, 38, 0.6);
+        box-shadow: 0 20px 60px rgba(138, 3, 3, 0.25);
+      }
+
+      @keyframes eeriePulse {
+        0%,
+        100% {
+          opacity: 0.35;
+          filter: blur(130px);
+        }
+
+        50% {
+          opacity: 0.65;
+          filter: blur(90px);
+        }
+      }
+
+      .gothic-fog-layer {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 25%, rgba(138, 3, 3, 0.4) 0%, transparent 65%);
+        animation: eeriePulse 6s ease-in-out infinite;
+      }
     </style>
   </head>
-  <body class="min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white relative z-0 bg-[#030303]">
-    <div id="rwnd-toast-container" aria-live="polite" class="fixed right-4 bottom-4 z-[130] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <div id="rwnd-gateway-splash" class="fixed inset-0 h-[100dvh] w-screen z-[200] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000 overflow-hidden">
+  <body class="relative z-0 min-h-screen bg-[#030303] text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white">
+    <!-- Place atmospheric fog before the page content. -->
+    <div class="gothic-fog-layer" aria-hidden="true"></div>
+
+    <!-- CINEMATIC INTRO GATEWAY -->
+    <div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-[#030303] text-[#E9E3D5] transition-opacity duration-1000">
       <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
-      <div id="rwnd-entry-prompt" class="relative z-10 flex flex-col items-center text-center p-6 space-y-6 max-w-lg mx-auto">
-        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md"><span class="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse"></span><span class="font-mono-tech text-[10px] font-bold tracking-widest text-red-400 uppercase">SECTOR // MDU_DISPATCH</span></div>
-        <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tighter uppercase text-white drop-shadow-2xl">{{ settings.brand_name | default: 'rwnd20s.' }}</h1>
-        <p class="font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-sm">Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.</p>
-        <button type="button" id="rwnd-trigger-intro" class="group relative inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold tracking-widest text-red-200 uppercase transition-all hover:bg-red-900 hover:text-white cursor-pointer"><span>[ ENTER THE ARCHIVE ]</span><span class="text-red-500">→</span></button>
-      </div>
-      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden bg-black items-center justify-center w-full h-[100dvh]">
-        <video id="rwnd-intro-video" class="absolute inset-0 w-full h-full object-contain bg-black" playsinline autoplay muted><source src="https://cdn.shopify.com/videos/c/o/v/e8e2f809aecd408cadfa5c08fef2c7f6.mp4">Your browser does not support the video tag.</video>
-        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-white uppercase">SKIP INTRO [ ESC ]</button>
-      </div>
-    </div>
-    <div class="fixed inset-0 z-[-2] bg-[#030303] overflow-hidden pointer-events-none w-full h-full"><div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent"></div></div>
-    <div class="gothic-fog-layer"></div>
 
-    {% section 'header' %}
-    <div id="rwnd-sys-back-bar" class="w-full max-w-7xl mx-auto px-4 pt-6 hidden">
-      <button type="button" onclick="if(window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 px-4 py-2 font-mono-tech text-[10px] font-bold tracking-widest text-[#E9E3D5] uppercase shadow-lg transition-all hover:border-red-600 hover:bg-red-950/40 cursor-pointer"><span class="text-red-500">←</span><span>RETURN TO BASE</span></button>
+      <div id="rwnd-entry-prompt" class="relative z-10 mx-auto flex max-w-lg flex-col items-center space-y-6 p-6 text-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-600"></span>
+          <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400">SECTOR // MDU_DISPATCH</span>
+        </div>
+
+        <h1 class="font-display text-4xl font-extrabold uppercase tracking-tighter text-white drop-shadow-2xl sm:text-6xl">
+          {{ settings.brand_name | default: 'rwnd20s.' }}
+        </h1>
+
+        <p class="max-w-sm font-mono-tech text-xs text-zinc-400 sm:text-sm">
+          Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.
+        </p>
+
+        <button type="button" id="rwnd-trigger-intro" class="inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-200 transition-all hover:bg-red-900 hover:text-white">
+          <span>[ ENTER THE ARCHIVE ]</span>
+          <span class="text-red-500">→</span>
+        </button>
+      </div>
+
+      <div id="rwnd-video-container" class="absolute inset-0 z-20 hidden h-[100dvh] w-full items-center justify-center bg-black">
+        <video id="rwnd-intro-video" class="absolute inset-0 h-full w-full bg-black object-contain" playsinline autoplay muted>
+          <source src="https://cdn.shopify.com/videos/c/o/v/e8e2f809aecd408cadfa5c08fef2c7f6.mp4">
+          Your browser does not support the video tag.
+        </video>
+        <button type="button" id="rwnd-skip-video" class="absolute bottom-8 right-8 z-30 rounded-full border border-white/20 bg-black/70 px-5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-white">
+          SKIP INTRO [ ESC ]
+        </button>
+      </div>
     </div>
-    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">{{ content_for_layout }}</main>
-    <div class="relative z-10 w-full">{% section 'footer' %}</div>
+
+    <!-- Header Section -->
+    {% section 'header' %}
+
+    <!-- Universal sub-page back button -->
+    <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-6">
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 px-4 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#E9E3D5] transition-all hover:border-red-600 hover:bg-red-950/40">
+        <span class="text-red-500">←</span>
+        <span>RETURN TO BASE</span>
+      </button>
+    </div>
+
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">
+      {{ content_for_layout }}
+    </main>
+
+    <div class="relative z-10 w-full">
+      {% section 'footer' %}
+    </div>
+
+    <div id="rwnd-toast-container" aria-live="polite" class="pointer-events-none fixed bottom-4 right-4 z-[130] flex w-full max-w-sm flex-col gap-2.5"></div>
+
     {% render 'welcome-popup' %}
 
+    <!-- Global interactions, including the sole layout-level cart-add interceptor. -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('rwnd-gateway-splash');
@@ -59,72 +157,132 @@
         const videoContainer = document.getElementById('rwnd-video-container');
         const video = document.getElementById('rwnd-intro-video');
         const prompt = document.getElementById('rwnd-entry-prompt');
-        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') splash?.remove();
-        else {
+
+        if (sessionStorage.getItem('rwnd_intro_seen') === 'true') {
+          splash?.remove();
+        } else {
           trigger?.addEventListener('click', () => {
             prompt?.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-            setTimeout(() => { prompt?.classList.add('hidden'); videoContainer?.classList.remove('hidden'); videoContainer?.classList.add('flex'); video?.play().catch(dismissGateway); }, 500);
+            setTimeout(() => {
+              prompt?.classList.add('hidden');
+              videoContainer?.classList.remove('hidden');
+              videoContainer?.classList.add('flex');
+              video?.play().catch(dismissGateway);
+            }, 500);
           });
+
           video?.addEventListener('ended', dismissGateway);
           document.getElementById('rwnd-skip-video')?.addEventListener('click', dismissGateway);
+
           function dismissGateway() {
             sessionStorage.setItem('rwnd_intro_seen', 'true');
-            video?.pause(); splash?.classList.add('opacity-0');
-            setTimeout(() => { splash?.remove(); window.showRwndWelcomeModal?.(); }, 1000);
+            video?.pause();
+            splash?.classList.add('opacity-0');
+            setTimeout(() => {
+              splash?.remove();
+              window.showRwndWelcomeModal?.();
+            }, 1000);
           }
         }
+
         const backBar = document.getElementById('rwnd-sys-back-bar');
-        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') backBar.classList.remove('hidden');
+        if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
+          backBar.classList.remove('hidden');
+        }
       });
-    </script>
 
-    <!-- AGGRESSIVE ADD-TO-CART RED BUTTON FIX (KILLS NATIVE ALERTS) -->
-    <script>
-      document.addEventListener('click', async (e) => {
-        const cartForm = e.target.closest('form[action*="/cart/add"]');
-        if (cartForm) {
-          const addBtn = e.target.closest('button, input[type="submit"], input[type="button"]');
-          if (addBtn) {
-            e.preventDefault(); 
-            e.stopPropagation(); // THIS KILLS THE OLD POPUP ALERT AND PREVENTS THEME.JS DUPLICATES
+      (() => {
+        const refreshCartBadges = async () => {
+          try {
+            const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+            if (!response.ok) return;
+            const cart = await response.json();
+            document.querySelectorAll('[data-cart-count]').forEach((badge) => {
+              badge.textContent = String(cart.item_count || 0);
+            });
+          } catch (error) {
+            console.error('Cart badge refresh failed:', error);
+          }
+        };
 
-            const originalContent = addBtn.innerHTML;
-            const originalClasses = addBtn.className;
+        async function addFormToCart(form, button) {
+          if (!form || !button || button.dataset.cartSubmitting === 'true') return;
 
-            // 1. LOADING STATE
-            addBtn.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>';
-            addBtn.style.pointerEvents = 'none';
+          const inputButton = button.tagName === 'INPUT';
+          const originalContent = inputButton ? button.value : button.innerHTML;
+          const originalClasses = button.className;
+          const originalStyle = button.getAttribute('style');
 
-            try {
-              const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(cartForm) });
-              if (res.ok) {
-                // 2. SUCCESS STATE: SOLID RED BUTTON + NEW TEXT
-                addBtn.className = "w-full rounded-full border border-red-900 bg-red-600 py-3.5 font-mono-tech text-xs font-bold text-white uppercase tracking-widest shadow-[0_0_20px_rgba(220,38,38,0.6)] transition-all";
-                addBtn.innerHTML = '<span class="font-bold tracking-widest text-white">✦ ARCHIVE ADDED</span>';
-                
-                if (typeof fetchMainCartData === 'function') fetchMainCartData();
-                if (typeof fetchCartState === 'function') fetchCartState();
+          const setContent = (content) => {
+            if (inputButton) button.value = content;
+            else button.innerHTML = content;
+          };
 
-                // 3. REVERT STATE
-                setTimeout(() => {
-                  addBtn.innerHTML = originalContent;
-                  addBtn.className = originalClasses;
-                  addBtn.style.pointerEvents = 'auto';
-                }, 2500);
+          const restoreButton = () => {
+            setContent(originalContent);
+            button.className = originalClasses;
+            if (originalStyle === null) button.removeAttribute('style');
+            else button.setAttribute('style', originalStyle);
+            button.disabled = false;
+            delete button.dataset.cartSubmitting;
+          };
 
-              } else {
-                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
-                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
-              }
-            } catch (err) {
-              addBtn.innerHTML = originalContent;
-              addBtn.style.pointerEvents = 'auto';
+          button.dataset.cartSubmitting = 'true';
+          button.disabled = true;
+          button.style.pointerEvents = 'none';
+          setContent('<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>');
+
+          try {
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { Accept: 'application/json' },
+              body: new FormData(form)
+            });
+
+            if (!response.ok) {
+              const error = await response.json().catch(() => ({}));
+              throw new Error(error.description || 'Could not add item to your hardware bag.');
             }
+
+            await response.json();
+            button.classList.remove('bg-black', 'bg-black/80', 'bg-transparent', 'text-red-100', 'border-red-900/60');
+            button.classList.add('bg-red-600', 'text-white', 'border-red-900');
+            button.style.backgroundColor = '#dc2626';
+            button.style.color = '#ffffff';
+            button.style.borderColor = '#7f1d1d';
+            setContent('<span class="font-bold tracking-widest text-white">✦ ARCHIVE ADDED</span>');
+
+            await refreshCartBadges();
+            if (typeof window.fetchMainCartData === 'function') window.fetchMainCartData();
+          } catch (error) {
+            console.error('Cart add failed:', error);
+            setContent('<span class="font-bold tracking-widest text-white">ADD FAILED</span>');
+          } finally {
+            setTimeout(restoreButton, 2500);
           }
         }
-      }, true); // The 'true' flag guarantees this runs before anything else
+
+        // Capture clicks before theme scripts and intercept form submits (including Enter-key submits).
+        document.addEventListener('click', (event) => {
+          const button = event.target.closest('button[name="add"], button[type="submit"].add-to-cart, form[action*="/cart/add"] button[type="submit"]');
+          const form = button?.closest('form[action*="/cart/add"]');
+          if (!form || !button) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          addFormToCart(form, button);
+        }, true);
+
+        document.addEventListener('submit', (event) => {
+          const form = event.target;
+          if (!(form instanceof HTMLFormElement) || !form.matches('form[action*="/cart/add"]')) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          const button = form.querySelector('button[name="add"], button[type="submit"], input[type="submit"]');
+          addFormToCart(form, button);
+        }, true);
+      })();
     </script>
-    
+
     {{ 'theme.js' | asset_url | script_tag }}
   </body>
 </html>
