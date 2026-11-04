@@ -377,9 +377,17 @@
               formData.append('quantity', 1);
             }
 
+            // BUTTON STATE: LOADING
+            const originalContent = addBtn.innerHTML;
+            addBtn.innerHTML = '<span class="animate-pulse tracking-widest">[ AUTHORIZING... ]</span>';
+            addBtn.style.pointerEvents = 'none';
+
             try {
               const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
               if (res.ok) {
+                // BUTTON STATE: SUCCESS
+                addBtn.innerHTML = '<span class="text-emerald-400 font-bold tracking-widest">✦ SECURED</span>';
+                
                 await fetchDrawerCart();
                 if (cartDrawer) {
                   cartDrawer.classList.remove('hidden');
@@ -387,12 +395,23 @@
                   document.body.style.overflow = 'hidden';
                 }
                 showRwndToast('ARTIFACT SECURED', 'Item added to your hardware bag.');
+
+                // REVERT BUTTON AFTER 2 SECONDS
+                setTimeout(() => {
+                  addBtn.innerHTML = originalContent;
+                  addBtn.style.pointerEvents = 'auto';
+                }, 2000);
+
               } else {
                 const err = await res.json();
+                addBtn.innerHTML = '<span class="text-red-500">FAILED</span>';
+                setTimeout(() => { addBtn.innerHTML = originalContent; addBtn.style.pointerEvents = 'auto'; }, 2000);
                 showRwndToast('DISPATCH FAILED', err.description || 'Could not add item.');
               }
             } catch (err) {
               console.error('Cart add error:', err);
+              addBtn.innerHTML = originalContent;
+              addBtn.style.pointerEvents = 'auto';
             }
           }
         });
