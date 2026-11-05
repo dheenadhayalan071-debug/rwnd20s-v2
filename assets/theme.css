@@ -63,9 +63,14 @@ html body .foggy-glass:hover { border-color: rgba(220,38,38,0.72) !important; }
 ::-webkit-scrollbar-thumb { background: rgba(220,38,38,0.7); border-radius: 9999px; }
 
 @media (max-width: 639px) {
-  .rwnd-home-hero { padding-top: 0.5rem; padding-bottom: 0.75rem; }
+  .rwnd-home-hero { padding: 1rem 1rem 1.5rem; }
+  .rwnd-home-hero [role="tablist"] { gap: 0.5rem; }
+  .rwnd-home-hero .rwnd-hero-tab { padding: 0.55rem 0.8rem; font-size: 0.6875rem; letter-spacing: 0.015em; }
+  .rwnd-home-hero > div > .relative.mx-auto.mt-2 { margin-top: 0.75rem; }
+  .rwnd-hero-image { width: clamp(11rem, 55vw, 13rem); height: clamp(11rem, 55vw, 13rem); }
+  .rwnd-hero-product-title { max-width: 100%; font-size: clamp(1.25rem, 6vw, 1.55rem); letter-spacing: -0.035em; line-height: 1.08; overflow-wrap: anywhere; }
+  .rwnd-hero-slide .min-h-12 { min-height: 3rem; }
   #shop { scroll-margin-top: 0.75rem; }
-  .rwnd-hero-product-title { max-width: 100%; font-size: clamp(0.75rem, 3.65vw, 0.875rem); letter-spacing: -0.045em; line-height: 1.04; overflow-wrap: anywhere; }
   .rwnd-product-title { font-size: clamp(0.8125rem, 3.8vw, 0.9375rem); letter-spacing: -0.025em; overflow-wrap: anywhere; }
   #about { margin-top: 1.5rem; }
 }
