@@ -1,0 +1,6 @@
+/* sections/main-storefront.liquid */
+.rwnd-home-hero .rwnd-hero-slide { transition: opacity 220ms ease, transform 220ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .rwnd-home-hero .rwnd-hero-slide,
+  .rwnd-home-hero .rwnd-hero-tab { transition-duration: 1ms !important; }
+}
