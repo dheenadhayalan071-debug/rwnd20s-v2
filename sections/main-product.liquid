@@ -1,78 +1,124 @@
-<!-- sections/main-home.liquid -->
-<div class="relative w-full bg-transparent text-[#E9E3D5] pb-24 font-mono-tech">
-  <section class="relative px-4 pt-8 md:px-8 lg:px-12">
-    <div class="mx-auto max-w-7xl">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/15 pb-8">
-        <div>
-          <div class="inline-flex items-center gap-2 rounded-full border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[11px] font-bold uppercase tracking-wider text-red-500 backdrop-blur-md">
-            <span class="h-2 w-2 rounded-full bg-red-600 animate-pulse"></span>
-            <span>RWND20S // OLD VIBE. NEW YOU.</span>
-          </div>
-          <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight mt-3 text-white drop-shadow-md">
-            {{ section.settings.hero_title | default: 'RWND20S. ARCHIVE' }}
-          </h1>
-          <p class="mt-2 font-mono-tech text-xs sm:text-sm text-zinc-400 max-w-xl">
-            {{ section.settings.hero_subtitle | default: 'Y2K accessories with a dark street edge and chrome details.' }}
-          </p>
+<!-- sections/main-product.liquid -->
+<div class="relative w-full bg-transparent px-4 py-10 font-mono-tech text-[#E9E3D5] sm:px-6 sm:py-14 lg:px-12">
+  <div class="mx-auto max-w-6xl">
+    {% assign current_variant = product.selected_or_first_available_variant %}
+
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-16">
+      <!-- Product image -->
+      <div>
+        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-red-900/30 bg-black/40 p-5 backdrop-blur-xl sm:p-8">
+          <span class="absolute left-4 top-4 z-10 border border-red-900/50 bg-black/80 px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400">
+            ✦ DROP 01 // 316L SPEC
+          </span>
+
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.title | escape }}"
+              class="h-full w-full object-contain contrast-125 transition-transform duration-500 hover:scale-105"
+            >
+          {% else %}
+            <div class="font-mono-tech text-xs uppercase tracking-widest text-zinc-500">
+              NO ASSET AVAILABLE
+            </div>
+          {% endif %}
         </div>
       </div>
 
-      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        <div class="lg:col-span-7 rounded-3xl border border-white/12 foggy-glass p-6 sm:p-10 shadow-xl relative overflow-hidden backdrop-blur-xl">
-          <div class="absolute top-4 right-4 font-mono-tech text-[10px] font-bold text-red-400 uppercase tracking-widest border border-red-900/40 bg-black/60 rounded-full px-3 py-1 backdrop-blur-md">
-            Y2K // DROP 01
-          </div>
-          <p class="font-mono-tech text-xs text-zinc-400 uppercase tracking-widest">3-Piece Y2K Cyber Set</p>
-          <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase text-white mt-1">Ring + chain + bracelet</h2>
-          <p class="mt-3 text-xs sm:text-sm text-zinc-300">316L stainless steel pieces with an all-night silhouette and easy layering.</p>
-          <div class="mt-6 flex flex-wrap items-center gap-4">
-            <a href="/collections/all" class="rounded-full border border-red-900/60 bg-black/80 px-6 py-3 font-mono-tech text-xs font-bold text-red-100 uppercase tracking-wider hover:bg-red-900 hover:text-white transition-colors">
-              Explore the archive
-            </a>
-            <span class="font-mono-tech text-xs font-bold text-white">From ₹1,199</span>
-          </div>
+      <!-- Product details and actions -->
+      <div class="space-y-6">
+        <div>
+          <p class="font-mono-tech text-xs font-bold uppercase tracking-widest text-zinc-400">
+            {{ product.vendor | default: 'rwnd20s.' }}
+          </p>
+          <h1 class="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl">
+            {{ product.title }}
+          </h1>
         </div>
 
-        <div class="lg:col-span-5 rounded-3xl border border-white/12 bg-black/60 p-6 sm:p-10 flex flex-col justify-between min-h-[280px] backdrop-blur-xl shadow-xl">
-          <div class="flex items-center justify-between">
-            <span class="font-mono-tech text-[10px] uppercase font-bold tracking-widest text-zinc-400">Shipping</span>
-            <span class="font-mono-tech text-[10px] text-red-500 font-bold uppercase">Live</span>
-          </div>
-          <div class="my-auto py-6">
-            <p class="font-mono-tech text-xs text-zinc-400 uppercase">Dispatch rule</p>
-            <div class="mt-2 font-mono-tech text-xl sm:text-2xl font-extrabold text-white">
-              Free delivery on ₹999 and above.
+        <div class="flex items-center gap-3 border-y border-red-900/40 py-4">
+          <span class="font-mono-tech text-2xl font-extrabold uppercase tracking-widest text-white sm:text-3xl">
+            {{ current_variant.price | money }}
+          </span>
+
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="font-mono-tech text-sm font-bold uppercase tracking-widest text-zinc-500 line-through">
+              {{ current_variant.compare_at_price | money }}
+            </span>
+          {% endif %}
+
+          <span class="ml-auto border border-red-900/40 bg-red-950/40 px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400">
+            IN STOCK // DISPATCH MDU
+          </span>
+        </div>
+
+        {% unless product.has_only_default_variant %}
+          <div class="space-y-3">
+            <label class="block font-mono-tech text-xs font-bold uppercase tracking-widest text-zinc-300">
+              SELECT SPECIFICATION
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              {% for variant in product.variants %}
+                <button
+                  type="button"
+                  onclick="window.location.href='?variant={{ variant.id }}'"
+                  class="border p-3 text-left font-mono-tech text-xs font-bold uppercase tracking-widest transition-all {% if variant.id == current_variant.id %}border-red-600 bg-red-950/50 text-white{% else %}border-red-900/30 bg-black/40 text-zinc-300 hover:border-red-700 hover:text-white{% endif %}"
+                >
+                  {{ variant.title }}
+                </button>
+              {% endfor %}
             </div>
-            <div class="mt-2 font-mono-tech text-sm text-zinc-300">Below ₹999, ₹49.</div>
           </div>
-          <p class="font-mono-tech text-[11px] text-zinc-500">Dispatched from Madurai.</p>
+        {% endunless %}
+
+        <div class="space-y-3 pt-2">
+          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button
+              type="submit"
+              name="add"
+              class="w-full rounded-full border border-red-900/60 bg-black/80 py-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-100 transition-all hover:bg-red-900 hover:text-white"
+            >
+              + ADD TO HARDWARE BAG
+            </button>
+          </form>
+
+          <a
+            href="/checkout"
+            class="block w-full rounded-full border border-red-900/30 bg-black/60 py-4 text-center font-mono-tech text-xs font-bold uppercase tracking-widest text-zinc-100 transition-all hover:border-red-700 hover:bg-red-950/50"
+          >
+            INSTANT CHECKOUT →
+          </a>
+        </div>
+
+        <div class="space-y-3 border-t border-red-900/40 pt-6">
+          <div class="border border-red-900/30 bg-black/40 p-4 backdrop-blur-xl">
+            <h2 class="font-mono-tech text-xs font-bold uppercase tracking-widest text-white">
+              ✦ MATERIAL SPECIFICATION
+            </h2>
+            <p class="mt-2 font-mono-tech text-xs leading-relaxed text-zinc-400">
+              {{ product.description | strip_html | default: 'Engineered from heavy 316L surgical-grade stainless steel. Hypoallergenic, water-resistant, and built with industrial finish tolerances. Designed and dispatched from Madurai, Tamil Nadu.' }}
+            </p>
+          </div>
+
+          <div class="border border-red-900/30 bg-black/40 p-4 backdrop-blur-xl">
+            <h2 class="font-mono-tech text-xs font-bold uppercase tracking-widest text-white">
+              ✦ SHIPPING & DISPATCH
+            </h2>
+            <p class="mt-2 font-mono-tech text-xs leading-relaxed text-zinc-400">
+              Free express shipping across India on all orders above ₹999. Cash on Delivery (COD) available at checkout with zero advance payment.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </div>
 
 {% schema %}
 {
-  "name": "Homepage Main Stage",
-  "settings": [
-    {
-      "type": "text",
-      "id": "hero_title",
-      "label": "Hero Main Title",
-      "default": "RWND20S. ARCHIVE"
-    },
-    {
-      "type": "textarea",
-      "id": "hero_subtitle",
-      "label": "Hero Subtitle",
-      "default": "Y2K accessories with a dark street edge and chrome details."
-    }
-  ],
-  "presets": [
-    {
-      "name": "Homepage Main Stage"
-    }
-  ]
+  "name": "Product Page Main",
+  "settings": []
 }
 {% endschema %}
