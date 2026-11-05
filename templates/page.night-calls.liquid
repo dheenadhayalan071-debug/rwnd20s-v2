@@ -1,15 +1,27 @@
-{
-  "sections": {
-    "main": {
-      "type": "main-storefront",
-      "settings": {
-        "collection": "",
-        "hero_badge": "Y2K // DROP 01",
-        "hero_title_line_1": "OLD VIBE.",
-        "hero_title_line_2": "NEW YOU.",
-        "hero_subtitle": "Y2K accessories with a dark street edge and chrome details."
-      }
-    }
-  },
-  "order": ["main"]
-}
+<!-- templates/page.night-calls.liquid -->
+<div class="fixed inset-0 w-screen h-screen z-[99999] flex flex-col items-center justify-center bg-[#030303] text-[#E9E3D5] font-mono-tech select-none overflow-hidden">
+  
+  <!-- Atmospheric Blood Moon Glow -->
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#5a0000_0%,#030303_70%)] opacity-95 pointer-events-none"></div>
+  <div class="absolute top-[25%] left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-red-600 blur-[90px] opacity-75 animate-pulse pointer-events-none"></div>
+  
+  <div class="relative z-10 flex flex-col items-center text-center px-6">
+    <p class="text-[10px] tracking-[0.6em] uppercase text-zinc-400 mb-4">ATMOSPHERE: MIDNIGHT</p>
+    <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tighter uppercase text-white drop-shadow-[0_0_60px_rgba(220,38,38,0.8)]">
+      THE NIGHT <br><span class="text-red-600">CALLS</span>
+    </h1>
+    <p class="mt-4 text-xs text-zinc-300 max-w-sm leading-relaxed tracking-wider">
+      Heavy 316L hardware engineered for the dark road.
+    </p>
+    
+    <!-- Redirects directly to store homepage on click -->
+    <a href="/" class="mt-8 group relative inline-flex items-center gap-3 rounded-full border border-red-900/60 bg-black/80 backdrop-blur-xl px-10 py-4 text-[11px] font-bold tracking-widest text-red-100 uppercase transition-all hover:bg-red-900 hover:text-white hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] cursor-pointer active:scale-95">
+      <span>DESCEND INTO ARCHIVE</span>
+    </a>
+  </div>
+
+  <div class="absolute bottom-6 w-full px-8 flex justify-between items-center text-[9px] text-zinc-500 tracking-widest uppercase">
+    <span>LOC: MADURAI_TN</span>
+    <span>VISIBILITY: ZERO</span>
+  </div>
+</div>
