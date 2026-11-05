@@ -1,9 +1,9 @@
 {% assign hero_variant = hero_product.selected_or_first_available_variant %}
 {% assign hero_image = hero_product.featured_image | default: hero_product.images.first %}
 <article id="hero-slide-{{ hero_index }}" data-hero-stage-slide="{{ hero_index }}" class="rwnd-hero-slide relative z-10 flex w-full flex-col items-center justify-start text-center{% unless hero_index == 0 %} hidden{% endunless %}" role="tabpanel" aria-labelledby="hero-tab-{{ hero_index }}">
-  <span class="mb-2 inline-flex rounded-full border border-red-800/60 bg-[#040404]/96 px-3 py-1 font-mono-tech text-[9px] font-bold tracking-wider text-red-300 uppercase sm:mb-3 sm:px-3.5 sm:text-[10px]">ARCHIVE 01 // NO RULES</span>
+  <span class="mb-2 inline-flex rounded-full border border-red-800/60 bg-[#060606]/95 px-3 py-1 font-mono-tech text-[10px] font-bold tracking-wider text-red-300 uppercase sm:mb-3 sm:px-3.5">ARCHIVE 01 // NO RULES</span>
 
-  <a href="{{ hero_product.url }}" class="rwnd-hero-image relative mx-auto flex h-48 w-48 items-center justify-center overflow-hidden rounded-2xl border border-red-700/50 bg-[#040404]/96 p-3 shadow-[0_16px_48px_rgba(0,0,0,0.72)] backdrop-blur-3xl sm:h-72 sm:w-72 sm:rounded-3xl sm:p-4" aria-label="Inspect {{ hero_product.title | escape }}">
+  <a href="{{ hero_product.url }}" class="rwnd-hero-image relative mx-auto flex h-52 w-52 items-center justify-center overflow-hidden rounded-2xl border border-red-700/50 bg-[#040404]/96 p-3 shadow-[0_16px_48px_rgba(0,0,0,0.72)] backdrop-blur-3xl sm:h-72 sm:w-72 sm:rounded-3xl sm:p-4" aria-label="Inspect {{ hero_product.title | escape }}">
     {% if hero_image %}
       <img src="{{ hero_image | image_url: width: 1000 }}" alt="{{ hero_image.alt | default: hero_product.title | escape }}" width="1000" height="1000" loading="{% if hero_index == 0 %}eager{% else %}lazy{% endif %}" class="h-full w-full object-contain" {% if hero_index == 0 %}fetchpriority="high"{% endif %}>
     {% else %}
@@ -12,7 +12,7 @@
   </a>
 
   <div class="mt-3 flex w-full flex-col items-center justify-center text-center sm:mt-5">
-    <p class="font-mono-tech text-[9px] font-bold uppercase tracking-[0.16em] text-red-300 sm:text-[10px] sm:tracking-[0.22em]">// MDU_DISPATCH · HEAVYWEIGHT BRUTALISM</p>
+    <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.16em] text-red-300 sm:tracking-[0.22em]">// MDU_DISPATCH · HEAVYWEIGHT BRUTALISM</p>
     <h2 class="rwnd-hero-product-title mt-1.5 max-w-full font-display text-2xl font-extrabold uppercase leading-tight tracking-tight text-white sm:mt-2 sm:text-2xl">{{ hero_product.title | escape }}</h2>
     <div class="mt-2 flex items-baseline justify-center gap-3 sm:mt-3">
       <span class="font-mono-tech text-lg font-bold text-white sm:text-lg">{{ hero_variant.price | money }}</span>
@@ -23,7 +23,7 @@
       <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="w-full">
         <input type="hidden" name="id" value="{{ hero_variant.id }}">
         <input type="hidden" name="quantity" value="1">
-        <button type="submit" name="add" class="min-h-12 w-full rounded-sm border border-red-500 bg-red-600 px-4 py-3 font-mono-tech text-xs font-extrabold uppercase tracking-[0.1em] text-white shadow-[0_0_20px_rgba(220,38,38,0.25)] transition-colors hover:bg-red-700 sm:px-5 sm:py-4 sm:text-xs sm:tracking-[0.16em]">[ + ADD TO HARDWARE BAG ]</button>
+        <button type="submit" name="add" class="min-h-12 w-full rounded-sm border border-red-500 bg-red-600 px-4 py-3 font-mono-tech text-xs font-extrabold uppercase tracking-[0.1em] text-white shadow-[0_0_20px_rgba(220,38,38,0.25)] transition-colors hover:bg-red-700 sm:px-5 sm:py-4 sm:tracking-[0.16em]">[ + ADD TO HARDWARE BAG ]</button>
       </form>
       <a href="/checkout" class="flex min-h-12 w-full items-center justify-center rounded-sm border border-red-800/70 bg-[#040404]/96 px-4 py-3 text-center font-mono-tech text-xs font-bold uppercase tracking-[0.1em] text-[#E9E3D5] transition-colors hover:border-red-500 hover:text-white sm:px-5 sm:py-4 sm:tracking-[0.16em]">[ INSTANT SECURE CHECKOUT → ]</a>
     </div>
