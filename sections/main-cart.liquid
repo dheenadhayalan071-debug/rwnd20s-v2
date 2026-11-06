@@ -1,98 +1,259 @@
 <!-- sections/main-cart.liquid -->
-<section class="relative mx-auto w-full max-w-7xl px-4 py-5 text-[#E9E3D5] sm:px-6 sm:py-6 lg:px-12 lg:py-8">
-  <header class="mb-5 flex items-end justify-between border-b-2 border-red-950/70 pb-4 sm:mb-6">
+<section class="relative mx-auto w-full max-w-7xl px-4 py-6 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-8 lg:px-12">
+  <header class="mb-6 flex items-end justify-between border-b border-[#2A2A2F] pb-4">
     <div>
-      <h1 class="font-display text-2xl font-extrabold uppercase tracking-tight text-white sm:text-4xl">HARDWARE BAG</h1>
-      <p class="mt-1 font-mono-tech text-[10px] uppercase tracking-widest text-zinc-400">Review your Drop 01 selection.</p>
+      <h1 class="font-display text-2xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-4xl">HARDWARE BAG</h1>
+      <p class="mt-1 font-mono-tech text-[10px] uppercase tracking-[0.12em] text-[#A3A7AE]">Review your Drop 01 selection.</p>
     </div>
-    <a href="/collections/all" class="hidden border-b border-red-900/50 pb-0.5 font-mono-tech text-xs uppercase text-red-400 transition-colors hover:text-white sm:inline-block">+ ADD MORE</a>
+    <a href="/collections/all" class="border-b border-[#C8102E] pb-0.5 font-mono-tech text-xs uppercase tracking-wider text-[#F5F5F7] transition-colors hover:text-[#C8102E]">
+      + ADD MORE
+    </a>
   </header>
-  <div class="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)] lg:gap-8">
-    <div id="rwnd-main-cart-items" class="flex min-w-0 flex-col gap-3 sm:gap-4" aria-live="polite"></div>
-    <aside class="relative z-40 w-full self-start lg:sticky lg:top-8 lg:bottom-4">
-      <div class="border border-red-900/60 bg-[#060606] p-4 shadow-[0_0_32px_rgba(0,0,0,0.8)] sm:p-6">
-        <h2 class="border-b border-white/10 pb-3 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-zinc-400">TRANSMISSION SUMMARY</h2>
+
+  <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(20rem,1fr)] lg:gap-8">
+    <!-- Dynamic Cart Items Container -->
+    <div id="rwnd-main-cart-items" class="flex min-w-0 flex-col gap-4" aria-live="polite"></div>
+
+    <!-- Order Summary Aside -->
+    <aside class="relative z-20 w-full self-start lg:sticky lg:top-24">
+      <div class="border border-[#2A2A2F] bg-[#131316] p-5 shadow-2xl rounded-none sm:p-6">
+        <h2 class="border-b border-[#2A2A2F] pb-3 font-mono-tech text-xs font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
+          ORDER SUMMARY
+        </h2>
+
         <div class="space-y-3 py-4 font-mono-tech text-xs">
-          <div class="flex justify-between gap-3 text-zinc-300"><span>SUBTOTAL</span><span id="rwnd-main-cart-subtotal" class="font-bold text-white">₹0.00</span></div>
-          <div class="flex justify-between gap-3 text-zinc-300"><span>MDU DISPATCH</span><span id="rwnd-cart-shipping-msg" class="text-right font-bold text-emerald-400">CALCULATING...</span></div>
-          <div class="h-1.5 w-full overflow-hidden border border-white/10 bg-black"><div id="rwnd-cart-shipping-bar" class="h-full bg-red-600 transition-all duration-500" style="width:0%"></div></div>
+          <div class="flex justify-between gap-3 text-[#A3A7AE]">
+            <span>SUBTOTAL</span>
+            <span id="rwnd-main-cart-subtotal" class="font-bold text-[#F5F5F7]">₹0</span>
+          </div>
+
+          <div class="flex justify-between gap-3 text-[#A3A7AE]">
+            <span>SHIPPING</span>
+            <span id="rwnd-cart-shipping-msg" class="font-bold text-[#F5F5F7]">CALCULATING...</span>
+          </div>
+
+          <!-- Free Shipping Threshold Meter -->
+          <div class="space-y-1.5 pt-1">
+            <div class="h-1.5 w-full border border-[#2A2A2F] bg-[#0A0A0C] rounded-none overflow-hidden">
+              <div id="rwnd-cart-shipping-bar" class="h-full bg-[#C8102E] transition-all duration-300" style="width:0%"></div>
+            </div>
+            <p id="rwnd-shipping-threshold-text" class="text-[10px] text-[#A3A7AE] uppercase tracking-wider"></p>
+          </div>
+
+          <div class="flex justify-between gap-3 border-t border-[#2A2A2F] pt-3 text-[#A3A7AE]">
+            <span>COD CHARGE</span>
+            <span class="font-bold text-[#F5F5F7]">{{COD_CHARGE}}</span>
+          </div>
         </div>
-        <div class="mb-4 flex items-baseline justify-between border-t border-white/10 pt-3"><span class="font-display text-sm font-bold uppercase text-white">TOTAL</span><span id="rwnd-main-cart-total" class="font-mono-tech text-xl font-extrabold text-white">₹0.00</span></div>
-        <form action="/checkout" method="post"><button type="submit" name="checkout" class="w-full border border-red-700 bg-red-950/80 px-4 py-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-100 transition-colors hover:bg-red-800 hover:text-white">PROCEED TO CHECKOUT →</button></form>
-        <p class="mt-3 text-center font-mono-tech text-[9px] uppercase tracking-wider text-zinc-500">Taxes calculated at checkout.</p>
+
+        <div class="mb-5 flex items-baseline justify-between border-t border-[#2A2A2F] pt-4">
+          <span class="font-display text-sm font-bold uppercase text-[#F5F5F7]">ESTIMATED TOTAL</span>
+          <span id="rwnd-main-cart-total" class="font-mono-tech text-2xl font-extrabold text-[#F5F5F7]">₹0</span>
+        </div>
+
+        <form action="/checkout" method="post">
+          <button
+            type="submit"
+            name="checkout"
+            class="flex h-14 w-full items-center justify-center border border-[#C8102E] bg-[#C8102E] px-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none cursor-pointer"
+          >
+            CONTINUE TO CHECKOUT →
+          </button>
+        </form>
+
+        <div class="mt-4 space-y-1.5 border-t border-[#2A2A2F] pt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
+          <p>• Free delivery on ₹999 and above. Below ₹999, ₹49 flat.</p>
+          <p>• Delivered in about 48 hours in South India.</p>
+          <p>• COD charge is a separate line shown before payment.</p>
+        </div>
       </div>
     </aside>
   </div>
 </section>
+
 <script>
   (() => {
-    const money = (amount) => `₹${(amount / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
-    const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    // Format INR with zero decimals
+    const formatINR = (cents) => '₹' + Math.round(Number(cents || 0) / 100).toLocaleString('en-IN');
+
+    const escapeHTML = (str) =>
+      String(str ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+
     async function fetchMainCartData() {
       try {
         const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error('Unable to load your hardware bag.');
+        if (!response.ok) throw new Error('Failed to load bag.');
         renderMainCartUI(await response.json());
-      } catch (error) { console.error('Main cart fetch error:', error); }
+      } catch (error) {
+        console.error('Cart fetch error:', error);
+      }
     }
+
     async function updateMainCartItem(lineKey, quantity) {
       const container = document.getElementById('rwnd-main-cart-items');
       if (container) container.setAttribute('aria-busy', 'true');
+
       try {
-        const response = await fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ id: lineKey, quantity }) });
-        if (!response.ok) {
-          const error = await response.json().catch(() => ({}));
-          throw new Error(error.description || 'Unable to update this item. Please try again.');
-        }
+        const response = await fetch('/cart/change.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: lineKey, quantity })
+        });
+        if (!response.ok) throw new Error('Failed to update line item.');
         renderMainCartUI(await response.json());
-        // Force the header cart badge to update if fetchCartState exists in theme.js
-        if (typeof window.fetchCartState === 'function') window.fetchCartState();
-      } catch (error) { console.error('Cart update error:', error); }
-      finally { if (container) container.removeAttribute('aria-busy'); }
+      } catch (error) {
+        console.error('Cart update error:', error);
+      } finally {
+        if (container) container.removeAttribute('aria-busy');
+      }
     }
+
     function renderMainCartUI(cart) {
       const container = document.getElementById('rwnd-main-cart-items');
       if (!container) return;
-      const subtotal = money(cart.total_price || 0);
-      document.getElementById('rwnd-main-cart-subtotal').textContent = subtotal;
-      document.getElementById('rwnd-main-cart-total').textContent = subtotal;
-      const threshold = 99900;
+
       const totalPrice = cart.total_price || 0;
-      document.getElementById('rwnd-cart-shipping-bar').style.width = `${Math.min(100, Math.round((totalPrice / threshold) * 100))}%`;
-      const shippingMessage = document.getElementById('rwnd-cart-shipping-msg');
-      if (totalPrice >= threshold) {
-        shippingMessage.textContent = 'FREE OVER ₹999';
-        shippingMessage.classList.replace('text-zinc-300', 'text-emerald-400');
+      const subtotalFormatted = formatINR(totalPrice);
+      const thresholdCents = 99900; // ₹999
+      const isFreeShipping = totalPrice >= thresholdCents;
+
+      document.getElementById('rwnd-main-cart-subtotal').textContent = subtotalFormatted;
+      document.getElementById('rwnd-main-cart-total').textContent = subtotalFormatted;
+
+      const shippingMsg = document.getElementById('rwnd-cart-shipping-msg');
+      const thresholdText = document.getElementById('rwnd-shipping-threshold-text');
+      const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
+
+      if (isFreeShipping) {
+        shippingMsg.textContent = 'FREE';
+        shippingMsg.className = 'font-bold text-[#F5F5F7]';
+        thresholdText.textContent = 'FREE DELIVERY QUALIFIED (OVER ₹999)';
+        shippingBar.style.width = '100%';
       } else {
-        shippingMessage.textContent = `ADD ${money(threshold - totalPrice)} FOR FREE`;
-        shippingMessage.classList.replace('text-emerald-400', 'text-zinc-300');
+        shippingMsg.textContent = '₹49';
+        shippingMsg.className = 'font-bold text-[#A3A7AE]';
+        const diff = thresholdCents - totalPrice;
+        thresholdText.textContent = `ADD ${formatINR(diff)} MORE FOR FREE DELIVERY`;
+        shippingBar.style.width = `${Math.min(100, Math.round((totalPrice / thresholdCents) * 100))}%`;
       }
-      document.querySelectorAll('[data-cart-count]').forEach((badge) => { badge.textContent = String(cart.item_count || 0); });
-      if (!cart.items?.length) {
-        container.innerHTML = '<div class="flex min-h-48 flex-col items-center justify-center border border-white/10 bg-black/40 p-6 text-center"><p class="mb-3 font-display text-sm font-bold uppercase tracking-wider text-white">YOUR HARDWARE BAG IS EMPTY</p><a href="/collections/all" class="border border-red-700 bg-red-950/40 px-6 py-2.5 font-mono-tech text-xs font-bold uppercase tracking-widest text-red-200 hover:bg-red-900">EXPLORE CATALOG →</a></div>';
+
+      document.querySelectorAll('[data-cart-count]').forEach((el) => {
+        el.textContent = String(cart.item_count || 0);
+      });
+
+      if (!cart.items || cart.items.length === 0) {
+        container.innerHTML = `
+          <div class="flex min-h-[260px] flex-col items-center justify-center border border-[#2A2A2F] bg-[#131316] p-8 text-center rounded-none">
+            <p class="font-display text-base font-bold uppercase tracking-wider text-[#F5F5F7]">YOUR HARDWARE BAG IS EMPTY</p>
+            <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">No archive components selected.</p>
+            <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
+              EXPLORE ARCHIVE →
+            </a>
+          </div>
+        `;
         return;
       }
-      container.innerHTML = cart.items.map((item) => {
-        const key = escapeHTML(item.key);
-        const title = escapeHTML(item.product_title);
-        const variant = item.variant_title && item.variant_title !== 'Default Title' ? `<p class="mt-0.5 text-[10px] text-zinc-400">${escapeHTML(item.variant_title)}</p>` : '';
-        const image = item.image ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title)}" class="h-full w-full object-contain contrast-125">` : '';
-        return `<article class="flex flex-col items-start gap-4 border border-white/10 bg-black/60 p-4 shadow-lg sm:flex-row sm:items-center"><div class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-black p-2">${image}</div><div class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><h3 class="line-clamp-2 font-display text-sm font-bold uppercase text-white">${title}</h3>${variant}</div><span class="shrink-0 font-mono-tech text-sm font-bold text-white">${money(item.final_line_price)}</span></div><div class="mt-auto flex items-center justify-between border-t border-white/10 pt-3"><div class="flex items-center border border-white/20 bg-black/80 px-2 py-1 font-mono-tech text-xs"><button type="button" data-cart-change="${key}" data-quantity="${Math.max(0, item.quantity - 1)}" aria-label="Decrease ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 hover:text-white">−</button><span class="mx-2 w-4 text-center font-bold text-white">${item.quantity}</span><button type="button" data-cart-change="${key}" data-quantity="${item.quantity + 1}" aria-label="Increase ${title} quantity" class="cursor-pointer px-2.5 font-bold text-zinc-400 hover:text-white">+</button></div><button type="button" data-cart-change="${key}" data-quantity="0" class="cursor-pointer font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400">REMOVE</button></div></div></article>`;
-      }).join('');
+
+      container.innerHTML = cart.items
+        .map((item) => {
+          const key = escapeHTML(item.key);
+          const title = escapeHTML(item.product_title);
+          const variant = item.variant_title && item.variant_title !== 'Default Title'
+            ? `<p class="mt-0.5 font-mono-tech text-xs text-[#A3A7AE] uppercase">${escapeHTML(item.variant_title)}</p>`
+            : '';
+          const image = item.image
+            ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title)}" width="96" height="96" class="h-full w-full object-contain">`
+            : '';
+
+          // Rule 8: Mandatory Earphone compatibility warning
+          const isEarphone = /earphone|ear-01/i.test((item.product_title || '') + ' ' + (item.handle || ''));
+          const earphoneWarning = isEarphone
+            ? `
+              <aside class="mt-2 border-l border-[#C8102E] bg-[#0A0A0C] p-2.5 text-[11px] text-[#A3A7AE] space-y-0.5 rounded-none">
+                <p class="font-bold text-[#F5F5F7]">Type-C only. Not compatible with iPhone 14 and older, or with phones that have a 3.5mm jack.</p>
+                <p>Check that your phone supports USB-C audio before ordering.</p>
+              </aside>
+            `
+            : '';
+
+          return `
+            <article class="flex flex-col gap-4 border border-[#2A2A2F] bg-[#131316] p-4 rounded-none sm:flex-row sm:items-center">
+              <div class="flex h-24 w-24 shrink-0 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] p-2 rounded-none">
+                ${image}
+              </div>
+
+              <div class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <h3 class="font-display text-sm font-bold uppercase text-[#F5F5F7] tracking-tight sm:text-base">${title}</h3>
+                    ${variant}
+                    ${earphoneWarning}
+                  </div>
+                  <span class="shrink-0 font-mono-tech text-sm font-bold text-[#F5F5F7] sm:text-base">${formatINR(item.final_line_price)}</span>
+                </div>
+
+                <div class="mt-auto flex items-center justify-between border-t border-[#2A2A2F] pt-3">
+                  <!-- Square 44px Quantity Adjusters -->
+                  <div class="flex items-center border border-[#2A2A2F] bg-[#0A0A0C] rounded-none">
+                    <button
+                      type="button"
+                      data-cart-change="${key}"
+                      data-quantity="${Math.max(0, item.quantity - 1)}"
+                      aria-label="Decrease quantity"
+                      class="flex h-11 w-11 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer"
+                    >−</button>
+                    <span class="w-8 text-center font-mono-tech text-xs font-bold text-[#F5F5F7]">${item.quantity}</span>
+                    <button
+                      type="button"
+                      data-cart-change="${key}"
+                      data-quantity="${item.quantity + 1}"
+                      aria-label="Increase quantity"
+                      class="flex h-11 w-11 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer"
+                    >+</button>
+                  </div>
+
+                  <!-- Remove action in muted styling -->
+                  <button
+                    type="button"
+                    data-cart-change="${key}"
+                    data-quantity="0"
+                    class="font-mono-tech text-xs uppercase tracking-wider text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer"
+                  >REMOVE</button>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
     }
+
     window.fetchMainCartData = fetchMainCartData;
     window.updateMainCartItem = updateMainCartItem;
+
     document.addEventListener('click', (event) => {
       const button = event.target.closest('[data-cart-change]');
-      if (button) updateMainCartItem(button.dataset.cartChange, Number(button.dataset.quantity));
+      if (button) {
+        updateMainCartItem(button.dataset.cartChange, Number(button.dataset.quantity));
+      }
     });
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fetchMainCartData, { once: true });
-    else fetchMainCartData();
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fetchMainCartData, { once: true });
+    } else {
+      fetchMainCartData();
+    }
   })();
 </script>
+
 {% schema %}
 {
-  "name": "Dedicated Cart Page",
+  "name": "Cart",
   "settings": []
 }
 {% endschema %}
