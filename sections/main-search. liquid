@@ -1,26 +1,45 @@
-<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-12 px-4 sm:px-6 lg:px-12">
+<!-- sections/main-search.liquid -->
+<div class="relative w-full min-h-screen bg-transparent py-10 px-4 sm:px-6 lg:px-12 font-mono-tech text-[#F5F5F7]">
   <div class="mx-auto max-w-7xl">
     <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
-      <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
-        <li>/</li>
-        <li class="text-[#09090B] font-bold">SEARCH VAULT</li>
+    <nav aria-label="Breadcrumb" class="mb-6 font-mono-tech text-xs text-[#A3A7AE]">
+      <ol class="flex items-center gap-2 uppercase tracking-[0.12em]">
+        <li><a href="/" class="hover:text-[#F5F5F7] transition-colors">BASE</a></li>
+        <li class="text-[#2A2A2F]">/</li>
+        <li class="text-[#F5F5F7] font-bold">SEARCH VAULT</li>
       </ol>
     </nav>
 
     <!-- Search Header & Input Bar -->
-    <div class="border-b border-[#09090B]/20 pb-8 mb-8">
-      <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#09090B]">
+    <div class="border-b border-[#2A2A2F] pb-8 mb-8">
+      <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3] rounded-none mb-3">
+        <span class="h-1.5 w-1.5 bg-[#C8102E] animate-pulse"></span>
+        RWND20S.SYS // QUERY ENGINE
+      </div>
+      <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#F5F5F7]">
         SEARCH ARCHIVE
       </h1>
-      <p class="mt-2 font-mono-tech text-xs sm:text-sm text-[#3F3F46]">
-        Query results for: <strong class="text-[#09090B]">"{{ search.terms }}"</strong>
-      </p>
+      
+      {% if search.performed %}
+        <p class="mt-2 font-mono-tech text-xs sm:text-sm text-[#A3A7AE]">
+          Query results for: <strong class="text-[#F5F5F7]">"{{ search.terms | escape }}"</strong>
+        </p>
+      {% endif %}
 
-      <form action="{{ routes.search_url }}" method="get" class="mt-6 flex items-center gap-3 max-w-xl">
-        <input type="text" name="q" value="{{ search.terms | escape }}" placeholder="SEARCH SPEC, HARDWARE, WATCHES..." class="flex-1 rounded-full border border-[#09090B]/20 bg-white px-5 py-3 font-mono-tech text-xs text-[#09090B] focus:outline-none focus:border-[#09090B] shadow-sm">
-        <button type="submit" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer">
+      <form action="{{ routes.search_url }}" method="get" class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-xl">
+        <input 
+          type="search" 
+          name="q" 
+          value="{{ search.terms | escape }}" 
+          placeholder="RINGS, CHAINS, WATCHES, AUDIO..." 
+          autocomplete="off"
+          class="flex-1 h-14 border border-[#2A2A2F] bg-[#0A0A0C] px-4 font-mono-tech text-xs uppercase text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#C8102E] focus:outline-none rounded-none"
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+        <button 
+          type="submit" 
+          class="h-14 border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] hover:bg-[#E0213F] transition-all rounded-none cursor-pointer"
+        >
           SEARCH //
         </button>
       </form>
@@ -28,69 +47,116 @@
 
     <!-- Search Results Grid -->
     {% if search.performed %}
-      <div class="mb-6 font-mono-tech text-xs text-[#52525B] uppercase">
-        Found {{ search.results_count }} matching artifact{{ search.results_count | pluralize: '', 's' }}
+      <div class="mb-6 font-mono-tech text-xs text-[#A3A7AE] uppercase tracking-[0.12em]">
+        Found {{ search.results_count }} matching piece{{ search.results_count | pluralize: '', 's' }}
       </div>
 
       {% if search.results.size > 0 %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="rwnd-product-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="rwnd-product-grid">
           {% for item in search.results %}
             {% if item.object_type == 'product' %}
-              <div data-product-card 
-                   data-category="{{ item.type | handle }}" 
-                   data-tags="{{ item.tags | join: ' ' | handle }}" 
-                   data-title="{{ item.title | escape }}" 
-                   data-price="{{ item.price }}"
-                   data-price-formatted="{{ item.price | money }}"
-                   data-compare-formatted="{{ item.compare_at_price | money }}"
-                   data-image="{{ item.featured_image | image_url: width: 600 }}"
-                   data-variant-id="{{ item.selected_or_first_available_variant.id }}"
-                   data-url="{{ item.url }}"
-                   data-description="{{ item.description | strip_html | escape }}"
-                   class="group rounded-3xl border border-[#09090B]/20 bg-white p-4 shadow-md flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#09090B]">
-                
+              {% assign p_title = item.title | downcase %}
+              {% assign p_handle = item.handle | downcase %}
+              {% assign is_bundle = false %}
+              {% if p_handle contains 'bundle' or p_handle contains 'cyber-set' or p_title contains 'cyber set' %}
+                {% assign is_bundle = true %}
+              {% endif %}
+
+              {% assign is_watch = false %}
+              {% if p_title contains 'watch' or p_handle contains 'w-01' or p_title contains 'chronograph' %}
+                {% assign is_watch = true %}
+              {% endif %}
+
+              {% assign is_earphone = false %}
+              {% if p_title contains 'earphone' or p_handle contains 'ear-01' or p_title contains 'audio' %}
+                {% assign is_earphone = true %}
+              {% endif %}
+
+              <article 
+                class="group flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#C8102E] rounded-none"
+              >
                 <div>
-                  <div class="relative rounded-2xl bg-[#D4D8E0] p-4 overflow-hidden aspect-square flex items-center justify-center">
-                    <span class="absolute top-3 left-3 z-10 font-mono-tech text-[9px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-2.5 py-1 rounded-full">
-                      SPEC
-                    </span>
-                    <button type="button" data-toggle-wishlist aria-label="Save to Wishlist" class="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-white/80 border border-[#09090B]/20 flex items-center justify-center text-[#09090B] hover:bg-white cursor-pointer">
-                      ♡
-                    </button>
-                    {% if item.featured_image %}
-                      <img src="{{ item.featured_image | image_url: width: 600 }}" alt="{{ item.title | escape }}" class="h-full w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105">
+                  <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] p-4 rounded-none">
+                    <!-- Taxonomy Badges -->
+                    {% if is_bundle %}
+                      <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                        SAVE ₹248
+                      </span>
+                    {% elsif is_watch %}
+                      <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#C8102E]/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                        PRE-ORDER
+                      </span>
+                    {% elsif is_earphone %}
+                      <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8CDD3] rounded-none">
+                        TYPE-C
+                      </span>
                     {% else %}
-                      <div class="font-mono-tech text-xs text-[#52525B]">NO IMAGE</div>
+                      <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#A3A7AE] rounded-none">
+                        DROP 01
+                      </span>
                     {% endif %}
+
+                    <a href="{{ item.url }}" class="flex h-full w-full items-center justify-center">
+                      {% if item.featured_image %}
+                        <img 
+                          src="{{ item.featured_image | image_url: width: 600 }}" 
+                          alt="{{ item.featured_image.alt | default: item.title | escape }}" 
+                          width="600"
+                          height="600"
+                          loading="lazy"
+                          class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        >
+                      {% else %}
+                        <div class="font-mono-tech text-xs uppercase tracking-widest text-[#A3A7AE]">NO ASSET</div>
+                      {% endif %}
+                    </a>
                   </div>
 
                   <div class="mt-4">
-                    <p class="font-mono-tech text-[10px] text-[#52525B] uppercase tracking-widest">{{ item.vendor | default: 'RWND20S' }}</p>
-                    <h3 class="font-display text-sm font-bold uppercase text-[#09090B] mt-0.5 line-clamp-1">{{ item.title }}</h3>
+                    <p class="font-mono-tech text-[10px] uppercase font-bold tracking-[0.12em] text-[#C8CDD3]">
+                      {{ item.vendor | default: 'RWND20S' | escape }}
+                    </p>
+                    <h2 class="mt-1 line-clamp-2 font-display text-sm font-bold uppercase text-[#F5F5F7] tracking-tight">
+                      <a href="{{ item.url }}">{{ item.title | escape }}</a>
+                    </h2>
                   </div>
                 </div>
 
-                <div class="mt-6 pt-4 border-t border-[#09090B]/10 flex items-center justify-between gap-2">
-                  <span class="font-mono-tech text-sm font-extrabold text-[#09090B]">{{ item.price | money }}</span>
-                  <div class="flex items-center gap-1.5">
-                    <button type="button" data-open-quick-view class="rounded-full border border-[#09090B]/20 bg-white px-3 py-2 font-mono-tech text-[10px] font-bold uppercase text-[#09090B] hover:border-[#09090B] cursor-pointer">
+                <div class="mt-5 pt-4 border-t border-[#2A2A2F] flex items-center justify-between gap-2">
+                  <span class="font-mono-tech text-sm font-extrabold text-[#F5F5F7]">
+                    {{ item.price | money }}
+                  </span>
+
+                  <div class="flex items-center gap-2">
+                    <a 
+                      href="{{ item.url }}" 
+                      class="inline-flex items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:border-[#C8CDD3] rounded-none"
+                    >
                       VIEW
-                    </button>
-                    <button type="button" data-add-to-cart variant-id="{{ item.selected_or_first_available_variant.id }}" class="rounded-full border border-[#09090B] bg-[#09090B] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase text-white hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer">
-                      + BAG
-                    </button>
+                    </a>
+                    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="id" value="{{ item.selected_or_first_available_variant.id }}">
+                      <button 
+                        type="submit" 
+                        name="add"
+                        {% unless item.available %}disabled{% endunless %}
+                        class="inline-flex items-center justify-center border border-[#C8102E] bg-[#C8102E] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        {% if item.available %}+ BAG{% else %}OUT{% endif %}
+                      </button>
+                    </form>
                   </div>
                 </div>
-              </div>
+              </article>
             {% endif %}
           {% endfor %}
         </div>
       {% else %}
-        <div class="flex h-64 flex-col items-center justify-center text-center rounded-3xl border border-[#09090B]/20 bg-white p-8 shadow-sm">
-          <p class="font-display text-base font-bold text-[#09090B] uppercase">NO ARTIFACTS MATCHED YOUR QUERY</p>
-          <p class="mt-1 text-xs text-[#3F3F46]">Try searching with broader keywords like 'hardware', 'ring', 'watch', or 'earphones'.</p>
-          <a href="/collections/all" class="mt-4 rounded-full border border-[#09090B] bg-[#09090B] px-6 py-2 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
-            BROWSE FULL DROP 01
+        <div class="flex min-h-[260px] flex-col items-center justify-center text-center border border-[#2A2A2F] bg-[#131316] p-8 rounded-none">
+          <p class="font-display text-base font-bold text-[#F5F5F7] uppercase tracking-wider">NO ARTIFACTS MATCHED YOUR QUERY</p>
+          <p class="mt-2 text-xs text-[#A3A7AE] font-mono-tech">Check keywords like 'rings', 'chains', 'bracelets', 'earphones', or 'watches'.</p>
+          <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#E0213F] transition-all rounded-none">
+            BROWSE FULL DROP 01 ARCHIVE →
           </a>
         </div>
       {% endif %}
@@ -104,4 +170,3 @@
   "settings": []
 }
 {% endschema %}
-
