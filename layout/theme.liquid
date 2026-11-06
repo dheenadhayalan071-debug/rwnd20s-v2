@@ -1,23 +1,21 @@
+<!-- layout/theme.liquid -->
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="theme-color" content="#030303">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="theme-color" content="#0A0A0C">
     <link rel="canonical" href="{{ canonical_url }}">
 
     <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name | default: 'rwnd20s.' }}{% endunless -%}
+      {{ page_title | escape }} &ndash; {{ shop.name | default: 'RWND20s' | escape }}
     </title>
 
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% else %}
-      <meta name="description" content="rwnd20s. — Heavy 316L stainless steel hardware, pink chrome Type-C wired earphones & analog chronographs. Free shipping above ₹999. Cash on Delivery available.">
+      <meta name="description" content="Y2K accessories, 316L hardware, and Type-C audio from RWND20s. Old vibe. New you.">
     {% endif %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,98 +41,99 @@
     {{ content_for_header }}
 
     <style>
+      :root {
+        --ink: #0A0A0C;
+        --surface: #131316;
+        --line: #2A2A2F;
+        --chrome: #C8CDD3;
+        --bone: #F5F5F7;
+        --muted: #A3A7AE;
+        --blood: #C8102E;
+        --blood-hover: #E0213F;
+        --moon: rgba(200, 16, 46, 0.25);
+      }
+
+      * {
+        border-radius: 0px !important;
+      }
+
       html,
       body {
         max-width: 100vw;
         min-height: 100%;
         overflow-x: hidden;
-        background-color: #030303 !important;
+        background-color: var(--ink) !important;
         background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649') !important;
         background-size: cover !important;
         background-position: center center !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
-        filter: none !important;
+        color: var(--bone);
       }
 
       .foggy-glass {
-        background: rgba(6, 6, 6, 0.94) !important;
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        border: 1px solid rgba(127, 29, 29, 0.45) !important;
-        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255,255,255,0.03);
+        background: rgba(19, 19, 22, 0.94) !important;
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--line) !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
       }
 
       .foggy-glass:hover {
-        border-color: rgba(220, 38, 38, 0.62) !important;
-        box-shadow: 0 30px 80px rgba(127, 0, 0, 0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+        border-color: var(--blood) !important;
       }
 
-      .foggy-glass * {
-        color: inherit;
-      }
-
-      #rwnd-gateway-splash {
-        transform: scale(1);
+      #rwnd-gateway {
         opacity: 1;
-        transition: opacity 3s cubic-bezier(0.65, 0, 0.35, 1), transform 3s cubic-bezier(0.65, 0, 0.35, 1);
-        will-change: opacity, transform;
+        transition: opacity 300ms ease, transform 300ms ease;
       }
 
-      #rwnd-gateway-splash.is-dismissing {
+      #rwnd-gateway.is-leaving {
         opacity: 0;
-        transform: scale(1.035);
         pointer-events: none;
       }
 
-      #rwnd-entry-prompt {
-        transition: opacity 450ms ease, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
-      }
-
-      #rwnd-entry-prompt.is-dismissing {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.98);
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        #rwnd-gateway-splash,
-        #rwnd-entry-prompt {
-          transition-duration: 1ms !important;
+        #rwnd-gateway {
+          transition: none !important;
         }
       }
     </style>
   </head>
 
-  <body class="relative z-0 min-h-screen text-[#E9E3D5] antialiased selection:bg-red-900 selection:text-white">
-    <div id="rwnd-gateway-splash" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-[#030303] text-[#E9E3D5]">
-      <div class="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_center,#450a0a_0%,#030303_80%)] opacity-80 pointer-events-none"></div>
-
-      <div id="rwnd-entry-prompt" class="relative z-10 mx-auto flex max-w-lg flex-col items-center space-y-6 p-6 text-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-black/60 px-4 py-1.5 backdrop-blur-md">
-          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-600"></span>
-          <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400">SECTOR // MDU_DISPATCH</span>
+  <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#C8102E] selection:text-[#F5F5F7]">
+    <!-- Gateway Splash (P0-11 / 3-second auto-dismiss with Skip) -->
+    <div id="rwnd-gateway" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center bg-[#0A0A0C]/98 p-6 text-center backdrop-blur-xl" aria-label="RWND20s intro">
+      <div class="relative z-10 mx-auto flex max-w-md flex-col items-center space-y-6">
+        <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
+          <span class="h-1.5 w-1.5 animate-pulse bg-[#C8102E]"></span>
+          DROP 01 // DISPATCHED FROM MADURAI
         </div>
 
-        <h1 class="font-display text-4xl font-extrabold uppercase tracking-tighter text-white drop-shadow-2xl sm:text-6xl">
-          {{ settings.brand_name | default: 'rwnd20s.' }}
+        <h1 class="font-display text-4xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-6xl">
+          Old vibe.<br>New you.
         </h1>
 
-        <p class="max-w-sm font-mono-tech text-xs text-zinc-400 sm:text-sm">
-          Heavy 316L stainless steel hardware. Nocturnal industrial aesthetics.
+        <p class="max-w-xs text-xs text-[#A3A7AE] sm:text-sm">
+          Y2K hardware, 316L chains, and Type-C nocturnal audio.
         </p>
 
-        <button type="button" id="rwnd-trigger-intro" class="inline-flex items-center gap-3 rounded-full border border-red-900/80 bg-red-950/40 px-8 py-4 font-mono-tech text-xs font-bold uppercase tracking-[0.24em] text-red-100 transition-all hover:bg-red-900 hover:text-white">
-          <span>[ ENTER THE ARCHIVE ]</span>
-          <span class="text-red-500">→</span>
-        </button>
+        <div class="flex w-full flex-col gap-3 pt-2">
+          <button type="button" id="gateway-enter" class="flex h-14 w-full items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] cursor-pointer">
+            ENTER THE ARCHIVE →
+          </button>
+          <button type="button" id="gateway-skip" class="text-xs uppercase tracking-wider text-[#A3A7AE] hover:text-[#F5F5F7] cursor-pointer py-1">
+            Skip intro
+          </button>
+        </div>
       </div>
     </div>
 
     {% section 'header' %}
 
     <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-6">
-      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/80 px-4 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-[0.2em] text-[#E9E3D5] transition-all hover:border-red-600 hover:bg-red-950/40">
-        <span class="text-red-500">←</span>
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#131316] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] transition-all hover:border-[#C8102E]">
+        <span class="text-[#C8102E]">←</span>
         <span>RETURN TO BASE</span>
       </button>
     </div>
@@ -152,134 +151,100 @@
     {% render 'welcome-popup' %}
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const splash = document.getElementById('rwnd-gateway-splash');
-        const trigger = document.getElementById('rwnd-trigger-intro');
-        const prompt = document.getElementById('rwnd-entry-prompt');
+      // Gateway Dismissal & Welcome Popup Trigger Hook
+      (() => {
+        const gate = document.getElementById('rwnd-gateway');
+        let seen = false;
+        try {
+          seen = sessionStorage.getItem('rwnd_gateway_seen') === 'true';
+        } catch (e) {}
 
-        const dismissGateway = () => {
-          if (!splash || splash.dataset.dismissing === 'true') return;
-          splash.dataset.dismissing = 'true';
-
+        const dismiss = () => {
+          if (!gate || gate.dataset.dismissed === 'true') return;
+          gate.dataset.dismissed = 'true';
+          gate.classList.add('is-leaving');
           try {
-            sessionStorage.setItem('rwnd_intro_seen', 'true');
-          } catch (error) {
-            // Continue dismissing if browser storage is unavailable.
-          }
-
-          prompt?.classList.add('is-dismissing');
-          splash.classList.add('is-dismissing');
+            sessionStorage.setItem('rwnd_gateway_seen', 'true');
+          } catch (e) {}
           window.setTimeout(() => {
-            splash.remove();
-            window.showRwndWelcomeModal?.();
-          }, 3000);
+            gate.remove();
+            if (typeof window.showRwndWelcomeModal === 'function') {
+              window.showRwndWelcomeModal();
+            }
+          }, 300);
         };
 
-        let introSeen = false;
-        try {
-          introSeen = sessionStorage.getItem('rwnd_intro_seen') === 'true';
-        } catch (error) {
-          // Treat storage as unavailable and show the gateway for this page view.
-        }
-
-        if (introSeen) {
-          splash?.remove();
+        if (seen) {
+          gate?.remove();
         } else {
-          trigger?.addEventListener('click', dismissGateway, { once: true });
+          document.getElementById('gateway-enter')?.addEventListener('click', dismiss);
+          document.getElementById('gateway-skip')?.addEventListener('click', dismiss);
+          window.setTimeout(dismiss, 3000);
         }
 
         const backBar = document.getElementById('rwnd-sys-back-bar');
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
           backBar.classList.remove('hidden');
         }
-      });
+      })();
 
+      // Global AJAX Cart Sync
       (() => {
         const refreshCartBadges = async () => {
           try {
-            const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
-            if (!response.ok) return;
-            const cart = await response.json();
+            const res = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+            if (!res.ok) return;
+            const cart = await res.json();
             document.querySelectorAll('[data-cart-count]').forEach((badge) => {
               badge.textContent = String(cart.item_count || 0);
             });
-          } catch (error) {
-            console.error('Cart badge refresh failed:', error);
+          } catch (err) {
+            console.error('Badge refresh error:', err);
           }
         };
 
         async function addFormToCart(form, button) {
-          if (!form || !button || button.dataset.cartSubmitting === 'true') return;
+          if (!form || !button || button.dataset.submitting === 'true') return;
 
-          const inputButton = button.tagName === 'INPUT';
-          const originalContent = inputButton ? button.value : button.innerHTML;
-          const originalClasses = button.className;
-          const originalStyle = button.getAttribute('style');
-
-          const setContent = (content) => {
-            if (inputButton) button.value = content;
-            else button.innerHTML = content;
-          };
-
-          const restoreButton = () => {
-            setContent(originalContent);
-            button.className = originalClasses;
-            if (originalStyle === null) button.removeAttribute('style');
-            else button.setAttribute('style', originalStyle);
-            button.disabled = false;
-            delete button.dataset.cartSubmitting;
-          };
-
-          button.dataset.cartSubmitting = 'true';
+          const origContent = button.innerHTML;
+          button.dataset.submitting = 'true';
           button.disabled = true;
-          button.style.pointerEvents = 'none';
-          setContent('<span class="animate-pulse tracking-widest text-white">[ AUTHORIZING... ]</span>');
+          button.innerHTML = '<span class="animate-pulse tracking-widest text-[#F5F5F7]">[ SECURING... ]</span>';
 
           try {
-            const response = await fetch('/cart/add.js', {
+            const res = await fetch('/cart/add.js', {
               method: 'POST',
               headers: { Accept: 'application/json' },
               body: new FormData(form)
             });
 
-            if (!response.ok) {
-              const error = await response.json().catch(() => ({}));
-              throw new Error(error.description || 'Could not add item to your hardware bag.');
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              throw new Error(err.description || 'Could not add piece.');
             }
 
-            await response.json();
-            button.classList.remove('bg-black', 'bg-black/80', 'bg-transparent', 'text-red-100', 'border-red-900/60');
-            button.classList.add('bg-red-600', 'text-white', 'border-red-900');
-            button.style.backgroundColor = '#dc2626';
-            button.style.color = '#ffffff';
-            button.style.borderColor = '#7f1d1d';
-            setContent('<span class="font-bold tracking-widest text-white">✦ ARCHIVE ADDED</span>');
-
+            await res.json();
+            button.innerHTML = '<span class="font-bold tracking-widest text-[#F5F5F7]">✦ SECURED IN BAG</span>';
             await refreshCartBadges();
             if (typeof window.fetchMainCartData === 'function') window.fetchMainCartData();
-          } catch (error) {
-            console.error('Cart add failed:', error);
-            setContent('<span class="font-bold tracking-widest text-white">ADD FAILED</span>');
+          } catch (err) {
+            console.error('Add failed:', err);
+            button.innerHTML = '<span class="font-bold tracking-widest text-[#C8102E]">ERROR OCCURRED</span>';
           } finally {
-            setTimeout(restoreButton, 2500);
+            window.setTimeout(() => {
+              button.innerHTML = origContent;
+              button.disabled = false;
+              delete button.dataset.submitting;
+            }, 2000);
           }
         }
 
-        document.addEventListener('click', (event) => {
-          const button = event.target.closest('button[name="add"], button[type="submit"].add-to-cart, form[action*="/cart/add"] button[type="submit"]');
+        document.addEventListener('click', (e) => {
+          const button = e.target.closest('button[name="add"], form[action*="/cart/add"] button[type="submit"]');
           const form = button?.closest('form[action*="/cart/add"]');
           if (!form || !button) return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          addFormToCart(form, button);
-        }, true);
-
-        document.addEventListener('submit', (event) => {
-          const form = event.target;
-          if (!(form instanceof HTMLFormElement) || !form.matches('form[action*="/cart/add"]')) return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          const button = form.querySelector('button[name="add"], button[type="submit"], input[type="submit"]');
+          e.preventDefault();
+          e.stopImmediatePropagation();
           addFormToCart(form, button);
         }, true);
       })();
