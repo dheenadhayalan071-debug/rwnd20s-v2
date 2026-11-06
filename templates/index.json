@@ -1,24 +1,17 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-storefront",
       "settings": {
         "collection": "",
-        "hero_badge": "// MDU_DISPATCH · AFTER DARK",
-        "hero_title_line_1": "NOCTURNAL",
-        "hero_title_line_2": "ARTIFACTS ONLY.",
-        "hero_subtitle": "UNBREAKABLE 316L ALLOY. HEAVYWEIGHT BRUTALISM. BUILT FOR THE HOURS AFTER DARK."
+        "hero_badge": "DROP 01 // DISPATCHED FROM MADURAI",
+        "hero_title_line_1": "Y2K HARDWARE",
+        "hero_title_line_2": "AFTER DARK.",
+        "hero_subtitle": "After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid."
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
