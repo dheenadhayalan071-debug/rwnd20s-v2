@@ -1,1 +1,9 @@
-{% section 'main-storefront' %}
+{
+  "sections": {
+    "main": {
+      "type": "main-storefront",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
