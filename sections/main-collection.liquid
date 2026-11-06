@@ -1,59 +1,243 @@
 <!-- sections/main-collection.liquid -->
-<section class="relative w-full bg-transparent px-4 py-10 text-[#E9E3D5] sm:px-6 sm:py-12 lg:px-12">
+<section class="relative w-full bg-transparent px-4 py-8 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-12 lg:px-12">
   <div class="mx-auto max-w-7xl">
-    <header class="mb-8 flex flex-col justify-between gap-6 border-b border-red-900/40 pb-7 md:flex-row md:items-end">
+    <header class="mb-8 flex flex-col justify-between gap-6 border-b border-[#2A2A2F] pb-6 md:flex-row md:items-end">
       <div>
-        <div class="inline-flex items-center gap-2 border border-red-900/40 bg-black/60 px-3.5 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-red-400"><span class="h-2 w-2 animate-pulse bg-red-600"></span>ARCHIVE VAULT // ALL ARTIFACTS</div>
-        <h1 class="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-5xl">{{ collection.title | default: 'DROP 01 CATALOG' }}</h1>
-        <p class="mt-2 max-w-xl font-mono-tech text-xs uppercase tracking-widest text-zinc-400" id="rwnd-showing-count">SHOWING {{ collection.products.size }} PIECES · FREE SHIPPING ABOVE ₹999</p>
+        <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] rounded-none">
+          <span class="h-1.5 w-1.5 bg-[#C8102E] animate-pulse"></span>
+          DROP 01 // ARCHIVE COLLECTION
+        </div>
+        <h1 class="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-5xl">
+          {{ collection.title | default: 'Y2K HARDWARE ARCHIVE' }}
+        </h1>
+        <p class="mt-2 font-mono-tech text-xs uppercase tracking-wider text-[#A3A7AE]" id="rwnd-showing-count">
+          SHOWING {{ collection.products.size }} PIECES · FREE DELIVERY ON ₹999+ · DISPATCHED FROM MADURAI
+        </p>
       </div>
-      <div class="flex flex-wrap items-center gap-3">
-        <input type="text" id="rwnd-archive-search" placeholder="SEARCH SPEC..." class="rounded-full border border-red-900/40 bg-black/70 px-4 py-2 font-mono-tech text-xs uppercase tracking-widest text-white placeholder-zinc-600 focus:border-red-600 focus:outline-none">
-        <select id="rwnd-archive-sort" class="rounded-full border border-red-900/40 bg-black/70 px-4 py-2 font-mono-tech text-xs uppercase tracking-widest text-white focus:border-red-600 focus:outline-none cursor-pointer">
-          <option value="featured" class="bg-black">SORT: FEATURED SPEC</option>
-          <option value="price-asc" class="bg-black">PRICE: LOW TO HIGH</option>
-          <option value="price-desc" class="bg-black">PRICE: HIGH TO LOW</option>
+
+      <!-- Quick Search & Sort Filters (Strict 0px) -->
+      <div class="flex flex-wrap items-center gap-2">
+        <input
+          type="text"
+          id="rwnd-archive-search"
+          placeholder="FILTER SPEC..."
+          autocomplete="off"
+          class="border border-[#2A2A2F] bg-[#0A0A0C] px-4 py-2.5 font-mono-tech text-xs uppercase tracking-wider text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#C8102E] focus:outline-none rounded-none"
+        >
+        <select
+          id="rwnd-archive-sort"
+          class="border border-[#2A2A2F] bg-[#0A0A0C] px-4 py-2.5 font-mono-tech text-xs uppercase tracking-wider text-[#F5F5F7] focus:border-[#C8102E] focus:outline-none cursor-pointer rounded-none"
+        >
+          <option value="featured" class="bg-[#0A0A0C]">SORT: FEATURED</option>
+          <option value="price-asc" class="bg-[#0A0A0C]">PRICE: LOW TO HIGH</option>
+          <option value="price-desc" class="bg-[#0A0A0C]">PRICE: HIGH TO LOW</option>
         </select>
       </div>
     </header>
 
-    <div class="mb-8 flex flex-wrap items-center gap-2" role="tablist" aria-label="Product categories">
-      <button type="button" role="tab" aria-selected="true" data-filter-category="all" class="border border-red-600 bg-red-950/60 px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-widest text-white">ALL SPEC</button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="hardware" class="border border-red-900/30 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-widest text-zinc-400 hover:border-red-700 hover:text-white">316L HARDWARE</button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="earphones" class="border border-red-900/30 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-widest text-zinc-400 hover:border-red-700 hover:text-white">CHROME AUDIO</button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="watch" class="border border-red-900/30 bg-black/40 px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-widest text-zinc-400 hover:border-red-700 hover:text-white">TIMEPIECES</button>
+    <!-- Phase 1 Category Tabs (Strict 0px) -->
+    <div class="mb-8 flex flex-wrap items-center gap-2" role="tablist" aria-label="Archive Categories">
+      <button type="button" role="tab" aria-selected="true" data-filter-category="all" class="border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        ALL SPEC
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="rings" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        RINGS
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="chains" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        CHAINS
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="bracelets" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        BRACELETS
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="earphones" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        CHROME AUDIO
+      </button>
+      <button type="button" role="tab" aria-selected="false" data-filter-category="watch" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
+        TIMEPIECES (PRE-ORDER)
+      </button>
     </div>
 
+    <!-- Collection Product Grid -->
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="rwnd-product-grid">
       {% for product in collection.products %}
-        <article data-product-card data-category="{{ product.type | handle }}" data-tags="{{ product.tags | join: ' ' | handle }}" data-title="{{ product.title | escape }}" data-price="{{ product.price }}" class="group relative flex flex-col justify-between overflow-hidden border border-red-900/30 bg-black/40 p-4 backdrop-blur-xl transition-all duration-300 hover:border-red-700/70">
+        {% assign is_bundle = false %}
+        {% assign p_handle = product.handle | downcase %}
+        {% assign p_title = product.title | downcase %}
+        {% if p_handle contains 'bundle' or p_handle contains 'cyber-set' or p_title contains 'cyber set' %}
+          {% assign is_bundle = true %}
+        {% endif %}
+
+        {% assign is_watch = false %}
+        {% if p_title contains 'watch' or p_handle contains 'w-01' or p_title contains 'chronograph' %}
+          {% assign is_watch = true %}
+        {% endif %}
+
+        {% assign is_earphone = false %}
+        {% if p_title contains 'earphone' or p_handle contains 'ear-01' or p_title contains 'audio' %}
+          {% assign is_earphone = true %}
+        {% endif %}
+
+        <article
+          data-product-card
+          data-category="{{ product.type | handle }}"
+          data-tags="{{ product.tags | join: ' ' | handle }}"
+          data-title="{{ product.title | escape }}"
+          data-price="{{ product.price }}"
+          class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#C8102E] rounded-none"
+        >
           <div>
-            <div class="relative flex aspect-square items-center justify-center overflow-hidden border border-red-900/30 bg-black/60 p-4">
-              <span class="absolute left-3 top-3 z-10 rounded-full border border-red-800/50 bg-red-950 px-2.5 py-1 font-mono-tech text-[9px] font-bold uppercase tracking-widest text-red-200">{% if product.compare_at_price > product.price %}SALE{% else %}DROP 01{% endif %}</span>
-              <button type="button" data-toggle-wishlist aria-label="Save to Wishlist" class="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-red-900/50 bg-black/80 font-mono-tech text-sm text-red-300 hover:border-red-600 hover:text-white">♡</button>
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" class="h-full w-full object-contain contrast-125 transition-transform duration-500 group-hover:scale-105">
+            <div class="relative flex aspect-square items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] p-4 rounded-none">
+              <!-- Status Badges -->
+              {% if is_bundle %}
+                <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                  SAVE ₹248
+                </span>
+              {% elsif is_watch %}
+                <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#C8102E]/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                  PRE-ORDER
+                </span>
+              {% elsif is_earphone %}
+                <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8CDD3] rounded-none">
+                  TYPE-C
+                </span>
               {% else %}
-                <div class="font-mono-tech text-xs uppercase tracking-widest text-zinc-500">NO ASSET</div>
+                <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#A3A7AE] rounded-none">
+                  DROP 01
+                </span>
               {% endif %}
+
+              <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    width="600"
+                    height="600"
+                    loading="lazy"
+                    class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  >
+                {% else %}
+                  <div class="font-mono-tech text-xs uppercase tracking-widest text-[#A3A7AE]">NO ASSET</div>
+                {% endif %}
+              </a>
             </div>
+
             <div class="mt-4">
-              <p class="font-mono-tech text-[10px] uppercase tracking-widest text-zinc-500">{{ product.vendor | default: 'RWND20S' }}</p>
-              <h2 class="mt-1 line-clamp-2 font-display text-sm font-bold uppercase text-white">{{ product.title }}</h2>
+              <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
+                {% if is_watch %}
+                  TIMEPIECE SPEC
+                {% elsif is_earphone %}
+                  ACOUSTIC SPEC
+                {% elsif is_bundle %}
+                  CORE BUNDLE
+                {% else %}
+                  HARDWARE SPEC
+                {% endif %}
+              </p>
+              <h2 class="mt-1 line-clamp-2 font-display text-sm font-bold uppercase text-[#F5F5F7] tracking-tight">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h2>
             </div>
           </div>
-          <div class="relative z-10 mt-5 flex items-center justify-between gap-2 border-t border-red-900/30 pt-4">
+
+          <div class="relative z-10 mt-5 flex items-center justify-between gap-2 border-t border-[#2A2A2F] pt-4">
             <div>
-              <span class="font-mono-tech text-sm font-extrabold uppercase tracking-widest text-[#E9E3D5]">{{ product.price | money }}</span>
-              {% if product.compare_at_price > product.price %}<span class="mt-1 block font-mono-tech text-[10px] uppercase tracking-widest text-zinc-500 line-through">{{ product.compare_at_price | money }}</span>{% endif %}
+              <span class="font-mono-tech text-sm font-extrabold uppercase tracking-wider text-[#F5F5F7]">
+                {{ product.price | money }}
+              </span>
             </div>
-            <a href="{{ product.url }}" class="rounded-full border border-red-900/50 bg-black/80 px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#E9E3D5] transition-colors hover:border-red-600 hover:bg-red-950/60 hover:text-white">INSPECT →</a>
+            <a
+              href="{{ product.url }}"
+              class="inline-flex items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:border-[#C8102E] hover:bg-[#C8102E] rounded-none"
+            >
+              INSPECT →
+            </a>
           </div>
         </article>
       {% endfor %}
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('rwnd-archive-search');
+    const sortSelect = document.getElementById('rwnd-archive-sort');
+    const categoryBtns = document.querySelectorAll('[data-filter-category]');
+    const grid = document.getElementById('rwnd-product-grid');
+    const cards = [...document.querySelectorAll('[data-product-card]')];
+    const countEl = document.getElementById('rwnd-showing-count');
+
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    function filterAndSortProducts() {
+      let visibleCards = cards.filter((card) => {
+        const title = (card.dataset.title || '').toLowerCase();
+        const tags = (card.dataset.tags || '').toLowerCase();
+        const cat = (card.dataset.category || '').toLowerCase();
+
+        const matchesSearch = title.includes(searchQuery);
+        let matchesCategory = true;
+
+        if (currentCategory === 'rings') {
+          matchesCategory = title.includes('ring') || tags.includes('ring');
+        } else if (currentCategory === 'chains') {
+          matchesCategory = title.includes('chain') || tags.includes('chain');
+        } else if (currentCategory === 'bracelets') {
+          matchesCategory = title.includes('bracelet') || tags.includes('bracelet');
+        } else if (currentCategory === 'earphones') {
+          matchesCategory = title.includes('earphone') || title.includes('audio') || tags.includes('earphone');
+        } else if (currentCategory === 'watch') {
+          matchesCategory = title.includes('watch') || title.includes('chronograph') || tags.includes('watch');
+        }
+
+        return matchesSearch && matchesCategory;
+      });
+
+      // Handle Sorting
+      const sortVal = sortSelect?.value || 'featured';
+      if (sortVal === 'price-asc') {
+        visibleCards.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
+      } else if (sortVal === 'price-desc') {
+        visibleCards.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
+      }
+
+      // Re-render
+      cards.forEach((c) => (c.style.display = 'none'));
+      visibleCards.forEach((c) => {
+        c.style.display = 'flex';
+        grid?.appendChild(c);
+      });
+
+      if (countEl) {
+        countEl.textContent = `SHOWING ${visibleCards.length} PIECES · FREE DELIVERY ON ₹999+ · DISPATCHED FROM MADURAI`;
+      }
+    }
+
+    searchInput?.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      filterAndSortProducts();
+    });
+
+    sortSelect?.addEventListener('change', filterAndSortProducts);
+
+    categoryBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach((b) => {
+          b.setAttribute('aria-selected', 'false');
+          b.className = 'border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer';
+        });
+
+        btn.setAttribute('aria-selected', 'true');
+        btn.className = 'border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer';
+
+        currentCategory = btn.getAttribute('data-filter-category') || 'all';
+        filterAndSortProducts();
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
