@@ -50,7 +50,6 @@
 
     <style>
       :root {
-        /* Section 7 Design System Core Tokens */
         --black-pure: #000000;
         --black-rich: #0A0A0A;
         --black-soft: #1A1A1A;
@@ -60,15 +59,11 @@
         --white-pure: #FFFFFF;
         --white-soft: rgba(255, 255, 255, 0.7);
         --white-muted: rgba(255, 255, 255, 0.5);
-        --success: #00FF88;
-        --warning: #FFB800;
-        --error: #FF0033;
-        --border: rgba(255, 255, 255, 0.1);
+        --line: #2A2A2F;
 
-        /* Backward Compatibility Aliases */
+        /* Backward-Compatibility Aliases */
         --ink: var(--black-pure);
         --surface: var(--black-rich);
-        --line: #2A2A2F;
         --chrome: var(--white-soft);
         --bone: var(--white-pure);
         --muted: var(--white-muted);
@@ -96,11 +91,6 @@
         min-height: 100%;
         overflow-x: hidden;
         background-color: var(--black-pure) !important;
-        background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649') !important;
-        background-size: cover !important;
-        background-position: center center !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
         color: var(--white-pure);
       }
 
@@ -123,6 +113,13 @@
   </head>
 
   <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#FF0033] selection:text-white">
+    <!-- Stable Mobile-Friendly Fixed Background Layer -->
+    <div 
+      class="fixed inset-0 pointer-events-none -z-10 bg-cover bg-center bg-no-repeat opacity-40" 
+      style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649');"
+    ></div>
+    <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/80 via-transparent to-[#000000]/95"></div>
+
     <!-- Gateway Splash (3-second auto-dismiss with Skip) -->
     <div id="rwnd-gateway" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center bg-[#000000]/98 p-6 text-center backdrop-blur-xl" aria-label="RWND20s intro">
       <div class="relative z-10 mx-auto flex max-w-md flex-col items-center space-y-6">
@@ -159,7 +156,8 @@
       </button>
     </div>
 
-    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full">
+    <!-- Main Content Container: Clean Immediate Rendering -->
+    <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full min-h-[70vh]">
       {{ content_for_layout }}
     </main>
 
@@ -213,27 +211,6 @@
         }
       })();
 
-      // 7.4 Scroll Entry Animations (20% Viewport Threshold)
-      (() => {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        document.addEventListener('DOMContentLoaded', () => {
-          const targets = document.querySelectorAll('section, main > div');
-          targets.forEach((el) => el.classList.add('fade-up-init'));
-
-          const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('fade-up-active');
-                obs.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.20 });
-
-          targets.forEach((el) => observer.observe(el));
-        });
-      })();
-
       // Global AJAX Cart Sync & Drawer Hook
       (() => {
         const refreshCartBadges = async () => {
@@ -275,7 +252,7 @@
             button.innerHTML = '<span class="font-bold tracking-widest text-white">✦ SECURED IN BAG</span>';
             await refreshCartBadges();
             
-            // Sync full page cart if currently open
+            // Sync full page cart if open
             if (typeof window.fetchMainCartData === 'function') {
               window.fetchMainCartData();
             }
