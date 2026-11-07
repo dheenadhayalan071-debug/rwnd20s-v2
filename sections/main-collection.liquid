@@ -1,69 +1,84 @@
 <!-- sections/main-collection.liquid -->
-<section class="relative w-full bg-transparent px-4 py-8 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-12 lg:px-12">
+{% paginate collection.products by 12 %}
+<section class="relative w-full bg-[#0A0A0C] px-4 py-6 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-10 lg:px-8">
   <div class="mx-auto max-w-7xl">
-    <header class="mb-8 flex flex-col justify-between gap-6 border-b border-[#2A2A2F] pb-6 md:flex-row md:items-end">
-      <div>
-        <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] rounded-none">
-          <span class="h-1.5 w-1.5 bg-[#C8102E] animate-pulse"></span>
-          DROP 01 // ARCHIVE COLLECTION
-        </div>
-        <h1 class="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-5xl">
-          {{ collection.title | default: 'Y2K HARDWARE ARCHIVE' }}
-        </h1>
-        <p class="mt-2 font-mono-tech text-xs uppercase tracking-wider text-[#A3A7AE]" id="rwnd-showing-count">
-          SHOWING {{ collection.products.size }} PIECES · FREE DELIVERY ON ₹999+ · DISPATCHED FROM MADURAI
-        </p>
-      </div>
+    
+    <!-- 5.1 BREADCRUMBS & HEADER -->
+    <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
+      <a href="/" class="hover:text-white transition-colors">Home</a>
+      <span>/</span>
+      <a href="/collections/all" class="hover:text-white transition-colors">Shop</a>
+      <span>/</span>
+      <span class="text-white font-bold">{{ collection.title | default: 'All Hardware' }}</span>
+    </nav>
 
-      <!-- Quick Search & Sort Filters (Strict 0px) -->
-      <div class="flex flex-wrap items-center gap-2">
-        <input
-          type="text"
-          id="rwnd-archive-search"
-          placeholder="FILTER SPEC..."
-          autocomplete="off"
-          class="border border-[#2A2A2F] bg-[#0A0A0C] px-4 py-2.5 font-mono-tech text-xs uppercase tracking-wider text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#C8102E] focus:outline-none rounded-none"
-        >
-        <select
-          id="rwnd-archive-sort"
-          class="border border-[#2A2A2F] bg-[#0A0A0C] px-4 py-2.5 font-mono-tech text-xs uppercase tracking-wider text-[#F5F5F7] focus:border-[#C8102E] focus:outline-none cursor-pointer rounded-none"
-        >
-          <option value="featured" class="bg-[#0A0A0C]">SORT: FEATURED</option>
-          <option value="price-asc" class="bg-[#0A0A0C]">PRICE: LOW TO HIGH</option>
-          <option value="price-desc" class="bg-[#0A0A0C]">PRICE: HIGH TO LOW</option>
-        </select>
+    <header class="mb-8 border-b border-[#2A2A2F] pb-6">
+      <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-white">
+        <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
+        DROP 01 // ARCHIVE COLLECTION
       </div>
+      <h1 class="mt-3 font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight text-white">
+        {{ collection.title | default: 'Y2K HARDWARE ARCHIVE' }}
+      </h1>
+      <p class="mt-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
+        <span id="rwnd-product-count">{{ collection.all_products_count | default: collection.products.size }}</span> PIECES · ALL 316L STAINLESS & NOCTURNAL AUDIO · DISPATCHED FROM MADURAI
+      </p>
     </header>
 
-    <!-- Phase 1 Category Tabs (Strict 0px) -->
-    <div class="mb-8 flex flex-wrap items-center gap-2" role="tablist" aria-label="Archive Categories">
-      <button type="button" role="tab" aria-selected="true" data-filter-category="all" class="border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        ALL SPEC
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="rings" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        RINGS
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="chains" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        CHAINS
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="bracelets" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        BRACELETS
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="earphones" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        CHROME AUDIO
-      </button>
-      <button type="button" role="tab" aria-selected="false" data-filter-category="watch" class="border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-        TIMEPIECES (PRE-ORDER)
-      </button>
+    <!-- 5.2 STICKY FILTER & SORT BAR -->
+    <div id="rwnd-sticky-filter-bar" class="sticky top-[64px] sm:top-[72px] z-30 mb-8 border border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:p-4 transition-all">
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+        
+        <!-- Tag Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" role="tablist">
+          <button type="button" data-tag-filter="all" class="rwnd-filter-btn active border border-[#FF0033] bg-[#FF0033] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
+            ALL SPEC
+          </button>
+          <button type="button" data-tag-filter="chains" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+            CHAINS
+          </button>
+          <button type="button" data-tag-filter="rings" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+            RINGS
+          </button>
+          <button type="button" data-tag-filter="bracelets" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+            BRACELETS
+          </button>
+          <button type="button" data-tag-filter="earphones" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+            AUDIO
+          </button>
+          <button type="button" data-tag-filter="watch" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+            TIMEPIECES
+          </button>
+        </div>
+
+        <!-- Filter Selectors & Sort Dropdown -->
+        <div class="flex items-center gap-2">
+          <!-- Price Sort -->
+          <select id="rwnd-archive-sort" class="flex-1 lg:flex-none border border-[#2A2A2F] bg-[#131316] px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white focus:border-[#FF0033] focus:outline-none cursor-pointer">
+            <option value="featured">SORT: FEATURED ▾</option>
+            <option value="price-asc">PRICE: LOW TO HIGH ▾</option>
+            <option value="price-desc">PRICE: HIGH TO LOW ▾</option>
+          </select>
+
+          <!-- Quick Search -->
+          <input 
+            type="text" 
+            id="rwnd-archive-search" 
+            placeholder="FILTER SPEC..." 
+            class="hidden sm:block w-36 border border-[#2A2A2F] bg-[#131316] px-3 py-2 text-[11px] uppercase tracking-wider text-white focus:border-[#FF0033] focus:outline-none"
+          >
+        </div>
+
+      </div>
     </div>
 
-    <!-- Collection Product Grid -->
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="rwnd-product-grid">
+    <!-- 5.3 PRODUCT GRID (2 cols mobile / 3 cols tablet / 4 cols desktop) -->
+    <div id="rwnd-collection-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
       {% for product in collection.products %}
         {% assign is_bundle = false %}
         {% assign p_handle = product.handle | downcase %}
         {% assign p_title = product.title | downcase %}
-        {% if p_handle contains 'bundle' or p_handle contains 'cyber-set' or p_title contains 'cyber set' %}
+        {% if p_handle contains 'cyber-set' or p_title contains 'cyber set' or product.tags contains 'bundle' %}
           {% assign is_bundle = true %}
         {% endif %}
 
@@ -72,176 +87,218 @@
           {% assign is_watch = true %}
         {% endif %}
 
-        {% assign is_earphone = false %}
-        {% if p_title contains 'earphone' or p_handle contains 'ear-01' or p_title contains 'audio' %}
-          {% assign is_earphone = true %}
-        {% endif %}
-
-        <article
+        <article 
           data-product-card
-          data-category="{{ product.type | handle }}"
-          data-tags="{{ product.tags | join: ' ' | handle }}"
           data-title="{{ product.title | escape }}"
+          data-tags="{{ product.tags | join: ' ' | downcase }}"
           data-price="{{ product.price }}"
-          class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#C8102E] rounded-none"
+          class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-3 sm:p-4 transition-all hover:border-[#FF0033]"
         >
-          <div>
-            <div class="relative flex aspect-square items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] p-4 rounded-none">
-              <!-- Status Badges -->
-              {% if is_bundle %}
-                <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
-                  SAVE ₹248
-                </span>
-              {% elsif is_watch %}
-                <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#C8102E]/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
-                  PRE-ORDER
-                </span>
-              {% elsif is_earphone %}
-                <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8CDD3] rounded-none">
-                  TYPE-C
-                </span>
+          <!-- 4:5 Image Canvas -->
+          <div class="relative aspect-[4/5] w-full overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] flex items-center justify-center">
+            <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
+              {% if product.featured_image %}
+                <img 
+                  src="{{ product.featured_image | image_url: width: 600 }}" 
+                  alt="{{ product.title | escape }}" 
+                  width="600" 
+                  height="750" 
+                  loading="lazy" 
+                  class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                >
               {% else %}
-                <span class="absolute left-3 top-3 z-10 border border-[#2A2A2F] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#A3A7AE] rounded-none">
-                  DROP 01
-                </span>
+                <span class="text-[10px] text-[#A3A7AE] uppercase">{{ product.title | escape }}</span>
               {% endif %}
+            </a>
 
-              <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
-                {% if product.featured_image %}
-                  <img
-                    src="{{ product.featured_image | image_url: width: 600 }}"
-                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                    width="600"
-                    height="600"
-                    loading="lazy"
-                    class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                  >
-                {% else %}
-                  <div class="font-mono-tech text-xs uppercase tracking-widest text-[#A3A7AE]">NO ASSET</div>
-                {% endif %}
-              </a>
-            </div>
-
-            <div class="mt-4">
-              <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
-                {% if is_watch %}
-                  TIMEPIECE SPEC
-                {% elsif is_earphone %}
-                  ACOUSTIC SPEC
-                {% elsif is_bundle %}
-                  CORE BUNDLE
-                {% else %}
-                  HARDWARE SPEC
-                {% endif %}
-              </p>
-              <h2 class="mt-1 line-clamp-2 font-display text-sm font-bold uppercase text-[#F5F5F7] tracking-tight">
-                <a href="{{ product.url }}">{{ product.title | escape }}</a>
-              </h2>
-            </div>
+            <!-- Status Badges -->
+            {% if is_bundle %}
+              <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
+                SAVE ₹248
+              </span>
+            {% elsif is_watch %}
+              <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
+                PRE-ORDER
+              </span>
+            {% else %}
+              <span class="absolute top-2 right-2 border border-[#2A2A2F] bg-[#0A0A0C] px-1.5 py-0.5 text-[9px] font-bold text-[#A3A7AE]">
+                DROP 01
+              </span>
+            {% endif %}
           </div>
 
-          <div class="relative z-10 mt-5 flex items-center justify-between gap-2 border-t border-[#2A2A2F] pt-4">
+          <!-- Product Details -->
+          <div class="mt-3 flex flex-1 flex-col justify-between">
             <div>
-              <span class="font-mono-tech text-sm font-extrabold uppercase tracking-wider text-[#F5F5F7]">
-                {{ product.price | money }}
-              </span>
+              <p class="text-[9px] uppercase tracking-wider text-[#A3A7AE]">
+                {% if is_watch %}ANALOG-DIGITAL{% elsif is_bundle %}3-PIECE HARDWARE{% else %}316L ALLOY{% endif %}
+              </p>
+              <h3 class="mt-1 font-display text-xs sm:text-sm font-bold uppercase text-white line-clamp-1">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h3>
+              
+              <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
+                <span>{{ product.price | money }}</span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
             </div>
-            <a
-              href="{{ product.url }}"
-              class="inline-flex items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:border-[#C8102E] hover:bg-[#C8102E] rounded-none"
-            >
-              INSPECT →
-            </a>
+
+            <!-- Quick Add Form -->
+            <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-3">
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <button 
+                type="submit" 
+                class="w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
+              >
+                + QUICK ADD
+              </button>
+            </form>
           </div>
         </article>
       {% endfor %}
     </div>
+
+    <!-- 5.4 LOAD MORE BUTTON -->
+    <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center border-t border-[#2A2A2F] pt-8">
+      {% if paginate.next %}
+        <button 
+          type="button" 
+          id="rwnd-load-more-btn"
+          data-next-url="{{ paginate.next.url }}" 
+          class="h-14 border border-[#FF0033] bg-transparent px-10 font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#FF0033] transition-all cursor-pointer"
+        >
+          [ LOAD MORE PIECES + ]
+        </button>
+      {% else %}
+        <span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>
+      {% endif %}
+    </div>
+
   </div>
 </section>
+{% endpaginate %}
 
+<!-- FILTER, SORT & LOAD MORE SCRIPTS -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('rwnd-archive-search');
-    const sortSelect = document.getElementById('rwnd-archive-sort');
-    const categoryBtns = document.querySelectorAll('[data-filter-category]');
-    const grid = document.getElementById('rwnd-product-grid');
-    const cards = [...document.querySelectorAll('[data-product-card]')];
-    const countEl = document.getElementById('rwnd-showing-count');
-
-    let currentCategory = 'all';
+  (() => {
+    let currentFilter = 'all';
     let searchQuery = '';
 
-    function filterAndSortProducts() {
-      let visibleCards = cards.filter((card) => {
+    const filterBtns = document.querySelectorAll('[data-tag-filter]');
+    const sortSelect = document.getElementById('rwnd-archive-sort');
+    const searchInput = document.getElementById('rwnd-archive-search');
+    const grid = document.getElementById('rwnd-collection-grid');
+    const loadMoreBtn = document.getElementById('rwnd-load-more-btn');
+    const countEl = document.getElementById('rwnd-product-count');
+
+    function applyFilterAndSort() {
+      const cards = [...grid.querySelectorAll('[data-product-card]')];
+      let visible = 0;
+
+      cards.forEach((card) => {
         const title = (card.dataset.title || '').toLowerCase();
         const tags = (card.dataset.tags || '').toLowerCase();
-        const cat = (card.dataset.category || '').toLowerCase();
-
-        const matchesSearch = title.includes(searchQuery);
-        let matchesCategory = true;
-
-        if (currentCategory === 'rings') {
-          matchesCategory = title.includes('ring') || tags.includes('ring');
-        } else if (currentCategory === 'chains') {
-          matchesCategory = title.includes('chain') || tags.includes('chain');
-        } else if (currentCategory === 'bracelets') {
-          matchesCategory = title.includes('bracelet') || tags.includes('bracelet');
-        } else if (currentCategory === 'earphones') {
-          matchesCategory = title.includes('earphone') || title.includes('audio') || tags.includes('earphone');
-        } else if (currentCategory === 'watch') {
-          matchesCategory = title.includes('watch') || title.includes('chronograph') || tags.includes('watch');
+        
+        let matchesTag = true;
+        if (currentFilter !== 'all') {
+          matchesTag = tags.includes(currentFilter) || title.includes(currentFilter);
         }
 
-        return matchesSearch && matchesCategory;
+        let matchesSearch = true;
+        if (searchQuery) {
+          matchesSearch = title.includes(searchQuery) || tags.includes(searchQuery);
+        }
+
+        if (matchesTag && matchesSearch) {
+          card.style.display = 'flex';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
       });
 
-      // Handle Sorting
+      // Sort visible cards
       const sortVal = sortSelect?.value || 'featured';
+      const visibleCards = cards.filter(c => c.style.display !== 'none');
       if (sortVal === 'price-asc') {
         visibleCards.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
       } else if (sortVal === 'price-desc') {
         visibleCards.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
       }
+      visibleCards.forEach(c => grid.appendChild(c));
 
-      // Re-render
-      cards.forEach((c) => (c.style.display = 'none'));
-      visibleCards.forEach((c) => {
-        c.style.display = 'flex';
-        grid?.appendChild(c);
-      });
-
-      if (countEl) {
-        countEl.textContent = `SHOWING ${visibleCards.length} PIECES · FREE DELIVERY ON ₹999+ · DISPATCHED FROM MADURAI`;
-      }
+      if (countEl) countEl.textContent = String(visible);
     }
 
-    searchInput?.addEventListener('input', (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      filterAndSortProducts();
-    });
-
-    sortSelect?.addEventListener('change', filterAndSortProducts);
-
-    categoryBtns.forEach((btn) => {
+    // Tag filter click
+    filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        categoryBtns.forEach((b) => {
-          b.setAttribute('aria-selected', 'false');
-          b.className = 'border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#C8CDD3] hover:text-[#F5F5F7] transition-all rounded-none cursor-pointer';
+        filterBtns.forEach((b) => {
+          b.classList.remove('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
+          b.classList.add('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
         });
+        btn.classList.add('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
+        btn.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
 
-        btn.setAttribute('aria-selected', 'true');
-        btn.className = 'border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer';
-
-        currentCategory = btn.getAttribute('data-filter-category') || 'all';
-        filterAndSortProducts();
+        currentFilter = btn.dataset.tagFilter;
+        applyFilterAndSort();
       });
     });
-  });
+
+    // Search input
+    searchInput?.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      applyFilterAndSort();
+    });
+
+    // Sort select
+    sortSelect?.addEventListener('change', applyFilterAndSort);
+
+    // AJAX Load More Action
+    loadMoreBtn?.addEventListener('click', async () => {
+      const nextUrl = loadMoreBtn.dataset.nextUrl;
+      if (!nextUrl) return;
+
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.textContent = '[ FETCHING NEXT DISPATCH... ]';
+
+      try {
+        const res = await fetch(nextUrl);
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const newCards = doc.querySelectorAll('#rwnd-collection-grid [data-product-card]');
+        newCards.forEach((c) => grid.appendChild(c));
+
+        const nextNextBtn = doc.getElementById('rwnd-load-more-btn');
+        if (nextNextBtn && nextNextBtn.dataset.nextUrl) {
+          loadMoreBtn.dataset.nextUrl = nextNextBtn.dataset.nextUrl;
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = '[ LOAD MORE PIECES + ]';
+        } else {
+          loadMoreBtn.remove();
+          const pagContainer = document.getElementById('rwnd-pagination-container');
+          if (pagContainer) {
+            pagContainer.innerHTML = '<span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>';
+          }
+        }
+
+        applyFilterAndSort();
+      } catch (err) {
+        console.error('Failed to load more products:', err);
+        loadMoreBtn.textContent = '[ RETRY LOAD ]';
+        loadMoreBtn.disabled = false;
+      }
+    });
+  })();
 </script>
 
 {% schema %}
 {
-  "name": "Collection Main Catalog",
+  "name": "Collection Grid",
   "settings": []
 }
 {% endschema %}
