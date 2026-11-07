@@ -1,0 +1,78 @@
+<!-- snippets/drop-countdown.liquid -->
+<div id="rwnd-countdown-module" class="inline-flex items-center gap-2 font-mono-tech uppercase">
+  <div id="rwnd-timer-display" class="flex items-center gap-1.5 text-sm sm:text-base font-bold text-white tracking-[2px]">
+    <div class="flex flex-col items-center">
+      <span id="timer-days" class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-[#FF0033]">14</span>
+      <span class="text-[8px] text-[#A3A7AE] mt-0.5">DAYS</span>
+    </div>
+    <span class="text-[#FF0033]">:</span>
+    <div class="flex flex-col items-center">
+      <span id="timer-hours" class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">06</span>
+      <span class="text-[8px] text-[#A3A7AE] mt-0.5">HRS</span>
+    </div>
+    <span class="text-[#FF0033]">:</span>
+    <div class="flex flex-col items-center">
+      <span id="timer-minutes" class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">22</span>
+      <span class="text-[8px] text-[#A3A7AE] mt-0.5">MIN</span>
+    </div>
+    <span class="text-[#FF0033]">:</span>
+    <div class="flex flex-col items-center">
+      <span id="timer-seconds" class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-[#FF0033]">00</span>
+      <span class="text-[8px] text-[#A3A7AE] mt-0.5">SEC</span>
+    </div>
+  </div>
+
+  <div id="rwnd-live-pulse" class="hidden items-center gap-2 border border-[#FF0033] bg-[#FF0033]/20 px-3 py-1 font-bold text-[#FF0033]">
+    <span class="h-2 w-2 animate-ping bg-[#FF0033]"></span>
+    <span>DROP 01 // LIVE NOW</span>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const CYCLE_MS = 14 * 24 * 60 * 60 * 1000; // 14-day rolling window
+    let dropDeadline = localStorage.getItem('rwnd_drop_deadline');
+
+    if (!dropDeadline || isNaN(dropDeadline) || Number(dropDeadline) <= Date.now()) {
+      dropDeadline = Date.now() + CYCLE_MS;
+      localStorage.setItem('rwnd_drop_deadline', dropDeadline);
+    }
+
+    const targetTime = Number(dropDeadline);
+
+    function updateTimer() {
+      const now = Date.now();
+      const distance = targetTime - now;
+
+      const display = document.getElementById('rwnd-timer-display');
+      const pulse = document.getElementById('rwnd-live-pulse');
+
+      if (distance <= 0) {
+        if (display && pulse) {
+          display.classList.add('hidden');
+          pulse.classList.remove('hidden');
+          pulse.classList.add('flex');
+        }
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const dEl = document.getElementById('timer-days');
+      const hEl = document.getElementById('timer-hours');
+      const mEl = document.getElementById('timer-minutes');
+      const sEl = document.getElementById('timer-seconds');
+
+      if (dEl) dEl.textContent = String(days).padStart(2, '0');
+      if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+      if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+      if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  })();
+</script>
