@@ -297,14 +297,13 @@ textarea:focus {
 /* 7.4 SCROLL & TRANSITION UTILITIES                                        */
 /* ========================================================================= */
 .fade-up-init {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth);
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .fade-up-active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .stagger-1 { transition-delay: 50ms; }
