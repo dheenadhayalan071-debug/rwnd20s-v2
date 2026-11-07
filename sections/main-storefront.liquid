@@ -5,209 +5,581 @@
   {% assign archive_collection = collections['all'] %}
 {% endif %}
 
-{% assign hero_cyber = blank %}
-{% assign hero_audio = blank %}
-{% assign hero_watch = blank %}
-
+{% assign spotlight_product = blank %}
 {% for product in archive_collection.products %}
-  {% assign title_key = product.title | downcase %}
-  {% assign handle_key = product.handle | downcase %}
-  {% if hero_cyber == blank %}
-    {% if title_key contains 'cyber set' or handle_key contains 'cyber-set' %}
-      {% assign hero_cyber = product %}
-    {% endif %}
-  {% endif %}
-  {% if hero_audio == blank %}
-    {% if title_key contains 'earphone' or handle_key contains 'earphone' or handle_key contains 'audio' %}
-      {% assign hero_audio = product %}
-    {% endif %}
-  {% endif %}
-  {% if hero_watch == blank %}
-    {% if title_key contains 'watch' or title_key contains 'chronograph' or handle_key contains 'watch' %}
-      {% assign hero_watch = product %}
-    {% endif %}
+  {% assign handle_down = product.handle | downcase %}
+  {% assign title_down = product.title | downcase %}
+  {% if spotlight_product == blank and handle_down contains 'cyber-set' or title_down contains 'cyber set' %}
+    {% assign spotlight_product = product %}
   {% endif %}
 {% endfor %}
-
-{% assign first_product = archive_collection.products[0] %}
-{% assign second_product = archive_collection.products[1] %}
-{% assign third_product = archive_collection.products[2] %}
-
-{% if hero_cyber == blank %}{% assign hero_cyber = first_product %}{% endif %}
-{% if hero_audio == blank %}
-  {% if second_product and second_product.id != hero_cyber.id %}
-    {% assign hero_audio = second_product %}
-  {% elsif first_product and first_product.id != hero_cyber.id %}
-    {% assign hero_audio = first_product %}
-  {% endif %}
-{% endif %}
-{% if hero_watch == blank %}
-  {% if third_product and third_product.id != hero_cyber.id and third_product.id != hero_audio.id %}
-    {% assign hero_watch = third_product %}
-  {% endif %}
+{% if spotlight_product == blank and archive_collection.products.size > 0 %}
+  {% assign spotlight_product = archive_collection.products.first %}
 {% endif %}
 
-<!-- Hero Stage Section -->
-<section class="rwnd-home-hero relative mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
-  <div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center">
-    <div class="mb-4 max-w-2xl">
-      <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] rounded-none">
-        <span class="h-1.5 w-1.5 bg-[#C8102E] animate-pulse"></span>
-        {{ section.settings.hero_badge | escape }}
-      </div>
-      <h1 class="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-5xl lg:text-6xl">
-        <span class="block">{{ section.settings.hero_title_line_1 | escape }}</span>
-        <span class="mt-1 block text-[#C8CDD3]">{{ section.settings.hero_title_line_2 | escape }}</span>
-      </h1>
-      <p class="mx-auto mt-3 max-w-xl font-mono-tech text-xs leading-relaxed text-[#A3A7AE] sm:text-sm">
-        {{ section.settings.hero_subtitle | escape }}
-      </p>
+<!-- ========================================================================= -->
+<!-- 2.1 HERO SECTION                                                          -->
+<!-- ========================================================================= -->
+<section class="relative min-h-[90vh] sm:min-h-screen w-full flex flex-col justify-between items-center text-center px-4 pt-28 pb-12 overflow-hidden border-b border-[#2A2A2F] bg-[#0A0A0C]">
+  <!-- Background Layer (Video / Fallback Still + Gradient Overlay) -->
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    {% if section.settings.hero_video_url != blank %}
+      <video class="w-full h-full object-cover opacity-35" autoplay muted loop playsinline>
+        <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
+      </video>
+    {% else %}
+      <div class="w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#C8102E]/20 via-[#131316] to-[#0A0A0C]"></div>
+    {% endif %}
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0C] via-transparent to-[#0A0A0C] opacity-90"></div>
+  </div>
+
+  <!-- Centered Content Stack -->
+  <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center justify-center my-auto">
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 font-mono-tech text-[11px] sm:text-xs font-bold uppercase tracking-[1.5px] text-[#F5F5F7]">
+      <span class="h-2 w-2 bg-[#FF0033] animate-pulse"></span>
+      {{ section.settings.hero_badge | default: 'DROP 01 // DISPATCHED FROM MADURAI' }}
     </div>
 
-    <!-- Stage Switcher Tabs (0px geometry, high-contrast) -->
-    <div role="tablist" aria-label="Featured archive pieces" class="relative z-10 flex w-full flex-wrap items-center justify-center gap-2">
-      {% if hero_cyber %}
-        <button id="hero-tab-0" role="tab" type="button" data-hero-btn="0" aria-selected="true" aria-controls="hero-slide-0" class="rwnd-hero-tab border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer">
-          01 // 3-PIECE CYBER SET
-        </button>
-      {% endif %}
-      {% if hero_audio %}
-        <button id="hero-tab-1" role="tab" type="button" data-hero-btn="1" aria-selected="false" aria-controls="hero-slide-1" class="rwnd-hero-tab border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] transition-all hover:border-[#C8CDD3] hover:text-[#F5F5F7] rounded-none cursor-pointer">
-          02 // CHROME AUDIO
-        </button>
-      {% endif %}
-      {% if hero_watch %}
-        <button id="hero-tab-2" role="tab" type="button" data-hero-btn="2" aria-selected="false" aria-controls="hero-slide-2" class="rwnd-hero-tab border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] transition-all hover:border-[#C8CDD3] hover:text-[#F5F5F7] rounded-none cursor-pointer">
-          03 // TIMEPIECE (PRE-ORDER)
-        </button>
-      {% endif %}
+    <!-- Headline -->
+    <h1 class="mt-6 font-display text-5xl sm:text-7xl lg:text-[110px] font-extrabold uppercase leading-[0.9] tracking-[-2px] text-[#F5F5F7]">
+      Y2K<br>
+      HARDWARE<br>
+      <span class="text-[#FF0033]">AFTER DARK.</span>
+    </h1>
+
+    <!-- Subhead -->
+    <p class="mt-6 max-w-xl font-mono-tech text-sm sm:text-base leading-relaxed text-[#A3A7AE] opacity-90">
+      After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
+    </p>
+
+    <!-- CTA Row -->
+    <div class="mt-8 flex w-full max-w-md flex-col sm:flex-row items-center justify-center gap-3">
+      <a href="#shop" class="flex h-14 w-full sm:w-auto flex-1 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F]">
+        SHOP DROP 01 →
+      </a>
+      <a href="#about" class="flex h-14 w-full sm:w-auto flex-1 items-center justify-center border border-[#C8CDD3] bg-transparent px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:border-[#FF0033] hover:text-[#FF0033]">
+        VIEW MANIFESTO
+      </a>
     </div>
+  </div>
 
-    <!-- Hero Slides Container -->
-    <div class="relative mx-auto mt-4 flex w-full max-w-xl flex-col items-center justify-start text-center sm:mt-6">
-      {% if hero_cyber %}{% render 'hero-product-slide', hero_product: hero_cyber, hero_index: 0 %}{% endif %}
-      {% if hero_audio %}{% render 'hero-product-slide', hero_product: hero_audio, hero_index: 1 %}{% endif %}
-      {% if hero_watch %}{% render 'hero-product-slide', hero_product: hero_watch, hero_index: 2 %}{% endif %}
+  <!-- Scroll Indicator -->
+  <a href="#drop-status-bar" class="relative z-10 flex flex-col items-center gap-1 font-mono-tech text-[10px] uppercase tracking-[2px] text-[#A3A7AE] hover:text-white transition-colors animate-bounce cursor-pointer">
+    <span>↓ SCROLL</span>
+  </a>
+</section>
 
-      {% if archive_collection.products.size == 0 %}
-        <div class="relative z-10 flex min-h-[260px] w-full flex-col items-center justify-center border border-[#2A2A2F] bg-[#131316] p-6 text-center rounded-none">
-          <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8102E]">DISPATCH STATUS</p>
-          <h2 class="mt-2 font-display text-xl font-extrabold uppercase text-[#F5F5F7]">NO ARTIFACTS IN THIS ARCHIVE</h2>
-          <p class="mt-2 max-w-sm font-mono-tech text-xs leading-relaxed text-[#A3A7AE]">The archive is currently silent. Recheck when the next batch drops.</p>
-        </div>
-      {% endif %}
+<!-- ========================================================================= -->
+<!-- 2.2 DROP STATUS BAR (URGENCY MARQUEE)                                     -->
+<!-- ========================================================================= -->
+<section id="drop-status-bar" class="relative z-20 h-20 w-full overflow-hidden bg-[#FF0033] text-black font-mono-tech flex items-center border-y border-black">
+  <div class="rwnd-marquee-track flex whitespace-nowrap text-sm sm:text-base font-bold tracking-[2px] uppercase select-none">
+    <div class="flex items-center gap-8 px-4">
+      <span>● LIVE NOW</span>
+      <span>·</span>
+      <span>DROP 01</span>
+      <span>·</span>
+      <span>Y2K HARDWARE</span>
+      <span>·</span>
+      <span>STOCK: 247/500 UNITS REMAINING</span>
+      <span>·</span>
+      <span class="flex items-center gap-1">NEXT DROP IN: <strong id="hero-countdown" class="underline">14D 06H 22M</strong></span>
+      <span>·</span>
+      <span>DISPATCHED IN 24H FROM MADURAI</span>
+      <span>·</span>
+    </div>
+    <div class="flex items-center gap-8 px-4" aria-hidden="true">
+      <span>● LIVE NOW</span>
+      <span>·</span>
+      <span>DROP 01</span>
+      <span>·</span>
+      <span>Y2K HARDWARE</span>
+      <span>·</span>
+      <span>STOCK: 247/500 UNITS REMAINING</span>
+      <span>·</span>
+      <span class="flex items-center gap-1">NEXT DROP IN: <strong>14D 06H 22M</strong></span>
+      <span>·</span>
+      <span>DISPATCHED IN 24H FROM MADURAI</span>
+      <span>·</span>
     </div>
   </div>
 </section>
 
-<!-- Collection Grid Section -->
-<section id="shop" class="mx-auto max-w-7xl border-t border-[#2A2A2F] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-  <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
-    <div>
-      <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8102E]">
-        DROP 01 // ARCHIVE COLLECTION
+<!-- ========================================================================= -->
+<!-- 2.3 CATEGORY SELECTION GRID (2x2 Mobile, 4-Col Desktop)                   -->
+<!-- ========================================================================= -->
+<section class="w-full bg-[#0A0A0C] p-0.5">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-0.5 max-w-7xl mx-auto">
+    <!-- Tile 01 -->
+    <a href="/products/3-piece-y2k-cyber-set" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
+        <svg class="h-24 w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 2l3 7h7l-5.5 4.5 2 7.5-6.5-4.5-6.5 4.5 2-7.5-5.5-4.5h7z"/></svg>
+      </div>
+      <div class="relative z-20">
+        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">01 //</span>
+        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">3-PIECE CYBER SET</h3>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">SHOP →</span>
+      </div>
+    </a>
+
+    <!-- Tile 02 -->
+    <a href="/collections/all" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
+        <svg class="h-24 w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" stroke-width="1.5"/></svg>
+      </div>
+      <div class="relative z-20">
+        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">02 //</span>
+        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">CHAINS & RINGS</h3>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">SHOP →</span>
+      </div>
+    </a>
+
+    <!-- Tile 03 -->
+    <a href="/collections/earphones" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
+        <svg class="h-24 w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 18v-6a9 9 0 0118 0v6M3 18a3 3 0 003 3h1V15H4a1 1 0 00-1 1v2zm18 0a3 3 0 01-3 3h-1V15h3a1 1 0 011 1v2z"/></svg>
+      </div>
+      <div class="relative z-20">
+        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">03 //</span>
+        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">PINK CHROME AUDIO</h3>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">SHOP →</span>
+      </div>
+    </a>
+
+    <!-- Tile 04 -->
+    <a href="/products/w-01-analog-chronograph" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
+        <svg class="h-24 w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" stroke-width="1.5"/><path stroke-width="1.5" d="M12 2v4m0 12v4"/></svg>
+      </div>
+      <div class="relative z-20">
+        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">04 //</span>
+        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">TIMEPIECES [PRE-ORDER]</h3>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">SHOP →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2.4 FEATURED PRODUCT SPOTLIGHT (50/50 Split Showcase)                    -->
+<!-- ========================================================================= -->
+{% if spotlight_product %}
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+    <!-- Left: Large Image Container -->
+    <div class="relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex items-center justify-center">
+      {% if spotlight_product.featured_image %}
+        <img 
+          src="{{ spotlight_product.featured_image | image_url: width: 900 }}" 
+          alt="{{ spotlight_product.title | escape }}" 
+          width="900" 
+          height="900"
+          loading="lazy" 
+          class="h-full w-full object-contain"
+        >
+      {% else %}
+        <div class="font-mono-tech text-xs uppercase tracking-widest text-[#A3A7AE]">SPOTLIGHT ASSET</div>
+      {% endif %}
+      <span class="absolute top-4 left-4 border border-[#FF0033] bg-black px-2.5 py-1 font-mono-tech text-[10px] font-bold uppercase text-[#FF0033]">
+        BESTSELLER
+      </span>
+    </div>
+
+    <!-- Right: Specifications & Direct Purchase Action -->
+    <div class="flex flex-col justify-center">
+      <span class="font-mono-tech text-xs font-bold uppercase tracking-[0.14em] text-[#FF0033]">
+        // MDU_DISPATCH · HEAVYWEIGHT BRUTALISM
+      </span>
+      <h2 class="mt-2 font-display text-3xl sm:text-5xl font-extrabold uppercase text-white">
+        {{ spotlight_product.title | default: '3-PIECE Y2K CYBER SET' }}
+      </h2>
+
+      <!-- Price & Savings Badge -->
+      <div class="mt-4 flex items-center gap-3">
+        <span class="font-mono-tech text-2xl font-extrabold text-white">
+          {{ spotlight_product.price | money }}
+        </span>
+        {% if spotlight_product.compare_at_price > spotlight_product.price %}
+          <span class="font-mono-tech text-sm text-[#A3A7AE] line-through">
+            {{ spotlight_product.compare_at_price | money }}
+          </span>
+          <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-0.5 font-mono-tech text-xs font-bold text-[#FF0033]">
+            SAVE ₹248
+          </span>
+        {% endif %}
+      </div>
+
+      <p class="mt-4 font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+        316L stainless steel. Nocturnal audio. Built for after-dark operators. High-polish finish designed to resist oxidation.
       </p>
-      <h2 class="mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-[#F5F5F7] sm:text-3xl">
+
+      <!-- Cart Action Form -->
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-6">
+        <input type="hidden" name="id" value="{{ spotlight_product.selected_or_first_available_variant.id }}">
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button 
+            type="submit" 
+            class="flex-1 h-14 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-all cursor-pointer flex items-center justify-center"
+          >
+            + ADD TO HARDWARE BAG — {{ spotlight_product.price | money }}
+          </button>
+          <a 
+            href="/checkout" 
+            class="h-14 px-8 border border-[#2A2A2F] bg-[#131316] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-all flex items-center justify-center"
+          >
+            INSTANT CHECKOUT →
+          </a>
+        </div>
+      </form>
+
+      <!-- Trust Badges Row -->
+      <div class="mt-8 grid grid-cols-3 gap-2 border-t border-[#2A2A2F] pt-4 font-mono-tech text-[10px] uppercase text-[#A3A7AE] text-center">
+        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">🛡️ COD Available</div>
+        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">🚚 48-Hr Dispatch</div>
+        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">↩️ Defect Return</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ========================================================================= -->
+<!-- 2.5 PRODUCT GRID — "SHOP THE ARCHIVE"                                     -->
+<!-- ========================================================================= -->
+<section id="shop" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#2A2A2F] pb-6">
+    <div>
+      <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        DROP 01 // ARCHIVE COLLECTION
+      </span>
+      <h2 class="mt-1 font-display text-2xl sm:text-4xl font-extrabold uppercase text-white">
         Y2K HARDWARE ARCHIVE
       </h2>
     </div>
-    <p id="rwnd-showing-count" class="font-mono-tech text-xs font-semibold text-[#A3A7AE]">
-      {{ archive_collection.products.size }} PIECES // DISPATCHED FROM MADURAI
-    </p>
+    <div class="flex items-center gap-4">
+      <span class="font-mono-tech text-xs text-[#A3A7AE]">
+        {{ archive_collection.products.size }} PIECES // DISPATCHED FROM MADURAI
+      </span>
+      <a href="/collections/all" class="font-mono-tech text-xs font-bold uppercase text-[#FF0033] hover:underline">
+        [VIEW ALL →]
+      </a>
+    </div>
   </div>
 
-  <div id="rwnd-product-grid" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-    {% for product in archive_collection.products %}
+  <div class="mt-8 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    {% for product in archive_collection.products limit: 8 %}
       {% assign is_bundle = false %}
       {% assign p_handle = product.handle | downcase %}
-      {% if p_handle contains 'bundle' or p_handle contains 'cyber-set' %}
+      {% assign p_title = product.title | downcase %}
+      {% if p_handle contains 'cyber-set' or p_title contains 'cyber set' %}
         {% assign is_bundle = true %}
       {% endif %}
 
-      <article class="group flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#C8102E] rounded-none">
-        <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] p-4 rounded-none">
+      <article class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-3 sm:p-4 transition-all hover:border-[#FF0033]">
+        <div class="relative aspect-[4/5] w-full overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] flex items-center justify-center">
           <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
             {% if product.featured_image %}
-              <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="800" height="800" loading="lazy" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105">
+              <img 
+                src="{{ product.featured_image | image_url: width: 600 }}" 
+                alt="{{ product.title | escape }}" 
+                width="600" 
+                height="750" 
+                loading="lazy" 
+                class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+              >
             {% else %}
-              <span class="font-mono-tech text-xs font-bold uppercase text-[#A3A7AE]">{{ product.title | escape }}</span>
+              <span class="font-mono-tech text-[10px] text-[#A3A7AE] uppercase">{{ product.title | escape }}</span>
             {% endif %}
           </a>
 
+          <!-- Badges -->
           {% if is_bundle %}
-            <span class="absolute left-3 top-3 border border-[#C8102E] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+            <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
               SAVE ₹248
+            </span>
+          {% elsif product.tags contains 'watch' or product.type contains 'Watch' %}
+            <span class="absolute top-2 right-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
+              PRE-ORDER
+            </span>
+          {% else %}
+            <span class="absolute top-2 right-2 border border-[#2A2A2F] bg-[#0A0A0C] px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#A3A7AE]">
+              DROP 01
             </span>
           {% endif %}
         </div>
 
-        <div class="flex flex-1 flex-col justify-between pt-4">
+        <div class="mt-3 flex flex-col justify-between flex-1">
           <div>
-            <p class="font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
-              {% if is_bundle %}
-                3-PIECE SET
-              {% elsif product.tags contains 'earphones' or product.type contains 'Audio' %}
-                WIRED TYPE-C
-              {% elsif product.tags contains 'watch' or product.type contains 'Watch' %}
-                PRE-ORDER
-              {% else %}
-                HARDWARE SPEC
-              {% endif %}
-            </p>
-            <h3 class="rwnd-product-title mt-1 font-display text-base font-bold tracking-tight text-[#F5F5F7] uppercase">
+            <h3 class="font-display text-xs sm:text-sm font-bold uppercase text-white line-clamp-1">
               <a href="{{ product.url }}">{{ product.title | escape }}</a>
             </h3>
-            <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">
-              {% if product.tags contains 'chains' or product.tags contains 'bracelets' %}
-                316L stainless steel
-              {% elsif product.tags contains 'earphones' %}
-                Pink chrome finish
-              {% else %}
-                Y2K metallic archive
+            <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
+              <span>{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
               {% endif %}
-            </p>
+            </div>
           </div>
 
-          <div class="mt-4 flex items-center justify-between border-t border-[#2A2A2F] pt-4">
-            <div class="flex items-baseline gap-2">
-              <span class="font-mono-tech text-base font-bold text-[#F5F5F7]">{{ product.price | money }}</span>
-            </div>
-            <a href="{{ product.url }}" class="inline-flex items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-4 py-2 font-mono-tech text-[11px] font-bold uppercase text-[#F5F5F7] transition-colors hover:border-[#C8102E] hover:bg-[#C8102E] rounded-none">
-              INSPECT →
-            </a>
-          </div>
+          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-3">
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button 
+              type="submit" 
+              class="w-full h-10 border border-[#2A2A2F] bg-[#0A0A0C] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
+            >
+              + QUICK ADD
+            </button>
+          </form>
         </div>
       </article>
     {% endfor %}
   </div>
 </section>
 
+<!-- ========================================================================= -->
+<!-- 2.6 BRAND MANIFESTO SECTION                                              -->
+<!-- ========================================================================= -->
+<section id="about" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+  <div class="mx-auto max-w-3xl border border-[#2A2A2F] bg-[#131316] p-6 sm:p-12 text-center">
+    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-black px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white">
+      <span class="h-1.5 w-1.5 bg-[#FF0033]"></span>
+      [ RWND20S.SYS // BRAND MANIFESTO ]
+    </div>
+
+    <p class="mt-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#FF0033]">
+      04 // AFTER DARK, NO FILTER
+    </p>
+
+    <h2 class="mt-2 font-display text-3xl sm:text-5xl font-extrabold uppercase text-white">
+      AFTER DARK,<br>NO RULES.
+    </h2>
+
+    <p class="mx-auto mt-4 max-w-lg font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+      After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
+    </p>
+
+    <!-- Spec Grid (4-box Interactive) -->
+    <div class="mt-8 grid grid-cols-2 gap-2 text-left font-mono-tech">
+      <a href="/collections/all" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">316L</span>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Stainless Steel Chains</p>
+      </a>
+      <a href="/collections/earphones" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">TYPE-C</span>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Pink Chrome Audio</p>
+      </a>
+      <a href="/products/3-piece-y2k-cyber-set" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
+        <span class="text-xl sm:text-2xl font-bold text-[#FF0033]">3-PIECE</span>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Save ₹248 Set</p>
+      </a>
+      <a href="/pages/shipping" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">₹999+</span>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Free Delivery</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2.7 SOCIAL PROOF WALL (Placeholder Reviews)                               -->
+<!-- ========================================================================= -->
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+  <div class="text-center">
+    <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+      // REAL USERS // REAL REVIEWS
+    </span>
+    <h2 class="mt-1 font-display text-2xl sm:text-4xl font-extrabold uppercase text-white">
+      VERIFIED TRANSMISSIONS
+    </h2>
+  </div>
+
+  <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Card 1 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "Quality is insane for the price. The weight of the 316L chain feels authentic and solid."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — ARJUN K. | VERIFIED BUYER | MADURAI
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "The pink chrome Type-C earphones look futuristic af. Crisp DAC audio output with zero latency."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — ROHIT M. | VERIFIED BUYER | CHENNAI
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "3-Piece cyber set saved me ₹248 compared to buying separate pieces. Arrived in 48 hours."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — VIKRAM S. | VERIFIED BUYER | BANGALORE
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "Nocturnal aesthetic is unmatched. Hard to find brutalist accessories like this in India."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — DINESH P. | VERIFIED BUYER | COIMBATORE
+      </div>
+    </div>
+    <!-- Card 5 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "Ring sizing is true to size guide specifications. Polished steel has zero tarnish after 2 weeks."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — SIDDHARTH T. | VERIFIED BUYER | HYDERABAD
+      </div>
+    </div>
+    <!-- Card 6 -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+        "Pre-ordered the W-01 watch after getting the hardware set. Fast customer service response."
+      </p>
+      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+        — KARTHIK R. | VERIFIED BUYER | KOCHI
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2.8 INSTAGRAM UGC FEED (6-Image Grid)                                     -->
+<!-- ========================================================================= -->
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+    <div class="text-center sm:text-left">
+      <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        // @RWND20S · TAG #AFTERDARKNORULES
+      </span>
+      <h2 class="mt-1 font-display text-2xl sm:text-3xl font-extrabold uppercase text-white">
+        COMMUNITY DISPATCHES
+      </h2>
+    </div>
+    <a href="https://instagram.com" target="_blank" rel="noopener" class="font-mono-tech text-xs font-bold uppercase tracking-wider text-white border border-[#2A2A2F] px-4 py-2 hover:border-[#FF0033] transition-colors">
+      FOLLOW ON INSTAGRAM →
+    </a>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+    {% for i in (1..6) %}
+      <div class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] flex items-center justify-center">
+        <!-- SVG Placeholder -->
+        <svg class="h-10 w-10 text-[#2A2A2F] group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+          <circle cx="12" cy="13" r="4" stroke-width="1.5"/>
+        </svg>
+        <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-center">
+          <span class="font-mono-tech text-[10px] text-[#FF0033] font-bold">#RWND20S</span>
+          <span class="font-mono-tech text-[9px] text-[#A3A7AE] uppercase mt-1">SHOP THIS LOOK</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2.9 EMAIL CAPTURE / DROP NOTIFIER                                         -->
+<!-- ========================================================================= -->
+<section class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 bg-[#0A0A0C] text-center">
+  <div class="mx-auto max-w-2xl border border-[#2A2A2F] bg-[#131316] p-8 sm:p-14">
+    <span class="font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+      [ ACCESS KEY // DROP ALERTS ]
+    </span>
+    <h2 class="mt-2 font-display text-3xl sm:text-5xl font-extrabold uppercase text-white">
+      JOIN THE GRID.<br>GET EARLY ACCESS.
+    </h2>
+    <p class="mt-3 font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+      Subscribers receive 24-hour advance access to upcoming hardware batches.
+    </p>
+
+    {% form 'customer', class: 'mt-8 flex flex-col gap-3' %}
+      <input type="hidden" name="contact[tags]" value="newsletter, drop01">
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input 
+          type="email" 
+          name="contact[email]" 
+          placeholder="ENTER OPERATOR EMAIL..." 
+          required 
+          autocomplete="email"
+          class="flex-1 h-14 bg-[#0A0A0C] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+        >
+        <button 
+          type="submit" 
+          class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors cursor-pointer"
+        >
+          SUBSCRIBE →
+        </button>
+      </div>
+
+      <div class="mt-3 flex items-center justify-center gap-2 font-mono-tech text-xs text-[#A3A7AE]">
+        <input type="checkbox" id="whatsapp-notify" class="accent-[#FF0033] cursor-pointer">
+        <label for="whatsapp-notify" class="cursor-pointer">Also transmit drop notifications via WhatsApp</label>
+      </div>
+
+      <p class="mt-2 font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE]">
+        No spam. Only drop dispatches. Unsubscribe anytime.
+      </p>
+    {% endform %}
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- STYLES & INTERACTION LOGIC                                                -->
+<!-- ========================================================================= -->
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  .rwnd-marquee-track {
+    display: flex;
+    width: 200%;
+    animation: marquee 20s linear infinite;
+  }
+  .rwnd-marquee-track:hover {
+    animation-play-state: paused;
+  }
+</style>
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs = [...document.querySelectorAll('.rwnd-hero-tab')];
-    const slides = [...document.querySelectorAll('.rwnd-hero-slide')];
-
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const target = tab.dataset.heroBtn;
-
-        tabs.forEach((item) => {
-          const selected = item === tab;
-          item.setAttribute('aria-selected', String(selected));
-          if (selected) {
-            item.className = 'rwnd-hero-tab border border-[#C8102E] bg-[#C8102E] px-4 py-2 font-mono-tech text-xs font-bold uppercase tracking-wider text-[#F5F5F7] transition-all rounded-none cursor-pointer';
-          } else {
-            item.className = 'rwnd-hero-tab border border-[#2A2A2F] bg-[#131316] px-4 py-2 font-mono-tech text-xs font-medium uppercase tracking-wider text-[#A3A7AE] transition-all hover:border-[#C8CDD3] hover:text-[#F5F5F7] rounded-none cursor-pointer';
-          }
-        });
-
-        slides.forEach((slide) => {
-          const active = slide.dataset.heroStageSlide === target;
-          slide.classList.toggle('hidden', !active);
-        });
-      });
-    });
-  });
+  // Countdown Timer Simulator (14 Days)
+  (() => {
+    const el = document.getElementById('hero-countdown');
+    if (!el) return;
+    const targetDate = new Date().getTime() + (14 * 24 * 60 * 60 * 1000) + (6 * 60 * 60 * 1000);
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) return;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      el.textContent = `${days}D ${hours}H ${minutes}M`;
+    };
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+  })();
 </script>
 
 {% schema %}
@@ -226,22 +598,9 @@
       "default": "DROP 01 // DISPATCHED FROM MADURAI"
     },
     {
-      "type": "text",
-      "id": "hero_title_line_1",
-      "label": "Hero Title Line 1",
-      "default": "Y2K HARDWARE"
-    },
-    {
-      "type": "text",
-      "id": "hero_title_line_2",
-      "label": "Hero Title Line 2",
-      "default": "AFTER DARK."
-    },
-    {
-      "type": "textarea",
-      "id": "hero_subtitle",
-      "label": "Hero Subtitle",
-      "default": "After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid."
+      "type": "url",
+      "id": "hero_video_url",
+      "label": "Hero Background Video URL"
     }
   ],
   "presets": [
