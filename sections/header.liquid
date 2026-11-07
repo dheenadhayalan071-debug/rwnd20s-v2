@@ -134,13 +134,19 @@
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
 
-        <!-- Cart Trigger -->
-        <a href="/cart" class="relative flex items-center text-[#F5F5F7] hover:text-[#FF0033] transition-colors">
+        <!-- Cart Trigger (Drawer or /cart fallback) -->
+        <button 
+          type="button" 
+          id="open-bag-button"
+          onclick="handleBagTrigger(event)" 
+          class="relative flex items-center text-[#F5F5F7] hover:text-[#FF0033] transition-colors cursor-pointer" 
+          aria-label="Open Hardware Bag"
+        >
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span data-cart-count class="absolute -top-2 -right-2 flex h-4 min-w-[16px] items-center justify-center bg-[#FF0033] px-1 text-[9px] font-bold text-white">
             {{ cart.item_count }}
           </span>
-        </a>
+        </button>
 
         <!-- Desktop Account -->
         <a href="/account" class="hidden lg:flex items-center text-[#F5F5F7] hover:text-[#FF0033] transition-colors" aria-label="Account">
@@ -246,6 +252,19 @@
 </header-system>
 
 <script>
+  function handleBagTrigger(e) {
+    if (window.location.pathname === '/cart') {
+      window.location.reload();
+      return;
+    }
+    if (typeof window.openCartDrawer === 'function') {
+      e.preventDefault();
+      window.openCartDrawer();
+    } else {
+      window.location.href = '/cart';
+    }
+  }
+
   // Top Announcement Bar Rotation & Dismissal Cookie (7 Days)
   (() => {
     const bar = document.getElementById('rwnd-announcement-bar');
