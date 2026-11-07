@@ -48,9 +48,9 @@
         --chrome: #C8CDD3;
         --bone: #F5F5F7;
         --muted: #A3A7AE;
-        --blood: #C8102E;
+        --blood: #FF0033;
         --blood-hover: #E0213F;
-        --moon: rgba(200, 16, 46, 0.25);
+        --moon: rgba(255, 0, 51, 0.25);
         --magenta: #D946EF;
 
         --glass-bg: rgba(19, 19, 22, 0.68);
@@ -119,12 +119,12 @@
     </style>
   </head>
 
-  <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#C8102E] selection:text-[#F5F5F7]">
+  <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#FF0033] selection:text-[#F5F5F7]">
     <!-- Gateway Splash (3-second auto-dismiss with Skip) -->
     <div id="rwnd-gateway" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center bg-[#0A0A0C]/98 p-6 text-center backdrop-blur-xl" aria-label="RWND20s intro">
       <div class="relative z-10 mx-auto flex max-w-md flex-col items-center space-y-6">
-        <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
-          <span class="h-1.5 w-1.5 animate-pulse bg-[#C8102E]"></span>
+        <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3]">
+          <span class="h-1.5 w-1.5 animate-pulse bg-[#FF0033]"></span>
           DROP 01 // DISPATCHED FROM MADURAI
         </div>
 
@@ -137,7 +137,7 @@
         </p>
 
         <div class="flex w-full flex-col gap-3 pt-2">
-          <button type="button" id="gateway-enter" class="flex h-14 w-full items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] cursor-pointer">
+          <button type="button" id="gateway-enter" class="flex h-14 w-full items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] cursor-pointer">
             ENTER THE ARCHIVE →
           </button>
           <button type="button" id="gateway-skip" class="text-xs uppercase tracking-wider text-[#A3A7AE] hover:text-[#F5F5F7] cursor-pointer py-1">
@@ -150,8 +150,8 @@
     {% section 'header' %}
 
     <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-6">
-      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#131316] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] transition-all hover:border-[#C8102E]">
-        <span class="text-[#C8102E]">←</span>
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#131316] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F5F5F7] transition-all hover:border-[#FF0033]">
+        <span class="text-[#FF0033]">←</span>
         <span>RETURN TO BASE</span>
       </button>
     </div>
@@ -166,6 +166,7 @@
 
     <div id="rwnd-toast-container" aria-live="polite" class="pointer-events-none fixed bottom-4 right-4 z-[130] flex w-full max-w-sm flex-col gap-2.5"></div>
 
+    {% render 'cart-drawer' %}
     {% render 'welcome-popup' %}
 
     <script>
@@ -206,7 +207,7 @@
         }
       })();
 
-      // Global AJAX Cart Sync
+      // Global AJAX Cart Sync & Drawer Hook
       (() => {
         const refreshCartBadges = async () => {
           try {
@@ -216,6 +217,8 @@
             document.querySelectorAll('[data-cart-count]').forEach((badge) => {
               badge.textContent = String(cart.item_count || 0);
             });
+            const drawerCount = document.getElementById('drawer-cart-count');
+            if (drawerCount) drawerCount.textContent = String(cart.item_count || 0);
           } catch (err) {
             console.error('Badge refresh error:', err);
           }
@@ -244,10 +247,19 @@
             await res.json();
             button.innerHTML = '<span class="font-bold tracking-widest text-[#F5F5F7]">✦ SECURED IN BAG</span>';
             await refreshCartBadges();
-            if (typeof window.fetchMainCartData === 'function') window.fetchMainCartData();
+            
+            // Sync full page cart if open
+            if (typeof window.fetchMainCartData === 'function') {
+              window.fetchMainCartData();
+            }
+
+            // Open slide-in drawer on cart addition unless on full /cart page
+            if (window.location.pathname !== '/cart' && typeof window.openCartDrawer === 'function') {
+              window.openCartDrawer();
+            }
           } catch (err) {
             console.error('Add failed:', err);
-            button.innerHTML = '<span class="font-bold tracking-widest text-[#C8102E]">ERROR OCCURRED</span>';
+            button.innerHTML = '<span class="font-bold tracking-widest text-[#FF0033]">ERROR OCCURRED</span>';
           } finally {
             window.setTimeout(() => {
               button.innerHTML = origContent;
