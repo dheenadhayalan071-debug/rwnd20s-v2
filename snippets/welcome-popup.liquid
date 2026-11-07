@@ -1,138 +1,88 @@
 <!-- snippets/welcome-popup.liquid -->
-<div
-  id="rwnd-welcome-modal"
-  class="fixed inset-0 z-[210] hidden items-center justify-center bg-[#0A0A0C]/90 p-4 backdrop-blur-md transition-opacity duration-300 opacity-0 font-mono-tech"
+<div 
+  id="rwnd-welcome-modal" 
+  class="fixed inset-0 z-[190] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl transition-opacity duration-300 opacity-0 pointer-events-none"
+  aria-modal="true" 
   role="dialog"
-  aria-modal="true"
-  aria-labelledby="welcome-title"
 >
-  <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#131316] p-6 text-[#F5F5F7] shadow-2xl rounded-none sm:p-8">
-    
-    <!-- Close Button (Strict 0px) -->
-    <button
-      type="button"
-      onclick="closeWelcomeModal()"
-      data-close-welcome
+  <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#0A0A0A] p-6 sm:p-8 text-center font-mono-tech shadow-2xl">
+    <!-- Close Button -->
+    <button 
+      type="button" 
+      id="close-welcome-modal" 
+      class="absolute top-4 right-4 text-xs font-bold text-[#A3A7AE] hover:text-[#FF0033] cursor-pointer"
       aria-label="Close"
-      class="absolute top-4 right-4 flex h-8 w-8 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] text-xs font-bold text-[#F5F5F7] hover:border-[#C8102E] hover:text-[#C8102E] transition-colors rounded-none cursor-pointer"
     >
       ✕
     </button>
 
-    <div class="space-y-4 text-center">
-      <span class="inline-block border border-[#C8102E]/60 bg-[#0A0A0C] px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3] rounded-none">
-        RWND20S.SYS // DROP 01
-      </span>
-
-      <h2 id="welcome-title" class="font-display text-2xl font-extrabold uppercase tracking-tight text-[#F5F5F7]">
-        OLD VIBE. NEW YOU.
-      </h2>
-
-      <p class="font-mono-tech text-xs leading-relaxed text-[#A3A7AE]">
-        Sign up for exclusive Drop 01 archive dispatches, hardware restocks, and nocturnal peripheral releases.
-      </p>
-
-      <!-- Customer Newsletter Form -->
-      <form
-        method="post"
-        action="/contact#contact_form"
-        id="rwnd-newsletter-form"
-        class="space-y-3 pt-2"
-        onsubmit="handleEmailSubmission(event)"
-      >
-        <input type="hidden" name="form_type" value="customer">
-        <input type="hidden" name="contact[tags]" value="newsletter, archive-subscriber">
-        
-        <div class="relative">
-          <label for="welcome-email" class="sr-only">Email address</label>
-          <input 
-            id="welcome-email"
-            type="email" 
-            name="contact[email]" 
-            required 
-            autocomplete="email"
-            placeholder="ENTER YOUR EMAIL..." 
-            class="h-12 w-full border border-[#2A2A2F] bg-[#0A0A0C] px-4 font-mono-tech text-xs uppercase text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#C8102E] focus:outline-none rounded-none"
-          >
-        </div>
-
-        <button
-          type="submit"
-          class="flex h-14 w-full items-center justify-center border border-[#C8102E] bg-[#C8102E] font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none cursor-pointer"
-        >
-          [ ACCESS ARCHIVE DISPATCH ]
-        </button>
-      </form>
-
-      <p class="font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE]">
-        DISPATCHED FROM MADURAI · NO SPAM
-      </p>
+    <!-- Top Badge -->
+    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-[#F5F5F7]">
+      <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
+      DROP 01 // DISPATCHED FROM MADURAI
     </div>
 
+    <!-- Title -->
+    <h2 class="mt-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-none">
+      OLD VIBE.<br>NEW YOU.
+    </h2>
+
+    <!-- Subtitle -->
+    <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+      Sign up for exclusive Drop 01 archive dispatches, restocks, and a 10% code on your first hardware order.
+    </p>
+
+    <!-- Email Capture Form -->
+    {% form 'customer', class: 'mt-6 flex flex-col gap-3 text-left' %}
+      <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off">
+      <input 
+        type="email" 
+        name="contact[email]" 
+        placeholder="ENTER YOUR EMAIL..." 
+        required 
+        class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+      >
+      <button 
+        type="submit" 
+        class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
+      >
+        ACCESS ARCHIVE DISPATCH →
+      </button>
+    {% endform %}
+
+    <!-- Footer Micro-copy -->
+    <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
+      DISPATCHED FROM MADURAI · NO SPAM
+    </p>
   </div>
 </div>
 
 <script>
   (() => {
-    let isModalOpen = false;
-
-    window.showRwndWelcomeModal = function() {
-      let isClosed = false;
-      try {
-        isClosed = sessionStorage.getItem('rwnd_welcome_closed') === 'true';
-      } catch (e) {}
-
-      if (isClosed || isModalOpen) return;
-
-      const modal = document.getElementById('rwnd-welcome-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        window.requestAnimationFrame(() => {
-          modal.classList.remove('opacity-0');
-        });
-        isModalOpen = true;
-      }
-    };
-
-    window.closeWelcomeModal = function() {
-      const modal = document.getElementById('rwnd-welcome-modal');
-      if (modal) {
-        modal.classList.add('opacity-0');
-        window.setTimeout(() => {
-          modal.classList.remove('flex');
-          modal.classList.add('hidden');
-          isModalOpen = false;
-          try {
-            sessionStorage.setItem('rwnd_welcome_closed', 'true');
-          } catch (e) {}
-        }, 250);
-      }
-    };
-
-    window.handleEmailSubmission = function(e) {
-      try {
-        sessionStorage.setItem('rwnd_welcome_closed', 'true');
-      } catch (err) {}
-      if (typeof window.showRwndToast === 'function') {
-        window.showRwndToast('TRANSMISSION RECEIVED', 'Archive access confirmed.');
-      }
-    };
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const modal = document.getElementById('rwnd-welcome-modal');
-        if (modal && !modal.classList.contains('hidden')) {
-          window.closeWelcomeModal();
-        }
-      }
-    });
-
     const modal = document.getElementById('rwnd-welcome-modal');
+    const closeBtn = document.getElementById('close-welcome-modal');
+
+    // Only display if user hasn't acted in 7 days
+    const hasSeen = localStorage.getItem('rwnd_welcome_claimed');
+    if (!hasSeen) {
+      // Show after 1.5 seconds of browsing and stay open until action
+      setTimeout(() => {
+        if (!modal) return;
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = 'hidden';
+      }, 1500);
+    }
+
+    const dismissModal = () => {
+      if (!modal) return;
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+      localStorage.setItem('rwnd_welcome_claimed', 'true');
+    };
+
+    closeBtn?.addEventListener('click', dismissModal);
     modal?.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        window.closeWelcomeModal();
-      }
+      if (e.target === modal) dismissModal();
     });
   })();
 </script>
