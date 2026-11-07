@@ -138,29 +138,7 @@
     {% render 'size-guide-modal' %}
 
     <script>
-      // Gateway Dismissal & Welcome Popup Trigger Hook
-      (() => {
-        const gate = document.getElementById('rwnd-gateway');
-        let seen = false;
-        try {
-          seen = sessionStorage.getItem('rwnd_gateway_seen') === 'true';
-        } catch (e) {}
-
-        const dismiss = () => {
-          if (!gate || gate.dataset.dismissed === 'true') return;
-          gate.dataset.dismissed = 'true';
-          gate.classList.add('is-leaving');
-          try {
-            sessionStorage.setItem('rwnd_gateway_seen', 'true');
-          } catch (e) {}
-          window.setTimeout(() => {
-            gate.remove();
-            if (typeof window.showRwndWelcomeModal === 'function') {
-              window.showRwndWelcomeModal();
-            }
-          }, 300);
-        };
-
+    
         if (seen) {
           gate?.remove();
         } else {
