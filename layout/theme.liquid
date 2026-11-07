@@ -120,42 +120,6 @@
     ></div>
     <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/80 via-transparent to-[#000000]/95"></div>
 
-    <!-- Gateway Splash (3-second auto-dismiss with Skip) -->
-    <div id="rwnd-gateway" class="fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col items-center justify-center bg-[#000000]/98 p-6 text-center backdrop-blur-xl" aria-label="RWND20s intro">
-      <div class="relative z-10 mx-auto flex max-w-md flex-col items-center space-y-6">
-        <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#0A0A0A] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-[#F5F5F7]">
-          <span class="h-1.5 w-1.5 animate-pulse bg-[#FF0033]"></span>
-          DROP 01 // DISPATCHED FROM MADURAI
-        </div>
-
-        <h1 class="font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-6xl">
-          Old vibe.<br>New you.
-        </h1>
-
-        <p class="max-w-xs text-xs text-[#A3A7AE] sm:text-sm">
-          Y2K hardware, 316L chains, and Type-C nocturnal audio.
-        </p>
-
-        <div class="flex w-full flex-col gap-3 pt-2">
-          <button type="button" id="gateway-enter" class="flex h-14 w-full items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 text-xs font-bold uppercase tracking-widest text-white transition-all hover:bg-[#CC0029] cursor-pointer">
-            ENTER THE ARCHIVE →
-          </button>
-          <button type="button" id="gateway-skip" class="text-xs uppercase tracking-wider text-[#A3A7AE] hover:text-white cursor-pointer py-1">
-            Skip intro
-          </button>
-        </div>
-      </div>
-    </div>
-
-    {% section 'header' %}
-
-    <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-6">
-      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#0A0A0A] px-4 py-2 text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-[#FF0033]">
-        <span class="text-[#FF0033]">←</span>
-        <span>RETURN TO BASE</span>
-      </button>
-    </div>
-
     <!-- Main Content Container: Clean Immediate Rendering -->
     <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full min-h-[70vh]">
       {{ content_for_layout }}
