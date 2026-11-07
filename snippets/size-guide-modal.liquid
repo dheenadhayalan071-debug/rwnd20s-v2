@@ -1,0 +1,90 @@
+<!-- snippets/size-guide-modal.liquid -->
+<div id="rwnd-size-modal-overlay" class="fixed inset-0 z-[180] bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+  <div id="rwnd-size-modal" class="w-full max-w-2xl bg-[#0A0A0C] border border-[#2A2A2F] p-6 sm:p-8 font-mono-tech text-[#F5F5F7] max-h-[90vh] overflow-y-auto">
+    
+    <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-4">
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// SPECIFICATION MATRIX</span>
+        <h2 class="font-display text-xl sm:text-2xl font-extrabold uppercase text-white">HARDWARE SIZING GUIDE</h2>
+      </div>
+      <button type="button" onclick="closeSizeGuideModal()" class="h-8 w-8 flex items-center justify-center text-[#A3A7AE] hover:text-white text-lg cursor-pointer">✕</button>
+    </div>
+
+    <!-- Sizing Matrix Table -->
+    <div class="mt-6 space-y-6 text-xs">
+      <div>
+        <h3 class="text-[#FF0033] font-bold uppercase tracking-wider mb-2">1. 316L INDUSTRIAL RINGS</h3>
+        <table class="w-full text-left border border-[#2A2A2F]">
+          <thead class="bg-[#131316] text-[#A3A7AE] border-b border-[#2A2A2F]">
+            <tr>
+              <th class="p-2.5">SIZE</th>
+              <th class="p-2.5">INNER DIAMETER</th>
+              <th class="p-2.5">CIRCUMFERENCE</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#2A2A2F]">
+            <tr><td class="p-2.5 font-bold text-white">S (US 7)</td><td class="p-2.5">17.3 mm</td><td class="p-2.5">54.4 mm</td></tr>
+            <tr><td class="p-2.5 font-bold text-white">M (US 8)</td><td class="p-2.5">18.1 mm</td><td class="p-2.5">57.0 mm</td></tr>
+            <tr><td class="p-2.5 font-bold text-white">L (US 9)</td><td class="p-2.5">18.9 mm</td><td class="p-2.5">59.5 mm</td></tr>
+            <tr><td class="p-2.5 font-bold text-white">XL (US 10)</td><td class="p-2.5">19.8 mm</td><td class="p-2.5">62.1 mm</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3 class="text-[#FF0033] font-bold uppercase tracking-wider mb-2">2. CUBAN & ROPE CHAINS</h3>
+        <div class="border border-[#2A2A2F] bg-[#131316] p-3 space-y-1 text-[#A3A7AE]">
+          <p><strong class="text-white">50 CM (20 INCHES):</strong> Standard collarbone resting position. Fits well inside or outside open-collar tees.</p>
+          <p><strong class="text-white">60 CM (24 INCHES):</strong> Mid-chest drape. Ideal for layering over hoodies and heavyweight brutalist layers.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-[#FF0033] font-bold uppercase tracking-wider mb-2">3. HARDWARE BRACELETS</h3>
+        <div class="border border-[#2A2A2F] bg-[#131316] p-3 text-[#A3A7AE]">
+          <p><strong class="text-white">20 CM (7.8 INCHES):</strong> Standard ergonomic fit. Includes modular clasps for custom sizing adjustments.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Still Unsure WhatsApp Block -->
+    <div class="mt-8 border-t border-[#2A2A2F] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#131316] p-4">
+      <div>
+        <p class="text-xs font-bold text-white uppercase">UNSURE ABOUT YOUR MEASUREMENT?</p>
+        <p class="text-[10px] text-[#A3A7AE]">Transmit wrist or finger dimensions directly to our dispatch operator.</p>
+      </div>
+      <a 
+        href="https://wa.me/918921946228?text=Hey!%20Need%20help%20confirming%20my%20size%20for%20RWND20S%20pieces." 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="h-10 px-5 bg-[#25D366] text-white font-mono-tech text-[11px] font-bold uppercase tracking-wider flex items-center justify-center shrink-0 hover:opacity-90"
+      >
+        WHATSAPP SIZING DESK →
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function openSizeGuideModal(e) {
+    if (e) e.preventDefault();
+    const overlay = document.getElementById('rwnd-size-modal-overlay');
+    if (overlay) {
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeSizeGuideModal() {
+    const overlay = document.getElementById('rwnd-size-modal-overlay');
+    if (overlay) {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.getElementById('rwnd-size-modal-overlay')?.addEventListener('click', (e) => {
+    if (e.target.id === 'rwnd-size-modal-overlay') closeSizeGuideModal();
+  });
+</script>
