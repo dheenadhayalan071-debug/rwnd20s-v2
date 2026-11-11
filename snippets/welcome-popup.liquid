@@ -29,26 +29,46 @@
 
     <!-- Subtitle -->
     <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
-      Sign up for exclusive Drop 01 archive dispatches, restocks, and a 10% code on your first hardware order.
+      Sign up for exclusive Drop 01 archive dispatches, restocks, and claim 10% off your first hardware order.
     </p>
 
-    <!-- Email Capture Form -->
-    {% form 'customer', class: 'mt-6 flex flex-col gap-3 text-left' %}
-      <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off">
-      <input 
-        type="email" 
-        name="contact[email]" 
-        placeholder="ENTER YOUR EMAIL..." 
-        required 
-        class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
-      >
-      <button 
-        type="submit" 
-        class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
-      >
-        ACCESS ARCHIVE DISPATCH →
-      </button>
-    {% endform %}
+    <!-- Form Container -->
+    <div id="welcome-form-container" class="mt-6">
+      <form id="rwnd-welcome-form" class="flex flex-col gap-3 text-left">
+        <input 
+          type="email" 
+          id="rwnd-welcome-email"
+          name="email" 
+          placeholder="ENTER YOUR EMAIL..." 
+          required 
+          autocomplete="email"
+          class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+        >
+        <button 
+          type="submit" 
+          id="rwnd-welcome-submit"
+          class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
+        >
+          CLAIM 10% CODE →
+        </button>
+      </form>
+
+      <!-- In-Modal Voucher State (Replaces Form on Submission) -->
+      <div id="welcome-success-state" class="hidden border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-white block">DISPATCH ACCESS GRANTED</span>
+        <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
+          RWND10
+        </div>
+        <p class="text-[10px] text-[#A3A7AE]">10% off applied. Code saved to your clipboard.</p>
+        <button 
+          type="button" 
+          id="welcome-shop-now"
+          class="mt-2 block w-full text-center font-mono-tech text-xs font-bold uppercase tracking-wider text-white underline cursor-pointer"
+        >
+          [ ENTER THE ARCHIVE ]
+        </button>
+      </div>
+    </div>
 
     <!-- Footer Micro-copy -->
     <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
@@ -61,12 +81,17 @@
   (() => {
     const modal = document.getElementById('rwnd-welcome-modal');
     const closeBtn = document.getElementById('close-welcome-modal');
+    const form = document.getElementById('rwnd-welcome-form');
+    const emailInput = document.getElementById('rwnd-welcome-email');
+    const submitBtn = document.getElementById('rwnd-welcome-submit');
+    const successState = document.getElementById('welcome-success-state');
+    const shopNowBtn = document.getElementById('welcome-shop-now');
 
-    // Only display if user hasn't acted in 7 days
-    const hasSeen = localStorage.getItem('rwnd_welcome_claimed');
-    if (!hasSeen) {
-      // Show after 1.5 seconds of browsing and stay open until action
-      setTimeout(() => {
+    const STORAGE_KEY = 'rwnd_welcome_claimed';
+
+    // Show after 1.5 seconds if user has not already acted
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      window.setTimeout(() => {
         if (!modal) return;
         modal.classList.remove('opacity-0', 'pointer-events-none');
         document.body.style.overflow = 'hidden';
@@ -77,12 +102,62 @@
       if (!modal) return;
       modal.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = '';
-      localStorage.setItem('rwnd_welcome_claimed', 'true');
+      localStorage.setItem(STORAGE_KEY, 'true');
     };
 
     closeBtn?.addEventListener('click', dismissModal);
+    shopNowBtn?.addEventListener('click', dismissModal);
+
     modal?.addEventListener('click', (e) => {
       if (e.target === modal) dismissModal();
+    });
+
+    // Intercept submit via AJAX: eliminates full-page reload & bottom anchor jumping
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const email = emailInput?.value?.trim();
+      if (!email) return;
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SECURING CODE...';
+      }
+
+      // Mark modal dismissed immediately so it never reopens
+      localStorage.setItem(STORAGE_KEY, 'true');
+
+      // Attempt clipboard copy of discount code
+      try {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('RWND10');
+        }
+      } catch (err) {}
+
+      // Background dispatch to Shopify customer newsletter endpoint
+      try {
+        const payload = new URLSearchParams();
+        payload.append('form_type', 'customer');
+        payload.append('utf8', '✓');
+        payload.append('contact[tags]', 'newsletter, welcome_10off');
+        payload.append('contact[email]', email);
+
+        await fetch('/contact#contact_form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+          },
+          body: payload.toString()
+        });
+      } catch (err) {
+        // Suppress network or cross-navigation exceptions
+      }
+
+      // Show in-modal voucher code without shifting or jumping the scroll position
+      form.classList.add('hidden');
+      if (successState) successState.classList.remove('hidden');
     });
   })();
 </script>
