@@ -1,60 +1,59 @@
 <!-- sections/footer.liquid -->
-<footer class="relative z-20 w-full border-t border-[#FF0033] bg-[#000000] text-[#F5F5F7] font-mono-tech">
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+<footer class="w-full border-t border-[#2A2A2F] bg-[#0A0A0A] px-4 py-10 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-16 lg:px-8">
+  <div class="mx-auto max-w-7xl">
     
-    <!-- Top Brand & Logistics Banner -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 sm:p-8 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <!-- Top Notice Box -->
+    <div class="border-l-2 border-[#FF0033] bg-[#131316] p-4 text-xs mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
       <div>
-        <span class="font-display text-2xl sm:text-3xl font-extrabold tracking-tighter text-[#F5F5F7]">rwnd20s.</span>
-        <p class="mt-1 text-xs text-[#A3A7AE]">Old vibe. New you.</p>
-        <p class="mt-0.5 text-xs font-bold text-[#FF0033] uppercase tracking-wider">Dispatched from Madurai</p>
+        <p class="font-bold text-white uppercase">⚠ NOTICE: FREE DELIVERY ON ORDERS ₹999+ · DELIVERED IN 48 HOURS IN SOUTH INDIA</p>
+        <p class="text-[11px] text-[#A3A7AE] mt-0.5">Dispatched directly from our Madurai logistics facility.</p>
       </div>
-
-      <div class="border-l-2 border-[#FF0033] bg-[#0A0A0C] px-4 py-3 text-xs uppercase tracking-wider text-[#C8CDD3]">
-        <span class="text-[#FF0033] font-bold">⚠ NOTICE:</span> FREE DELIVERY ON ₹999+ · DELIVERED IN 48 HOURS IN SOUTH INDIA
-      </div>
+      <a href="/collections/all" class="text-[10px] font-bold text-[#FF0033] uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
     </div>
 
-          <!-- Column 1: Drop 01 -->
+    <!-- Restored 2-Column Mobile / 4-Column Desktop Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-[#2A2A2F] text-xs">
+      
+      <!-- Column 1: Drop 01 (Tag-Filtered Collection Links) -->
       <div>
-        <h3 class="mb-4 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
           DROP 01
         </h3>
-        <ul class="space-y-2.5 text-xs text-[#A3A7AE]">
+        <ul class="space-y-2 text-[#A3A7AE]">
           <li><a href="/collections/all" class="hover:text-white transition-colors">Shop All Pieces</a></li>
-          <li><a href="/collections/all?filter=cyber-set" class="hover:text-white transition-colors">3-Piece Set</a></li>
-          <li><a href="/collections/all?filter=rings" class="hover:text-white transition-colors">Rings</a></li>
-          <li><a href="/collections/all?filter=chains" class="hover:text-white transition-colors">Chains</a></li>
-          <li><a href="/collections/all?filter=bracelets" class="hover:text-white transition-colors">Bracelets</a></li>
-          <li><a href="/collections/all?filter=audio" class="hover:text-white transition-colors">Pink Audio</a></li>
-          <li><a href="/collections/all?filter=watch" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
+          <li><a href="/collections/all/bundle" class="hover:text-white transition-colors">3-Piece Set</a></li>
+          <li><a href="/collections/all/rings" class="hover:text-white transition-colors">Rings</a></li>
+          <li><a href="/collections/all/chains" class="hover:text-white transition-colors">Chains</a></li>
+          <li><a href="/collections/all/bracelets" class="hover:text-white transition-colors">Bracelets</a></li>
+          <li><a href="/collections/all/earphones" class="hover:text-white transition-colors">Pink Audio</a></li>
+          <li><a href="/collections/all/watch" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
         </ul>
       </div>
 
       <!-- Column 2: Policies -->
       <div>
-        <h3 class="mb-4 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
           POLICIES
         </h3>
-        <ul class="space-y-2.5 text-xs text-[#A3A7AE]">
+        <ul class="space-y-2 text-[#A3A7AE]">
           <li><a href="/pages/shipping" class="hover:text-white transition-colors">Shipping</a></li>
-          <li><a href="/pages/returns-and-refunds" class="hover:text-white transition-colors">Returns</a></li>
+          <li><a href="/pages/returns" class="hover:text-white transition-colors">Returns</a></li>
           <li><a href="/pages/cancellation" class="hover:text-white transition-colors">Cancellation</a></li>
-          <li><a href="/pages/pre-order-policy" class="hover:text-white transition-colors">Pre-Order</a></li>
+          <li><a href="/pages/pre-order" class="hover:text-white transition-colors">Pre-Order</a></li>
           <li><a href="/pages/privacy-policy" class="hover:text-white transition-colors">Privacy</a></li>
-          <li><a href="/pages/terms-of-service" class="hover:text-white transition-colors">Terms</a></li>
+          <li><a href="/pages/terms" class="hover:text-white transition-colors">Terms</a></li>
         </ul>
       </div>
 
       <!-- Column 3: Support -->
       <div>
-        <h3 class="mb-4 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
           SUPPORT
         </h3>
-        <ul class="space-y-2.5 text-xs text-[#A3A7AE]">
+        <ul class="space-y-2 text-[#A3A7AE]">
           <li><a href="/pages/contact" class="hover:text-white transition-colors">Contact</a></li>
-          <li><a href="/pages/grievance-officer" class="hover:text-white transition-colors">Grievance</a></li>
-          <li><a href="/pages/seller-details" class="hover:text-white transition-colors">Seller Info</a></li>
+          <li><a href="/pages/contact" class="hover:text-white transition-colors">Grievance</a></li>
+          <li><a href="/pages/contact" class="hover:text-white transition-colors">Seller Info</a></li>
           <li><a href="/pages/faq" class="hover:text-white transition-colors">FAQ</a></li>
           <li><a href="/pages/size-guide" class="hover:text-white transition-colors">Size Guide</a></li>
           <li><a href="/pages/track-order" class="hover:text-white transition-colors">Track Order</a></li>
@@ -63,51 +62,36 @@
 
       <!-- Column 4: Connect -->
       <div>
-        <h3 class="mb-4 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
           CONNECT
         </h3>
-        <ul class="space-y-2.5 text-xs text-[#A3A7AE]">
-          <li>
-            <a href="https://instagram.com/rwnd20s" target="_blank" rel="noopener" class="hover:text-white transition-colors">
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="mailto:support@rwnd20s.in" class="hover:text-white transition-colors">
-              Email
+        <ul class="space-y-2 text-[#A3A7AE]">
+          <li><a href="https://instagram.com/rwnd20s" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a></li>
+          <li><a href="mailto:rwnd20s@gmail.com" class="hover:text-white transition-colors">Email</a></li>
+          <li class="pt-3">
+            <a href="https://wa.me/918921946228?text=Hey!%20Connecting%20from%20RWND20S%20storefront." target="_blank" class="inline-flex h-9 items-center justify-center border border-[#FF0033] bg-[#131316] px-3 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] transition-colors">
+              CHAT ON WHATSAPP →
             </a>
           </li>
         </ul>
-
-        <div class="mt-6">
-          <a 
-            href="https://wa.me" 
-            target="_blank" 
-            rel="noopener" 
-            class="inline-flex h-11 w-full items-center justify-center border border-[#2A2A2F] bg-[#131316] text-[11px] font-bold uppercase tracking-wider text-white transition-colors hover:border-[#FF0033] hover:text-[#FF0033]"
-          >
-            CHAT ON WHATSAPP →
-          </a>
-        </div>
       </div>
+
     </div>
 
-    <!-- Bottom Bar: Disclaimers & Copyright -->
-    <div class="mt-12 border-t border-[#2A2A2F] pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-wider text-[#A3A7AE] text-center md:text-left">
+    <!-- Rights & Payment Icons -->
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-[#A3A7AE] uppercase">
       <div>
-        <p>© {{ 'now' | date: '%Y' }} RWND20S. DISPATCHED FROM MADURAI. ALL RIGHTS RESERVED.</p>
-        <p class="mt-1 text-[#FF0033]">RETURNS ACCEPTED ONLY FOR DEFECTIVE OR WRONG ITEMS (48-HR WINDOW WITH UNBOXING VIDEO).</p>
+        <p>© 2026 RWND20S. DISPATCHED FROM MADURAI. ALL RIGHTS RESERVED.</p>
+        <p class="text-[#FF0033] mt-0.5">RETURNS ACCEPTED ONLY FOR DEFECTIVE OR WRONG ITEMS (48-HR WINDOW WITH UNBOXING VIDEO).</p>
       </div>
-
-      <!-- Payment Icons Row -->
-      <div class="flex flex-wrap items-center justify-center gap-1.5 text-[9px] font-bold">
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">VISA</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">MASTERCARD</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">RUPAY</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-[#FF0033]">UPI</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">GPAY</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1 text-white">PHONEPE</span>
-        <span class="border border-[#FF0033] bg-[#0A0A0C] px-2 py-1 text-white">COD</span>
+      <div class="flex flex-wrap gap-1 text-[9px] text-white">
+        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">VISA</span>
+        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">MASTERCARD</span>
+        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">RUPAY</span>
+        <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-1 text-[#FF0033]">UPI</span>
+        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">GPAY</span>
+        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">PHONEPE</span>
+        <span class="border border-[#FF0033] bg-[#0A0A0A] px-2 py-1 text-white">COD</span>
       </div>
     </div>
 
