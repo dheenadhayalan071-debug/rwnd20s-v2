@@ -93,60 +93,48 @@
         background-color: var(--black-pure) !important;
         color: var(--white-pure);
       }
-
-      #rwnd-gateway {
-        opacity: 1;
-        transition: opacity 300ms ease, transform 300ms ease;
-      }
-
-      #rwnd-gateway.is-leaving {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        #rwnd-gateway {
-          transition: none !important;
-        }
-      }
     </style>
   </head>
 
   <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#FF0033] selection:text-white">
-    <!-- Stable Mobile-Friendly Fixed Background Layer -->
+    <!-- Ambient Mobile Fixed Background -->
     <div 
       class="fixed inset-0 pointer-events-none -z-10 bg-cover bg-center bg-no-repeat opacity-40" 
       style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649');"
     ></div>
     <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/80 via-transparent to-[#000000]/95"></div>
 
-    <!-- Main Content Container: Clean Immediate Rendering -->
+    <!-- 1. ROOT MOUNTED STICKY HEADER -->
+    {% section 'header' %}
+
+    <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-4">
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#0A0A0A] px-4 py-2 text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-[#FF0033]">
+        <span class="text-[#FF0033]">←</span>
+        <span>RETURN TO BASE</span>
+      </button>
+    </div>
+
+    <!-- 2. MAIN STOREFRONT CONTENT -->
     <main id="MainContent" role="main" tabindex="-1" class="relative z-10 w-full min-h-[70vh]">
       {{ content_for_layout }}
     </main>
 
+    <!-- 3. FOOTER -->
     <div class="relative z-10 w-full">
       {% section 'footer' %}
     </div>
 
     <div id="rwnd-toast-container" aria-live="polite" class="pointer-events-none fixed bottom-4 right-4 z-[130] flex w-full max-w-sm flex-col gap-2.5"></div>
 
-    <!-- Reusable Architecture Snippets -->
+    <!-- Architecture Snippets -->
     {% render 'cart-drawer' %}
     {% render 'welcome-popup' %}
     {% render 'whatsapp-floating' %}
     {% render 'size-guide-modal' %}
 
     <script>
-    
-        if (seen) {
-          gate?.remove();
-        } else {
-          document.getElementById('gateway-enter')?.addEventListener('click', dismiss);
-          document.getElementById('gateway-skip')?.addEventListener('click', dismiss);
-          window.setTimeout(dismiss, 3000);
-        }
-
+      // System Return-To-Base Bar Visibility
+      (() => {
         const backBar = document.getElementById('rwnd-sys-back-bar');
         if (backBar && window.location.pathname !== '/' && window.location.pathname !== '') {
           backBar.classList.remove('hidden');
