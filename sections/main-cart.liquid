@@ -21,7 +21,7 @@
           ORDER SUMMARY
         </h2>
 
-        <!-- Promo Code Input -->
+        <!-- Promo Code Input with In-Page Logic -->
         <div class="pt-4 pb-2">
           <label for="cart-promo-code" class="block text-[10px] uppercase tracking-wider text-[#A3A7AE] mb-1.5">PROMO CODE</label>
           <div class="flex gap-2">
@@ -29,23 +29,31 @@
               type="text" 
               id="cart-promo-code" 
               placeholder="ENTER CODE..." 
+              value="RWND10"
               class="flex-1 h-10 bg-[#0A0A0C] border border-[#2A2A2F] px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
             >
             <button 
               type="button" 
-              onclick="applyPromoCode()"
+              id="cart-apply-btn"
+              onclick="window.handlePromoApply(event)"
               class="h-10 px-4 bg-[#2A2A2F] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] transition-colors cursor-pointer"
             >
               APPLY
             </button>
           </div>
-          <p id="promo-status-msg" class="text-[10px] mt-1 hidden"></p>
+          <p id="promo-status-msg" class="text-[10px] mt-1.5 hidden font-mono-tech uppercase tracking-wider"></p>
         </div>
 
         <div class="space-y-3 py-4 font-mono-tech text-xs border-t border-[#2A2A2F]">
           <div class="flex justify-between gap-3 text-[#A3A7AE]">
             <span>SUBTOTAL</span>
             <span id="rwnd-main-cart-subtotal" class="font-bold text-[#F5F5F7]">₹0</span>
+          </div>
+
+          <!-- Dynamic Promo Row -->
+          <div id="rwnd-promo-discount-row" class="hidden justify-between gap-3 text-[#00FF88]">
+            <span id="rwnd-promo-discount-label">DISCOUNT (10%)</span>
+            <span id="rwnd-promo-discount-amount" class="font-bold">-₹0</span>
           </div>
 
           <div class="flex justify-between gap-3 text-[#A3A7AE]">
@@ -72,15 +80,14 @@
           <span id="rwnd-main-cart-total" class="font-mono-tech text-2xl font-extrabold text-[#F5F5F7]">₹0</span>
         </div>
 
-        <form action="/checkout" method="post">
-          <button
-            type="submit"
-            name="checkout"
-            class="flex h-14 w-full items-center justify-center border border-[#FF0033] bg-[#FF0033] px-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] cursor-pointer"
-          >
-            CONTINUE TO CHECKOUT →
-          </button>
-        </form>
+        <!-- Safe Checkout Button (Direct Link, Zero Form Bubbling) -->
+        <a
+          href="/checkout"
+          id="rwnd-checkout-action-btn"
+          class="flex h-14 w-full items-center justify-center border border-[#FF0033] bg-[#FF0033] px-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#CC0029] cursor-pointer shadow-lg select-none"
+        >
+          CONTINUE TO CHECKOUT →
+        </a>
 
         <!-- Trust Row -->
         <div class="mt-6 grid grid-cols-3 gap-1 border-t border-[#2A2A2F] pt-4 text-[9px] uppercase tracking-wider text-[#A3A7AE] text-center">
@@ -101,6 +108,9 @@
 
 <script>
   (() => {
+    let currentCartData = null;
+    let appliedDiscountCode = 'RWND10';
+
     const formatINR = (cents) => '₹' + Math.round(Number(cents || 0) / 100).toLocaleString('en-IN');
 
     const escapeHTML = (str) =>
@@ -116,13 +126,19 @@
       try {
         const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
         if (!response.ok) throw new Error('Failed to load bag.');
-        renderMainCartUI(await response.json());
+        currentCartData = await response.json();
+        renderMainCartUI(currentCartData);
       } catch (error) {
         console.error('Cart fetch error:', error);
       }
     }
 
-    async function updateMainCartItem(lineKey, quantity) {
+    async function updateMainCartItem(event, lineKey, quantity) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
       const container = document.getElementById('rwnd-main-cart-items');
       if (container) container.setAttribute('aria-busy', 'true');
 
@@ -130,10 +146,16 @@
         const response = await fetch('/cart/change.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ id: lineKey, quantity })
+          body: JSON.stringify({ id: lineKey, quantity: Math.max(0, quantity) })
         });
         if (!response.ok) throw new Error('Failed to update line item.');
-        renderMainCartUI(await response.json());
+        currentCartData = await response.json();
+        renderMainCartUI(currentCartData);
+
+        // Keep cart drawer synced if loaded
+        if (typeof window.fetchDrawerCart === 'function') {
+          window.fetchDrawerCart();
+        }
       } catch (error) {
         console.error('Cart update error:', error);
       } finally {
@@ -145,34 +167,70 @@
       const container = document.getElementById('rwnd-main-cart-items');
       if (!container) return;
 
-      const totalPrice = cart.total_price || 0;
-      const subtotalFormatted = formatINR(totalPrice);
+      const rawTotalPrice = cart.total_price || 0;
       const thresholdCents = 99900; // ₹999
-      const isFreeShipping = totalPrice >= thresholdCents;
+      const isFreeShipping = rawTotalPrice >= thresholdCents;
+      const shippingCents = isFreeShipping || rawTotalPrice === 0 ? 0 : 4900;
 
-      document.getElementById('rwnd-main-cart-subtotal').textContent = subtotalFormatted;
-      document.getElementById('rwnd-main-cart-total').textContent = subtotalFormatted;
+      // Promo discount calculation
+      let discountCents = 0;
+      if (appliedDiscountCode === 'RWND10' && rawTotalPrice > 0) {
+        discountCents = Math.round(rawTotalPrice * 0.10);
+      }
 
+      const finalEstimatedTotal = Math.max(0, rawTotalPrice - discountCents + shippingCents);
+
+      // DOM Updates
+      document.getElementById('rwnd-main-cart-subtotal').textContent = formatINR(rawTotalPrice);
+      document.getElementById('rwnd-main-cart-total').textContent = formatINR(finalEstimatedTotal);
+
+      // Discount row presentation
+      const discountRow = document.getElementById('rwnd-promo-discount-row');
+      const discountAmountEl = document.getElementById('rwnd-promo-discount-amount');
+      if (discountCents > 0) {
+        discountRow.classList.remove('hidden');
+        discountRow.classList.add('flex');
+        discountAmountEl.textContent = '-' + formatINR(discountCents);
+      } else {
+        discountRow.classList.add('hidden');
+        discountRow.classList.remove('flex');
+      }
+
+      // Shipping UI
       const shippingMsg = document.getElementById('rwnd-cart-shipping-msg');
       const thresholdText = document.getElementById('rwnd-shipping-threshold-text');
       const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
 
-      if (isFreeShipping) {
+      if (isFreeShipping && rawTotalPrice > 0) {
         shippingMsg.textContent = 'FREE';
-        shippingMsg.className = 'font-bold text-[#FF0033]';
+        shippingMsg.className = 'font-bold text-[#00FF88]';
         thresholdText.textContent = '✓ FREE DELIVERY QUALIFIED (OVER ₹999)';
         shippingBar.style.width = '100%';
+      } else if (rawTotalPrice === 0) {
+        shippingMsg.textContent = '₹0';
+        shippingMsg.className = 'font-bold text-[#A3A7AE]';
+        thresholdText.textContent = 'ADD ₹999 FOR FREE DELIVERY';
+        shippingBar.style.width = '0%';
       } else {
         shippingMsg.textContent = '₹49';
         shippingMsg.className = 'font-bold text-[#A3A7AE]';
-        const diff = thresholdCents - totalPrice;
+        const diff = thresholdCents - rawTotalPrice;
         thresholdText.textContent = `ADD ${formatINR(diff)} MORE FOR FREE DELIVERY`;
-        shippingBar.style.width = `${Math.min(100, Math.round((totalPrice / thresholdCents) * 100))}%`;
+        shippingBar.style.width = `${Math.min(100, Math.round((rawTotalPrice / thresholdCents) * 100))}%`;
       }
 
+      // Sync badge counters
       document.querySelectorAll('[data-cart-count]').forEach((el) => {
         el.textContent = String(cart.item_count || 0);
       });
+
+      // Pass discount parameter into checkout URL
+      const checkoutBtn = document.getElementById('rwnd-checkout-action-btn');
+      if (checkoutBtn) {
+        checkoutBtn.href = appliedDiscountCode 
+          ? `/checkout?discount=${encodeURIComponent(appliedDiscountCode)}`
+          : '/checkout';
+      }
 
       if (!cart.items || cart.items.length === 0) {
         container.innerHTML = `
@@ -180,7 +238,7 @@
             <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// TRANSMISSION SILENT</span>
             <p class="mt-2 font-display text-xl font-bold uppercase tracking-wider text-[#F5F5F7]">YOUR HARDWARE BAG IS EMPTY</p>
             <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">No archive components currently secured.</p>
-            <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F]">
+            <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#CC0029]">
               EXPLORE ARCHIVE →
             </a>
           </div>
@@ -197,7 +255,7 @@
             : '';
           const image = item.image
             ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title)}" width="96" height="96" class="h-full w-full object-contain">`
-            : '';
+            : '<span class="text-[9px] text-[#A3A7AE]">NO IMG</span>';
 
           const isEarphone = /earphone|ear-01/i.test((item.product_title || '') + ' ' + (item.handle || ''));
           const earphoneWarning = isEarphone
@@ -229,25 +287,22 @@
                   <div class="flex items-center border border-[#2A2A2F] bg-[#0A0A0C]">
                     <button
                       type="button"
-                      data-cart-change="${key}"
-                      data-quantity="${Math.max(0, item.quantity - 1)}"
+                      onclick="window.handleLineChange(event, '${key}', ${Math.max(0, item.quantity - 1)})"
                       aria-label="Decrease quantity"
-                      class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer"
+                      class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer select-none"
                     >−</button>
                     <span class="w-8 text-center font-mono-tech text-xs font-bold text-[#F5F5F7]">${item.quantity}</span>
                     <button
                       type="button"
-                      data-cart-change="${key}"
-                      data-quantity="${item.quantity + 1}"
+                      onclick="window.handleLineChange(event, '${key}', ${item.quantity + 1})"
                       aria-label="Increase quantity"
-                      class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer"
+                      class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer select-none"
                     >+</button>
                   </div>
 
                   <button
                     type="button"
-                    data-cart-change="${key}"
-                    data-quantity="0"
+                    onclick="window.handleLineChange(event, '${key}', 0)"
                     class="font-mono-tech text-xs uppercase tracking-wider text-[#A3A7AE] transition-colors hover:text-[#FF0033] cursor-pointer"
                   >[ REMOVE ]</button>
                 </div>
@@ -258,33 +313,59 @@
         .join('');
     }
 
-    window.fetchMainCartData = fetchMainCartData;
-    window.updateMainCartItem = updateMainCartItem;
-
-    document.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-cart-change]');
-      if (button) {
-        updateMainCartItem(button.dataset.cartChange, Number(button.dataset.quantity));
+    // Exposed Handlers (Explicitly prevent default click bubbles)
+    window.handleLineChange = function(e, lineKey, qty) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
       }
+      updateMainCartItem(e, lineKey, qty);
+    };
+
+    window.handlePromoApply = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      const input = document.getElementById('cart-promo-code');
+      const msg = document.getElementById('promo-status-msg');
+      if (!input || !msg) return;
+
+      const code = input.value.trim().toUpperCase();
+      if (!code) {
+        msg.textContent = 'ENTER A VALID CODE';
+        msg.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-[#FF0033] block';
+        appliedDiscountCode = null;
+        renderMainCartUI(currentCartData);
+        return;
+      }
+
+      if (code === 'RWND10') {
+        appliedDiscountCode = 'RWND10';
+        msg.textContent = '✓ RWND10 APPLIED · 10% OFF APPLIED TO TOTAL';
+        msg.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-[#00FF88] block';
+      } else {
+        appliedDiscountCode = null;
+        msg.textContent = '✕ INVALID ARCHIVE CODE';
+        msg.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-[#FF0033] block';
+      }
+
+      if (currentCartData) renderMainCartUI(currentCartData);
+    };
+
+    window.fetchMainCartData = fetchMainCartData;
+
+    // Mount Cart on Load & Auto-apply preset code
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchMainCartData().then(() => {
+        const input = document.getElementById('cart-promo-code');
+        if (input && input.value.trim().toUpperCase() === 'RWND10') {
+          window.handlePromoApply();
+        }
+      });
     });
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fetchMainCartData, { once: true });
-    } else {
-      fetchMainCartData();
-    }
   })();
-
-  function applyPromoCode() {
-    const input = document.getElementById('cart-promo-code');
-    const msg = document.getElementById('promo-status-msg');
-    if (!input || !msg) return;
-    const code = input.value.trim();
-    if (!code) return;
-    
-    // Shopify handles checkout discount applications via direct URL redirect
-    window.location.href = `/checkout?discount=${encodeURIComponent(code)}`;
-  }
 </script>
 
 {% schema %}
