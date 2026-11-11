@@ -18,55 +18,80 @@
 {% endif %}
 
 <!-- ========================================================================= -->
-<!-- 2.1 HERO SECTION                                                          -->
+<!-- 2.1 HERO SECTION (10/10 BLUEPRINT SPECIFICATION)                          -->
 <!-- ========================================================================= -->
-<section class="relative min-h-[90vh] sm:min-h-screen w-full flex flex-col justify-between items-center text-center px-4 pt-28 pb-12 overflow-hidden border-b border-[#2A2A2F] bg-[#0A0A0C]">
-  <!-- Background Layer (Video / Fallback Still + Gradient Overlay) -->
-  <div class="absolute inset-0 z-0 pointer-events-none">
+<section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center px-5 pt-24 pb-12 overflow-hidden border-b border-[#2A2A2F] bg-[#050505]">
+  <!-- Atmosphere Layer: Radial Glow & Cyber Mesh Grid -->
+  <div 
+    class="absolute inset-0 z-0 pointer-events-none"
+    style="
+      background-image: 
+        radial-gradient(circle at 50% 38%, rgba(255, 0, 51, 0.25) 0%, rgba(0, 0, 0, 0.95) 72%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+    "
+  >
     {% if section.settings.hero_video_url != blank %}
-      <video class="w-full h-full object-cover opacity-35" autoplay muted loop playsinline>
+      <video class="w-full h-full object-cover opacity-30 mix-blend-screen" autoplay muted loop playsinline>
         <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
       </video>
-    {% else %}
-      <div class="w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#C8102E]/20 via-[#131316] to-[#0A0A0C]"></div>
     {% endif %}
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0C] via-transparent to-[#0A0A0C] opacity-90"></div>
   </div>
 
   <!-- Centered Content Stack -->
-  <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center justify-center my-auto">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 font-mono-tech text-[11px] sm:text-xs font-bold uppercase tracking-[1.5px] text-[#F5F5F7]">
-      <span class="h-2 w-2 bg-[#FF0033] animate-pulse"></span>
+  <div class="relative z-10 mx-auto flex w-full max-w-md flex-col items-center justify-center my-auto">
+    <!-- Top Eyebrow Tag -->
+    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#FF0033]/10 px-3.5 py-1.5 font-mono-tech text-[11px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_0_12px_rgba(255,0,51,0.2)]">
+      <span class="h-1.5 w-1.5 bg-[#FF0033] shadow-[0_0_8px_#FF0033] animate-pulse"></span>
       {{ section.settings.hero_badge | default: 'DROP 01 // DISPATCHED FROM MADURAI' }}
     </div>
 
-            <!-- Headline (Responsive & No-Overflow on Mobile) -->
-    <h1 class="mt-6 font-display text-[clamp(2.1rem,9.5vw,6.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight sm:tracking-[-2px] text-[#F5F5F7] max-w-full px-2 break-normal">
-      Y2K<br>
-      HARDWARE<br>
-      <span class="text-[#FF0033]">AFTER DARK.</span>
+    <!-- Main Headline with Red Accent Glow -->
+    <h1 class="mt-5 font-display text-center uppercase tracking-tight leading-[0.95]">
+      <span class="block text-[clamp(2.1rem,8.5vw,4.5rem)] text-white font-extrabold">
+        Y2K HARDWARE
+      </span>
+      <span class="block text-[clamp(2.3rem,9.2vw,4.8rem)] text-[#FF0033] font-black drop-shadow-[0_0_20px_rgba(255,0,51,0.4)]">
+        AFTER DARK.
+      </span>
     </h1>
 
-    <!-- Subhead -->
-    <p class="mt-6 max-w-xl font-mono-tech text-sm sm:text-base leading-relaxed text-[#A3A7AE] opacity-90">
+    <!-- Subhead (Constrained with Word Break to Prevent Truncation) -->
+    <p class="mt-4 max-w-[340px] w-full font-mono-tech text-[13px] leading-relaxed text-white/70 text-center break-words [overflow-wrap:break-word] px-1">
       After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
     </p>
 
-    <!-- CTA Row -->
-    <div class="mt-8 flex w-full max-w-md flex-col sm:flex-row items-center justify-center gap-3">
-      <a href="#shop" class="flex h-14 w-full sm:w-auto flex-1 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F]">
+    <!-- Scarcity Ticker Pill -->
+    <div class="mt-6 inline-flex items-center gap-2 font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#FF0033] bg-[#0A0A0C] border border-[#FF0033]/30 px-3 py-1">
+      <span class="h-1.5 w-1.5 rounded-full bg-[#FF0033] shadow-[0_0_8px_#FF0033] animate-ping"></span>
+      <span>DROP 01 // 68% ALLOCATED · LIMITED HARDWARE</span>
+    </div>
+
+    <!-- CTA Group (Ergonomic 52px Minimum Tap Heights) -->
+    <div class="mt-6 flex w-full max-w-[340px] flex-col gap-3">
+      <a 
+        href="#shop" 
+        class="flex h-[52px] w-full items-center justify-center gap-2 bg-[#FF0033] font-mono-tech text-[13px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] transition-all active:scale-[0.98] active:bg-[#CC0029] hover:bg-[#CC0029]"
+      >
         SHOP DROP 01 →
       </a>
-      <a href="#about" class="flex h-14 w-full sm:w-auto flex-1 items-center justify-center border border-[#C8CDD3] bg-transparent px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:border-[#FF0033] hover:text-[#FF0033]">
+      <a 
+        href="#about" 
+        class="flex h-[52px] w-full items-center justify-center border border-white/30 bg-transparent font-mono-tech text-[13px] font-medium uppercase tracking-[1.5px] text-white transition-all active:scale-[0.98] active:border-white active:bg-white/5 hover:border-white"
+      >
         VIEW MANIFESTO
       </a>
     </div>
   </div>
 
-  <!-- Scroll Indicator -->
-  <a href="#drop-status-bar" class="relative z-10 flex flex-col items-center gap-1 font-mono-tech text-[10px] uppercase tracking-[2px] text-[#A3A7AE] hover:text-white transition-colors animate-bounce cursor-pointer">
-    <span>↓ SCROLL</span>
+  <!-- Animated Scroll Indicator -->
+  <a 
+    href="#drop-status-bar" 
+    class="relative z-10 mt-auto pt-4 flex flex-col items-center gap-1 font-mono-tech text-[9px] uppercase tracking-[2px] text-white/40 hover:text-white transition-colors cursor-pointer"
+  >
+    <span>EXPLORE ARCHIVE</span>
+    <span class="text-xs animate-bounce">↓</span>
   </a>
 </section>
 
