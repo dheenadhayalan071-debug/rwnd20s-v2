@@ -27,7 +27,6 @@
       OLD VIBE.<br>NEW YOU.
     </h2>
 
-    <!-- Subtitle -->
     <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
       Sign up for exclusive Drop 01 archive dispatches, restocks, and claim 10% off your first hardware order.
     </p>
@@ -53,13 +52,13 @@
         </button>
       </form>
 
-      <!-- In-Modal Voucher State (Replaces Form on Submission) -->
+      <!-- In-Modal Success State -->
       <div id="welcome-success-state" class="hidden border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
         <span class="text-xs font-bold uppercase tracking-wider text-white block">DISPATCH ACCESS GRANTED</span>
         <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
           RWND10
         </div>
-        <p class="text-[10px] text-[#A3A7AE]">10% off applied. Code saved to your clipboard.</p>
+        <p class="text-[10px] text-[#A3A7AE]">10% off code unlocked. Copied to your clipboard.</p>
         <button 
           type="button" 
           id="welcome-shop-now"
@@ -70,7 +69,6 @@
       </div>
     </div>
 
-    <!-- Footer Micro-copy -->
     <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
       DISPATCHED FROM MADURAI · NO SPAM
     </p>
@@ -87,10 +85,10 @@
     const successState = document.getElementById('welcome-success-state');
     const shopNowBtn = document.getElementById('welcome-shop-now');
 
-    const STORAGE_KEY = 'rwnd_welcome_claimed';
+    const SESSION_KEY = 'rwnd_popup_session_closed';
 
-    // Show after 1.5 seconds if user has not already acted
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    // Show popup after 1.5 seconds if not closed in this session
+    if (!sessionStorage.getItem(SESSION_KEY)) {
       window.setTimeout(() => {
         if (!modal) return;
         modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -102,7 +100,7 @@
       if (!modal) return;
       modal.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = '';
-      localStorage.setItem(STORAGE_KEY, 'true');
+      sessionStorage.setItem(SESSION_KEY, 'true');
     };
 
     closeBtn?.addEventListener('click', dismissModal);
@@ -112,11 +110,9 @@
       if (e.target === modal) dismissModal();
     });
 
-    // Intercept submit via AJAX: eliminates full-page reload & bottom anchor jumping
+    // AJAX Form Handling without page reloads or jumps
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      e.stopPropagation();
-
       const email = emailInput?.value?.trim();
       if (!email) return;
 
@@ -125,17 +121,14 @@
         submitBtn.textContent = 'SECURING CODE...';
       }
 
-      // Mark modal dismissed immediately so it never reopens
-      localStorage.setItem(STORAGE_KEY, 'true');
+      sessionStorage.setItem(SESSION_KEY, 'true');
 
-      // Attempt clipboard copy of discount code
       try {
         if (navigator.clipboard) {
           navigator.clipboard.writeText('RWND10');
         }
       } catch (err) {}
 
-      // Background dispatch to Shopify customer newsletter endpoint
       try {
         const payload = new URLSearchParams();
         payload.append('form_type', 'customer');
@@ -151,11 +144,8 @@
           },
           body: payload.toString()
         });
-      } catch (err) {
-        // Suppress network or cross-navigation exceptions
-      }
+      } catch (err) {}
 
-      // Show in-modal voucher code without shifting or jumping the scroll position
       form.classList.add('hidden');
       if (successState) successState.classList.remove('hidden');
     });
