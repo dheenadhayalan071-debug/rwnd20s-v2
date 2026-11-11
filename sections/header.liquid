@@ -1,5 +1,5 @@
 <!-- sections/header.liquid -->
-<header-system id="rwnd-header-system" class="fixed top-0 left-0 z-[120] w-full transition-transform duration-300">
+<header id="rwnd-header-system" class="sticky top-0 left-0 z-[120] w-full block bg-[#000000]">
   <!-- 1.1 TOP ANNOUNCEMENT BAR -->
   <aside id="rwnd-announcement-bar" class="relative z-10 w-full bg-[#000000] border-b border-[#2A2A2F] text-white">
     <div class="mx-auto flex h-[36px] sm:h-[40px] max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -38,32 +38,28 @@
   </aside>
 
   <!-- 1.2 MAIN NAVIGATION -->
-  <div class="relative w-full bg-[rgba(0,0,0,0.85)] backdrop-blur-[12px] border-b border-[rgba(255,0,51,0.2)]">
-    <div class="mx-auto flex h-[64px] sm:h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+  <div class="relative w-full bg-[#0A0A0A] border-b border-[rgba(255,0,51,0.25)]">
+    <div class="mx-auto flex h-[60px] sm:h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       
       <!-- Left: Logo -->
       <div class="flex items-center">
-        <a href="/" class="font-display text-2xl sm:text-3xl font-extrabold tracking-tighter text-[#F5F5F7] hover:text-[#C8CDD3] transition-colors">
+        <a href="/" class="font-display text-2xl sm:text-3xl font-extrabold tracking-tighter text-[#F5F5F7] hover:text-white transition-colors">
           rwnd20s.
         </a>
       </div>
 
       <!-- Center: Desktop Nav -->
       <nav class="hidden lg:flex items-center gap-8 font-mono-tech text-xs uppercase tracking-[0.14em] text-[#F5F5F7]">
-        <!-- Shop with Mega Menu Trigger -->
         <div class="group relative py-6">
           <a href="/collections/all" class="flex items-center gap-1 hover:text-[#FF0033] transition-colors">
             SHOP <span class="text-[9px] text-[#A3A7AE] group-hover:text-[#FF0033]">▼</span>
           </a>
 
-          <!-- MEGA MENU OVERLAY -->
+          <!-- Mega Menu Overlay -->
           <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto absolute top-[72px] left-1/2 -translate-x-1/2 w-[920px] bg-[#0A0A0C] border border-[#2A2A2F] border-t-2 border-t-[#FF0033] p-8 transition-all duration-200 shadow-2xl">
             <div class="grid grid-cols-4 gap-8">
-              <!-- Column 1: Jewelry -->
               <div>
-                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">
-                  JEWELRY
-                </span>
+                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">JEWELRY</span>
                 <ul class="mt-4 space-y-2.5 text-xs text-[#A3A7AE]">
                   <li><a href="/collections/rings" class="hover:text-white transition-colors">Rings</a></li>
                   <li><a href="/collections/chains" class="hover:text-white transition-colors">Chains</a></li>
@@ -72,11 +68,8 @@
                 </ul>
               </div>
 
-              <!-- Column 2: Audio -->
               <div>
-                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">
-                  AUDIO
-                </span>
+                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">AUDIO</span>
                 <ul class="mt-4 space-y-2.5 text-xs text-[#A3A7AE]">
                   <li><a href="/collections/earphones" class="hover:text-white transition-colors">Wired Earphones</a></li>
                   <li><a href="/collections/earphones" class="hover:text-white transition-colors">Pink Chrome Audio</a></li>
@@ -84,32 +77,26 @@
                 </ul>
               </div>
 
-              <!-- Column 3: Upcoming -->
               <div>
-                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">
-                  UPCOMING
-                </span>
+                <span class="block border-b border-[#2A2A2F] pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">UPCOMING</span>
                 <ul class="mt-4 space-y-2.5 text-xs text-[#A3A7AE]">
                   <li>
-                    <a href="/products/w-01-analog-chronograph" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
+                    <a href="/collections/all" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
                       <span>W-01 Watch</span>
                       <span class="border border-[#FF0033] bg-[#FF0033]/20 px-1 py-0.2 text-[8px] text-[#FF0033]">PRE-ORDER</span>
                     </a>
                   </li>
-                  <li><a href="/collections/watches" class="hover:text-white transition-colors">Timepiece Vault</a></li>
+                  <li><a href="/collections/all" class="hover:text-white transition-colors">Timepiece Vault</a></li>
                 </ul>
               </div>
 
-              <!-- Column 4: Featured Promo -->
               <div class="border border-[#2A2A2F] bg-[#131316] p-4 flex flex-col justify-between">
                 <div>
-                  <span class="inline-block border border-[#FF0033] bg-[#000000] px-2 py-0.5 text-[9px] font-bold text-[#FF0033]">
-                    DROP 01 HERO
-                  </span>
-                  <p class="mt-2 font-display text-sm font-bold text-white uppercase">3-Piece Cyber Hardware Set</p>
-                  <p class="mt-1 font-mono-tech text-[10px] text-[#A3A7AE]">Save ₹248 instant bundle pricing.</p>
+                  <span class="inline-block border border-[#FF0033] bg-[#000000] px-2 py-0.5 text-[9px] font-bold text-[#FF0033]">DROP 01 HERO</span>
+                  <p class="mt-2 font-display text-sm font-bold text-white uppercase">3-Piece Cyber Set</p>
+                  <p class="mt-1 font-mono-tech text-[10px] text-[#A3A7AE]">Save ₹248 bundle pricing.</p>
                 </div>
-                <a href="/products/3-piece-y2k-cyber-set" class="mt-4 inline-flex h-9 items-center justify-center bg-[#FF0033] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors">
+                <a href="/products/3-piece-y2k-cyber-set" class="mt-4 inline-flex h-9 items-center justify-center bg-[#FF0033] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors">
                   SHOP THE DROP →
                 </a>
               </div>
@@ -122,35 +109,36 @@
         <a href="/#about" class="hover:text-[#FF0033] transition-colors">MANIFESTO</a>
       </nav>
 
-      <!-- Right: Action Icons -->
-      <div class="flex items-center gap-4 sm:gap-6 font-mono-tech text-xs">
-        <!-- Search Trigger Button -->
+      <!-- Right: Action Icons (Search, High-Visibility Cart Button, Account, Hamburger) -->
+      <div class="flex items-center gap-3 sm:gap-5 font-mono-tech text-xs">
+        <!-- Search Trigger -->
         <button 
           type="button" 
           id="open-search-trigger" 
           aria-label="Open Search"
-          class="flex items-center gap-1 text-[#F5F5F7] hover:text-[#FF0033] transition-colors cursor-pointer"
+          class="flex h-10 w-10 items-center justify-center border border-[#2A2A2F] bg-[#131316] text-[#F5F5F7] hover:border-[#FF0033] hover:text-[#FF0033] transition-colors cursor-pointer"
         >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
 
-        <!-- Cart Trigger (Drawer or /cart fallback) -->
+        <!-- High-Visibility Brutalist Cart Button with Count Badge -->
         <button 
           type="button" 
           id="open-bag-button"
           onclick="handleBagTrigger(event)" 
-          class="relative flex items-center text-[#F5F5F7] hover:text-[#FF0033] transition-colors cursor-pointer" 
+          class="relative flex h-10 items-center gap-2 border border-[#FF0033] bg-[#131316] px-3 font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] transition-all cursor-pointer shadow-lg" 
           aria-label="Open Hardware Bag"
         >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span data-cart-count class="absolute -top-2 -right-2 flex h-4 min-w-[16px] items-center justify-center bg-[#FF0033] px-1 text-[9px] font-bold text-white">
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="hidden sm:inline">BAG</span>
+          <span id="header-bag-count" data-cart-count class="flex h-5 min-w-[20px] items-center justify-center bg-[#FF0033] px-1 text-[10px] font-bold text-white border border-black">
             {{ cart.item_count }}
           </span>
         </button>
 
         <!-- Desktop Account -->
-        <a href="/account" class="hidden lg:flex items-center text-[#F5F5F7] hover:text-[#FF0033] transition-colors" aria-label="Account">
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <a href="/account" class="hidden lg:flex h-10 w-10 items-center justify-center border border-[#2A2A2F] bg-[#131316] text-[#F5F5F7] hover:border-[#FF0033] hover:text-[#FF0033] transition-colors" aria-label="Account">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </a>
 
         <!-- Mobile Hamburger Trigger -->
@@ -158,9 +146,9 @@
           type="button" 
           id="open-mobile-menu" 
           aria-label="Open Menu"
-          class="lg:hidden flex h-8 w-8 items-center justify-center text-white hover:text-[#FF0033] cursor-pointer"
+          class="lg:hidden flex h-10 w-10 items-center justify-center border border-[#2A2A2F] bg-[#131316] text-white hover:border-[#FF0033] hover:text-[#FF0033] transition-colors cursor-pointer"
         >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
 
@@ -171,7 +159,6 @@
   <div id="mobile-drawer-overlay" class="fixed inset-0 z-[150] bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
     <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-[85%] max-w-[380px] bg-[#0A0A0A] border-l border-[#2A2A2F] p-6 flex flex-col justify-between translate-x-full transition-transform duration-300 overflow-y-auto">
       
-      <!-- Drawer Header -->
       <div>
         <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-4">
           <span class="font-display text-xl font-extrabold tracking-tight text-white">rwnd20s.</span>
@@ -180,7 +167,6 @@
           </button>
         </div>
 
-        <!-- Navigation Links -->
         <nav class="mt-6 flex flex-col gap-4 font-mono-tech text-xs tracking-wider">
           <a href="/collections/all" class="font-bold text-white hover:text-[#FF0033]">→ SHOP ALL</a>
           
@@ -192,12 +178,7 @@
               <li><a href="/collections/chains" class="hover:text-white">↳ Chains</a></li>
               <li><a href="/collections/bracelets" class="hover:text-white">↳ Bracelets</a></li>
               <li><a href="/collections/earphones" class="hover:text-white">↳ Pink Chrome Audio</a></li>
-              <li>
-                <a href="/products/w-01-analog-chronograph" class="inline-flex items-center gap-1.5 hover:text-white">
-                  <span>↳ Timepieces</span>
-                  <span class="border border-[#FF0033] bg-[#FF0033]/20 px-1 py-0.2 text-[8px] text-[#FF0033]">PRE-ORDER</span>
-                </a>
-              </li>
+              <li><a href="/collections/all" class="hover:text-white">↳ Timepieces (Pre-Order)</a></li>
             </ul>
           </div>
 
@@ -214,12 +195,11 @@
         </nav>
       </div>
 
-      <!-- Drawer Footer -->
       <div class="mt-8 border-t border-[#2A2A2F] pt-4 font-mono-tech text-[10px] text-[#A3A7AE]">
         <div class="flex items-center gap-4 mb-2 text-white">
-          <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-[#FF0033]">Instagram</a>
+          <a href="https://instagram.com/rwnd20s" target="_blank" rel="noopener" class="hover:text-[#FF0033]">Instagram</a>
           <span>·</span>
-          <a href="https://wa.me" target="_blank" rel="noopener" class="hover:text-[#FF0033]">WhatsApp</a>
+          <a href="https://wa.me/918921946228" target="_blank" rel="noopener" class="hover:text-[#FF0033]">WhatsApp</a>
         </div>
         <p class="uppercase tracking-widest text-[#FF0033]">DISPATCHED FROM MADURAI</p>
       </div>
@@ -243,13 +223,13 @@
           placeholder="SEARCH RINGS, CHAINS, TIMEPIECES..." 
           class="flex-1 h-14 bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
         >
-        <button type="submit" class="h-14 bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors cursor-pointer">
+        <button type="submit" class="h-14 bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors cursor-pointer">
           SEARCH //
         </button>
       </form>
     </div>
   </div>
-</header-system>
+</header>
 
 <script>
   function handleBagTrigger(e) {
@@ -265,13 +245,12 @@
     }
   }
 
-  // Top Announcement Bar Rotation & Dismissal Cookie (7 Days)
+  // Top Announcement Bar Rotation (7 Days Dismissal Cookie)
   (() => {
     const bar = document.getElementById('rwnd-announcement-bar');
     const dismissBtn = document.getElementById('dismiss-announcement');
     const items = document.querySelectorAll('.announcement-item');
     let currentIndex = 0;
-    let rotationTimer = null;
 
     const getCookie = (name) => {
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -281,50 +260,22 @@
     if (getCookie('rwnd_bar_dismissed') === 'true') {
       bar?.remove();
     } else {
-      const showNext = () => {
+      setInterval(() => {
+        if (!items || items.length === 0) return;
         items[currentIndex].classList.remove('active');
         items[currentIndex].classList.add('opacity-0', 'pointer-events-none', 'absolute');
-
         currentIndex = (currentIndex + 1) % items.length;
-
         items[currentIndex].classList.remove('opacity-0', 'pointer-events-none', 'absolute');
         items[currentIndex].classList.add('active');
-      };
-
-      const startTimer = () => {
-        rotationTimer = setInterval(showNext, 4000);
-      };
-
-      const stopTimer = () => {
-        clearInterval(rotationTimer);
-      };
-
-      startTimer();
-      bar?.addEventListener('mouseenter', stopTimer);
-      bar?.addEventListener('mouseleave', startTimer);
+      }, 4000);
 
       dismissBtn?.addEventListener('click', () => {
-        bar.remove();
+        bar?.remove();
         const d = new Date();
         d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
         document.cookie = `rwnd_bar_dismissed=true; expires=${d.toUTCString()}; path=/`;
       });
     }
-  })();
-
-  // Header Scroll Behavior (Slide down on scroll-up)
-  (() => {
-    let lastScroll = 0;
-    const header = document.getElementById('rwnd-header-system');
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      if (currentScroll > 100 && currentScroll > lastScroll) {
-        header.style.transform = 'translateY(-100%)';
-      } else {
-        header.style.transform = 'translateY(0)';
-      }
-      lastScroll = currentScroll;
-    }, { passive: true });
   })();
 
   // Mobile Hamburger Drawer Toggle
@@ -335,14 +286,14 @@
     const drawer = document.getElementById('mobile-drawer');
 
     const openMenu = () => {
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      drawer.classList.remove('translate-x-full');
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
+      drawer?.classList.remove('translate-x-full');
       document.body.style.overflow = 'hidden';
     };
 
     const closeMenu = () => {
-      overlay.classList.add('opacity-0', 'pointer-events-none');
-      drawer.classList.add('translate-x-full');
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      drawer?.classList.add('translate-x-full');
       document.body.style.overflow = '';
     };
 
@@ -360,11 +311,11 @@
     const searchOverlay = document.getElementById('fullscreen-search-overlay');
 
     searchOpen?.addEventListener('click', () => {
-      searchOverlay.classList.remove('opacity-0', 'pointer-events-none');
+      searchOverlay?.classList.remove('opacity-0', 'pointer-events-none');
     });
 
     searchClose?.addEventListener('click', () => {
-      searchOverlay.classList.add('opacity-0', 'pointer-events-none');
+      searchOverlay?.classList.add('opacity-0', 'pointer-events-none');
     });
   })();
 </script>
