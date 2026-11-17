@@ -376,6 +376,65 @@
   color: #737373;
 }
 
+  /* ==========================================================================
+     VIEWPORT OVERLAP HOTFIX & QUANTITY NORMALIZATION
+     ========================================================================== */
+  .pdp-shell {
+    padding-bottom: 120px !important;
+  }
+
+  .qty-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0A0A0A;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: 100px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .qty-btn {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    width: 32px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0 !important;
+  }
+
+  .qty-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .qty-input {
+    width: 36px !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 52px !important;
+    -moz-appearance: textfield;
+  }
+
+  .qty-input::-webkit-outer-spin-button,
+  .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
 </style>
 
 <div class="pdp-shell">
