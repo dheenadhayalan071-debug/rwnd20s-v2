@@ -57,7 +57,7 @@
       </span>
     </h1>
 
-    <!-- Subhead (Constrained with Word Break to Prevent Truncation) -->
+    <!-- Subhead -->
     <p class="mt-4 max-w-[340px] w-full font-mono-tech text-[13px] leading-relaxed text-white/70 text-center break-words [overflow-wrap:break-word] px-1">
       After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
     </p>
@@ -68,7 +68,7 @@
       <span>DROP 01 // 68% ALLOCATED · LIMITED HARDWARE</span>
     </div>
 
-    <!-- CTA Group (Ergonomic 52px Minimum Tap Heights) -->
+    <!-- CTA Group -->
     <div class="mt-6 flex w-full max-w-[340px] flex-col gap-3">
       <a 
         href="#shop" 
@@ -123,7 +123,7 @@
       <span>·</span>
       <span>STOCK: 247/500 UNITS REMAINING</span>
       <span>·</span>
-      <span class="flex items-center gap-1">NEXT DROP IN: <strong>14D 06H 22M</strong></span>
+      <span class="flex items-center gap-1">NEXT DROP IN: <strong class="hero-countdown-mirror underline">14D 06H 22M</strong></span>
       <span>·</span>
       <span>DISPATCHED IN 24H FROM MADURAI</span>
       <span>·</span>
@@ -230,11 +230,12 @@
           {{ spotlight_product.price | money }}
         </span>
         {% if spotlight_product.compare_at_price > spotlight_product.price %}
+          {% assign spot_save = spotlight_product.compare_at_price | minus: spotlight_product.price %}
           <span class="font-mono-tech text-sm text-[#A3A7AE] line-through">
             {{ spotlight_product.compare_at_price | money }}
           </span>
           <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-0.5 font-mono-tech text-xs font-bold text-[#FF0033]">
-            SAVE ₹1,695
+            SAVE {{ spot_save | money }}
           </span>
         {% endif %}
       </div>
@@ -323,16 +324,16 @@
                 class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
               >
             {% else %}
-              <span class="font-mono-tech text-[10px] text-[#A3A7AE] uppercase">{{ product.title | escape }}</span>
+              <span class="font-mono-tech text-[10px] text-[#A3A7AE] uppercase text-center px-2">{{ product.title | escape }}</span>
             {% endif %}
           </a>
 
-          <!-- Badges -->
+           <!-- Badges -->
           {% if is_bundle %}
             <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
-              SAVE ₹248
+              MYSTERY VAULT
             </span>
-          {% elsif product.tags contains 'watch' or product.type contains 'Watch' %}
+          {% elsif product.tags contains 'watch' or product.tags contains 'pre-order' or product.type contains 'Watch' %}
             <span class="absolute top-2 right-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
               PRE-ORDER
             </span>
@@ -393,11 +394,11 @@
       After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
     </p>
 
-    <!-- Spec Grid (4-box Interactive) -->
+    <!-- Spec Grid -->
     <div class="mt-8 grid grid-cols-2 gap-2 text-left font-mono-tech">
-      <a href="/collections/all" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
+      <a href="/collections/rings" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
         <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">316L</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Stainless Steel Chains</p>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Surgical Stainless Steel</p>
       </a>
       <a href="/collections/earphones" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
         <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">TYPE-C</span>
@@ -405,7 +406,7 @@
       </a>
       <a href="/products/3-piece-y2k-cyber-set" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
         <span class="text-xl sm:text-2xl font-bold text-[#FF0033]">3-PIECE</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Save ₹248 Set</p>
+        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Classified Mystery Vault</p>
       </a>
       <a href="/pages/shipping" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
         <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">₹999+</span>
@@ -416,7 +417,7 @@
 </section>
 
 <!-- ========================================================================= -->
-<!-- 2.7 SOCIAL PROOF WALL (Placeholder Reviews)                               -->
+<!-- 2.7 SOCIAL PROOF WALL (Live Metaobjects + Fallback)                       -->
 <!-- ========================================================================= -->
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
   <div class="text-center">
@@ -428,109 +429,205 @@
     </h2>
   </div>
 
+  {% assign all_meta_reviews = shop.metaobjects.rwnd_review.values %}
   <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    <!-- Card 1 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "Quality is insane for the price. The weight of the 316L chain feels authentic and solid."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — ARJUN K. | VERIFIED BUYER | MADURAI
+    {% if all_meta_reviews != blank and all_meta_reviews.size > 0 %}
+      {% for rev in all_meta_reviews limit: 6 %}
+        {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
+        <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech flex flex-col justify-between">
+          <div>
+            <div class="text-[#FF0033] text-sm tracking-widest">
+              {% for s in (1..r_stars) %}★{% endfor %}
+            </div>
+            <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+              "{{ rev.body.value | escape }}"
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+            — {{ rev.author.value | escape }} | VERIFIED BUYER{% if rev.city.value != blank %} | {{ rev.city.value | escape }}{% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+        <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+        <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+          "Quality is insane for the price. The weight of the 316L chain feels authentic and solid."
+        </p>
+        <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+          — ARJUN K. | VERIFIED BUYER | MADURAI
+        </div>
       </div>
-    </div>
-    <!-- Card 2 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "The pink chrome Type-C earphones look futuristic af. Crisp DAC audio output with zero latency."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — ROHIT M. | VERIFIED BUYER | CHENNAI
+      <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+        <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+        <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+          "The pink chrome Type-C earphones look futuristic af. Crisp DAC audio output with zero latency."
+        </p>
+        <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+          — ROHIT M. | VERIFIED BUYER | CHENNAI
+        </div>
       </div>
-    </div>
-    <!-- Card 3 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "3-Piece cyber set saved me ₹248 compared to buying separate pieces. Arrived in 48 hours."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — VIKRAM S. | VERIFIED BUYER | BANGALORE
+      <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
+        <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
+        <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+          "3-Piece mystery vault arrived in 48 hours. Heavyweight pieces with zero tarnish."
+        </p>
+        <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+          — VIKRAM S. | VERIFIED BUYER | BANGALORE
+        </div>
       </div>
-    </div>
-    <!-- Card 4 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "Nocturnal aesthetic is unmatched. Hard to find brutalist accessories like this in India."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — DINESH P. | VERIFIED BUYER | COIMBATORE
-      </div>
-    </div>
-    <!-- Card 5 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "Ring sizing is true to size guide specifications. Polished steel has zero tarnish after 2 weeks."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — SIDDHARTH T. | VERIFIED BUYER | HYDERABAD
-      </div>
-    </div>
-    <!-- Card 6 -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech">
-      <div class="text-[#FF0033] text-sm tracking-widest">★★★★★</div>
-      <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
-        "Pre-ordered the W-01 watch after getting the hardware set. Fast customer service response."
-      </p>
-      <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
-        — KARTHIK R. | VERIFIED BUYER | KOCHI
-      </div>
-    </div>
+    {% endif %}
   </div>
 </section>
 
 <!-- ========================================================================= -->
-<!-- 2.8 INSTAGRAM UGC FEED (6-Image Grid)                                     -->
+<!-- 2.8 WORKABLE COMMUNITY DISPATCHES (Theme Customizer Blocks + Modal)       -->
 <!-- ========================================================================= -->
-<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
-  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+<section id="community-dispatches" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F] font-mono-tech">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 border-b border-[#2A2A2F] pb-4">
     <div class="text-center sm:text-left">
-      <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+      <span class="text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033] block">
         // @RWND20S · TAG #AFTERDARKNORULES
       </span>
       <h2 class="mt-1 font-display text-2xl sm:text-3xl font-extrabold uppercase text-white">
         COMMUNITY DISPATCHES
       </h2>
     </div>
-    <a href="https://instagram.com" target="_blank" rel="noopener" class="font-mono-tech text-xs font-bold uppercase tracking-wider text-white border border-[#2A2A2F] px-4 py-2 hover:border-[#FF0033] transition-colors">
-      FOLLOW ON INSTAGRAM →
-    </a>
+
+    <div class="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+      <a
+        href="https://wa.me/918921946228?text=Yo%20RWND20s%2C%20submitting%20my%20hardware%20fit%20pic%20for%20Community%20Dispatches%3A"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex h-10 items-center justify-center bg-[#FF0033] px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors"
+      >
+        + SUBMIT YOUR FIT →
+      </a>
+      <a
+        href="https://instagram.com/rwnd20s"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex h-10 items-center justify-center border border-[#2A2A2F] bg-[#131316] px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-colors"
+      >
+        @RWND20S →
+      </a>
+    </div>
   </div>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-    {% for i in (1..6) %}
-      <div class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] flex items-center justify-center">
-        <!-- SVG Placeholder -->
-        <svg class="h-10 w-10 text-[#2A2A2F] group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-          <circle cx="12" cy="13" r="4" stroke-width="1.5"/>
-        </svg>
-        <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-center">
-          <span class="font-mono-tech text-[10px] text-[#FF0033] font-bold">#RWND20S</span>
-          <span class="font-mono-tech text-[9px] text-[#A3A7AE] uppercase mt-1">SHOP THIS LOOK</span>
-        </div>
-      </div>
-    {% endfor %}
+  <!-- 6-Tile Interactive Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% assign tagged_prod = block.settings.product %}
+        <button
+          type="button"
+          onclick="window.openRwndDispatchModal(this)"
+          data-handle="{{ block.settings.handle | default: '@OPERATOR_01' | escape }}"
+          data-city="{{ block.settings.city | default: 'MADURAI' | escape }}"
+          data-caption="{{ block.settings.caption | default: '316L stainless steel hardware worn after dark.' | escape }}"
+          data-img="{% if block.settings.image %}{{ block.settings.image | image_url: width: 900 }}{% endif %}"
+          data-prod-title="{% if tagged_prod != blank %}{{ tagged_prod.title | escape }}{% else %}3-PIECE MYSTERY CYBER SET{% endif %}"
+          data-prod-price="{% if tagged_prod != blank %}{{ tagged_prod.price | money }}{% else %}₹1,199{% endif %}"
+          data-prod-url="{% if tagged_prod != blank %}{{ tagged_prod.url }}{% else %}/products/3-piece-y2k-cyber-set{% endif %}"
+          class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] text-left cursor-pointer hover:border-[#FF0033] transition-all"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.image %}
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.handle | escape }}"
+              loading="lazy"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            >
+          {% else %}
+            <div class="flex h-full w-full flex-col items-center justify-center p-3 text-center bg-[#0A0A0C]">
+              <span class="text-[10px] font-bold text-[#FF0033]">// LOG 0{{ forloop.index }}</span>
+              <span class="mt-1 text-[9px] uppercase text-[#A3A7AE]">UPLOAD FIT IN CUSTOMIZER</span>
+            </div>
+          {% endif %}
+
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+
+          <div class="absolute bottom-2.5 left-2.5 right-2.5">
+            <p class="text-[10px] font-bold uppercase text-white truncate">
+              {{ block.settings.handle | default: '@OPERATOR_01' }}
+            </p>
+            <p class="text-[9px] uppercase text-[#FF0033] truncate">
+              SHOP FIT →
+            </p>
+          </div>
+        </button>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..6) %}
+        <a
+          href="https://wa.me/918921946228?text=Yo%20RWND20s%2C%20submitting%20my%20hardware%20fit%20pic%20for%20Slot%200{{ i }}%3A"
+          target="_blank"
+          rel="noopener"
+          class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] flex flex-col items-center justify-center p-3 text-center hover:border-[#FF0033] transition-colors"
+        >
+          <span class="text-[10px] font-bold text-[#FF0033]">// SLOT 0{{ i }}</span>
+          <span class="mt-1 text-[9px] uppercase text-[#A3A7AE] group-hover:text-white">+ SUBMIT FIT</span>
+        </a>
+      {% endfor %}
+    {% endif %}
   </div>
 </section>
 
+<!-- Dispatch Inspector Modal (z-220) -->
+<div
+  id="rwnd-dispatch-modal"
+  class="fixed inset-0 z-[220] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 font-mono-tech text-[#F5F5F7]"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#0A0A0A] shadow-2xl overflow-hidden">
+    <div class="flex items-center justify-between border-b border-[#2A2A2F] bg-[#131316] px-4 py-3">
+      <div class="flex items-center gap-2 text-xs">
+        <span class="h-2 w-2 bg-[#FF0033]"></span>
+        <span id="rwnd-disp-handle" class="font-bold uppercase text-white">@OPERATOR</span>
+        <span id="rwnd-disp-city" class="text-[10px] uppercase text-[#A3A7AE]">· MADURAI</span>
+      </div>
+      <button
+        type="button"
+        onclick="window.closeRwndDispatchModal()"
+        class="h-8 w-8 flex items-center justify-center text-[#A3A7AE] hover:text-[#FF0033] text-sm cursor-pointer"
+        aria-label="Close"
+      >✕</button>
+    </div>
+
+    <div class="aspect-square w-full bg-[#000000] flex items-center justify-center overflow-hidden border-b border-[#2A2A2F]">
+      <img id="rwnd-disp-img" src="" alt="Community Dispatch" class="h-full w-full object-cover hidden">
+      <div id="rwnd-disp-empty" class="p-8 text-center text-xs uppercase text-[#A3A7AE]">
+        // FIT ARCHIVE PENDING UPLOAD — TAG @RWND20S TO CLAIM THIS SLOT
+      </div>
+    </div>
+
+    <div class="p-4 space-y-4">
+      <p id="rwnd-disp-caption" class="text-xs text-[#C8CDD3] leading-relaxed"></p>
+
+      <div class="flex items-center justify-between gap-3 border border-[#2A2A2F] bg-[#131316] p-3">
+        <div class="min-w-0">
+          <span class="text-[9px] font-bold uppercase text-[#FF0033] block">// WORN HARDWARE</span>
+          <p id="rwnd-disp-prod-title" class="font-display text-xs font-bold uppercase text-white truncate"></p>
+          <p id="rwnd-disp-prod-price" class="text-xs font-bold text-[#A3A7AE] mt-0.5"></p>
+        </div>
+        <a
+          id="rwnd-disp-prod-url"
+          href="/collections/all"
+          class="shrink-0 bg-[#FF0033] px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors"
+        >
+          SHOP PIECE →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ========================================================================= -->
-<!-- 2.9 EMAIL CAPTURE / DROP NOTIFIER                                         -->
+<!-- 2.9 WORKABLE EMAIL CAPTURE / DROP NOTIFIER                                -->
 <!-- ========================================================================= -->
-<section class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 bg-[#0A0A0C] text-center">
+<section id="drop-notifier" class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 bg-[#0A0A0C] text-center">
   <div class="mx-auto max-w-2xl border border-[#2A2A2F] bg-[#131316] p-8 sm:p-14">
     <span class="font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
       [ ACCESS KEY // DROP ALERTS ]
@@ -539,41 +636,60 @@
       JOIN THE GRID.<br>GET EARLY ACCESS.
     </h2>
     <p class="mt-3 font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
-      Subscribers receive 24-hour advance access to upcoming hardware batches.
+      Subscribers receive 24-hour advance access to upcoming hardware batches and 10% off first orders.
     </p>
 
-    {% form 'customer', class: 'mt-8 flex flex-col gap-3' %}
-      <input type="hidden" name="contact[tags]" value="newsletter, drop01">
-      <div class="flex flex-col sm:flex-row gap-2">
-        <input 
-          type="email" 
-          name="contact[email]" 
-          placeholder="ENTER OPERATOR EMAIL..." 
-          required 
-          autocomplete="email"
-          class="flex-1 h-14 bg-[#0A0A0C] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
-        >
-        <button 
-          type="submit" 
-          class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors cursor-pointer"
-        >
-          SUBSCRIBE →
-        </button>
-      </div>
+    {% form 'customer', id: 'rwnd-grid-notifier-form', class: 'mt-8 flex flex-col gap-3' %}
+      <input type="hidden" id="rwnd-grid-tags" name="contact[tags]" value="newsletter, drop-01, grid-early-access">
 
-      <div class="mt-3 flex items-center justify-center gap-2 font-mono-tech text-xs text-[#A3A7AE]">
-        <input type="checkbox" id="whatsapp-notify" class="accent-[#FF0033] cursor-pointer">
-        <label for="whatsapp-notify" class="cursor-pointer">Also transmit drop notifications via WhatsApp</label>
-      </div>
+      {% if form.posted_successfully? %}
+        <div class="border border-[#00FF88] bg-[#0A0A0C] p-4 font-mono-tech text-xs uppercase text-[#00FF88]">
+          ✓ OPERATOR LOGGED · USE CODE <strong class="text-white">RWND10</strong> FOR 10% OFF
+        </div>
+      {% else %}
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input 
+            type="email" 
+            name="contact[email]" 
+            placeholder="ENTER OPERATOR EMAIL..." 
+            required 
+            autocomplete="email"
+            aria-label="Operator email"
+            class="flex-1 h-14 bg-[#0A0A0C] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+          >
+          <button 
+            type="submit" 
+            class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors cursor-pointer shrink-0"
+          >
+            SUBSCRIBE →
+          </button>
+        </div>
+
+        {% if form.errors %}
+          <p class="font-mono-tech text-[11px] font-bold uppercase text-[#FF0033]">
+            ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </p>
+        {% endif %}
+
+        <div class="mt-3 flex items-center justify-center gap-2 font-mono-tech text-xs text-[#A3A7AE]">
+          <input 
+            type="checkbox" 
+            id="whatsapp-notify" 
+            onchange="document.getElementById('rwnd-grid-tags').value = this.checked ? 'newsletter, drop-01, grid-early-access, whatsapp-alerts' : 'newsletter, drop-01, grid-early-access';"
+            class="accent-[#FF0033] cursor-pointer"
+          >
+          <label for="whatsapp-notify" class="cursor-pointer">Also flag profile for WhatsApp drop dispatches</label>
+        </div>
+      {% endif %}
 
       <p class="mt-2 font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE]">
-        No spam. Only drop dispatches. Unsubscribe anytime.
+        Dispatched from Madurai · No spam. Unsubscribe anytime.
       </p>
     {% endform %}
   </div>
 </section>
 
-<!-- ========================================================================= -->
+!-- ========================================================================= -->
 <!-- STYLES & INTERACTION LOGIC                                                -->
 <!-- ========================================================================= -->
 <style>
@@ -592,28 +708,77 @@
 </style>
 
 <script>
-  // Countdown Timer Simulator (14 Days)
+  // Persistent Countdown Timer
   (() => {
     const el = document.getElementById('hero-countdown');
+    const mirror = document.querySelector('.hero-countdown-mirror');
     if (!el) return;
-    const targetDate = new Date().getTime() + (14 * 24 * 60 * 60 * 1000) + (6 * 60 * 60 * 1000);
+
+    const KEY = 'rwnd_drop02_target';
+    let target = parseInt(localStorage.getItem(KEY) || '0', 10);
+    if (!target || target <= Date.now()) {
+      target = Date.now() + (14 * 24 * 60 * 60 * 1000) + (6 * 60 * 60 * 1000);
+      localStorage.setItem(KEY, String(target));
+    }
+
     const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      if (distance < 0) return;
+      const distance = Math.max(0, target - Date.now());
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      el.textContent = `${days}D ${hours}H ${minutes}M`;
+      const str = `${days}D ${hours}H ${minutes}M`;
+      el.textContent = str;
+      if (mirror) mirror.textContent = str;
     };
     updateCountdown();
     setInterval(updateCountdown, 60000);
   })();
+
+  // Community Dispatch Modal Controls
+  window.openRwndDispatchModal = function(btn) {
+    const modal = document.getElementById('rwnd-dispatch-modal');
+    if (!modal) return;
+
+    document.getElementById('rwnd-disp-handle').textContent = btn.dataset.handle;
+    document.getElementById('rwnd-disp-city').textContent = '· ' + btn.dataset.city;
+    document.getElementById('rwnd-disp-caption').textContent = btn.dataset.caption;
+    document.getElementById('rwnd-disp-prod-title').textContent = btn.dataset.prodTitle;
+    document.getElementById('rwnd-disp-prod-price').textContent = btn.dataset.prodPrice;
+    document.getElementById('rwnd-disp-prod-url').href = btn.dataset.prodUrl;
+
+    const imgEl = document.getElementById('rwnd-disp-img');
+    const emptyEl = document.getElementById('rwnd-disp-empty');
+    if (btn.dataset.img) {
+      imgEl.src = btn.dataset.img;
+      imgEl.classList.remove('hidden');
+      emptyEl.classList.add('hidden');
+    } else {
+      imgEl.classList.add('hidden');
+      emptyEl.classList.remove('hidden');
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeRwndDispatchModal = function() {
+    const modal = document.getElementById('rwnd-dispatch-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  };
+
+  document.getElementById('rwnd-dispatch-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'rwnd-dispatch-modal') window.closeRwndDispatchModal();
+  });
 </script>
 
 {% schema %}
 {
   "name": "Main Storefront Stage",
+  "max_blocks": 6,
   "settings": [
     {
       "type": "collection",
@@ -632,9 +797,53 @@
       "label": "Hero Background Video URL"
     }
   ],
+  "blocks": [
+    {
+      "type": "dispatch",
+      "name": "Community Fit Slot",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fit Photo (1:1 Square)"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Operator / Instagram Handle",
+          "default": "@OPERATOR_01"
+        },
+        {
+          "type": "text",
+          "id": "city",
+          "label": "City",
+          "default": "MADURAI"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Dispatch Note",
+          "default": "316L stainless steel Cuban chain + chrome ring daily loadout."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Tagged Product"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Main Storefront Stage"
+      "name": "Main Storefront Stage",
+      "blocks": [
+        { "type": "dispatch" },
+        { "type": "dispatch" },
+        { "type": "dispatch" },
+        { "type": "dispatch" },
+        { "type": "dispatch" },
+        { "type": "dispatch" }
+      ]
     }
   ]
 }
