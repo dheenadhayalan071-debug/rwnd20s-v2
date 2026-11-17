@@ -339,7 +339,7 @@
       </div>
     </div>
 
-<!-- ========================================================================= -->
+    <!-- ========================================================================= -->
     <!-- 3.2 BELOW-THE-FOLD SECTIONS                                               -->
     <!-- ========================================================================= -->
 
@@ -376,105 +376,51 @@
       </div>
     </section>
 
-    <!-- SECTION 2: WORKABLE NATIVE REVIEWS & RATINGS -->
-    <section id="reviews" class="mt-20 border-t border-[#2A2A2F] pt-12">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+    <!-- SECTION 2: HIGH-CONTRAST ELEVATED REVIEWS TERMINAL -->
+    <section id="reviews" class="mt-20 border border-[#FF0033]/50 border-t-2 border-t-[#FF0033] bg-[#0E0E12] p-5 sm:p-8 lg:p-10 shadow-[0_0_45px_rgba(255,0,51,0.09)]">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#2A2A2F] pb-5 mb-8">
         <div>
-          <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// OPERATOR TRANSMISSIONS</span>
-          <h2 class="font-display text-xl sm:text-2xl font-bold uppercase text-white">VERIFIED FIELD REVIEWS</h2>
+          <span class="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+            <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
+            // OPERATOR TRANSMISSIONS · FIELD LOGS
+          </span>
+          <h2 class="mt-1 font-display text-2xl sm:text-3xl font-extrabold uppercase text-white tracking-tight">
+            VERIFIED FIELD REVIEWS
+          </h2>
         </div>
         <button
           type="button"
-          onclick="toggleRwndReviewDrawer()"
-          class="h-11 px-5 border border-[#FF0033] bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer"
+          onclick="openRwndReviewModal()"
+          class="h-12 px-6 border border-[#FF0033] bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] hover:bg-[#CC0029] transition-all cursor-pointer shrink-0"
         >
           + WRITE A REVIEW
         </button>
       </div>
 
       <!-- Summary & Histogram Card -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border border-[#2A2A2F] bg-[#131316] p-6 sm:p-10 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border border-[#FF0033]/30 bg-[#16161C] p-6 sm:p-8 mb-8">
         <div class="md:col-span-4 text-center md:text-left border-b md:border-b-0 md:border-r border-[#2A2A2F] pb-6 md:pb-0 md:pr-6">
-          <span id="rwnd-summary-avg" class="font-display text-5xl font-extrabold text-white">{{ avg_display }}</span>
-          <div class="text-[#FF0033] text-lg mt-1 tracking-widest">★★★★★</div>
-          <p class="text-xs text-[#A3A7AE] mt-2">Based on <span id="rwnd-summary-count">{{ review_count }}</span> verified transmissions</p>
+          <span id="rwnd-summary-avg" class="font-display text-5xl sm:text-6xl font-extrabold text-white">{{ avg_display }}</span>
+          <div class="text-[#FF0033] text-lg mt-1 tracking-widest drop-shadow-[0_0_8px_rgba(255,0,51,0.5)]">★★★★★</div>
+          <p class="text-xs text-[#C8CDD3] mt-2 uppercase tracking-wider">Based on <span id="rwnd-summary-count" class="text-white font-bold">{{ review_count }}</span> verified transmissions</p>
         </div>
-        <div class="md:col-span-8 space-y-2 text-xs">
+        <div class="md:col-span-8 space-y-2.5 text-xs">
           <div class="flex items-center gap-3">
-            <span class="w-8">5★</span>
-            <div class="flex-1 h-2 bg-[#0A0A0C] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_5 }}%;"></div></div>
-            <span class="w-8 text-right text-[#A3A7AE]">{{ count_5 }}</span>
+            <span class="w-8 font-bold text-white">5★</span>
+            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033] shadow-[0_0_8px_rgba(255,0,51,0.6)]" style="width: {{ pct_5 }}%;"></div></div>
+            <span class="w-8 text-right text-white font-bold">{{ count_5 }}</span>
           </div>
           <div class="flex items-center gap-3">
-            <span class="w-8">4★</span>
-            <div class="flex-1 h-2 bg-[#0A0A0C] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_4 }}%;"></div></div>
+            <span class="w-8 font-bold text-[#C8CDD3]">4★</span>
+            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_4 }}%;"></div></div>
             <span class="w-8 text-right text-[#A3A7AE]">{{ count_4 }}</span>
           </div>
           <div class="flex items-center gap-3">
-            <span class="w-8">3★</span>
-            <div class="flex-1 h-2 bg-[#0A0A0C] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_3 }}%;"></div></div>
+            <span class="w-8 font-bold text-[#C8CDD3]">3★</span>
+            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_3 }}%;"></div></div>
             <span class="w-8 text-right text-[#A3A7AE]">{{ count_3 }}</span>
           </div>
         </div>
-      </div>
-
-      <!-- Collapsible Live Review Submission Form (Native Shopify Contact Endpoint) -->
-      <div id="rwnd-review-form-box" class="hidden border border-[#FF0033] bg-[#131316] p-6 mb-8">
-        <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-3 mb-4">
-          <span class="text-xs font-bold uppercase tracking-widest text-white">// LOG HARDWARE REVIEW — {{ product.title | escape }}</span>
-          <button type="button" onclick="toggleRwndReviewDrawer()" class="text-xs text-[#A3A7AE] hover:text-[#FF0033] cursor-pointer">✕ CLOSE</button>
-        </div>
-
-        <form id="rwnd-native-review-form" onsubmit="submitRwndNativeReview(event)" class="space-y-4">
-          <input type="hidden" name="form_type" value="contact">
-          <input type="hidden" name="utf8" value="✓">
-          <input type="hidden" name="contact[subject]" value="NEW PRODUCT REVIEW: {{ product.title | escape }}">
-          <input type="hidden" id="rwnd-rev-rating-input" value="5">
-
-          <!-- Star Selector -->
-          <div>
-            <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1.5">RATING *</label>
-            <div class="flex gap-2" id="rwnd-star-picker">
-              {% for s in (1..5) %}
-                <button
-                  type="button"
-                  data-star="{{ s }}"
-                  onclick="setRwndReviewStars({{ s }})"
-                  class="rwnd-star-btn h-10 w-10 border border-[#FF0033] bg-[#FF0033]/20 text-sm font-bold text-[#FF0033] cursor-pointer"
-                >★</button>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">YOUR NAME *</label>
-              <input type="text" id="rwnd-rev-name" required placeholder="E.G. ARJUN K." class="h-11 w-full border border-[#2A2A2F] bg-[#0A0A0C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
-            </div>
-            <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">CITY *</label>
-              <input type="text" id="rwnd-rev-city" required placeholder="E.G. CHENNAI" class="h-11 w-full border border-[#2A2A2F] bg-[#0A0A0C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
-            </div>
-            <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">EMAIL (PRIVATE) *</label>
-              <input type="email" id="rwnd-rev-email" name="contact[email]" required placeholder="FOR ORDER VERIFICATION" class="h-11 w-full border border-[#2A2A2F] bg-[#0A0A0C] px-3 text-xs text-white focus:border-[#FF0033] focus:outline-none">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">FIELD REPORT *</label>
-            <textarea id="rwnd-rev-body" rows="3" required placeholder="WEIGHT, FINISH, DELIVERY SPEED..." class="w-full border border-[#2A2A2F] bg-[#0A0A0C] p-3 text-xs text-white focus:border-[#FF0033] focus:outline-none"></textarea>
-          </div>
-
-          <textarea id="rwnd-rev-compiled-body" name="contact[body]" class="hidden"></textarea>
-
-          <div class="flex items-center justify-between gap-4">
-            <span id="rwnd-rev-status" class="text-[11px] uppercase text-[#A3A7AE]"></span>
-            <button type="submit" id="rwnd-rev-submit-btn" class="h-11 px-6 bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] cursor-pointer">
-              TRANSMIT REVIEW →
-            </button>
-          </div>
-        </form>
       </div>
 
       <!-- Review Cards Grid -->
@@ -482,46 +428,62 @@
         {% if meta_reviews != blank %}
           {% for rev in meta_reviews %}
             {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-            <div class="border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-between">
+            <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
               <div>
-                <div class="text-[#FF0033] text-sm tracking-wider">
-                  {% for i in (1..r_stars) %}★{% endfor %}
+                <div class="flex items-center justify-between">
+                  <div class="text-[#FF0033] text-sm tracking-wider">
+                    {% for i in (1..r_stars) %}★{% endfor %}
+                  </div>
+                  <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
                 </div>
-                <p class="mt-2 text-xs text-white leading-relaxed">"{{ rev.body.value | escape }}"</p>
+                {% if rev.photo != blank %}
+                  <div class="mt-3 aspect-square w-20 overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C]">
+                    <img src="{{ rev.photo | image_url: width: 300 }}" alt="Buyer hardware photo" loading="lazy" class="h-full w-full object-cover">
+                  </div>
+                {% endif %}
+                <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"{{ rev.body.value | escape }}"</p>
               </div>
-              <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2">
-                {{ rev.author.value | escape }}{% if rev.city.value != blank %} · {{ rev.city.value | escape }}{% endif %} · VERIFIED BUYER
+              <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5">
+                <strong class="text-white">{{ rev.author.value | escape }}</strong>{% if rev.city.value != blank %} · {{ rev.city.value | escape }}{% endif %}
               </p>
             </div>
           {% endfor %}
         {% else %}
-          <!-- Default Verified Drop 01 Transmissions (Until Metaobject Entries Are Added) -->
-          <div class="border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-between">
+          <!-- Default Verified Drop 01 Transmissions -->
+          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
             <div>
-              <div class="text-[#FF0033] text-sm">★★★★★</div>
-              <p class="mt-2 text-xs text-white">"Heavyweight feel. Doesn't feel cheap or hollow like typical commercial sets. 10/10."</p>
+              <div class="flex items-center justify-between">
+                <div class="text-[#FF0033] text-sm">★★★★★</div>
+                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+              </div>
+              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Heavyweight feel. Doesn't feel cheap or hollow like typical commercial sets. 10/10."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2">VISHAL M. · CHENNAI · VERIFIED BUYER</p>
+            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">VISHAL M.</strong> · CHENNAI</p>
           </div>
-          <div class="border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-between">
+          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
             <div>
-              <div class="text-[#FF0033] text-sm">★★★★★</div>
-              <p class="mt-2 text-xs text-white">"Madurai to Bangalore took exactly 48 hours. Packaging was immaculate with protective film."</p>
+              <div class="flex items-center justify-between">
+                <div class="text-[#FF0033] text-sm">★★★★★</div>
+                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+              </div>
+              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Madurai to Bangalore took exactly 48 hours. Packaging was immaculate with protective film."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2">ANIRUDH S. · BENGALURU · VERIFIED BUYER</p>
+            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">ANIRUDH S.</strong> · BENGALURU</p>
           </div>
-          <div class="border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-between">
+          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
             <div>
-              <div class="text-[#FF0033] text-sm">★★★★★</div>
-              <p class="mt-2 text-xs text-white">"Zero oxidation after sweaty gym sessions and rain exposure. Real 316L alloy."</p>
+              <div class="flex items-center justify-between">
+                <div class="text-[#FF0033] text-sm">★★★★★</div>
+                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+              </div>
+              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Zero oxidation after sweaty gym sessions and rain exposure. Real 316L alloy."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2">RAHUL D. · COIMBATORE · VERIFIED BUYER</p>
+            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">RAHUL D.</strong> · COIMBATORE</p>
           </div>
         {% endif %}
       </div>
     </section>
-
-    <!-- SECTION 3: FREQUENTLY ASKED QUESTIONS -->
+<!-- SECTION 3: FREQUENTLY ASKED QUESTIONS -->
     <section class="mt-20 border-t border-[#2A2A2F] pt-12">
       <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// DIRECT ANSWERS</span>
       <h2 class="font-display text-xl sm:text-2xl font-bold uppercase text-white mb-6">FREQUENTLY ASKED</h2>
@@ -549,6 +511,109 @@
   </div>
 </div>
 
+<!-- FULL-SCREEN WRITE REVIEW POPUP MODAL (z-210) -->
+<div
+  id="rwnd-review-modal"
+  class="fixed inset-0 z-[210] hidden items-center justify-center bg-black/95 backdrop-blur-xl p-4 font-mono-tech text-[#F5F5F7] overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="rwnd-review-modal-title"
+>
+  <div class="relative my-auto w-full max-w-lg border border-[#FF0033] border-t-2 bg-[#0D0D10] p-5 sm:p-7 shadow-[0_0_50px_rgba(255,0,51,0.2)]">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-3.5 mb-5">
+      <div>
+        <span class="text-[9px] font-bold uppercase tracking-widest text-[#FF0033] block">// FIELD TRANSMISSION TERMINAL</span>
+        <h3 id="rwnd-review-modal-title" class="font-display text-lg sm:text-xl font-extrabold uppercase text-white truncate max-w-[260px] sm:max-w-sm">
+          REVIEW: {{ product.title | escape }}
+        </h3>
+      </div>
+      <button
+        type="button"
+        onclick="closeRwndReviewModal()"
+        class="h-9 w-9 flex items-center justify-center border border-[#2A2A2F] bg-[#16161C] text-xs font-bold text-[#A3A7AE] hover:border-[#FF0033] hover:text-[#FF0033] cursor-pointer"
+        aria-label="Close"
+      >✕</button>
+    </div>
+
+    <form id="rwnd-native-review-form" onsubmit="submitRwndNativeReview(event)" class="space-y-4">
+      <input type="hidden" id="rwnd-rev-rating-input" value="5">
+
+      <!-- Star Picker -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1.5">SELECT RATING *</label>
+        <div class="flex gap-2" id="rwnd-star-picker">
+          {% for s in (1..5) %}
+            <button
+              type="button"
+              data-star="{{ s }}"
+              onclick="setRwndReviewStars({{ s }})"
+              class="rwnd-star-btn h-11 flex-1 border border-[#FF0033] bg-[#FF0033]/20 text-base font-bold text-[#FF0033] cursor-pointer transition-colors"
+            >★</button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Name & City -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">YOUR NAME *</label>
+          <input type="text" id="rwnd-rev-name" required placeholder="E.G. ARJUN K." class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">CITY *</label>
+          <input type="text" id="rwnd-rev-city" required placeholder="E.G. CHENNAI" class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">EMAIL (PRIVATE VERIFICATION) *</label>
+        <input type="email" id="rwnd-rev-email" required placeholder="YOUR@EMAIL.COM" class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white focus:border-[#FF0033] focus:outline-none">
+      </div>
+
+      <!-- Photo Attachment -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">HARDWARE PHOTO (OPTIONAL)</label>
+        <div class="flex items-center gap-3">
+          <label for="rwnd-rev-photo-input" class="flex-1 h-11 border border-dashed border-[#2A2A2F] hover:border-[#FF0033] bg-[#16161C] px-3 flex items-center justify-center gap-2 text-[11px] font-bold uppercase text-white cursor-pointer transition-colors">
+            <span class="text-[#FF0033]">+</span>
+            <span id="rwnd-rev-photo-label">ATTACH / SNAP PHOTO</span>
+          </label>
+          <input type="file" id="rwnd-rev-photo-input" accept="image/*" class="hidden" onchange="handleRwndReviewPhoto(this)">
+        </div>
+
+        <!-- Live Photo Preview -->
+        <div id="rwnd-rev-photo-preview-wrap" class="hidden mt-2.5 flex items-center justify-between border border-[#2A2A2F] bg-[#16161C] p-2">
+          <div class="flex items-center gap-3">
+            <img id="rwnd-rev-photo-preview" src="" alt="Preview" class="h-12 w-12 object-cover border border-[#FF0033]">
+            <span class="text-[10px] uppercase text-[#00FF88] font-bold">✓ PHOTO READY FOR DISPATCH</span>
+          </div>
+          <button type="button" onclick="clearRwndReviewPhoto()" class="px-2 py-1 text-[10px] font-bold uppercase text-[#FF0033] hover:underline cursor-pointer">
+            REMOVE
+          </button>
+        </div>
+      </div>
+
+      <!-- Review Body -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">FIELD REPORT *</label>
+        <textarea id="rwnd-rev-body" rows="3" required placeholder="WEIGHT, 316L FINISH, DELIVERY SPEED..." class="w-full border border-[#2A2A2F] bg-[#16161C] p-3 text-xs text-white focus:border-[#FF0033] focus:outline-none"></textarea>
+      </div>
+
+      <p id="rwnd-rev-status" class="text-[11px] uppercase text-[#A3A7AE] min-h-[16px]"></p>
+
+      <button
+        type="submit"
+        id="rwnd-rev-submit-btn"
+        class="h-12 w-full bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] hover:bg-[#CC0029] transition-all cursor-pointer"
+      >
+        TRANSMIT REVIEW →
+      </button>
+    </form>
+  </div>
+</div>
+
 <!-- STICKY MOBILE CONVERSION BAR -->
 <div class="fixed bottom-0 left-0 z-[110] w-full border-t border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:hidden flex items-center justify-between gap-3">
   <div>
@@ -566,6 +631,8 @@
 
 <!-- SCRIPTS -->
 <script>
+  let rwndCompressedPhotoDataUrl = '';
+
   function switchRwndProductImage(src, btn) {
     const mainImg = document.getElementById('rwnd-main-product-img');
     if (mainImg) mainImg.src = src;
@@ -595,10 +662,25 @@
     btn.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
   }
 
-  function toggleRwndReviewDrawer() {
-    const box = document.getElementById('rwnd-review-form-box');
-    if (box) box.classList.toggle('hidden');
+  function openRwndReviewModal() {
+    const modal = document.getElementById('rwnd-review-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeRwndReviewModal() {
+    const modal = document.getElementById('rwnd-review-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('rwnd-review-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'rwnd-review-modal') closeRwndReviewModal();
+  });
 
   function setRwndReviewStars(rating) {
     document.getElementById('rwnd-rev-rating-input').value = rating;
@@ -606,27 +688,77 @@
       const s = parseInt(btn.dataset.star);
       if (s <= rating) {
         btn.classList.add('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-[#FF0033]');
-        btn.classList.remove('border-[#2A2A2F]', 'bg-[#0A0A0C]', 'text-[#A3A7AE]');
+        btn.classList.remove('border-[#2A2A2F]', 'bg-[#16161C]', 'text-[#A3A7AE]');
       } else {
         btn.classList.remove('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-[#FF0033]');
-        btn.classList.add('border-[#2A2A2F]', 'bg-[#0A0A0C]', 'text-[#A3A7AE]');
+        btn.classList.add('border-[#2A2A2F]', 'bg-[#16161C]', 'text-[#A3A7AE]');
       }
     });
+  }
+
+  function handleRwndReviewPhoto(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_DIM = 600;
+        let w = img.width;
+        let h = img.height;
+        if (w > h && w > MAX_DIM) {
+          h = Math.round((h * MAX_DIM) / w);
+          w = MAX_DIM;
+        } else if (h > MAX_DIM) {
+          w = Math.round((w * MAX_DIM) / h);
+          h = MAX_DIM;
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        rwndCompressedPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+
+        document.getElementById('rwnd-rev-photo-preview').src = rwndCompressedPhotoDataUrl;
+        document.getElementById('rwnd-rev-photo-preview-wrap').classList.remove('hidden');
+        document.getElementById('rwnd-rev-photo-label').textContent = 'CHANGE PHOTO';
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+function clearRwndReviewPhoto() {
+    rwndCompressedPhotoDataUrl = '';
+    const input = document.getElementById('rwnd-rev-photo-input');
+    if (input) input.value = '';
+    document.getElementById('rwnd-rev-photo-preview-wrap').classList.add('hidden');
+    document.getElementById('rwnd-rev-photo-label').textContent = 'ATTACH / SNAP PHOTO';
   }
 
   function appendReviewCardToDom(rev) {
     const grid = document.getElementById('rwnd-reviews-grid');
     if (!grid) return;
     const starsStr = '★'.repeat(rev.rating || 5);
+    const photoHtml = rev.photo
+      ? `<div class="mt-3 aspect-square w-20 overflow-hidden border border-[#FF0033]/50 bg-[#0A0A0C]"><img src="${rev.photo}" alt="Submitted hardware photo" class="h-full w-full object-cover"></div>`
+      : '';
+
     const card = document.createElement('div');
-    card.className = 'border border-[#FF0033]/60 bg-[#131316] p-6 flex flex-col justify-between';
+    card.className = 'border border-[#FF0033]/80 bg-[#16161C] p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(255,0,51,0.12)]';
     card.innerHTML = `
       <div>
-        <div class="text-[#FF0033] text-sm tracking-wider">${starsStr}</div>
-        <p class="mt-2 text-xs text-white leading-relaxed">"${rev.body.replace(/</g, '&lt;')}"</p>
+        <div class="flex items-center justify-between">
+          <div class="text-[#FF0033] text-sm tracking-wider">${starsStr}</div>
+          <span class="border border-[#00FF88]/50 bg-[#00FF88]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#00FF88]">LOGGED</span>
+        </div>
+        ${photoHtml}
+        <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"${rev.body.replace(/</g, '&lt;')}"</p>
       </div>
-      <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2">
-        ${rev.name.replace(/</g, '&lt;')} · ${rev.city.replace(/</g, '&lt;')} · JUST SUBMITTED
+      <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5">
+        <strong class="text-white">${rev.name.replace(/</g, '&lt;')}</strong> · ${rev.city.replace(/</g, '&lt;')}
       </p>
     `;
     grid.prepend(card);
@@ -641,32 +773,55 @@
     const rating = parseInt(document.getElementById('rwnd-rev-rating-input').value) || 5;
     const name = document.getElementById('rwnd-rev-name').value.trim().toUpperCase();
     const city = document.getElementById('rwnd-rev-city').value.trim().toUpperCase();
+    const email = document.getElementById('rwnd-rev-email').value.trim();
     const body = document.getElementById('rwnd-rev-body').value.trim();
+    const hasPhoto = Boolean(rwndCompressedPhotoDataUrl);
 
-    document.getElementById('rwnd-rev-compiled-body').value =
-      `PRODUCT: {{ product.title | escape }} ({{ product.handle }})\nRATING: ${rating}/5\nAUTHOR: ${name}\nCITY: ${city}\nREVIEW: ${body}`;
+    const compiledBody =
+      `PRODUCT: {{ product.title | escape }} ({{ product.handle }})\n` +
+      `RATING: ${rating}/5\n` +
+      `AUTHOR: ${name}\n` +
+      `CITY: ${city}\n` +
+      `PHOTO ATTACHED: ${hasPhoto ? 'YES (Buyer uploaded image on storefront)' : 'NO'}\n` +
+      `REVIEW: ${body}`;
 
     btn.disabled = true;
     btn.textContent = '[ TRANSMITTING... ]';
 
     try {
-      const formData = new FormData(form);
-      await fetch('/contact', { method: 'POST', body: formData });
+      const payload = new URLSearchParams();
+      payload.append('form_type', 'contact');
+      payload.append('utf8', '✓');
+      payload.append('contact[subject]', `NEW PRODUCT REVIEW: {{ product.title | escape }}`);
+      payload.append('contact[email]', email);
+      payload.append('contact[body]', compiledBody);
 
-      const reviewObj = { rating, name, city, body };
+      await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString()
+      });
+
+      const reviewObj = { rating, name, city, body, photo: rwndCompressedPhotoDataUrl };
       const storageKey = 'rwnd_reviews_{{ product.handle }}';
-      const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
-      existing.unshift(reviewObj);
-      localStorage.setItem(storageKey, JSON.stringify(existing));
+      try {
+        const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        existing.unshift(reviewObj);
+        localStorage.setItem(storageKey, JSON.stringify(existing.slice(0, 10)));
+      } catch (storageErr) {}
 
       appendReviewCardToDom(reviewObj);
-      statusEl.textContent = '✓ TRANSMISSION LOGGED FOR VERIFICATION';
-      statusEl.className = 'text-[11px] uppercase text-[#00FF88]';
       form.reset();
+      clearRwndReviewPhoto();
       setRwndReviewStars(5);
+      statusEl.textContent = '';
+
+      // Auto-close modal and scroll smoothly to the newly added review
+      closeRwndReviewModal();
+      document.getElementById('rwnd-reviews-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (err) {
       statusEl.textContent = '✕ TRANSMISSION ERROR — TRY AGAIN';
-      statusEl.className = 'text-[11px] uppercase text-[#FF0033]';
+      statusEl.className = 'text-[11px] uppercase text-[#FF0033] min-h-[16px]';
     } finally {
       btn.disabled = false;
       btn.textContent = 'TRANSMIT REVIEW →';
@@ -675,8 +830,10 @@
 
   // Re-hydrate user's locally submitted reviews on reload
   (() => {
-    const saved = JSON.parse(localStorage.getItem('rwnd_reviews_{{ product.handle }}') || '[]');
-    saved.reverse().forEach(appendReviewCardToDom);
+    try {
+      const saved = JSON.parse(localStorage.getItem('rwnd_reviews_{{ product.handle }}') || '[]');
+      saved.reverse().forEach(appendReviewCardToDom);
+    } catch (e) {}
   })();
 </script>
 
