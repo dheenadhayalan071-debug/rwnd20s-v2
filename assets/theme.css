@@ -1,81 +1,94 @@
 /* assets/theme.css */
 
-/* ========================================================================= */
-/* 7.1 COLOR PALETTE & DESIGN SYSTEM TOKENS                                 */
-/* ========================================================================= */
+/* ==========================================================================
+   RWND20S CORE TOKENS (HIGH CONTRAST & CLEAN STREETWEAR HIERARCHY)
+   ========================================================================== */
 :root {
-  /* Blueprint 7.1 Primary Surfaces */
-  --black-pure: #000000;
-  --black-rich: #0A0A0A;
-  --black-soft: #1A1A1A;
+  /* Core Surfaces (Tonal Elevation) */
+  --bg-void: #000000;
+  --bg-surface-1: #0A0A0A;
+  --bg-surface-2: #121212;
+  --bg-surface-elevated: #181818;
 
-  /* Blueprint 7.1 Accent Hardware System */
-  --red-primary: #FF0033;
-  --red-dark: #CC0029;
-  --red-glow: rgba(255, 0, 51, 0.3);
+  /* Brand Accents */
+  --red-core: #FF0033;
+  --red-dim: rgba(255, 0, 51, 0.12);
+  --red-glow: rgba(255, 0, 51, 0.35);
 
-  /* Blueprint 7.1 Text System */
-  --white-pure: #FFFFFF;
-  --white-soft: rgba(255, 255, 255, 0.7);
-  --white-muted: rgba(255, 255, 255, 0.5);
+  /* High-Contrast Typography */
+  --text-pure: #FFFFFF;
+  --text-high-contrast: #F0F0F0;
+  --text-muted: #A3A3A3;       /* WCAG AAA compliant on #000 */
+  --text-subtle: #737373;      /* For metadata only */
 
-  /* Blueprint 7.1 Functional Status */
-  --success: #00FF88;
-  --warning: #FFB800;
-  --error: #FF0033;
-  --border: rgba(255, 255, 255, 0.1);
+  /* Hairline Industrial Borders (Replaces Heavy Clunky Boxes) */
+  --border-hairline: 1px solid rgba(255, 255, 255, 0.08);
+  --border-hairline-red: 1px solid rgba(255, 0, 51, 0.3);
+  --border-focus: 1px solid rgba(255, 255, 255, 0.25);
 
-  /* Glass Surface Tokens */
-  --glass-bg: rgba(10, 10, 10, 0.72);
-  --glass-bg-strong: rgba(10, 10, 10, 0.92);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-highlight: rgba(255, 255, 255, 0.05);
-  --glass-blur: 16px;
+  /* Fonts */
+  --font-display: 'Druk Wide', 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 
   /* Backward-Compatibility Aliases (Preserving Existing Liquid Selectors) */
-  --ink: var(--black-pure);
-  --surface: var(--black-rich);
-  --line: #2A2A2F;
+  --black-pure: var(--bg-void);
+  --black-rich: var(--bg-surface-1);
+  --black-soft: var(--bg-surface-elevated);
+  --red-primary: var(--red-core);
+  --red-dark: #CC0029;
+  --white-pure: var(--text-pure);
+  --white-soft: rgba(255, 255, 255, 0.78);
+  --white-muted: var(--text-muted);
+  --success: #00FF88;
+  --warning: #FFB800;
+  --error: var(--red-core);
+  --border: rgba(255, 255, 255, 0.08);
+  --ink: var(--bg-void);
+  --surface: var(--bg-surface-1);
+  --line: rgba(255, 255, 255, 0.08);
   --chrome: var(--white-soft);
-  --bone: var(--white-pure);
-  --muted: var(--white-muted);
-  --blood: var(--red-primary);
+  --bone: var(--text-pure);
+  --muted: var(--text-muted);
+  --blood: var(--red-core);
   --blood-hover: var(--red-dark);
   --moon: var(--red-glow);
   --magenta: #D946EF;
 
-  /* Blueprint 7.2 Typography Tokens */
-  --font-display: 'Druk Wide Bold', 'Syne', sans-serif;
-  --font-body: 'Inter', 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  /* Glass Surface Tokens */
+  --glass-bg: rgba(10, 10, 10, 0.78);
+  --glass-bg-strong: rgba(10, 10, 10, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.04);
+  --glass-blur: 16px;
 
   /* Legacy Font Aliases */
   --display: var(--font-display);
   --body: var(--font-body);
   --mono: var(--font-mono);
 
-  /* Fluid Clamp Type Scale */
-  --h1: clamp(48px, 10vw, 120px);
-  --h2: clamp(36px, 6vw, 72px);
-  --h3: clamp(24px, 4vw, 48px);
-  --h4: 24px;
-  --body-lg: 18px;
-  --body-regular: 16px;
-  --body-sm: 14px;
-  --caption: 12px;
-  --micro: 10px;
+  /* Calibrated Fluid Type Scale (Prevents Mobile Title Bloat) */
+  --h1: clamp(1.5rem, 4.5vw, 3.25rem);
+  --h2: clamp(1.35rem, 3.5vw, 2.5rem);
+  --h3: clamp(1.1rem, 2.5vw, 1.75rem);
+  --h4: 1.125rem;
+  --body-lg: 1rem;
+  --body-regular: 0.9375rem;
+  --body-sm: 0.875rem;
+  --caption: 0.75rem;
+  --micro: 0.65rem;
 
   --regular: 400;
   --medium: 500;
   --bold: 700;
   --black: 900;
 
-  --ls-tight: -0.02em;
+  --ls-tight: -0.015em;
   --ls-normal: 0;
-  --ls-wide: 0.05em;
-  --ls-widest: 0.15em;
+  --ls-wide: 0.04em;
+  --ls-widest: 0.12em;
 
-  /* Blueprint 7.3 Spacing System */
+  /* Spacing System */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -87,7 +100,7 @@
   --space-9: 96px;
   --space-10: 128px;
 
-  /* Blueprint 7.4 Timing & Easing Curves */
+  /* Timing & Easing Curves */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-brutal: cubic-bezier(0.87, 0, 0.13, 1);
   --duration-fast: 150ms;
@@ -96,7 +109,7 @@
 }
 
 /* ========================================================================= */
-/* STRICT 0PX GEOMETRY ENFORCEMENT                                          */
+/* BASE RESET, STRICT 0PX GEOMETRY & CONTRAST PROTECTION                     */
 /* ========================================================================= */
 *,
 *::before,
@@ -106,18 +119,20 @@
 }
 
 html {
-  background-color: var(--black-pure);
+  background-color: var(--bg-void);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  background-color: var(--black-pure);
-  color: var(--white-pure);
-  font-family: var(--font-mono);
-  font-size: var(--body-sm);
+  background-color: var(--bg-void);
+  color: var(--text-high-contrast);
+  font-family: var(--font-body);
+  font-size: 14px;
   line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 
 a {
@@ -136,36 +151,48 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--red-primary) !important;
+  outline: 1px solid var(--red-core) !important;
   outline-offset: 2px;
 }
 
 /* ========================================================================= */
-/* TYPOGRAPHIC HIERARCHY                                                     */
+/* TYPOGRAPHIC HIERARCHY (STRICT ROLE SEPARATION)                            */
 /* ========================================================================= */
-h1, h2, h3, h4, .font-display {
+h1, h2, h3, h4, .font-display, .heading-display {
   font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-pure);
   font-weight: var(--black);
-  letter-spacing: var(--ls-tight);
 }
 
 h1 {
   font-size: var(--h1);
-  line-height: 0.95;
+  line-height: 1.1;
 }
 
 h2 {
   font-size: var(--h2);
-  line-height: 1.05;
+  line-height: 1.12;
 }
 
 h3 {
   font-size: var(--h3);
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
-.font-mono-tech {
+p, li, .body-readable {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.font-mono-tech, .mono-tag, .telemetry {
   font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .eyebrow {
@@ -174,32 +201,53 @@ h3 {
   line-height: 1.2;
   letter-spacing: var(--ls-widest);
   text-transform: uppercase;
-  color: var(--white-soft);
+  color: var(--text-muted);
 }
 
 .price {
   font-family: var(--font-mono);
   font-weight: var(--bold);
   font-size: 1.25rem;
-  color: var(--white-pure);
+  color: var(--text-pure);
+}
+
+/* Hairline & Surface Elevation Helpers */
+.surface-1 {
+  background-color: var(--bg-surface-1);
+}
+
+.surface-2 {
+  background-color: var(--bg-surface-2);
+}
+
+.surface-elevated {
+  background-color: var(--bg-surface-elevated);
+}
+
+.hairline-box {
+  border: var(--border-hairline);
+}
+
+.hairline-divider {
+  border-bottom: var(--border-hairline);
 }
 
 /* ========================================================================= */
-/* 7.5 BUTTONS SYSTEM                                                       */
+/* BUTTONS SYSTEM                                                            */
 /* ========================================================================= */
 .button-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 32px;
-  background-color: var(--red-primary);
-  color: var(--white-pure) !important;
-  border: 1px solid var(--red-primary);
+  padding: 16px 28px;
+  background-color: var(--red-core);
+  color: var(--text-pure) !important;
+  border: 1px solid var(--red-core);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: var(--bold);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.1em;
   cursor: pointer;
   transition: transform var(--duration-fast) var(--ease-brutal), background-color var(--duration-fast) var(--ease-smooth);
 }
@@ -207,7 +255,6 @@ h3 {
 .button-primary:hover {
   background-color: var(--red-dark);
   border-color: var(--red-dark);
-  transform: scale(1.02);
 }
 
 .button-primary:active {
@@ -218,28 +265,28 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 32px;
-  background-color: transparent;
-  color: var(--white-pure) !important;
-  border: 1px solid var(--white-pure);
+  padding: 16px 28px;
+  background-color: var(--bg-surface-2);
+  color: var(--text-pure) !important;
+  border: var(--border-hairline);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: var(--bold);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.1em;
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .button-secondary:hover {
-  background-color: var(--white-pure);
-  color: var(--black-pure) !important;
+  border-color: rgba(255, 255, 255, 0.25);
+  background-color: var(--bg-surface-elevated);
 }
 
 .text-link {
   position: relative;
   display: inline-block;
-  color: var(--white-pure);
+  color: var(--text-pure);
   cursor: pointer;
   text-decoration: none;
 }
@@ -251,7 +298,7 @@ h3 {
   height: 1px;
   bottom: -2px;
   left: 0;
-  background-color: var(--red-primary);
+  background-color: var(--red-core);
   transition: width var(--duration-normal) var(--ease-smooth);
 }
 
@@ -260,7 +307,7 @@ h3 {
 }
 
 /* ========================================================================= */
-/* 7.6 FORMS & INPUTS                                                       */
+/* FORMS & INPUTS                                                            */
 /* ========================================================================= */
 input[type="text"],
 input[type="email"],
@@ -269,38 +316,34 @@ input[type="number"],
 input[type="tel"],
 select,
 textarea {
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 16px 20px;
-  color: var(--white-pure);
+  background-color: var(--bg-surface-1);
+  border: var(--border-hairline);
+  padding: 14px 16px;
+  color: var(--text-pure);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   transition: border-color var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-subtle);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.06em;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: var(--red-primary);
-  box-shadow: 0 0 12px var(--red-glow);
+  border-color: var(--red-core);
+  box-shadow: 0 0 12px var(--red-dim);
   outline: none;
 }
 
 /* ========================================================================= */
-/* 7.4 SCROLL & TRANSITION UTILITIES                                        */
+/* SCROLL & TRANSITION UTILITIES                                             */
 /* ========================================================================= */
-.fade-up-init {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
+.fade-up-init,
 .fade-up-active {
   opacity: 1 !important;
   transform: none !important;
@@ -310,14 +353,15 @@ textarea:focus {
 .stagger-2 { transition-delay: 150ms; }
 .stagger-3 { transition-delay: 250ms; }
 
-/* Product Card Brutalist Hover */
 .product-card-brutal {
+  border: var(--border-hairline);
+  background-color: var(--bg-surface-1);
   transition: border-color var(--duration-normal) var(--ease-smooth), box-shadow var(--duration-normal) var(--ease-smooth);
 }
 
 .product-card-brutal:hover {
-  border-color: var(--red-primary) !important;
-  box-shadow: 0 0 20px var(--red-glow);
+  border-color: var(--red-core) !important;
+  box-shadow: 0 0 20px var(--red-dim);
 }
 
 /* Card & Surface Modules */
@@ -325,19 +369,19 @@ textarea:focus {
   background: var(--glass-bg-strong) !important;
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border) !important;
+  border: var(--border-hairline) !important;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
 }
 
 .foggy-glass:hover {
-  border-color: var(--red-primary) !important;
+  border-color: var(--red-core) !important;
 }
 
 .glass {
   background:
     linear-gradient(to bottom, var(--glass-highlight), transparent),
     var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  border: var(--border-hairline);
   box-shadow: inset 0 1px 0 var(--glass-highlight), 0 8px 24px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(var(--glass-blur)) saturate(120%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
@@ -358,11 +402,11 @@ textarea:focus {
 }
 
 .compatibility-warning {
-  border-left: 2px solid var(--red-primary);
-  background-color: var(--surface);
-  padding: 12px;
-  font-size: 12px;
-  color: var(--white-pure);
+  border-left: 2px solid var(--red-core);
+  background-color: var(--bg-surface-2);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text-high-contrast);
 }
 
 /* ========================================================================= */
@@ -398,8 +442,8 @@ textarea:focus {
   
   .rwnd-hero-product-title {
     max-width: 100%;
-    font-size: clamp(1.4rem, 6vw, 1.75rem) !important;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.35rem, 5.5vw, 1.75rem) !important;
+    letter-spacing: -0.02em;
     line-height: 1.15;
     overflow-wrap: anywhere;
   }
@@ -437,9 +481,5 @@ textarea:focus {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
-  }
-  .fade-up-init {
-    opacity: 1 !important;
-    transform: none !important;
   }
 }
