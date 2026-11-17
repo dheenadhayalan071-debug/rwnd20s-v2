@@ -25,8 +25,6 @@
 {% assign count_5 = 0 %}
 {% assign count_4 = 0 %}
 {% assign count_3 = 0 %}
-{% assign count_2 = 0 %}
-{% assign count_1 = 0 %}
 
 {% if meta_reviews != blank %}
   {% for rev in meta_reviews %}
@@ -36,8 +34,6 @@
     {% if r_val == 5 %}{% assign count_5 = count_5 | plus: 1 %}{% endif %}
     {% if r_val == 4 %}{% assign count_4 = count_4 | plus: 1 %}{% endif %}
     {% if r_val == 3 %}{% assign count_3 = count_3 | plus: 1 %}{% endif %}
-    {% if r_val == 2 %}{% assign count_2 = count_2 | plus: 1 %}{% endif %}
-    {% if r_val == 1 %}{% assign count_1 = count_1 | plus: 1 %}{% endif %}
   {% endfor %}
 {% endif %}
 
@@ -60,59 +56,216 @@
   {% assign pct_3 = 0 %}
 {% endif %}
 
-<div class="relative w-full bg-[#0A0A0C] px-4 py-8 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-12 lg:px-8">
-  <div class="mx-auto max-w-7xl">
+<style>
+  .pdp-shell {
+    width: 100%;
+    background-color: #000000;
+    color: #F0F0F0;
+    padding: 16px 16px 96px;
+  }
+  @media (min-width: 1024px) {
+    .pdp-shell { padding: 32px 32px 72px; }
+  }
+  .pdp-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 1024px) {
+    .pdp-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: start;
+    }
+  }
+  .pdp-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .pdp-telemetry-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .pdp-status-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tech-chip {
+    padding: 4px 8px;
+    background-color: #121212;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #A3A3A3;
+  }
+  .tech-chip--red {
+    background-color: rgba(255, 0, 51, 0.12);
+    border-color: rgba(255, 0, 51, 0.35);
+    color: #FF0033;
+  }
+  .pdp-title {
+    font-family: 'Druk Wide', 'Syne', sans-serif;
+    font-size: clamp(1.3rem, 5vw, 2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .pdp-sub-row {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .pdp-price-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .loadout-manifest {
+    background-color: #0A0A0A;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 2px solid #FF0033;
+    padding: 16px;
+  }
+  .manifest-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .manifest-list {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .manifest-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  @media (min-width: 640px) {
+    .trust-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 6px;
+  }
+  .accordion-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .accordion-trigger {
+    list-style: none;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+  .accordion-trigger::-webkit-details-marker { display: none; }
+  .accordion-icon {
+    color: #FF0033;
+    font-size: 16px;
+    transition: transform 150ms ease;
+  }
+  .accordion-item[open] .accordion-icon { transform: rotate(45deg); }
+  .specs-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .specs-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    vertical-align: top;
+  }
+  .specs-table td:first-child {
+    width: 36%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #737373;
+    text-transform: uppercase;
+  }
+  .specs-table td:last-child {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #F0F0F0;
+  }
+</style>
+
+<div class="pdp-shell">
+  <div class="pdp-grid">
     
-    <!-- 3.1 BREADCRUMB -->
-    <nav aria-label="Breadcrumb" class="mb-6 flex items-center gap-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
-      <a href="/" class="hover:text-white transition-colors">Home</a>
-      <span>/</span>
-      <a href="/collections/all" class="hover:text-white transition-colors">Drop 01</a>
-      <span>/</span>
-      <span class="text-white font-bold truncate max-w-[200px] sm:max-w-none">{{ product.title | escape }}</span>
-    </nav>
-
-    <!-- PRODUCT STAGE: SPLIT 50/50 LAYOUT -->
-    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-      
-      <!-- LEFT SIDE: MEDIA GALLERY (Sticky Desktop) -->
-      <div class="lg:col-span-7 lg:sticky lg:top-24 flex flex-col-reverse md:flex-row gap-4">
-        <!-- Thumbnail Strip -->
-        <div class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[580px] pb-2 md:pb-0 scrollbar-thin">
-          {% if product.images.size > 0 %}
-            {% for image in product.images %}
-              <button 
-                type="button" 
-                onclick="switchRwndProductImage('{{ image | image_url: width: 1200 }}', this)" 
-                class="rwnd-thumb relative aspect-square w-16 sm:w-20 shrink-0 border {% if forloop.first %}border-[#FF0033]{% else %}border-[#2A2A2F]{% endif %} bg-[#131316] p-1 transition-all hover:border-[#FF0033]"
-              >
-                <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" class="h-full w-full object-cover">
-              </button>
-            {% endfor %}
-          {% else %}
-            {% for i in (1..4) %}
-              <div class="aspect-square w-16 shrink-0 border border-[#2A2A2F] bg-[#131316] flex items-center justify-center text-[10px] text-[#A3A7AE]">
-                0{{ i }}
-              </div>
-            {% endfor %}
-          {% endif %}
+    <!-- LEFT COLUMN: MEDIA GALLERY -->
+    <div class="lg:sticky lg:top-24 flex flex-col-reverse md:flex-row gap-3">
+      {% if product.images.size > 1 %}
+        <div class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[540px] pb-1 md:pb-0">
+          {% for image in product.images %}
+            <button 
+              type="button" 
+              onclick="switchRwndProductImage('{{ image | image_url: width: 1200 }}', this)" 
+              class="rwnd-thumb relative aspect-square w-16 shrink-0 border {% if forloop.first %}border-[#FF0033]{% else %}border-white/10{% endif %} bg-[#0A0A0A] p-1 transition-colors hover:border-[#FF0033] cursor-pointer"
+            >
+              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" class="h-full w-full object-cover">
+            </button>
+          {% endfor %}
         </div>
+      {% endif %}
 
-        <!-- Main Display Canvas -->
-        <div class="relative aspect-square w-full flex-1 overflow-hidden border border-[#2A2A2F] bg-[#131316] p-4 sm:p-8 group">
-          <span class="absolute left-4 top-4 z-10 border border-[#FF0033] bg-[#0A0A0C] px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
-            {% if is_watch %}
-              TIMEPIECE SPEC // W-01
-            {% elsif is_earphone %}
-              AUDIO SPEC // EAR-01
-            {% elsif is_bundle %}
-              CLASSIFIED MYSTERY VAULT
-            {% else %}
-              DROP 01 // ARCHIVE PIECE
-            {% endif %}
-          </span>
+      <div class="relative aspect-square w-full flex-1 overflow-hidden border border-white/10 bg-[#0A0A0A] p-4 sm:p-6 group">
+        <span class="tech-chip tech-chip--red absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] truncate">
+          {% if is_watch %}
+            TIMEPIECE // W-01
+          {% elsif is_earphone %}
+            AUDIO // EAR-01
+          {% elsif is_bundle %}
+            MYSTERY VAULT
+          {% else %}
+            DROP 01
+          {% endif %}
+        </span>
 
-          <div class="h-full w-full flex items-center justify-center overflow-hidden cursor-crosshair">
+        <div class="h-full w-full flex items-center justify-center overflow-hidden">
+          {% if product.featured_image or product.images.size > 0 %}
             <img 
               id="rwnd-main-product-img"
               src="{{ product.featured_image | default: product.images[0] | image_url: width: 1200 }}" 
@@ -120,253 +273,285 @@
               width="1200" 
               height="1200" 
               fetchpriority="high"
-              class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-125"
+              class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
             >
-          </div>
+          {% else %}
+            <span class="font-mono-tech text-[11px] uppercase tracking-wider text-[#737373]">MEDIA ARCHIVE PENDING</span>
+          {% endif %}
         </div>
-      </div>
-
-      <!-- RIGHT SIDE: PRODUCT DETAILS & CONVERSION -->
-      <div class="lg:col-span-5 space-y-6">
-        
-        <!-- Badge Row & Identification -->
-        <div>
-          <div class="flex items-center gap-2 mb-3">
-            <span class="border border-[#FF0033] bg-[#FF0033]/15 px-2 py-0.5 text-[9px] font-bold tracking-widest text-[#FF0033] uppercase">DROP 01</span>
-            <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-0.5 text-[9px] font-bold tracking-widest text-white uppercase">316L STEEL</span>
-            <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-0.5 text-[9px] font-bold tracking-widest text-[#A3A7AE] uppercase">FREE SIZE</span>
-          </div>
-
-          <h1 class="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-tight">
-            {{ product.title | escape }}
-          </h1>
-          <p class="mt-1 text-xs text-[#A3A7AE] font-mono-tech tracking-wider uppercase">
-            // MDU_DISPATCH · HEAVYWEIGHT BRUTALISM
-          </p>
-
-          <!-- Live Reviews Jump -->
-          <a href="#reviews" class="mt-2 inline-flex items-center gap-2 text-xs text-[#A3A7AE] hover:text-[#FF0033] transition-colors">
-            <span class="text-[#FF0033] tracking-wider">★★★★★</span>
-            <span id="rwnd-top-avg" class="text-white font-bold">{{ avg_display }}</span>
-            <span class="underline underline-offset-2">(<span id="rwnd-top-count">{{ review_count }}</span> verified reviews)</span>
-          </a>
-        </div>
-
-        <!-- Pricing & Live Stock Indicator -->
-        <div class="border-y border-[#2A2A2F] py-4">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono-tech text-3xl font-extrabold text-white">
-              {{ current_variant.price | money }}
-            </span>
-            {% if current_variant.compare_at_price > current_variant.price %}
-              <span class="font-mono-tech text-base text-[#A3A7AE] line-through">
-                {{ current_variant.compare_at_price | money }}
-              </span>
-              {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
-              {% assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price %}
-              <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-0.5 text-[10px] font-bold text-[#FF0033]">
-                SAVE {{ savings | money }} ({{ savings_pct }}% OFF)
-              </span>
-            {% endif %}
-          </div>
-
-          <div class="mt-3 flex items-center gap-2 text-xs text-[#A3A7AE]">
-            <span class="h-2 w-2 bg-[#FF0033] animate-pulse"></span>
-            {% if current_variant.available %}
-              {% if current_variant.inventory_quantity > 0 %}
-                <span>● IN STOCK · <strong class="text-white">{{ current_variant.inventory_quantity }} UNITS REMAINING</strong></span>
-              {% else %}
-                <span>● IN STOCK · <strong class="text-white">READY FOR 24H DISPATCH</strong></span>
-              {% endif %}
-            {% else %}
-              <span>● <strong class="text-[#FF0033]">ARCHIVE DEPLETED (SOLD OUT)</strong></span>
-            {% endif %}
-          </div>
-        </div>
-
-        <!-- CLASSIFIED MYSTERY LOADOUT (Bundles Only) -->
-        {% if is_bundle %}
-          <div class="border border-[#FF0033]/40 bg-[#131316] p-4 space-y-2.5">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">
-              // CLASSIFIED MYSTERY LOADOUT (BLIND DROP):
-            </span>
-            <ul class="text-xs space-y-1.5 text-[#C8CDD3]">
-              <li class="flex items-center gap-2"><span class="text-[#FF0033]">✓</span> 1× Mystery 316L Chain + Pendant (50cm)</li>
-              <li class="flex items-center gap-2"><span class="text-[#FF0033]">✓</span> 1× Mystery Heavyweight Link Bracelet (Adjustable)</li>
-              <li class="flex items-center gap-2"><span class="text-[#FF0033]">✓</span> 1× Mystery Industrial Chrome Ring (Free Size)</li>
-            </ul>
-            <p class="border-t border-[#2A2A2F] pt-2 text-[11px] text-[#A3A7AE]">
-              ⚠ Designs are randomly selected from Drop 01 archive stock. Final sale—exchanges strictly for verified defects (48-hr uncut unboxing video required).
-            </p>
-          </div>
-        {% endif %}
-
-        <!-- Compatibility Warning for Earphones -->
-        {% if is_earphone %}
-          <div class="border-l-2 border-[#FF0033] bg-[#131316] p-4 text-xs space-y-1">
-            <p class="font-bold text-white">Type-C Native Digital DAC.</p>
-            <p class="text-[#A3A7AE]">Compatible with Type-C Android and iPhone 15/16 series. Not for 3.5mm headphone jacks.</p>
-          </div>
-        {% endif %}
-
-        <!-- Add To Cart Form -->
-        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="rwnd-product-form" class="space-y-4">
-          <input type="hidden" name="id" id="rwnd-selected-variant-id" value="{{ current_variant.id }}">
-
-          {% unless product.has_only_default_variant %}
-            <div>
-              <div class="flex items-center justify-between text-xs mb-2">
-                <span class="font-bold uppercase tracking-wider text-[#C8CDD3]">SELECT SPECIFICATION:</span>
-                <a href="/pages/size-guide" onclick="openSizeGuideModal(event)" class="text-[#A3A7AE] hover:text-white underline">Size Guide →</a>
-              </div>
-              <div class="grid grid-cols-4 gap-2">
-                {% for variant in product.variants %}
-                  <button 
-                    type="button" 
-                    {% if variant.available %}
-                      onclick="selectRwndVariant('{{ variant.id }}', '{{ variant.price | money }}', this)"
-                    {% else %}
-                      disabled
-                    {% endif %}
-                    class="rwnd-var-btn h-12 border {% if variant.id == current_variant.id %}border-[#FF0033] bg-[#FF0033]/20 text-white{% else %}border-[#2A2A2F] bg-[#131316] text-[#A3A7AE]{% endif %} text-xs font-bold uppercase tracking-wider hover:border-[#FF0033] transition-all disabled:opacity-30 disabled:line-through"
-                  >
-                    {{ variant.title | escape }}
-                  </button>
-                {% endfor %}
-              </div>
-            </div>
-          {% endunless %}
-
-          <!-- Quantity Adjuster -->
-          <div class="flex items-center gap-4">
-            <span class="text-xs uppercase font-bold text-[#A3A7AE]">QTY:</span>
-            <div class="flex items-center border border-[#2A2A2F] bg-[#131316]">
-              <button type="button" onclick="adjustRwndQty(-1)" class="h-10 w-10 flex items-center justify-center text-white hover:text-[#FF0033] cursor-pointer">−</button>
-              <input type="number" id="rwnd-qty-input" name="quantity" value="1" min="1" readonly class="h-10 w-12 text-center bg-transparent text-white font-bold text-xs focus:outline-none">
-              <button type="button" onclick="adjustRwndQty(1)" class="h-10 w-10 flex items-center justify-center text-white hover:text-[#FF0033] cursor-pointer">+</button>
-            </div>
-            <span class="text-[10px] uppercase tracking-wider text-[#A3A7AE]">[ UNIVERSAL ADJUSTABLE FIT ]</span>
-          </div>
-
-          <!-- CTAs -->
-          <div class="space-y-3 pt-2">
-            <button 
-              type="submit" 
-              name="add" 
-              {% unless current_variant.available %}disabled{% endunless %}
-              class="w-full h-14 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#E0213F] transition-all cursor-pointer flex items-center justify-center disabled:opacity-40"
-            >
-              {% if current_variant.available %}
-                [ + ADD TO HARDWARE BAG — <span id="btn-price-display">{{ current_variant.price | money }}</span> ]
-              {% else %}
-                [ SOLD OUT ]
-              {% endif %}
-            </button>
-
-            <a 
-              href="/checkout" 
-              class="w-full h-14 border border-[#2A2A2F] bg-[#131316] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:border-[#FF0033] transition-all flex items-center justify-center"
-            >
-              ⚡ INSTANT CHECKOUT →
-            </a>
-          </div>
-        </form>
-
-        <!-- Trust Badges Row -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 border-t border-[#2A2A2F] pt-4 text-[10px] uppercase text-[#A3A7AE] text-center">
-          <div class="p-2 border border-[#2A2A2F] bg-[#131316]">🛡️ Secure Pay</div>
-          <div class="p-2 border border-[#2A2A2F] bg-[#131316]">🚚 24h Dispatch</div>
-          <div class="p-2 border border-[#2A2A2F] bg-[#131316]">↩️ Defect Return</div>
-          <div class="p-2 border border-[#2A2A2F] bg-[#131316]">💰 COD Available</div>
-        </div>
-
-        <!-- Accordions -->
-        <div class="border-t border-[#2A2A2F] pt-4 space-y-2">
-          <details class="group border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer" open>
-            <summary class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-white">
-              <span>▸ DESCRIPTION</span>
-              <span class="group-open:rotate-90 transition-transform">›</span>
-            </summary>
-            <div class="mt-3 text-xs text-[#A3A7AE] leading-relaxed">
-              {{ product.description | default: "Engineered strictly for nocturnal operators. 316L high-polish metal hardware tailored with brutalist precision. Resists tarnish, sweat, and corrosive daily exposure." }}
-            </div>
-          </details>
-
-          <details class="group border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-            <summary class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-white">
-              <span>▸ MATERIALS & CARE</span>
-              <span class="group-open:rotate-90 transition-transform">›</span>
-            </summary>
-            <div class="mt-3 text-xs text-[#A3A7AE] leading-relaxed space-y-1">
-              <p>• Premium 316L Solid Stainless Steel alloy.</p>
-              <p>• Zero nickel content — 100% hypoallergenic skin compatibility.</p>
-              <p>• Wipe clean with a microfiber cloth; avoid heavy solvent cleaners.</p>
-            </div>
-          </details>
-
-          <details class="group border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-            <summary class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-white">
-              <span>▸ SHIPPING & RETURNS</span>
-              <span class="group-open:rotate-90 transition-transform">›</span>
-            </summary>
-            <div class="mt-3 text-xs text-[#A3A7AE] leading-relaxed space-y-1">
-              <p>• Dispatched from Madurai within 24 hours of order receipt.</p>
-              <p>• South India transit: ~48 hours. Rest of India: 3-5 days.</p>
-              <p>• Free shipping on orders ₹999+. Flat ₹49 under ₹999.</p>
-              <p>• 48-hour return window for verified defects (uncut unboxing video required).</p>
-            </div>
-          </details>
-
-          <details class="group border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-            <summary class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-white">
-              <span>▸ SIZE SPECIFICATIONS</span>
-              <span class="group-open:rotate-90 transition-transform">›</span>
-            </summary>
-            <div class="mt-3 text-xs text-[#A3A7AE] leading-relaxed">
-              <p>Chains: 50 cm (20") collarbone fit. Bracelets: 20 cm (7.8") modular links. Rings: Open-band free-size adjustable.</p>
-              <a href="/pages/size-guide" onclick="openSizeGuideModal(event)" class="text-[#A3A7AE] hover:text-white underline cursor-pointer">Size Guide →</a>
-            </div>
-          </details>
-        </div>
-
-        <!-- Share Row -->
-        <div class="flex items-center gap-3 pt-2 text-xs text-[#A3A7AE]">
-          <span class="uppercase tracking-wider">Share:</span>
-          <a href="https://api.whatsapp.com/send?text={{ shop.url }}{{ product.url }}" target="_blank" class="hover:text-white border border-[#2A2A2F] px-2 py-1">[WhatsApp]</a>
-          <button type="button" onclick="navigator.clipboard.writeText(window.location.href); alert('Archive Link Copied.');" class="hover:text-white border border-[#2A2A2F] px-2 py-1 cursor-pointer">[Copy Link]</button>
-        </div>
-
       </div>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- 3.2 BELOW-THE-FOLD SECTIONS                                               -->
-    <!-- ========================================================================= -->
-
-    <!-- SECTION 1: COMPLETE THE LOOK (Upsells) -->
-    <section class="mt-20 border-t border-[#2A2A2F] pt-12">
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// SYNERGISTIC ARCHIVE</span>
-          <h2 class="font-display text-xl sm:text-2xl font-bold uppercase text-white">COMPLETE THE LOOK</h2>
+    <!-- RIGHT COLUMN: REFACTORED BUY BOX ARCHITECTURE -->
+    <section class="pdp-container">
+      
+      <!-- Breadcrumbs & Status Chips -->
+      <div class="pdp-telemetry-bar">
+        <a href="/collections/all" class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#FF0033] hover:underline">
+          ← ARCHIVE
+        </a>
+        <div class="pdp-status-chips">
+          <span class="tech-chip tech-chip--red">DROP 01</span>
+          <span class="tech-chip">{% if is_earphone %}TYPE-C DAC{% else %}316L SURGICAL STEEL{% endif %}</span>
+          <span class="tech-chip">ADJUSTABLE FIT</span>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+      <!-- Product Title & Rating -->
+      <div>
+        <h1 class="pdp-title">{{ product.title | escape }}</h1>
+        <div class="pdp-sub-row">
+          <a href="#reviews" class="inline-flex items-center gap-2">
+            <span class="text-[#FF0033] text-xs tracking-wider">★★★★★</span>
+            <span class="font-mono-tech text-[11px] uppercase text-white">
+              {{ avg_display }} <span class="text-[#A3A3A3]">({{ review_count }} TRANSMISSIONS)</span>
+            </span>
+          </a>
+          <span class="font-mono-tech text-[10px] uppercase tracking-wider text-[#737373]">MDU_DISPATCH // TAMIL NADU</span>
+        </div>
+      </div>
+
+      <!-- Pricing Unit (Zero Box Bloat) -->
+      <div class="pdp-price-row">
+        <div class="flex items-baseline gap-2.5 font-mono-tech">
+          <span class="text-2xl sm:text-3xl font-extrabold text-white" id="pdp-live-price">{{ current_variant.price | money }}</span>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="text-sm text-[#737373] line-through">{{ current_variant.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
+          {% assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price %}
+          <span class="tech-chip tech-chip--red">
+            SAVE {{ savings_pct }}% [{{ savings | money }} OFF]
+          </span>
+        {% endif %}
+      </div>
+
+      <!-- Inventory Ticker -->
+      <div class="flex items-center gap-2 font-mono-tech text-[11px] uppercase tracking-wider text-[#A3A3A3]">
+        <span class="h-2 w-2 bg-[#FF0033] animate-pulse"></span>
+        {% if current_variant.available %}
+          {% if current_variant.inventory_quantity > 0 %}
+            <span><strong class="text-white">LOW ALLOCATION:</strong> ONLY {{ current_variant.inventory_quantity }} UNITS REMAIN IN VAULT</span>
+          {% else %}
+            <span><strong class="text-white">STATUS:</strong> READY FOR 24H DISPATCH</span>
+          {% endif %}
+        {% else %}
+          <span><strong class="text-[#FF0033]">DEPLETED:</strong> BATCH SOLD OUT</span>
+        {% endif %}
+      </div>
+
+      <!-- Streamlined Loadout Box (Bundles Only) -->
+      {% if is_bundle %}
+        <div class="loadout-manifest">
+          <div class="manifest-header">
+            <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#FF0033]">// VAULT CONTENTS (BLIND CURATION)</span>
+            <span class="font-mono-tech text-[10px] uppercase text-[#737373]">3 PIECES INCLUDED</span>
+          </div>
+          <ul class="manifest-list">
+            <li>
+              <span class="font-mono-tech text-[11px] font-bold text-[#FF0033] pt-0.5">01</span>
+              <div class="flex flex-col">
+                <strong class="font-sans text-[13px] font-semibold text-white">Heavyweight Pendant Chain</strong>
+                <span class="font-sans text-xs text-[#A3A3A3]">50cm length · 316L Solid Stainless Steel</span>
+              </div>
+            </li>
+            <li>
+              <span class="font-mono-tech text-[11px] font-bold text-[#FF0033] pt-0.5">02</span>
+              <div class="flex flex-col">
+                <strong class="font-sans text-[13px] font-semibold text-white">Industrial Link Bracelet</strong>
+                <span class="font-sans text-xs text-[#A3A3A3]">Universal adjustable clasp · Sweat/Waterproof</span>
+              </div>
+            </li>
+            <li>
+              <span class="font-mono-tech text-[11px] font-bold text-[#FF0033] pt-0.5">03</span>
+              <div class="flex flex-col">
+                <strong class="font-sans text-[13px] font-semibold text-white">Cyber Chrome Statement Ring</strong>
+                <span class="font-sans text-xs text-[#A3A3A3]">Engineered open-band (Universal sizing)</span>
+              </div>
+            </li>
+          </ul>
+          <div class="pt-2.5 border-t border-white/10">
+            <span class="font-mono-tech text-[10px] uppercase tracking-wider text-[#737373]">
+              ℹ Pieces curated at random from Drop 01 Vault. 100% tarnish-proof guarantee.
+            </span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if is_earphone %}
+        <div class="border-l-2 border-[#FF0033] bg-[#0A0A0A] p-3.5">
+          <strong class="font-sans text-xs font-semibold text-white block">Type-C Native Digital DAC.</strong>
+          <span class="font-sans text-xs text-[#A3A3A3]">Compatible with Type-C Android and iPhone 15/16 series. Not for 3.5mm jacks.</span>
+        </div>
+      {% endif %}
+
+      <!-- Actions / Buy Box -->
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="rwnd-product-form" class="flex flex-col gap-2.5">
+        <input type="hidden" name="id" id="rwnd-selected-variant-id" value="{{ current_variant.id }}">
+
+        {% unless product.has_only_default_variant %}
+          <div class="space-y-2 pb-1">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-tech text-[11px] uppercase tracking-wider text-[#A3A3A3]">SELECT SPECIFICATION:</span>
+              <a href="/pages/size-guide" onclick="openSizeGuideModal(event)" class="font-mono-tech text-[11px] uppercase text-white underline">Size Guide →</a>
+            </div>
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+              {% for variant in product.variants %}
+                <button 
+                  type="button" 
+                  {% if variant.available %}
+                    onclick="selectRwndVariant('{{ variant.id }}', '{{ variant.price | money }}', this)"
+                  {% else %}
+                    disabled
+                  {% endif %}
+                  class="rwnd-var-btn h-11 border {% if variant.id == current_variant.id %}border-[#FF0033] bg-[#FF0033]/15 text-white{% else %}border-white/10 bg-[#0A0A0A] text-[#A3A3A3]{% endif %} font-mono-tech text-xs font-bold uppercase hover:border-[#FF0033] transition-colors disabled:opacity-30 disabled:line-through cursor-pointer"
+                >
+                  {{ variant.title | escape }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endunless %}
+
+        <!-- Quantity & Primary CTA Row -->
+        <div class="flex gap-2.5">
+          <div class="flex items-center bg-[#0A0A0A] border border-white/10 h-[52px]">
+            <button type="button" onclick="adjustRwndQty(-1)" class="w-9 h-full text-white hover:text-[#FF0033] text-base cursor-pointer" aria-label="Decrease quantity">−</button>
+            <input type="number" id="rwnd-qty-input" name="quantity" value="1" min="1" max="10" readonly class="w-9 h-full p-0 text-center bg-transparent border-0 font-mono-tech text-xs font-bold text-white focus:outline-none">
+            <button type="button" onclick="adjustRwndQty(1)" class="w-9 h-full text-white hover:text-[#FF0033] text-base cursor-pointer" aria-label="Increase quantity">+</button>
+          </div>
+
+          <button 
+            type="submit" 
+            name="add" 
+            id="AddToCart"
+            {% unless current_variant.available %}disabled{% endunless %}
+            class="flex-1 h-[52px] px-4 bg-[#FF0033] border border-[#FF0033] text-white font-mono-tech text-xs font-bold uppercase tracking-wider hover:bg-[#CC0029] transition-colors flex items-center justify-between gap-2 cursor-pointer disabled:opacity-40"
+          >
+            {% if current_variant.available %}
+              <span>{% if is_bundle %}CLAIM HARDWARE LOADOUT{% else %}ADD TO HARDWARE BAG{% endif %}</span>
+              <span id="btn-price-display">{{ current_variant.price | money }}</span>
+            {% else %}
+              <span>SOLD OUT</span>
+            {% endif %}
+          </button>
+        </div>
+
+        <!-- 1-Click Instant Checkout -->
+        <a href="/checkout" class="w-full h-12 bg-[#0A0A0A] border border-white/10 hover:border-[#FF0033] text-white font-mono-tech text-[11px] font-bold uppercase tracking-wider flex items-center justify-center transition-colors">
+          ⚡ INSTANT CHECKOUT (UPI / COD / CARDS)
+        </a>
+      </form>
+
+      <!-- Trust Bar (Minimal Hairline Grid) -->
+      <div class="trust-grid">
+        <div class="trust-item">
+          <span class="text-sm">🛡️</span>
+          <span class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] leading-tight">LIFETIME TARNISH PROOF</span>
+        </div>
+        <div class="trust-item">
+          <span class="text-sm">🚚</span>
+          <span class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] leading-tight">24H DISPATCH (MDU HUB)</span>
+        </div>
+        <div class="trust-item">
+          <span class="text-sm">💵</span>
+          <span class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] leading-tight">CASH ON DELIVERY</span>
+        </div>
+        <div class="trust-item">
+          <span class="text-sm">🔄</span>
+          <span class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] leading-tight">DEFECT REPLACEMENT</span>
+        </div>
+      </div>
+
+      <!-- Accordions (Clean Flush Line Dividers) -->
+      <div class="flex flex-col">
+        <details class="accordion-item" open>
+          <summary class="accordion-trigger">
+            <span>HARDWARE SPECIFICATIONS</span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="pb-4">
+            {% if product.description != blank %}
+              <div class="font-sans text-sm text-[#A3A3A3] leading-relaxed mb-3">{{ product.description }}</div>
+            {% endif %}
+            <table class="specs-table">
+              <tr>
+                <td>MATERIAL</td>
+                <td>{% if is_earphone %}High-Density Alloy + Braided Shielding{% else %}316L Surgical Grade Solid Stainless Steel{% endif %}</td>
+              </tr>
+              <tr>
+                <td>COATING</td>
+                <td>Vacuum PVD High-Polish Chrome (Zero fading)</td>
+              </tr>
+              <tr>
+                <td>FIT PROFILE</td>
+                <td>Universal Adjustable / Free Size</td>
+              </tr>
+              <tr>
+                <td>HYPOALLERGENIC</td>
+                <td>100% Nickel &amp; Lead-Free (Zero skin greening)</td>
+              </tr>
+            </table>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <span>SHIPPING &amp; DISPATCH PROTOCOL</span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="pb-4 font-sans text-sm text-[#A3A3A3] leading-relaxed space-y-1.5">
+            <p>All orders are packed in sealed security poly-mailers and dispatched directly from our Madurai fulfillment hub within 24 hours.</p>
+            <ul class="list-disc pl-4 space-y-1">
+              <li><strong class="text-white">South India:</strong> Delivered in 48–72 hours.</li>
+              <li><strong class="text-white">Rest of India:</strong> Delivered in 3–5 business days.</li>
+              <li>Free delivery on orders ₹999+ (₹49 flat under ₹999).</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <span>REPLACEMENT &amp; WARRANTY</span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="pb-4 font-sans text-sm text-[#A3A3A3] leading-relaxed">
+            <p>
+              {% if is_bundle %}Due to heavy discounting on Mystery Blind Drops, items cannot be swapped for personal aesthetic preference. {% endif %}
+              If any piece arrives damaged, defective, or incorrect, we offer a <strong class="text-white">100% free immediate replacement</strong>. 
+              Simply ping our WhatsApp support desk with your order number and uncut unboxing video within 48 hours of delivery.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </div>
+
+  <!-- BELOW THE FOLD: COMPLETE THE LOOK & REVIEWS -->
+  <div class="mx-auto max-w-7xl">
+    
+    <!-- COMPLETE THE LOOK -->
+    <section class="mt-16 border-t border-white/10 pt-12">
+      <div class="mb-6">
+        <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// SYNERGISTIC ARCHIVE</span>
+        <h2 class="font-display text-xl sm:text-2xl font-black uppercase text-white mt-1">COMPLETE THE LOOK</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         {% for complementary in collections['all'].products limit: 5 %}
           {% if complementary.id != product.id %}
-            <div class="border border-[#2A2A2F] bg-[#131316] p-3 flex flex-col justify-between group">
+            <div class="border border-white/10 bg-[#0A0A0A] p-3 flex flex-col justify-between group hover:border-[#FF0033] transition-colors">
               <a href="{{ complementary.url }}" class="block">
-                <div class="aspect-square bg-[#0A0A0C] border border-[#2A2A2F] flex items-center justify-center overflow-hidden mb-3">
+                <div class="aspect-square bg-[#000000] border border-white/5 flex items-center justify-center overflow-hidden mb-3">
                   <img src="{{ complementary.featured_image | image_url: width: 400 }}" alt="{{ complementary.title | escape }}" class="h-full w-full object-contain group-hover:scale-105 transition-transform">
                 </div>
-                <div>
-                  <h3 class="font-display text-xs uppercase font-bold text-white truncate">{{ complementary.title | escape }}</h3>
-                  <p class="font-mono-tech text-xs text-[#A3A7AE] mt-1">{{ complementary.price | money }}</p>
-                </div>
+                <h3 class="font-sans text-xs font-bold text-white truncate">{{ complementary.title | escape }}</h3>
+                <p class="font-mono-tech text-xs text-[#A3A3A3] mt-1">{{ complementary.price | money }}</p>
               </a>
               <form action="{{ routes.cart_add_url }}" method="post" class="mt-3">
                 <input type="hidden" name="id" value="{{ complementary.selected_or_first_available_variant.id }}">
-                <button type="submit" class="w-full h-8 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase hover:bg-[#FF0033] hover:border-[#FF0033] text-white transition-all cursor-pointer">
+                <button type="submit" class="w-full h-9 border border-white/10 bg-[#121212] font-mono-tech text-[10px] font-bold uppercase hover:bg-[#FF0033] hover:border-[#FF0033] text-white transition-colors cursor-pointer">
                   + ADD
                 </button>
               </form>
@@ -376,49 +561,44 @@
       </div>
     </section>
 
-    <!-- SECTION 2: HIGH-CONTRAST ELEVATED REVIEWS TERMINAL -->
-    <section id="reviews" class="mt-20 border border-[#FF0033]/50 border-t-2 border-t-[#FF0033] bg-[#0E0E12] p-5 sm:p-8 lg:p-10 shadow-[0_0_45px_rgba(255,0,51,0.09)]">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#2A2A2F] pb-5 mb-8">
+    <!-- ELEVATED REVIEWS TERMINAL -->
+    <section id="reviews" class="mt-16 border border-[#FF0033]/40 border-t-2 border-t-[#FF0033] bg-[#0D0D10] p-5 sm:p-8 shadow-[0_0_40px_rgba(255,0,51,0.08)]">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-5 mb-6">
         <div>
-          <span class="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
-            <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
-            // OPERATOR TRANSMISSIONS · FIELD LOGS
-          </span>
-          <h2 class="mt-1 font-display text-2xl sm:text-3xl font-extrabold uppercase text-white tracking-tight">
-            VERIFIED FIELD REVIEWS
-          </h2>
+          <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// OPERATOR TRANSMISSIONS</span>
+          <h2 class="font-display text-xl sm:text-2xl font-black uppercase text-white mt-1">VERIFIED FIELD REVIEWS</h2>
         </div>
         <button
           type="button"
           onclick="openRwndReviewModal()"
-          class="h-12 px-6 border border-[#FF0033] bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] hover:bg-[#CC0029] transition-all cursor-pointer shrink-0"
+          class="h-11 px-5 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
         >
           + WRITE A REVIEW
         </button>
       </div>
 
-      <!-- Summary & Histogram Card -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border border-[#FF0033]/30 bg-[#16161C] p-6 sm:p-8 mb-8">
-        <div class="md:col-span-4 text-center md:text-left border-b md:border-b-0 md:border-r border-[#2A2A2F] pb-6 md:pb-0 md:pr-6">
-          <span id="rwnd-summary-avg" class="font-display text-5xl sm:text-6xl font-extrabold text-white">{{ avg_display }}</span>
-          <div class="text-[#FF0033] text-lg mt-1 tracking-widest drop-shadow-[0_0_8px_rgba(255,0,51,0.5)]">★★★★★</div>
-          <p class="text-xs text-[#C8CDD3] mt-2 uppercase tracking-wider">Based on <span id="rwnd-summary-count" class="text-white font-bold">{{ review_count }}</span> verified transmissions</p>
+      <!-- Summary & Histogram -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center border border-white/10 bg-[#141418] p-5 sm:p-6 mb-6">
+        <div class="md:col-span-4 text-center md:text-left border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
+          <span class="font-display text-4xl sm:text-5xl font-black text-white">{{ avg_display }}</span>
+          <div class="text-[#FF0033] text-base mt-1 tracking-widest">★★★★★</div>
+          <p class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] mt-1">BASED ON {{ review_count }} TRANSMISSIONS</p>
         </div>
-        <div class="md:col-span-8 space-y-2.5 text-xs">
+        <div class="md:col-span-8 space-y-2 font-mono-tech text-xs">
           <div class="flex items-center gap-3">
-            <span class="w-8 font-bold text-white">5★</span>
-            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033] shadow-[0_0_8px_rgba(255,0,51,0.6)]" style="width: {{ pct_5 }}%;"></div></div>
-            <span class="w-8 text-right text-white font-bold">{{ count_5 }}</span>
+            <span class="w-8 text-white">5★</span>
+            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_5 }}%;"></div></div>
+            <span class="w-8 text-right text-white">{{ count_5 }}</span>
           </div>
           <div class="flex items-center gap-3">
-            <span class="w-8 font-bold text-[#C8CDD3]">4★</span>
-            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_4 }}%;"></div></div>
-            <span class="w-8 text-right text-[#A3A7AE]">{{ count_4 }}</span>
+            <span class="w-8 text-[#A3A3A3]">4★</span>
+            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_4 }}%;"></div></div>
+            <span class="w-8 text-right text-[#A3A3A3]">{{ count_4 }}</span>
           </div>
           <div class="flex items-center gap-3">
-            <span class="w-8 font-bold text-[#C8CDD3]">3★</span>
-            <div class="flex-1 h-2.5 bg-[#09090B] border border-[#2A2A2F]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_3 }}%;"></div></div>
-            <span class="w-8 text-right text-[#A3A7AE]">{{ count_3 }}</span>
+            <span class="w-8 text-[#A3A3A3]">3★</span>
+            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_3 }}%;"></div></div>
+            <span class="w-8 text-right text-[#A3A3A3]">{{ count_3 }}</span>
           </div>
         </div>
       </div>
@@ -428,197 +608,136 @@
         {% if meta_reviews != blank %}
           {% for rev in meta_reviews %}
             {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-            <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
+            <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between">
-                  <div class="text-[#FF0033] text-sm tracking-wider">
-                    {% for i in (1..r_stars) %}★{% endfor %}
-                  </div>
-                  <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+                  <span class="text-[#FF0033] text-sm tracking-wider">{% for i in (1..r_stars) %}★{% endfor %}</span>
+                  <span class="tech-chip tech-chip--red">VERIFIED</span>
                 </div>
-                {% if rev.photo != blank %}
-                  <div class="mt-3 aspect-square w-20 overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C]">
-                    <img src="{{ rev.photo | image_url: width: 300 }}" alt="Buyer hardware photo" loading="lazy" class="h-full w-full object-cover">
-                  </div>
-                {% endif %}
-                <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"{{ rev.body.value | escape }}"</p>
+                <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"{{ rev.body.value | escape }}"</p>
               </div>
-              <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5">
+              <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10">
                 <strong class="text-white">{{ rev.author.value | escape }}</strong>{% if rev.city.value != blank %} · {{ rev.city.value | escape }}{% endif %}
               </p>
             </div>
           {% endfor %}
         {% else %}
-          <!-- Default Verified Drop 01 Transmissions -->
-          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
+          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between">
-                <div class="text-[#FF0033] text-sm">★★★★★</div>
-                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+                <span class="text-[#FF0033] text-sm">★★★★★</span>
+                <span class="tech-chip tech-chip--red">VERIFIED</span>
               </div>
-              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Heavyweight feel. Doesn't feel cheap or hollow like typical commercial sets. 10/10."</p>
+              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Heavyweight 316L feel. Doesn't feel hollow like typical commercial sets."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">VISHAL M.</strong> · CHENNAI</p>
+            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">VISHAL M.</strong> · CHENNAI</p>
           </div>
-          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
+          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between">
-                <div class="text-[#FF0033] text-sm">★★★★★</div>
-                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+                <span class="text-[#FF0033] text-sm">★★★★★</span>
+                <span class="tech-chip tech-chip--red">VERIFIED</span>
               </div>
-              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Madurai to Bangalore took exactly 48 hours. Packaging was immaculate with protective film."</p>
+              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Madurai to Bangalore took 48 hours. Protective vacuum packaging was clean."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">ANIRUDH S.</strong> · BENGALURU</p>
+            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">ANIRUDH S.</strong> · BENGALURU</p>
           </div>
-          <div class="border border-[#2A2A2F] hover:border-[#FF0033]/70 bg-[#16161C] p-6 flex flex-col justify-between transition-colors">
+          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between">
-                <div class="text-[#FF0033] text-sm">★★★★★</div>
-                <span class="border border-[#FF0033]/40 bg-[#FF0033]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF0033]">VERIFIED</span>
+                <span class="text-[#FF0033] text-sm">★★★★★</span>
+                <span class="tech-chip tech-chip--red">VERIFIED</span>
               </div>
-              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"Zero oxidation after sweaty gym sessions and rain exposure. Real 316L alloy."</p>
+              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Zero oxidation after gym sessions and rain exposure. Authentic stainless steel."</p>
             </div>
-            <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5"><strong class="text-white">RAHUL D.</strong> · COIMBATORE</p>
+            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">RAHUL D.</strong> · COIMBATORE</p>
           </div>
         {% endif %}
       </div>
     </section>
-<!-- SECTION 3: FREQUENTLY ASKED QUESTIONS -->
-    <section class="mt-20 border-t border-[#2A2A2F] pt-12">
-      <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// DIRECT ANSWERS</span>
-      <h2 class="font-display text-xl sm:text-2xl font-bold uppercase text-white mb-6">FREQUENTLY ASKED</h2>
-
-      <div class="space-y-3">
-        <details class="border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-          <summary class="text-xs font-bold uppercase text-white">Will the 316L stainless steel fade or tarnish?</summary>
-          <p class="mt-3 text-xs text-[#A3A7AE]">No. 316L medical-grade stainless steel is immune to rust, sweat, and tarnishing under daily wear.</p>
-        </details>
-        <details class="border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-          <summary class="text-xs font-bold uppercase text-white">How long does shipping take to my state?</summary>
-          <p class="mt-3 text-xs text-[#A3A7AE]">Orders dispatch from Madurai within 24 hours. South India takes ~48 hours. Other Indian cities take 3–5 working days.</p>
-        </details>
-        <details class="border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-          <summary class="text-xs font-bold uppercase text-white">What is required if an item arrives damaged?</summary>
-          <p class="mt-3 text-xs text-[#A3A7AE]">You must record a continuous unboxing video showing the sealed courier package and report it to support@rwnd20s.in within 48 hours.</p>
-        </details>
-        <details class="border border-[#2A2A2F] bg-[#131316] p-4 cursor-pointer">
-          <summary class="text-xs font-bold uppercase text-white">Is Cash on Delivery (COD) supported?</summary>
-          <p class="mt-3 text-xs text-[#A3A7AE]">Yes, COD is available across PAN-India pincodes. (Pre-order timepieces require a ₹150 UPI advance to confirm dispatch).</p>
-        </details>
-      </div>
-    </section>
-
   </div>
 </div>
 
-<!-- FULL-SCREEN WRITE REVIEW POPUP MODAL (z-210) -->
+<!-- FULL-SCREEN WRITE REVIEW MODAL (z-210) -->
 <div
   id="rwnd-review-modal"
-  class="fixed inset-0 z-[210] hidden items-center justify-center bg-black/95 backdrop-blur-xl p-4 font-mono-tech text-[#F5F5F7] overflow-y-auto"
+  class="fixed inset-0 z-[210] hidden items-center justify-center bg-black/95 backdrop-blur-xl p-4 overflow-y-auto"
   role="dialog"
   aria-modal="true"
-  aria-labelledby="rwnd-review-modal-title"
 >
   <div class="relative my-auto w-full max-w-lg border border-[#FF0033] border-t-2 bg-[#0D0D10] p-5 sm:p-7 shadow-[0_0_50px_rgba(255,0,51,0.2)]">
-    <!-- Modal Header -->
-    <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-3.5 mb-5">
+    <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-5">
       <div>
-        <span class="text-[9px] font-bold uppercase tracking-widest text-[#FF0033] block">// FIELD TRANSMISSION TERMINAL</span>
-        <h3 id="rwnd-review-modal-title" class="font-display text-lg sm:text-xl font-extrabold uppercase text-white truncate max-w-[260px] sm:max-w-sm">
-          REVIEW: {{ product.title | escape }}
-        </h3>
+        <span class="font-mono-tech text-[10px] uppercase text-[#FF0033] block">// FIELD TRANSMISSION TERMINAL</span>
+        <h3 class="font-display text-base sm:text-lg font-bold uppercase text-white mt-0.5 truncate max-w-[260px] sm:max-w-sm">REVIEW: {{ product.title | escape }}</h3>
       </div>
-      <button
-        type="button"
-        onclick="closeRwndReviewModal()"
-        class="h-9 w-9 flex items-center justify-center border border-[#2A2A2F] bg-[#16161C] text-xs font-bold text-[#A3A7AE] hover:border-[#FF0033] hover:text-[#FF0033] cursor-pointer"
-        aria-label="Close"
-      >✕</button>
+      <button type="button" onclick="closeRwndReviewModal()" class="h-9 w-9 border border-white/10 bg-[#141418] text-xs font-bold text-[#A3A3A3] hover:border-[#FF0033] hover:text-[#FF0033] cursor-pointer">✕</button>
     </div>
 
     <form id="rwnd-native-review-form" onsubmit="submitRwndNativeReview(event)" class="space-y-4">
       <input type="hidden" id="rwnd-rev-rating-input" value="5">
 
-      <!-- Star Picker -->
       <div>
-        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1.5">SELECT RATING *</label>
-        <div class="flex gap-2" id="rwnd-star-picker">
+        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1.5">SELECT RATING *</label>
+        <div class="flex gap-2">
           {% for s in (1..5) %}
-            <button
-              type="button"
-              data-star="{{ s }}"
-              onclick="setRwndReviewStars({{ s }})"
-              class="rwnd-star-btn h-11 flex-1 border border-[#FF0033] bg-[#FF0033]/20 text-base font-bold text-[#FF0033] cursor-pointer transition-colors"
-            >★</button>
+            <button type="button" data-star="{{ s }}" onclick="setRwndReviewStars({{ s }})" class="rwnd-star-btn h-11 flex-1 border border-[#FF0033] bg-[#FF0033]/20 text-base font-bold text-[#FF0033] cursor-pointer">★</button>
           {% endfor %}
         </div>
       </div>
 
-      <!-- Name & City -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">YOUR NAME *</label>
-          <input type="text" id="rwnd-rev-name" required placeholder="E.G. ARJUN K." class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
+          <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">YOUR NAME *</label>
+          <input type="text" id="rwnd-rev-name" required placeholder="E.G. ARJUN K." class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
         </div>
         <div>
-          <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">CITY *</label>
-          <input type="text" id="rwnd-rev-city" required placeholder="E.G. CHENNAI" class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
+          <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">CITY *</label>
+          <input type="text" id="rwnd-rev-city" required placeholder="E.G. CHENNAI" class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
         </div>
       </div>
 
-      <!-- Email -->
       <div>
-        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">EMAIL (PRIVATE VERIFICATION) *</label>
-        <input type="email" id="rwnd-rev-email" required placeholder="YOUR@EMAIL.COM" class="h-11 w-full border border-[#2A2A2F] bg-[#16161C] px-3 text-xs text-white focus:border-[#FF0033] focus:outline-none">
+        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">EMAIL (PRIVATE) *</label>
+        <input type="email" id="rwnd-rev-email" required placeholder="YOUR@EMAIL.COM" class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white focus:border-[#FF0033] focus:outline-none">
       </div>
 
-      <!-- Photo Attachment -->
       <div>
-        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">HARDWARE PHOTO (OPTIONAL)</label>
-        <div class="flex items-center gap-3">
-          <label for="rwnd-rev-photo-input" class="flex-1 h-11 border border-dashed border-[#2A2A2F] hover:border-[#FF0033] bg-[#16161C] px-3 flex items-center justify-center gap-2 text-[11px] font-bold uppercase text-white cursor-pointer transition-colors">
-            <span class="text-[#FF0033]">+</span>
-            <span id="rwnd-rev-photo-label">ATTACH / SNAP PHOTO</span>
-          </label>
-          <input type="file" id="rwnd-rev-photo-input" accept="image/*" class="hidden" onchange="handleRwndReviewPhoto(this)">
-        </div>
+        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">HARDWARE PHOTO (OPTIONAL)</label>
+        <label for="rwnd-rev-photo-input" class="h-11 border border-dashed border-white/20 hover:border-[#FF0033] bg-[#141418] px-3 flex items-center justify-center gap-2 font-mono-tech text-[11px] uppercase text-white cursor-pointer">
+          <span class="text-[#FF0033]">+</span>
+          <span id="rwnd-rev-photo-label">ATTACH / SNAP PHOTO</span>
+        </label>
+        <input type="file" id="rwnd-rev-photo-input" accept="image/*" class="hidden" onchange="handleRwndReviewPhoto(this)">
 
-        <!-- Live Photo Preview -->
-        <div id="rwnd-rev-photo-preview-wrap" class="hidden mt-2.5 flex items-center justify-between border border-[#2A2A2F] bg-[#16161C] p-2">
+        <div id="rwnd-rev-photo-preview-wrap" class="hidden mt-2 flex items-center justify-between border border-white/10 bg-[#141418] p-2">
           <div class="flex items-center gap-3">
-            <img id="rwnd-rev-photo-preview" src="" alt="Preview" class="h-12 w-12 object-cover border border-[#FF0033]">
-            <span class="text-[10px] uppercase text-[#00FF88] font-bold">✓ PHOTO READY FOR DISPATCH</span>
+            <img id="rwnd-rev-photo-preview" src="" alt="Preview" class="h-11 w-11 object-cover border border-[#FF0033]">
+            <span class="font-mono-tech text-[10px] uppercase text-[#00FF88]">✓ PHOTO READY</span>
           </div>
-          <button type="button" onclick="clearRwndReviewPhoto()" class="px-2 py-1 text-[10px] font-bold uppercase text-[#FF0033] hover:underline cursor-pointer">
-            REMOVE
-          </button>
+          <button type="button" onclick="clearRwndReviewPhoto()" class="font-mono-tech text-[10px] uppercase text-[#FF0033] underline cursor-pointer">REMOVE</button>
         </div>
       </div>
 
-      <!-- Review Body -->
       <div>
-        <label class="block text-[10px] font-bold uppercase tracking-wider text-[#A3A7AE] mb-1">FIELD REPORT *</label>
-        <textarea id="rwnd-rev-body" rows="3" required placeholder="WEIGHT, 316L FINISH, DELIVERY SPEED..." class="w-full border border-[#2A2A2F] bg-[#16161C] p-3 text-xs text-white focus:border-[#FF0033] focus:outline-none"></textarea>
+        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">FIELD REPORT *</label>
+        <textarea id="rwnd-rev-body" rows="3" required placeholder="Weight, 316L finish, delivery speed..." class="w-full bg-[#141418] border border-white/10 p-3 font-sans text-sm text-white focus:border-[#FF0033] focus:outline-none"></textarea>
       </div>
 
-      <p id="rwnd-rev-status" class="text-[11px] uppercase text-[#A3A7AE] min-h-[16px]"></p>
+      <p id="rwnd-rev-status" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] min-h-[16px]"></p>
 
-      <button
-        type="submit"
-        id="rwnd-rev-submit-btn"
-        class="h-12 w-full bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] hover:bg-[#CC0029] transition-all cursor-pointer"
-      >
+      <button type="submit" id="rwnd-rev-submit-btn" class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] cursor-pointer">
         TRANSMIT REVIEW →
       </button>
     </form>
   </div>
 </div>
 
-<!-- STICKY MOBILE CONVERSION BAR -->
-<div class="fixed bottom-0 left-0 z-[110] w-full border-t border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:hidden flex items-center justify-between gap-3">
+<!-- STICKY MOBILE CONVERSION BAR (z-110) -->
+<div class="fixed bottom-0 left-0 z-[110] w-full border-t border-white/10 bg-[#0A0A0A]/95 backdrop-blur-md p-3 sm:hidden flex items-center justify-between gap-3">
   <div>
-    <span class="text-[10px] text-[#A3A7AE] uppercase block">TOTAL</span>
-    <span class="font-mono-tech text-sm font-bold text-white">{{ current_variant.price | money }}</span>
+    <span class="font-mono-tech text-[9px] uppercase text-[#737373] block">TOTAL</span>
+    <span class="font-mono-tech text-sm font-bold text-white" id="sticky-mobile-price">{{ current_variant.price | money }}</span>
   </div>
   <button 
     type="button" 
@@ -629,37 +748,40 @@
   </button>
 </div>
 
-<!-- SCRIPTS -->
 <script>
   let rwndCompressedPhotoDataUrl = '';
 
   function switchRwndProductImage(src, btn) {
     const mainImg = document.getElementById('rwnd-main-product-img');
     if (mainImg) mainImg.src = src;
-    document.querySelectorAll('.rwnd-thumb').forEach(t => t.classList.replace('border-[#FF0033]', 'border-[#2A2A2F]'));
-    btn.classList.replace('border-[#2A2A2F]', 'border-[#FF0033]');
+    document.querySelectorAll('.rwnd-thumb').forEach(t => t.classList.replace('border-[#FF0033]', 'border-white/10'));
+    btn.classList.replace('border-white/10', 'border-[#FF0033]');
   }
 
   function adjustRwndQty(delta) {
     const input = document.getElementById('rwnd-qty-input');
     if (!input) return;
     let val = parseInt(input.value) || 1;
-    val = Math.max(1, val + delta);
+    val = Math.min(10, Math.max(1, val + delta));
     input.value = val;
   }
 
   function selectRwndVariant(id, price, btn) {
     const varInput = document.getElementById('rwnd-selected-variant-id');
     const priceDisplay = document.getElementById('btn-price-display');
+    const livePrice = document.getElementById('pdp-live-price');
+    const stickyPrice = document.getElementById('sticky-mobile-price');
     if (varInput) varInput.value = id;
     if (priceDisplay) priceDisplay.textContent = price;
+    if (livePrice) livePrice.textContent = price;
+    if (stickyPrice) stickyPrice.textContent = price;
 
     document.querySelectorAll('.rwnd-var-btn').forEach(b => {
-      b.classList.remove('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-white');
-      b.classList.add('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+      b.classList.remove('border-[#FF0033]', 'bg-[#FF0033]/15', 'text-white');
+      b.classList.add('border-white/10', 'bg-[#0A0A0A]', 'text-[#A3A3A3]');
     });
-    btn.classList.add('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-white');
-    btn.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+    btn.classList.add('border-[#FF0033]', 'bg-[#FF0033]/15', 'text-white');
+    btn.classList.remove('border-white/10', 'bg-[#0A0A0A]', 'text-[#A3A3A3]');
   }
 
   function openRwndReviewModal() {
@@ -688,39 +810,29 @@
       const s = parseInt(btn.dataset.star);
       if (s <= rating) {
         btn.classList.add('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-[#FF0033]');
-        btn.classList.remove('border-[#2A2A2F]', 'bg-[#16161C]', 'text-[#A3A7AE]');
+        btn.classList.remove('border-white/10', 'bg-[#141418]', 'text-[#A3A3A3]');
       } else {
         btn.classList.remove('border-[#FF0033]', 'bg-[#FF0033]/20', 'text-[#FF0033]');
-        btn.classList.add('border-[#2A2A2F]', 'bg-[#16161C]', 'text-[#A3A7AE]');
+        btn.classList.add('border-white/10', 'bg-[#141418]', 'text-[#A3A3A3]');
       }
     });
   }
 
-  function handleRwndReviewPhoto(input) {
+function handleRwndReviewPhoto(input) {
     const file = input.files && input.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (ev) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const MAX_DIM = 600;
-        let w = img.width;
-        let h = img.height;
-        if (w > h && w > MAX_DIM) {
-          h = Math.round((h * MAX_DIM) / w);
-          w = MAX_DIM;
-        } else if (h > MAX_DIM) {
-          w = Math.round((w * MAX_DIM) / h);
-          h = MAX_DIM;
-        }
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
+        let w = img.width, h = img.height;
+        if (w > h && w > MAX_DIM) { h = Math.round((h * MAX_DIM) / w); w = MAX_DIM; }
+        else if (h > MAX_DIM) { w = Math.round((w * MAX_DIM) / h); h = MAX_DIM; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         rwndCompressedPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.75);
-
         document.getElementById('rwnd-rev-photo-preview').src = rwndCompressedPhotoDataUrl;
         document.getElementById('rwnd-rev-photo-preview-wrap').classList.remove('hidden');
         document.getElementById('rwnd-rev-photo-label').textContent = 'CHANGE PHOTO';
@@ -730,7 +842,7 @@
     reader.readAsDataURL(file);
   }
 
-function clearRwndReviewPhoto() {
+  function clearRwndReviewPhoto() {
     rwndCompressedPhotoDataUrl = '';
     const input = document.getElementById('rwnd-rev-photo-input');
     if (input) input.value = '';
@@ -743,21 +855,20 @@ function clearRwndReviewPhoto() {
     if (!grid) return;
     const starsStr = '★'.repeat(rev.rating || 5);
     const photoHtml = rev.photo
-      ? `<div class="mt-3 aspect-square w-20 overflow-hidden border border-[#FF0033]/50 bg-[#0A0A0C]"><img src="${rev.photo}" alt="Submitted hardware photo" class="h-full w-full object-cover"></div>`
+      ? `<div class="mt-3 aspect-square w-20 overflow-hidden border border-[#FF0033]/50 bg-[#000000]"><img src="${rev.photo}" alt="Hardware photo" class="h-full w-full object-cover"></div>`
       : '';
-
     const card = document.createElement('div');
-    card.className = 'border border-[#FF0033]/80 bg-[#16161C] p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(255,0,51,0.12)]';
+    card.className = 'border border-[#FF0033]/70 bg-[#141418] p-5 flex flex-col justify-between';
     card.innerHTML = `
       <div>
         <div class="flex items-center justify-between">
-          <div class="text-[#FF0033] text-sm tracking-wider">${starsStr}</div>
-          <span class="border border-[#00FF88]/50 bg-[#00FF88]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#00FF88]">LOGGED</span>
+          <span class="text-[#FF0033] text-sm tracking-wider">${starsStr}</span>
+          <span class="tech-chip" style="color:#00FF88;border-color:rgba(0,255,136,0.4);">LOGGED</span>
         </div>
         ${photoHtml}
-        <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">"${rev.body.replace(/</g, '&lt;')}"</p>
+        <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"${rev.body.replace(/</g, '&lt;')}"</p>
       </div>
-      <p class="mt-4 text-[10px] text-[#A3A7AE] uppercase border-t border-[#2A2A2F] pt-2.5">
+      <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10">
         <strong class="text-white">${rev.name.replace(/</g, '&lt;')}</strong> · ${rev.city.replace(/</g, '&lt;')}
       </p>
     `;
@@ -779,11 +890,8 @@ function clearRwndReviewPhoto() {
 
     const compiledBody =
       `PRODUCT: {{ product.title | escape }} ({{ product.handle }})\n` +
-      `RATING: ${rating}/5\n` +
-      `AUTHOR: ${name}\n` +
-      `CITY: ${city}\n` +
-      `PHOTO ATTACHED: ${hasPhoto ? 'YES (Buyer uploaded image on storefront)' : 'NO'}\n` +
-      `REVIEW: ${body}`;
+      `RATING: ${rating}/5\nAUTHOR: ${name}\nCITY: ${city}\n` +
+      `PHOTO ATTACHED: ${hasPhoto ? 'YES' : 'NO'}\nREVIEW: ${body}`;
 
     btn.disabled = true;
     btn.textContent = '[ TRANSMITTING... ]';
@@ -808,7 +916,7 @@ function clearRwndReviewPhoto() {
         const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
         existing.unshift(reviewObj);
         localStorage.setItem(storageKey, JSON.stringify(existing.slice(0, 10)));
-      } catch (storageErr) {}
+      } catch (err) {}
 
       appendReviewCardToDom(reviewObj);
       form.reset();
@@ -816,19 +924,17 @@ function clearRwndReviewPhoto() {
       setRwndReviewStars(5);
       statusEl.textContent = '';
 
-      // Auto-close modal and scroll smoothly to the newly added review
       closeRwndReviewModal();
       document.getElementById('rwnd-reviews-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (err) {
       statusEl.textContent = '✕ TRANSMISSION ERROR — TRY AGAIN';
-      statusEl.className = 'text-[11px] uppercase text-[#FF0033] min-h-[16px]';
+      statusEl.style.color = '#FF0033';
     } finally {
       btn.disabled = false;
       btn.textContent = 'TRANSMIT REVIEW →';
     }
   }
 
-  // Re-hydrate user's locally submitted reviews on reload
   (() => {
     try {
       const saved = JSON.parse(localStorage.getItem('rwnd_reviews_{{ product.handle }}') || '[]');
