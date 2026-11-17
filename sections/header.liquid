@@ -1,137 +1,164 @@
 <!-- sections/header.liquid -->
 <style>
+  /* ==========================================================================
+     UNIFIED HEADER & ANNOUNCEMENT BAR (CLEAN, NO BUTTON SOUP)
+     ========================================================================== */
   .announcement-bar {
     width: 100%;
-    height: 34px;
-    background-color: #000000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: 32px;
+    background-color: #050505;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 12px;
+    position: relative;
+    z-index: 161;
   }
+
   .announcement-inner {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    font-size: 0.68rem;
+    color: #CCCCCC;
+    letter-spacing: 0.05em;
+    padding: 0 16px;
+    text-align: center;
     max-width: 100%;
     overflow: hidden;
   }
-  .pulse-pip {
-    width: 6px;
-    height: 6px;
-    background-color: #FF0033;
-    box-shadow: 0 0 8px #FF0033;
+
+  .announcement-inner .pulse-pip {
+    width: 5px;
+    height: 5px;
+    background-color: var(--red-core, #FF0033);
+    box-shadow: 0 0 6px var(--red-core, #FF0033);
+    display: inline-block;
     flex-shrink: 0;
-    animation: rwndHeaderPulse 1.6s infinite ease-in-out;
   }
-  @keyframes rwndHeaderPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
+
   .announcement-text {
-    color: #F0F0F0;
-    font-size: 10px;
-    letter-spacing: 0.08em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  /* Sticky Main Header */
   .site-header {
+    position: sticky;
+    top: 0;
     width: 100%;
-    background-color: #0A0A0A;
+    height: 56px;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 160;
   }
+
   .header-container {
-    max-width: 1280px;
-    height: 58px;
+    max-width: 1200px;
+    height: 100%;
     margin: 0 auto;
     padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  @media (min-width: 1024px) {
-    .header-container {
-      height: 66px;
-      padding: 0 32px;
-    }
-  }
-  .brand-logo .logo-text {
-    font-family: 'Druk Wide', 'Syne', sans-serif;
-    font-size: 1.35rem;
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    color: #FFFFFF;
-    text-transform: lowercase;
-  }
-  @media (min-width: 640px) {
-    .brand-logo .logo-text { font-size: 1.6rem; }
-  }
-  .brand-logo .text-red {
-    color: #FF0033;
+
+  /* Brand Logo */
+  .brand-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
   }
 
-  /* Unified Action Cluster (Zero Button Soup) */
-  .header-actions {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background-color: #000000;
+  .brand-logo .logo-text {
+    font-family: var(--font-display, 'Druk Wide', 'Syne', sans-serif);
+    font-size: clamp(1.1rem, 4vw, 1.35rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    text-transform: uppercase;
   }
-  .action-btn {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
+
+  .brand-logo .text-red {
+    color: var(--red-core, #FF0033);
+  }
+
+  /* Integrated Action Group (Single Hairline Container) */
+  .header-actions {
+    display: flex;
     align-items: center;
-    justify-content: center;
+    background: #0A0A0A;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 38px;
+  }
+
+  .action-btn {
     background: transparent;
     border: none;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
-    color: #F0F0F0;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
     cursor: pointer;
-    transition: background-color 150ms ease, color 150ms ease;
+    position: relative;
+    transition: background-color 0.15s ease;
+    padding: 0;
   }
+
   .action-btn:last-child {
     border-right: none;
   }
-  .action-btn:hover {
-    background-color: #121212;
-    color: #FF0033;
+
+  .action-btn:active {
+    background-color: rgba(255, 255, 255, 0.08);
   }
+
   .header-icon {
     width: 17px;
     height: 17px;
+    stroke: #FFFFFF;
   }
+
+  /* Bag Counter Pill */
+  .action-btn--cart {
+    width: auto;
+    padding: 0 10px;
+    gap: 6px;
+    text-decoration: none;
+  }
+
   .cart-pill {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    min-width: 15px;
-    height: 15px;
-    padding: 0 3px;
-    background-color: #FF0033;
+    background: var(--red-core, #FF0033);
     color: #FFFFFF;
-    font-size: 9px;
-    font-weight: 700;
-    line-height: 15px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 1px 5px;
+    min-width: 16px;
     text-align: center;
+    line-height: 1.2;
   }
+
+  /* Minimalist Brutalist Burger */
   .menu-burger {
+    width: 16px;
+    height: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 18px;
+    justify-content: space-between;
   }
+
   .burger-bar {
     display: block;
     width: 100%;
-    height: 1.75px;
-    background-color: currentColor;
+    height: 2px;
+    background: #FFFFFF;
   }
 </style>
 
