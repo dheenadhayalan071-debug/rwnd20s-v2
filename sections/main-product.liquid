@@ -30,7 +30,7 @@
 
 {% if meta_reviews != blank %}
   {% for rev in meta_reviews %}
-    {% assign r_val = rev.rating.value | default: 5 | plus: 0 %}
+    {% assign r_val = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
     {% assign review_count = review_count | plus: 1 %}
     {% assign rating_sum = rating_sum | plus: r_val %}
     {% if r_val == 5 %}{% assign count_5 = count_5 | plus: 1 %}{% endif %}
@@ -339,7 +339,7 @@
       </div>
     </div>
 
-    <!-- ========================================================================= -->
+<!-- ========================================================================= -->
     <!-- 3.2 BELOW-THE-FOLD SECTIONS                                               -->
     <!-- ========================================================================= -->
 
@@ -481,7 +481,7 @@
       <div id="rwnd-reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {% if meta_reviews != blank %}
           {% for rev in meta_reviews %}
-            {% assign r_stars = rev.rating.value | default: 5 | plus: 0 %}
+            {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
             <div class="border border-[#2A2A2F] bg-[#131316] p-6 flex flex-col justify-between">
               <div>
                 <div class="text-[#FF0033] text-sm tracking-wider">
