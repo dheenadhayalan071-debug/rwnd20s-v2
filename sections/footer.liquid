@@ -11,22 +11,68 @@
       <a href="/collections/all" class="text-[10px] font-bold text-[#FF0033] uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
     </div>
 
-    <!-- Restored 2-Column Mobile / 4-Column Desktop Grid -->
+    <!-- Native Shopify Customer Email Dispatch Strip -->
+    <div class="border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 mb-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033] block">// DROP 01 ARCHIVE ALERTS</span>
+        <p class="font-display text-base sm:text-lg font-extrabold uppercase text-white mt-0.5">
+          JOIN THE DISPATCH LIST · GET 10% OFF (RWND10)
+        </p>
+      </div>
+
+      <div class="w-full lg:max-w-md">
+        {% form 'customer', id: 'rwnd-footer-newsletter', class: 'w-full' %}
+          <input type="hidden" name="contact[tags]" value="newsletter, footer-dispatch, drop-01">
+
+          {% if form.posted_successfully? %}
+            <div class="border border-[#00FF88] bg-[#0A0A0C] px-4 py-3 text-xs font-bold uppercase text-[#00FF88]">
+              ✓ SUBSCRIBED · USE CODE <span class="text-white">RWND10</span> AT CHECKOUT
+            </div>
+          {% else %}
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input
+                type="email"
+                name="contact[email]"
+                required
+                placeholder="ENTER YOUR EMAIL..."
+                autocomplete="email"
+                aria-label="Email address"
+                class="h-11 flex-1 border border-[#2A2A2F] bg-[#0A0A0C] px-3.5 text-xs text-white uppercase placeholder-[#A3A7AE] focus:border-[#FF0033] focus:outline-none"
+              >
+              <button
+                type="submit"
+                class="h-11 px-5 bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
+              >
+                SUBSCRIBE →
+              </button>
+            </div>
+            {% if form.errors %}
+              <p class="mt-1.5 text-[10px] font-bold uppercase text-[#FF0033]">
+                ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+              </p>
+            {% endif %}
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+
+    <!-- 2-Column Mobile / 4-Column Desktop Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-[#2A2A2F] text-xs">
       
-      <!-- Column 1: Drop 01 (Tag-Filtered Collection Links) -->
+      <!-- Column 1: Drop 01 (Direct Smart Collection Links) -->
       <div>
         <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
           DROP 01
         </h3>
         <ul class="space-y-2 text-[#A3A7AE]">
           <li><a href="/collections/all" class="hover:text-white transition-colors">Shop All Pieces</a></li>
-          <li><a href="/collections/all/bundle" class="hover:text-white transition-colors">3-Piece Set</a></li>
-          <li><a href="/collections/all/rings" class="hover:text-white transition-colors">Rings</a></li>
-          <li><a href="/collections/all/chains" class="hover:text-white transition-colors">Chains</a></li>
-          <li><a href="/collections/all/bracelets" class="hover:text-white transition-colors">Bracelets</a></li>
-          <li><a href="/collections/all/earphones" class="hover:text-white transition-colors">Pink Audio</a></li>
-          <li><a href="/collections/all/watch" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
+          <li><a href="/products/3-piece-y2k-cyber-set" class="hover:text-white transition-colors">3-Piece Mystery Set</a></li>
+          <li><a href="/collections/rings" class="hover:text-white transition-colors">316L Rings</a></li>
+          <li><a href="/collections/chains" class="hover:text-white transition-colors">Chains & Pendants</a></li>
+          <li><a href="/collections/bracelets" class="hover:text-white transition-colors">Link Bracelets</a></li>
+          <li><a href="/collections/earrings" class="hover:text-white transition-colors">Cyber Earrings</a></li>
+          <li><a href="/collections/earphones" class="hover:text-white transition-colors">Pink Audio</a></li>
+          <li><a href="/collections/watches" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
         </ul>
       </div>
 
