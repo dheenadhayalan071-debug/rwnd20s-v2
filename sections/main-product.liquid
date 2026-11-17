@@ -571,92 +571,96 @@
         <button
           type="button"
           onclick="openRwndReviewModal()"
-          class="h-11 px-5 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
-        >
-          + WRITE A REVIEW
+    <!-- REVIEWS SECTION (STREAMLINED TRANSMISSION LOG) -->
+    <section id="reviews" class="reviews-section">
+      <div class="reviews-header">
+        <div class="mono-tag text-[#FF0033]">// OPERATOR TRANSMISSIONS</div>
+        <h2 class="reviews-title">FIELD VERIFIED LOGS</h2>
+      </div>
+
+      <!-- Summary Score Bar (Clean 1-Line Minimalist HUD) -->
+      <div class="review-score-hud">
+        <div class="score-main">
+          <span class="score-number">{{ avg_display }}</span>
+          <div class="score-stars">
+            <span class="stars">★★★★★</span>
+            <span class="mono-tag text-[#737373]">{{ review_count }} TRANSMISSIONS</span>
+          </div>
+        </div>
+        <button type="button" onclick="openRwndReviewModal()" class="btn-review-write mono-tag">
+          + LOG TRANSMISSION
         </button>
       </div>
 
-      <!-- Summary & Histogram -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center border border-white/10 bg-[#141418] p-5 sm:p-6 mb-6">
-        <div class="md:col-span-4 text-center md:text-left border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
-          <span class="font-display text-4xl sm:text-5xl font-black text-white">{{ avg_display }}</span>
-          <div class="text-[#FF0033] text-base mt-1 tracking-widest">★★★★★</div>
-          <p class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] mt-1">BASED ON {{ review_count }} TRANSMISSIONS</p>
-        </div>
-        <div class="md:col-span-8 space-y-2 font-mono-tech text-xs">
-          <div class="flex items-center gap-3">
-            <span class="w-8 text-white">5★</span>
-            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_5 }}%;"></div></div>
-            <span class="w-8 text-right text-white">{{ count_5 }}</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="w-8 text-[#A3A3A3]">4★</span>
-            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_4 }}%;"></div></div>
-            <span class="w-8 text-right text-[#A3A3A3]">{{ count_4 }}</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="w-8 text-[#A3A3A3]">3★</span>
-            <div class="flex-1 h-2 bg-[#000000]"><div class="h-full bg-[#FF0033]" style="width: {{ pct_3 }}%;"></div></div>
-            <span class="w-8 text-right text-[#A3A3A3]">{{ count_3 }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Review Cards Grid -->
-      <div id="rwnd-reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Review Cards (Hairline Left Border Accent, Zero Bulky Inner Boxes) -->
+      <div id="rwnd-reviews-grid" class="reviews-stream">
         {% if meta_reviews != blank %}
           {% for rev in meta_reviews %}
             {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-            <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-[#FF0033] text-sm tracking-wider">{% for i in (1..r_stars) %}★{% endfor %}</span>
-                  <span class="tech-chip tech-chip--red">VERIFIED</span>
+            <div class="review-entry">
+              <div class="space-y-2.5">
+                <div class="entry-meta">
+                  <span class="stars">{% for i in (1..r_stars) %}★{% endfor %}</span>
+                  <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
                 </div>
-                <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"{{ rev.body.value | escape }}"</p>
+                <p class="entry-quote">"{{ rev.body.value | escape }}"</p>
               </div>
-              <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10">
-                <strong class="text-white">{{ rev.author.value | escape }}</strong>{% if rev.city.value != blank %} · {{ rev.city.value | escape }}{% endif %}
-              </p>
+              <div class="entry-author mono-tag">
+                <span class="text-white font-bold">{{ rev.author.value | escape }}</span>
+                {% if rev.city.value != blank %}
+                  <span class="text-[#737373]"> · {{ rev.city.value | escape }}</span>
+                {% endif %}
+              </div>
             </div>
           {% endfor %}
         {% else %}
-          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between">
-                <span class="text-[#FF0033] text-sm">★★★★★</span>
-                <span class="tech-chip tech-chip--red">VERIFIED</span>
+          <div class="review-entry">
+            <div class="space-y-2.5">
+              <div class="entry-meta">
+                <span class="stars">★★★★★</span>
+                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
               </div>
-              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Heavyweight 316L feel. Doesn't feel hollow like typical commercial sets."</p>
+              <p class="entry-quote">
+                "Heavyweight feel is legit. Doesn't feel cheap or hollow like typical commercial sets. The chain has substantial density and zero skin reaction after 2 weeks of constant wear."
+              </p>
             </div>
-            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">VISHAL M.</strong> · CHENNAI</p>
+            <div class="entry-author mono-tag">
+              <span class="text-white font-bold">ROHIT M.</span> <span class="text-[#737373]">· CHENNAI [TN]</span>
+            </div>
           </div>
-          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between">
-                <span class="text-[#FF0033] text-sm">★★★★★</span>
-                <span class="tech-chip tech-chip--red">VERIFIED</span>
+
+          <div class="review-entry">
+            <div class="space-y-2.5">
+              <div class="entry-meta">
+                <span class="stars">★★★★★</span>
+                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
               </div>
-              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Madurai to Bangalore took 48 hours. Protective vacuum packaging was clean."</p>
+              <p class="entry-quote">
+                "Madurai to Bangalore took exactly 48 hours. The vacuum-sealed chrome packaging was immaculate. Ring adjustment is sturdy, doesn't bend out of shape."
+              </p>
             </div>
-            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">ANIRUDH S.</strong> · BENGALURU</p>
+            <div class="entry-author mono-tag">
+              <span class="text-white font-bold">ANIRUDH S.</span> <span class="text-[#737373]">· BENGALURU [KA]</span>
+            </div>
           </div>
-          <div class="border border-white/10 bg-[#141418] p-5 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between">
-                <span class="text-[#FF0033] text-sm">★★★★★</span>
-                <span class="tech-chip tech-chip--red">VERIFIED</span>
+
+          <div class="review-entry">
+            <div class="space-y-2.5">
+              <div class="entry-meta">
+                <span class="stars">★★★★★</span>
+                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
               </div>
-              <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"Zero oxidation after gym sessions and rain exposure. Authentic stainless steel."</p>
+              <p class="entry-quote">
+                "Zero oxidation or discoloration after intense gym sessions and rain exposure. Real 316L alloy."
+              </p>
             </div>
-            <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10"><strong class="text-white">RAHUL D.</strong> · COIMBATORE</p>
+            <div class="entry-author mono-tag">
+              <span class="text-white font-bold">RAHUL D.</span> <span class="text-[#737373]">· COIMBATORE [TN]</span>
+            </div>
           </div>
         {% endif %}
       </div>
     </section>
-  </div>
-</div>
 
 <!-- FULL-SCREEN WRITE REVIEW MODAL (z-210) -->
 <div
