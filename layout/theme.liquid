@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="theme-color" content="#000000">
 
-<link
-  rel="icon"
-  type="image/png"
-  href="{{ 'rwnd20s_favicon_32x32.png' | asset_url }}"
->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ 'rwnd20s_favicon_32x32.png' | asset_url }}"
+    >
 
     <link rel="canonical" href="{{ canonical_url }}">
 
@@ -27,7 +27,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -37,15 +37,15 @@
             colors: {
               'rwnd-pure': '#000000',
               'rwnd-rich': '#0A0A0A',
-              'rwnd-soft': '#1A1A1A',
+              'rwnd-soft': '#181818',
               'rwnd-red': '#FF0033',
               'rwnd-red-dark': '#CC0029',
-              'rwnd-line': '#2A2A2F'
+              'rwnd-line': 'rgba(255, 255, 255, 0.08)'
             },
             fontFamily: {
-              display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
-              sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-              'mono-tech': ['JetBrains Mono', 'monospace']
+              display: ['Druk Wide', 'Syne', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+              sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+              'mono-tech': ['JetBrains Mono', 'Space Mono', 'monospace']
             }
           }
         }
@@ -56,66 +56,30 @@
     {{ content_for_header }}
 
     <style>
-      :root {
-        --black-pure: #000000;
-        --black-rich: #0A0A0A;
-        --black-soft: #1A1A1A;
-        --red-primary: #FF0033;
-        --red-dark: #CC0029;
-        --red-glow: rgba(255, 0, 51, 0.3);
-        --white-pure: #FFFFFF;
-        --white-soft: rgba(255, 255, 255, 0.7);
-        --white-muted: rgba(255, 255, 255, 0.5);
-        --line: #2A2A2F;
-
-        /* Backward-Compatibility Aliases */
-        --ink: var(--black-pure);
-        --surface: var(--black-rich);
-        --chrome: var(--white-soft);
-        --bone: var(--white-pure);
-        --muted: var(--white-muted);
-        --blood: var(--red-primary);
-        --blood-hover: var(--red-dark);
-        --moon: var(--red-glow);
-
-        --glass-bg: rgba(10, 10, 10, 0.72);
-        --glass-bg-strong: rgba(10, 10, 10, 0.92);
-        --glass-border: rgba(255, 255, 255, 0.12);
-        --glass-highlight: rgba(255, 255, 255, 0.05);
-        --glass-blur: 16px;
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        border-radius: 0px !important;
-      }
-
       html,
       body {
         max-width: 100vw;
         min-height: 100%;
         overflow-x: hidden;
-        background-color: var(--black-pure) !important;
-        color: var(--white-pure);
+        background-color: var(--bg-void) !important;
+        color: var(--text-high-contrast);
       }
     </style>
   </head>
 
-  <body class="relative z-0 min-h-screen font-mono-tech text-[#F5F5F7] antialiased selection:bg-[#FF0033] selection:text-white">
+  <body class="relative z-0 min-h-screen font-sans text-[#F0F0F0] antialiased selection:bg-[#FF0033] selection:text-white">
     <!-- Ambient Mobile Fixed Background -->
     <div 
-      class="fixed inset-0 pointer-events-none -z-10 bg-cover bg-center bg-no-repeat opacity-40" 
+      class="fixed inset-0 pointer-events-none -z-10 bg-cover bg-center bg-no-repeat opacity-35" 
       style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649');"
     ></div>
-    <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/80 via-transparent to-[#000000]/95"></div>
+    <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/85 via-transparent to-[#000000]/95"></div>
 
     <!-- 1. ROOT MOUNTED STICKY HEADER -->
     {% section 'header' %}
 
     <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-4">
-      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-[#2A2A2F] bg-[#0A0A0A] px-4 py-2 text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-[#FF0033]">
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-white/10 bg-[#0A0A0A] px-4 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-[#FF0033]">
         <span class="text-[#FF0033]">←</span>
         <span>RETURN TO BASE</span>
       </button>
@@ -171,7 +135,7 @@
           const origContent = button.innerHTML;
           button.dataset.submitting = 'true';
           button.disabled = true;
-          button.innerHTML = '<span class="animate-pulse tracking-widest text-white">[ SECURING... ]</span>';
+          button.innerHTML = '<span class="animate-pulse font-mono-tech tracking-widest text-white">[ SECURING... ]</span>';
 
           try {
             const res = await fetch('/cart/add.js', {
@@ -186,21 +150,19 @@
             }
 
             await res.json();
-            button.innerHTML = '<span class="font-bold tracking-widest text-white">✦ SECURED IN BAG</span>';
+            button.innerHTML = '<span class="font-mono-tech font-bold tracking-widest text-white">✦ SECURED IN BAG</span>';
             await refreshCartBadges();
             
-            // Sync full page cart if open
             if (typeof window.fetchMainCartData === 'function') {
               window.fetchMainCartData();
             }
 
-            // Open slide-in drawer on cart addition unless on full /cart page
             if (window.location.pathname !== '/cart' && typeof window.openCartDrawer === 'function') {
               window.openCartDrawer();
             }
           } catch (err) {
             console.error('Add failed:', err);
-            button.innerHTML = '<span class="font-bold tracking-widest text-[#FF0033]">ERROR OCCURRED</span>';
+            button.innerHTML = '<span class="font-mono-tech font-bold tracking-widest text-[#FF0033]">ERROR OCCURRED</span>';
           } finally {
             window.setTimeout(() => {
               button.innerHTML = origContent;
