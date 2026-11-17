@@ -16,14 +16,52 @@
     <link rel="canonical" href="{{ canonical_url }}">
 
     <title>
-      {{ page_title | escape }} &ndash; {{ shop.name | default: 'RWND20s' | escape }}
+      {% if template.name == 'index' %}
+        RWND20s &ndash; Y2K 316L Stainless Steel Hardware &amp; Audio
+      {% else %}
+        {{ page_title | escape }} &ndash; RWND20s
+      {% endif %}
     </title>
 
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% else %}
-      <meta name="description" content="Y2K accessories, 316L hardware, and Type-C audio from RWND20s. Old vibe. New you.">
+      <meta name="description" content="Y2K accessories, 316L surgical stainless steel jewelry, watches, and Type-C audio from RWND20s. Dispatched from Madurai.">
     {% endif %}
+
+    <!-- Brand Entity & Knowledge Graph Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://rwnd20s.in/#website",
+            "url": "https://rwnd20s.in/",
+            "name": "RWND20s",
+            "alternateName": ["rwnd20s", "rwnd20s.", "RWND20s India"],
+            "publisher": { "@id": "https://rwnd20s.in/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://rwnd20s.in/#organization",
+            "name": "RWND20s",
+            "alternateName": ["rwnd20s", "rwnd20s."],
+            "url": "https://rwnd20s.in/",
+            "logo": "https:{{ 'rwnd20s_favicon_32x32.png' | asset_url }}",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Madurai",
+              "addressRegion": "Tamil Nadu",
+              "addressCountry": "IN"
+            },
+            "sameAs": [
+              "https://www.instagram.com/rwnd20s"
+            ]
+          }
+        ]
+      }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
