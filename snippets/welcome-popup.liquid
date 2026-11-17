@@ -10,7 +10,7 @@
     <button 
       type="button" 
       id="close-welcome-modal" 
-      class="absolute top-4 right-4 text-xs font-bold text-[#A3A7AE] hover:text-[#FF0033] cursor-pointer"
+      class="absolute top-4 right-4 h-8 w-8 flex items-center justify-center text-xs font-bold text-[#A3A7AE] hover:text-[#FF0033] cursor-pointer"
       aria-label="Close"
     >
       ✕
@@ -33,16 +33,21 @@
 
     <!-- Form Container -->
     <div id="welcome-form-container" class="mt-6">
-      <form id="rwnd-welcome-form" class="flex flex-col gap-3 text-left">
+      {% form 'customer', id: 'rwnd-welcome-form', class: 'flex flex-col gap-3 text-left' %}
+        <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off, drop-01">
+
         <input 
           type="email" 
           id="rwnd-welcome-email"
-          name="email" 
+          name="contact[email]" 
           placeholder="ENTER YOUR EMAIL..." 
           required 
           autocomplete="email"
           class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
         >
+
+        <p id="rwnd-welcome-error" class="hidden text-[11px] font-bold uppercase text-[#FF0033]"></p>
+
         <button 
           type="submit" 
           id="rwnd-welcome-submit"
@@ -50,10 +55,10 @@
         >
           CLAIM 10% CODE →
         </button>
-      </form>
+      {% endform %}
 
       <!-- In-Modal Success State -->
-      <div id="welcome-success-state" class="hidden border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
+      <div id="welcome-success-state" class="{% unless form.posted_successfully? %}hidden{% endunless %} border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
         <span class="text-xs font-bold uppercase tracking-wider text-white block">DISPATCH ACCESS GRANTED</span>
         <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
           RWND10
@@ -82,18 +87,20 @@
     const form = document.getElementById('rwnd-welcome-form');
     const emailInput = document.getElementById('rwnd-welcome-email');
     const submitBtn = document.getElementById('rwnd-welcome-submit');
+    const errorBox = document.getElementById('rwnd-welcome-error');
     const successState = document.getElementById('welcome-success-state');
     const shopNowBtn = document.getElementById('welcome-shop-now');
 
+    const CLAIMED_KEY = 'rwnd_welcome_claimed';
     const SESSION_KEY = 'rwnd_popup_session_closed';
 
-    // Show popup after 1.5 seconds if not closed in this session
-    if (!sessionStorage.getItem(SESSION_KEY)) {
+    // Show popup after 2s only if user hasn't claimed RWND10 or closed it this session
+    if (!localStorage.getItem(CLAIMED_KEY) && !sessionStorage.getItem(SESSION_KEY)) {
       window.setTimeout(() => {
         if (!modal) return;
         modal.classList.remove('opacity-0', 'pointer-events-none');
         document.body.style.overflow = 'hidden';
-      }, 1500);
+      }, 2000);
     }
 
     const dismissModal = () => {
@@ -110,44 +117,54 @@
       if (e.target === modal) dismissModal();
     });
 
-    // AJAX Form Handling without page reloads or jumps
+    // Native Shopify Customer Form AJAX Submission
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = emailInput?.value?.trim();
       if (!email) return;
 
+      if (errorBox) errorBox.classList.add('hidden');
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'SECURING CODE...';
       }
 
-      sessionStorage.setItem(SESSION_KEY, 'true');
-
       try {
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText('RWND10');
-        }
-      } catch (err) {}
-
-      try {
-        const payload = new URLSearchParams();
-        payload.append('form_type', 'customer');
-        payload.append('utf8', '✓');
-        payload.append('contact[tags]', 'newsletter, welcome_10off');
-        payload.append('contact[email]', email);
-
-        await fetch('/contact#contact_form', {
+        const formData = new FormData(form);
+        const res = await fetch(form.getAttribute('action') || '/contact', {
           method: 'POST',
+          body: formData,
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json'
-          },
-          body: payload.toString()
+            'Accept': 'text/html,application/xhtml+xml'
+          }
         });
-      } catch (err) {}
 
-      form.classList.add('hidden');
-      if (successState) successState.classList.remove('hidden');
+        const htmlText = await res.text();
+
+        // Check if Shopify returned a form validation error or CAPTCHA challenge
+        if (htmlText.includes('class="errors"') || htmlText.includes('form-status--error')) {
+          throw new Error('INVALID EMAIL OR ALREADY SUBSCRIBED');
+        }
+
+        // Persist claim state & copy code
+        localStorage.setItem(CLAIMED_KEY, 'true');
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('RWND10').catch(() => {});
+        }
+
+        form.classList.add('hidden');
+        if (successState) successState.classList.remove('hidden');
+      } catch (err) {
+        if (errorBox) {
+          errorBox.textContent = '✕ ' + (err.message || 'TRANSMISSION FAILED. TRY AGAIN.');
+          errorBox.classList.remove('hidden');
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'CLAIM 10% CODE →';
+        }
+      }
     });
   })();
 </script>
