@@ -907,3 +907,135 @@ details[open] .accordion-icon {
   font-family: var(--font-body);
   font-size: 0.8rem;
 }
+
+/* ==========================================================================
+   4. STREAMLINED REVIEW TRANSMISSION LOG (NO BOX-IN-BOX CLUTTER)
+   ========================================================================== */
+.reviews-section {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: var(--border-hairline);
+}
+
+.reviews-header {
+  margin-bottom: 18px;
+}
+
+.reviews-title {
+  font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+  margin: 4px 0 0 0;
+  color: var(--text-pure);
+}
+
+/* 1-Line Minimalist HUD Bar */
+.review-score-hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-surface-1);
+  border: var(--border-hairline);
+  border-left: 2px solid var(--red-core);
+  margin-bottom: 24px;
+}
+
+.score-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.score-number {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--text-pure);
+}
+
+.score-stars {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.score-stars .stars {
+  color: var(--red-core);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.btn-review-write {
+  height: 38px;
+  padding: 0 14px;
+  background: var(--red-core);
+  border: 1px solid var(--red-core);
+  color: var(--text-pure);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.btn-review-write:hover {
+  background: #CC0029;
+}
+
+/* Streamlined Review Entries */
+.reviews-stream {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .reviews-stream {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+.review-entry {
+  padding: 14px 16px;
+  background: var(--bg-surface-1);
+  border-left: 2px solid rgba(255, 0, 51, 0.55);
+  border-bottom: var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.entry-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry-meta .stars {
+  color: var(--red-core);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.entry-status {
+  color: var(--text-subtle);
+  font-size: 0.65rem;
+}
+
+.entry-quote {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-high-contrast);
+  margin: 0;
+}
+
+.entry-author {
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.68rem;
+}
