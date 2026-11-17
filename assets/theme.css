@@ -483,3 +483,421 @@ textarea:focus {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ========================================================================= */
+/* REFACTORED PDP & BUY BOX ARCHITECTURE (ZERO BOX FATIGUE)                  */
+/* ========================================================================= */
+.pdp-shell {
+  width: 100%;
+  background-color: var(--bg-void);
+  color: var(--text-high-contrast);
+  padding: 16px 16px 88px;
+}
+
+@media (min-width: 1024px) {
+  .pdp-shell {
+    padding: 32px 32px 64px;
+  }
+}
+
+.pdp-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+@media (min-width: 1024px) {
+  .pdp-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: start;
+  }
+}
+
+.pdp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Telemetry & Chips */
+.pdp-telemetry-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: var(--border-hairline);
+}
+
+.pdp-status-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-chip {
+  padding: 4px 8px;
+  background-color: var(--bg-surface-2);
+  border: var(--border-hairline);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tech-chip--red {
+  background-color: var(--red-dim);
+  border-color: rgba(255, 0, 51, 0.45);
+  color: var(--red-core);
+}
+
+/* Header & Title */
+.pdp-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 5vw, 2.1rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--text-pure);
+  margin: 0;
+}
+
+.pdp-sub-row {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pdp-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdp-rating .stars {
+  color: var(--red-core);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* Price Row (Zero Box Bloat) */
+.pdp-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+}
+
+.price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+}
+
+.price-current {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-pure);
+}
+
+.price-compare {
+  font-size: 14px;
+  color: var(--text-subtle);
+  text-decoration: line-through;
+}
+
+.discount-badge {
+  padding: 4px 8px;
+  background-color: var(--red-dim);
+  border: var(--border-hairline-red);
+  color: var(--red-core);
+  font-weight: 700;
+}
+
+/* Inventory Ticker */
+.pdp-inventory-ticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--red-core);
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+/* Streamlined Loadout Manifest */
+.loadout-manifest {
+  background-color: var(--bg-surface-1);
+  border: var(--border-hairline);
+  border-left: 2px solid var(--red-core);
+  padding: 16px;
+}
+
+.manifest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: var(--border-hairline);
+}
+
+.manifest-list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.manifest-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.item-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red-core);
+  padding-top: 2px;
+}
+
+.item-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-desc strong {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-pure);
+}
+
+.item-desc span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.manifest-notice {
+  padding-top: 10px;
+  border-top: var(--border-hairline);
+}
+
+/* Actions / Buy Box */
+.pdp-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 10px;
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-surface-1);
+  border: var(--border-hairline);
+  height: 52px;
+}
+
+.qty-btn {
+  width: 38px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-pure);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.qty-btn:hover {
+  color: var(--red-core);
+}
+
+.qty-input {
+  width: 36px;
+  height: 100%;
+  padding: 0 !important;
+  text-align: center;
+  border: none !important;
+  background: transparent !important;
+  font-weight: 700;
+  color: var(--text-pure);
+}
+
+.btn-primary-cyber {
+  flex: 1;
+  height: 52px;
+  padding: 0 18px;
+  background-color: var(--red-core);
+  border: 1px solid var(--red-core);
+  color: var(--text-pure);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.btn-primary-cyber:hover {
+  background-color: var(--red-dark);
+}
+
+.btn-instant-checkout {
+  width: 100%;
+  height: 48px;
+  background-color: var(--bg-surface-1);
+  border: var(--border-hairline);
+  color: var(--text-pure);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.btn-instant-checkout:hover {
+  border-color: var(--red-core);
+}
+
+/* Minimal Hairline Trust Grid */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+}
+
+@media (min-width: 640px) {
+  .trust-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  border-bottom: var(--border-hairline);
+}
+
+@media (min-width: 640px) {
+  .trust-item {
+    border-bottom: none;
+  }
+}
+
+.trust-icon {
+  font-size: 14px;
+}
+
+.trust-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Flush Line Dividers for Accordions */
+.pdp-accordions {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-item {
+  border-bottom: var(--border-hairline);
+}
+
+.accordion-trigger {
+  list-style: none;
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-pure);
+}
+
+.accordion-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-icon {
+  color: var(--red-core);
+  font-size: 16px;
+  transition: transform 150ms ease;
+}
+
+.accordion-item[open] .accordion-icon {
+  transform: rotate(45deg);
+}
+
+.accordion-content {
+  padding-bottom: 18px;
+}
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.specs-table td {
+  padding: 8px 0;
+  border-bottom: var(--border-hairline);
+  font-size: 11px;
+  vertical-align: top;
+}
+
+.specs-table td:first-child {
+  width: 36%;
+  color: var(--text-subtle);
+}
+
+.specs-table td:last-child {
+  color: var(--text-high-contrast);
+  text-transform: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+}
