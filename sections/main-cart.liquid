@@ -57,7 +57,7 @@
           </div>
 
           <div class="flex justify-between gap-3 text-[#A3A7AE]">
-            <span>SHIPPING</span>
+            <span>SHIPPING / FEE</span>
             <span id="rwnd-cart-shipping-msg" class="font-bold text-[#F5F5F7]">CALCULATING...</span>
           </div>
 
@@ -75,7 +75,7 @@
           </div>
         </div>
 
-        <!-- DISPATCH PROTOCOL SELECTOR (STANDARD COURIER VS. MADURAI FOUNDER HAND DELIVERY) -->
+        <!-- DISPATCH PROTOCOL SELECTOR -->
         <div class="border-t border-[#2A2A2F] py-4 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#FF0033]">
@@ -104,7 +104,7 @@
               <span class="shrink-0 font-mono-tech text-[10px] font-bold text-white">₹49 / FREE</span>
             </label>
 
-            <!-- Option 2: Hand Delivery by Founders (Madurai Only) -->
+            <!-- Option 2: Hand Delivery by Founders (₹499 · Madurai Only) -->
             <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#0A0A0C] p-2.5 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
               <div class="flex items-start gap-2.5">
                 <input
@@ -119,7 +119,7 @@
                   <span class="font-sans text-[11px] text-[#A3A7AE]">Personal drop-off · Strictly Madurai (625xxx)</span>
                 </div>
               </div>
-              <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">MDU ONLY</span>
+              <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[10px] font-bold text-[#FF0033]">₹499 · MDU</span>
             </label>
           </div>
 
@@ -183,8 +183,8 @@
         </div>
 
         <div class="mt-4 space-y-1.5 border-t border-[#2A2A2F] pt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
-          <p>• Free delivery on ₹999 and above. Below ₹999, ₹49 flat.</p>
-          <p>• Hand Delivery by Founders available exclusively inside Madurai (625xxx).</p>
+          <p>• Standard delivery: Free on ₹999+, ₹49 flat below ₹999.</p>
+          <p>• Hand Delivery by Founders: ₹499 flat fee (exclusively Madurai 625xxx).</p>
           <p>• COD verification required before dispatch.</p>
         </div>
       </div>
@@ -226,8 +226,7 @@
       const savedPin = cart.attributes['Madurai Delivery PIN'] || '';
       if (!savedMode) return;
 
-      const radios = document.querySelectorAll('input[name="rwnd_dispatch_mode"]');
-      radios.forEach((r) => {
+      document.querySelectorAll('input[name="rwnd_dispatch_mode"]').forEach((r) => {
         if (r.value === savedMode) r.checked = true;
       });
 
@@ -274,12 +273,19 @@
 
     function renderMainCartUI(cart) {
       const container = document.getElementById('rwnd-main-cart-items');
-      if (!container) return;
+      if (!container || !cart) return;
 
       const rawTotalPrice = cart.total_price || 0;
       const thresholdCents = 99900;
-      const isFreeShipping = rawTotalPrice >= thresholdCents;
-      const shippingCents = isFreeShipping || rawTotalPrice === 0 ? 0 : 4900;
+      const mode = document.querySelector('input[name="rwnd_dispatch_mode"]:checked')?.value || 'Standard Courier (PAN-India)';
+      const isFounder = mode.includes('Hand Delivery by Founders');
+
+      const isFreeShipping = !isFounder && rawTotalPrice >= thresholdCents;
+      const shippingCents = rawTotalPrice === 0
+        ? 0
+        : isFounder
+          ? 49900
+          : (isFreeShipping ? 0 : 4900);
 
       let discountCents = 0;
       if (appliedDiscountCode === 'RWND10' && rawTotalPrice > 0) {
@@ -306,7 +312,12 @@
       const thresholdText = document.getElementById('rwnd-shipping-threshold-text');
       const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
 
-      if (isFreeShipping && rawTotalPrice > 0) {
+      if (isFounder && rawTotalPrice > 0) {
+        shippingMsg.textContent = '₹499 (FOUNDER DROP)';
+        shippingMsg.className = 'font-bold text-[#FF0033]';
+        thresholdText.textContent = '✦ FOUNDER HAND DELIVERY SELECTED (MADURAI ONLY)';
+        shippingBar.style.width = '100%';
+      } else if (isFreeShipping && rawTotalPrice > 0) {
         shippingMsg.textContent = 'FREE';
         shippingMsg.className = 'font-bold text-[#00FF88]';
         thresholdText.textContent = '✓ FREE DELIVERY QUALIFIED (OVER ₹999)';
@@ -416,7 +427,6 @@
         .join('');
     }
 
-    // Dispatch Protocol & Madurai PIN Handlers
     window.toggleMainCartMaduraiPin = function(isFounderDelivery) {
       const wrap = document.getElementById('rwnd-main-mdu-pin-wrap');
       const pinInput = document.getElementById('rwnd-main-mdu-pin-input');
@@ -434,6 +444,7 @@
           status.style.color = '#A3A7AE';
         }
       }
+      if (currentCartData) renderMainCartUI(currentCartData);
       window.syncMainCartDispatchAttributes();
     };
 
@@ -449,7 +460,7 @@
       }
 
       if (val.startsWith('625')) {
-        status.textContent = '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED';
+        status.textContent = '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED (₹499)';
         status.style.color = '#00FF88';
         if (shouldSync) window.syncMainCartDispatchAttributes();
         return true;
@@ -463,12 +474,14 @@
     window.syncMainCartDispatchAttributes = function() {
       const mode = document.querySelector('input[name="rwnd_dispatch_mode"]:checked')?.value || 'Standard Courier (PAN-India)';
       const pin = document.getElementById('rwnd-main-mdu-pin-input')?.value || '';
+      const fee = mode.includes('Hand Delivery by Founders') ? '₹499' : 'Standard';
       return fetch('/cart/update.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           attributes: {
             'Dispatch Mode': mode,
+            'Dispatch Fee': fee,
             'Madurai Delivery PIN': pin
           }
         })
