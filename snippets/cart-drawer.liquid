@@ -111,9 +111,9 @@
     </div>
 
     <!-- Drawer Dynamic Footer -->
-    <div id="drawer-footer-panel" class="border-t border-[#2A2A2F] bg-[#131316] p-4 sm:p-5 space-y-3.5 shrink-0 max-h-[62vh] overflow-y-auto {% if cart.item_count == 0 %}hidden{% endif %}">
+    <div id="drawer-footer-panel" class="border-t border-[#2A2A2F] bg-[#131316] p-4 sm:p-5 space-y-3.5 shrink-0 max-h-[64vh] overflow-y-auto {% if cart.item_count == 0 %}hidden{% endif %}">
       
-      <!-- DISPATCH PROTOCOL SELECTOR (STANDARD COURIER VS. MADURAI FOUNDER HAND DELIVERY) -->
+      <!-- DISPATCH PROTOCOL SELECTOR -->
       <div class="border border-[#2A2A2F] bg-[#0A0A0A] p-2.5 space-y-2">
         <div class="flex items-center justify-between">
           <span class="font-mono-tech text-[9px] font-bold uppercase tracking-wider text-[#FF0033]">
@@ -142,7 +142,7 @@
             <span class="shrink-0 font-mono-tech text-[9px] font-bold text-white">₹49 / FREE</span>
           </label>
 
-          <!-- Option 2: Hand Delivery by Founders (Madurai Only) -->
+          <!-- Option 2: Hand Delivery by Founders (₹499 · Madurai Only) -->
           <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#131316] p-2 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
             <div class="flex items-start gap-2">
               <input
@@ -157,7 +157,7 @@
                 <span class="font-sans text-[10px] text-[#A3A7AE]">Personal drop-off · Strictly Madurai (625xxx)</span>
               </div>
             </div>
-            <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[8px] font-bold text-[#FF0033]">MDU ONLY</span>
+            <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">₹499 · MDU</span>
           </label>
         </div>
 
@@ -185,7 +185,7 @@
           <span id="drawer-subtotal-val" class="text-white font-bold">{{ cart.total_price | money }}</span>
         </div>
         <div class="flex justify-between text-[#A3A7AE]">
-          <span>SHIPPING:</span>
+          <span>SHIPPING / FEE:</span>
           <span id="drawer-shipping-val">
             {% if cart.total_price >= 99900 %}
               <span class="text-[#00FF88] font-bold">FREE (₹999+ ✓)</span>
@@ -250,7 +250,66 @@
 </div>
 
 <script>
-  // Global Drawer Hooks
+  let rwndLastDrawerSubtotalCents = {{ cart.total_price | default: 0 }};
+
+  window.recalculateDrawerPricing = function(subtotalCents) {
+    if (typeof subtotalCents === 'number') {
+      rwndLastDrawerSubtotalCents = subtotalCents;
+    }
+    const baseCents = rwndLastDrawerSubtotalCents || 0;
+    const mode = document.querySelector('input[name="rwnd_drawer_dispatch_mode"]:checked')?.value || 'Standard Courier (PAN-India)';
+    const isFounder = mode.includes('Hand Delivery by Founders');
+
+    const shipBar = document.getElementById('drawer-shipping-bar');
+    const shipText = document.getElementById('drawer-shipping-text');
+    const shipVal = document.getElementById('drawer-shipping-val');
+    const subtotalEl = document.getElementById('drawer-subtotal-val');
+    const totalEl = document.getElementById('drawer-total-val');
+
+    const pct = Math.min(100, Math.round((baseCents / 99900) * 100));
+    if (shipBar) shipBar.style.width = pct + '%';
+
+    let shippingCents = 0;
+
+    if (isFounder) {
+      shippingCents = baseCents > 0 ? 49900 : 0;
+      if (shipText) {
+        shipText.innerHTML = '<span class="text-[#FF0033]">✦ FOUNDER HAND DELIVERY ACTIVE (₹499 FEE)</span>';
+      }
+      if (shipVal) {
+        shipVal.innerHTML = '<span class="text-[#FF0033] font-bold">₹499.00 (FOUNDER DROP)</span>';
+      }
+    } else if (baseCents >= 99900) {
+      shippingCents = 0;
+      if (shipText) {
+        shipText.innerHTML = '<span class="text-[#00FF88]">✓ FREE SHIPPING UNLOCKED (ORDERS ₹999+)</span>';
+      }
+      if (shipVal) {
+        shipVal.innerHTML = '<span class="text-[#00FF88] font-bold">FREE (₹999+ ✓)</span>';
+      }
+    } else if (baseCents === 0) {
+      shippingCents = 0;
+      if (shipText) {
+        shipText.innerHTML = '<span class="text-[#A3A7AE]">ADD <strong class="text-white">₹999.00</strong> MORE FOR FREE DELIVERY</span>';
+      }
+      if (shipVal) {
+        shipVal.innerHTML = '<span class="text-white font-bold">₹0.00</span>';
+      }
+    } else {
+      shippingCents = 4900;
+      const rem = ((99900 - baseCents) / 100).toFixed(2);
+      if (shipText) {
+        shipText.innerHTML = `<span class="text-[#A3A7AE]">ADD <strong class="text-white">₹${rem}</strong> MORE FOR FREE DELIVERY</span>`;
+      }
+      if (shipVal) {
+        shipVal.innerHTML = '<span class="text-white font-bold">₹49.00 (FLAT)</span>';
+      }
+    }
+
+    if (subtotalEl) subtotalEl.textContent = '₹' + (baseCents / 100).toFixed(2);
+    if (totalEl) totalEl.textContent = '₹' + ((baseCents + shippingCents) / 100).toFixed(2);
+  };
+
   window.openCartDrawer = function() {
     const overlay = document.getElementById('rwnd-cart-drawer-overlay');
     const drawer = document.getElementById('rwnd-cart-drawer');
@@ -276,7 +335,6 @@
     if (e.target.id === 'rwnd-cart-drawer-overlay') window.closeCartDrawer();
   });
 
-  // Dispatch Protocol & Madurai PIN Handlers (Drawer)
   window.toggleDrawerMaduraiPin = function(isFounderDelivery) {
     const wrap = document.getElementById('rwnd-drawer-mdu-pin-wrap');
     const pinInput = document.getElementById('rwnd-drawer-mdu-pin-input');
@@ -294,6 +352,7 @@
         status.style.color = '#A3A7AE';
       }
     }
+    window.recalculateDrawerPricing();
     window.syncDrawerDispatchAttributes();
   };
 
@@ -309,7 +368,7 @@
     }
 
     if (val.startsWith('625')) {
-      status.textContent = '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED';
+      status.textContent = '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED (₹499)';
       status.style.color = '#00FF88';
       if (shouldSync) window.syncDrawerDispatchAttributes();
       return true;
@@ -323,12 +382,14 @@
   window.syncDrawerDispatchAttributes = function() {
     const mode = document.querySelector('input[name="rwnd_drawer_dispatch_mode"]:checked')?.value || 'Standard Courier (PAN-India)';
     const pin = document.getElementById('rwnd-drawer-mdu-pin-input')?.value || '';
+    const fee = mode.includes('Hand Delivery by Founders') ? '₹499' : 'Standard';
     return fetch('/cart/update.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         attributes: {
           'Dispatch Mode': mode,
+          'Dispatch Fee': fee,
           'Madurai Delivery PIN': pin
         }
       })
@@ -381,7 +442,6 @@
     }
   }
 
-  // Quantity Modifier (Zero Page Reloads)
   window.updateDrawerItemQty = async function(lineKey, newQty) {
     try {
       const res = await fetch('/cart/change.js', {
@@ -393,7 +453,6 @@
       if (!res.ok) throw new Error('Failed to update line quantity');
       await window.fetchDrawerCart();
 
-      // Sync full-page cart if open on /cart
       if (typeof window.fetchMainCartData === 'function') {
         window.fetchMainCartData();
       }
@@ -402,7 +461,6 @@
     }
   };
 
-  // Dynamic In-Drawer Re-render Engine
   window.fetchDrawerCart = async function() {
     try {
       const res = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } });
@@ -411,44 +469,18 @@
 
       restoreDrawerDispatchSelection(cart);
 
-      // Sync header & drawer badge counters
       document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = cart.item_count);
       const dCount = document.getElementById('drawer-cart-count');
       if (dCount) dCount.textContent = cart.item_count;
 
-      // Update free shipping bar
-      const shipBar = document.getElementById('drawer-shipping-bar');
-      const shipText = document.getElementById('drawer-shipping-text');
-      const shipVal = document.getElementById('drawer-shipping-val');
-      const pct = Math.min(100, Math.round((cart.total_price / 99900) * 100));
-      
-      if (shipBar) shipBar.style.width = pct + '%';
-      if (shipText) {
-        if (cart.total_price >= 99900) {
-          shipText.innerHTML = '<span class="text-[#00FF88]">✓ FREE SHIPPING UNLOCKED (ORDERS ₹999+)</span>';
-          if (shipVal) shipVal.innerHTML = '<span class="text-[#00FF88] font-bold">FREE (₹999+ ✓)</span>';
-        } else {
-          const rem = ((99900 - cart.total_price) / 100).toFixed(2);
-          shipText.innerHTML = `<span class="text-[#A3A7AE]">ADD <strong class="text-white">₹${rem}</strong> MORE FOR FREE DELIVERY</span>`;
-          if (shipVal) shipVal.innerHTML = '<span class="text-white font-bold">₹49 (FLAT)</span>';
-        }
-      }
+      window.recalculateDrawerPricing(cart.total_price);
 
-      // Update monetary totals
-      const formattedTotal = '₹' + (cart.total_price / 100).toFixed(2);
-      const subtotalEl = document.getElementById('drawer-subtotal-val');
-      const totalEl = document.getElementById('drawer-total-val');
-      if (subtotalEl) subtotalEl.textContent = formattedTotal;
-      if (totalEl) totalEl.textContent = formattedTotal;
-
-      // Check for saved welcome promo discount in storage
       const chkLink = document.getElementById('drawer-checkout-link');
       if (chkLink) {
         const hasWelcome = localStorage.getItem('rwnd_welcome_claimed') === 'true' || localStorage.getItem('rwnd_welcome_dismissed') === 'true';
         chkLink.href = hasWelcome ? '/checkout?discount=RWND10' : '/checkout';
       }
 
-      // Toggle Footer & Build Item Markup
       const list = document.getElementById('drawer-items-list');
       const footerPanel = document.getElementById('drawer-footer-panel');
 
