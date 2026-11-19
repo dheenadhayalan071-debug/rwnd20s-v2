@@ -1,13 +1,13 @@
 <!-- sections/main-collection.liquid -->
-{% paginate collection.products by 12 %}
+{% paginate collection.products by section.settings.products_per_page %}
 <section class="relative w-full bg-[#0A0A0C] px-4 py-6 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-10 lg:px-8">
   <div class="mx-auto max-w-7xl">
     
     <!-- 5.1 BREADCRUMBS & HEADER -->
     <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
-      <a href="/" class="hover:text-white transition-colors">Home</a>
+      <a href="{{ routes.root_url }}" class="hover:text-white transition-colors">Home</a>
       <span>/</span>
-      <a href="/collections/all" class="hover:text-white transition-colors">Shop</a>
+      <a href="{{ routes.all_products_collection_url }}" class="hover:text-white transition-colors">Shop</a>
       <span>/</span>
       <span class="text-white font-bold">{{ collection.title | default: 'All Hardware' }}</span>
     </nav>
@@ -26,6 +26,7 @@
     </header>
 
     <!-- 5.2 STICKY FILTER & SORT BAR -->
+    {% if section.settings.show_category_tabs %}
     <div id="rwnd-sticky-filter-bar" class="sticky top-[64px] sm:top-[72px] z-30 mb-8 border border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:p-4 transition-all">
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
         
@@ -71,6 +72,7 @@
 
       </div>
     </div>
+    {% endif %}
 
     <!-- 5.3 PRODUCT GRID (2 cols mobile / 3 cols tablet / 4 cols desktop) -->
     <div id="rwnd-collection-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
@@ -112,9 +114,17 @@
             </a>
 
             <!-- Status Badges -->
-            {% if is_bundle %}
+            {% assign collection_saving = 0 %}
+            {% if product.price_varies %}
+              {% if product.compare_at_price_min > product.price_min %}
+                {% assign collection_saving = product.compare_at_price_min | minus: product.price_min %}
+              {% endif %}
+            {% elsif product.compare_at_price > product.price %}
+              {% assign collection_saving = product.compare_at_price | minus: product.price %}
+            {% endif %}
+            {% if collection_saving > 0 %}
               <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
-                SAVE ₹248
+                SAVE {{ collection_saving | money }}
               </span>
             {% elsif is_watch %}
               <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
@@ -138,39 +148,70 @@
               </h3>
               
               <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
-                <span>{{ product.price | money }}</span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
+                {% if product.price_varies %}
+                  <span>FROM {{ product.price_min | money }}</span>
+                  {% if product.compare_at_price_max > product.price_min %}
+                    <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price_max | money }}</span>
+                  {% endif %}
+                {% else %}
+                  <span>{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
                 {% endif %}
               </div>
             </div>
 
-            <!-- Quick Add Form -->
-            <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-3">
-              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-              <button 
-                type="submit" 
-                class="w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
-              >
-                + QUICK ADD
+            {% if product.price_varies %}
+              <a href="{{ product.url }}" class="mt-3 flex h-9 w-full items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-colors">
+                VIEW OPTIONS
+              </a>
+            {% elsif product.available %}
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-3">
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <button
+                  type="submit"
+                  class="w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
+                >
+                  + QUICK ADD
+                </button>
+              </form>
+            {% else %}
+              <button type="button" disabled class="mt-3 w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-[#737373] cursor-not-allowed">
+                SOLD OUT
               </button>
-            </form>
+            {% endif %}
           </div>
         </article>
       {% endfor %}
     </div>
 
-    <!-- 5.4 LOAD MORE BUTTON -->
-    <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center border-t border-[#2A2A2F] pt-8">
-      {% if paginate.next %}
-        <button 
-          type="button" 
-          id="rwnd-load-more-btn"
-          data-next-url="{{ paginate.next.url }}" 
-          class="h-14 border border-[#FF0033] bg-transparent px-10 font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#FF0033] transition-all cursor-pointer"
-        >
-          [ LOAD MORE PIECES + ]
-        </button>
+    <!-- 5.4 CRAWLABLE PAGINATION (progressively enhanced by JS) -->
+    <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center gap-4 border-t border-[#2A2A2F] pt-8">
+      {% if paginate.pages > 1 %}
+        <nav aria-label="Collection pagination" class="flex flex-wrap items-center justify-center gap-2 font-mono-tech text-xs uppercase tracking-widest">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-[#2A2A2F] px-4 text-white hover:border-[#FF0033] transition-colors">← PREV</a>
+          {% endif %}
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-[#2A2A2F] px-3 text-[#A3A7AE] hover:border-[#FF0033] hover:text-white transition-colors">{{ part.title }}</a>
+            {% else %}
+              <span class="flex h-11 min-w-11 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3 text-white" aria-current="page">{{ part.title }}</span>
+            {% endif %}
+          {% endfor %}
+          {% if paginate.next %}
+            <a
+              href="{{ paginate.next.url }}"
+              rel="next"
+              id="rwnd-load-more-btn"
+              data-next-url="{{ paginate.next.url }}"
+              class="flex h-11 items-center border border-[#FF0033] px-4 text-white hover:bg-[#FF0033] transition-colors"
+            >
+              [ LOAD MORE PIECES + ]
+            </a>
+          {% endif %}
+        </nav>
       {% else %}
         <span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>
       {% endif %}
@@ -257,7 +298,8 @@
     sortSelect?.addEventListener('change', applyFilterAndSort);
 
     // AJAX Load More Action
-    loadMoreBtn?.addEventListener('click', async () => {
+    loadMoreBtn?.addEventListener('click', async (event) => {
+      event.preventDefault();
       const nextUrl = loadMoreBtn.dataset.nextUrl;
       if (!nextUrl) return;
 
@@ -266,6 +308,7 @@
 
       try {
         const res = await fetch(nextUrl);
+        if (!res.ok) throw new Error('Could not load the next page.');
         const html = await res.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
@@ -299,6 +342,22 @@
 {% schema %}
 {
   "name": "Collection Grid",
-  "settings": []
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_tabs",
+      "label": "Show category filters",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

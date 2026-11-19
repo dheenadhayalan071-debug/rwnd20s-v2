@@ -3,7 +3,7 @@
     <!-- Breadcrumb Nav -->
     <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
       <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li><a href="{{ routes.root_url }}" class="hover:text-[#09090B]">BASE</a></li>
         <li>/</li>
         <li class="text-[#09090B] font-bold">ARCHIVE JOURNAL // BLOG</li>
       </ol>
@@ -24,13 +24,14 @@
     </div>
 
     <!-- Articles Grid -->
+    {% paginate blog.articles by 12 %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for article in blog.articles %}
         <article class="group rounded-3xl border border-[#09090B]/20 bg-white p-6 shadow-md flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#09090B]">
           <div>
             {% if article.image %}
               <div class="rounded-2xl bg-[#D4D8E0] overflow-hidden aspect-video mb-6 border border-[#09090B]/10">
-                <img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.title | escape }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                <img src="{{ article.image | image_url: width: 800 }}" width="800" height="450" alt="{{ article.title | escape }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
               </div>
             {% endif %}
 
@@ -62,6 +63,25 @@
         </div>
       {% endfor %}
     </div>
+
+    {% if paginate.pages > 1 %}
+      <nav aria-label="Blog pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-[#09090B]/20 pt-8 text-xs uppercase tracking-widest">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" rel="prev" class="h-11 border border-[#09090B] px-4 text-white hover:border-[#FF0033]">← PREV</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="h-11 min-w-11 flex items-center justify-center border border-[#09090B] px-3 text-[#52525B] hover:border-[#FF0033] hover:text-white">{{ part.title }}</a>
+          {% else %}
+            <span class="h-11 min-w-11 flex items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3 text-white" aria-current="page">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" rel="next" class="h-11 border border-[#09090B] px-4 text-white hover:border-[#FF0033]">NEXT →</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+    {% endpaginate %}
   </div>
 </div>
 

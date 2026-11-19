@@ -1,4 +1,23 @@
 <!-- sections/footer.liquid -->
+{%- comment -%} Guarded destinations: fall back to the catalogue/contact desk if a handle is missing. {%- endcomment -%}
+{% assign all_url = routes.all_products_collection_url %}
+{% assign rings_url = collections['rings'].url | default: all_url %}
+{% assign chains_url = collections['chains'].url | default: all_url %}
+{% assign bracelets_url = collections['bracelets'].url | default: all_url %}
+{% assign earrings_url = collections['earrings'].url | default: all_url %}
+{% assign earphones_url = collections['earphones'].url | default: all_url %}
+{% assign watches_url = collections['watches'].url | default: all_url %}
+{% assign cyber_set_url = all_products['3-piece-y2k-cyber-set'].url | default: all_url %}
+{% assign contact_url = pages['contact'].url | default: all_url %}
+{% assign shipping_url = pages['shipping'].url | default: contact_url %}
+{% assign returns_url = pages['returns'].url | default: contact_url %}
+{% assign cancellation_url = pages['cancellation'].url | default: contact_url %}
+{% assign preorder_url = pages['pre-order'].url | default: contact_url %}
+{% assign privacy_url = pages['privacy-policy'].url | default: contact_url %}
+{% assign terms_url = pages['terms'].url | default: contact_url %}
+{% assign faq_url = pages['faq'].url | default: contact_url %}
+{% assign size_guide_url = pages['size-guide'].url | default: contact_url %}
+{% assign track_order_url = pages['track-order'].url | default: contact_url %}
 <footer class="w-full border-t border-[#2A2A2F] bg-[#0A0A0A] px-4 py-10 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-16 lg:px-8">
   <div class="mx-auto max-w-7xl">
     
@@ -8,7 +27,7 @@
         <p class="font-bold text-white uppercase">⚠ NOTICE: FREE DELIVERY ON ORDERS ₹999+ · DELIVERED IN 48 HOURS IN SOUTH INDIA</p>
         <p class="text-[11px] text-[#A3A7AE] mt-0.5">Dispatched directly from our Madurai logistics facility.</p>
       </div>
-      <a href="/collections/all" class="text-[10px] font-bold text-[#FF0033] uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
+      <a href="{{ all_url }}" class="text-[10px] font-bold text-[#FF0033] uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
     </div>
 
     <!-- Native Shopify Customer Email Dispatch Strip -->
@@ -65,14 +84,14 @@
           DROP 01
         </h3>
         <ul class="space-y-2 text-[#A3A7AE]">
-          <li><a href="/collections/all" class="hover:text-white transition-colors">Shop All Pieces</a></li>
-          <li><a href="/products/3-piece-y2k-cyber-set" class="hover:text-white transition-colors">3-Piece Mystery Set</a></li>
-          <li><a href="/collections/rings" class="hover:text-white transition-colors">316L Rings</a></li>
-          <li><a href="/collections/chains" class="hover:text-white transition-colors">Chains & Pendants</a></li>
-          <li><a href="/collections/bracelets" class="hover:text-white transition-colors">Link Bracelets</a></li>
-          <li><a href="/collections/earrings" class="hover:text-white transition-colors">Cyber Earrings</a></li>
-          <li><a href="/collections/earphones" class="hover:text-white transition-colors">Pink Audio</a></li>
-          <li><a href="/collections/watches" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
+          <li><a href="{{ all_url }}" class="hover:text-white transition-colors">Shop All Pieces</a></li>
+          <li><a href="{{ cyber_set_url }}" class="hover:text-white transition-colors">3-Piece Mystery Set</a></li>
+          <li><a href="{{ rings_url }}" class="hover:text-white transition-colors">316L Rings</a></li>
+          <li><a href="{{ chains_url }}" class="hover:text-white transition-colors">Chains & Pendants</a></li>
+          <li><a href="{{ bracelets_url }}" class="hover:text-white transition-colors">Link Bracelets</a></li>
+          <li><a href="{{ earrings_url }}" class="hover:text-white transition-colors">Cyber Earrings</a></li>
+          <li><a href="{{ earphones_url }}" class="hover:text-white transition-colors">Pink Audio</a></li>
+          <li><a href="{{ watches_url }}" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
         </ul>
       </div>
 
@@ -82,12 +101,12 @@
           POLICIES
         </h3>
         <ul class="space-y-2 text-[#A3A7AE]">
-          <li><a href="/pages/shipping" class="hover:text-white transition-colors">Shipping</a></li>
-          <li><a href="/pages/returns" class="hover:text-white transition-colors">Returns</a></li>
-          <li><a href="/pages/cancellation" class="hover:text-white transition-colors">Cancellation</a></li>
-          <li><a href="/pages/pre-order" class="hover:text-white transition-colors">Pre-Order</a></li>
-          <li><a href="/pages/privacy-policy" class="hover:text-white transition-colors">Privacy</a></li>
-          <li><a href="/pages/terms" class="hover:text-white transition-colors">Terms</a></li>
+          <li><a href="{{ shipping_url }}" class="hover:text-white transition-colors">Shipping</a></li>
+          <li><a href="{{ returns_url }}" class="hover:text-white transition-colors">Returns</a></li>
+          <li><a href="{{ cancellation_url }}" class="hover:text-white transition-colors">Cancellation</a></li>
+          <li><a href="{{ preorder_url }}" class="hover:text-white transition-colors">Pre-Order</a></li>
+          <li><a href="{{ privacy_url }}" class="hover:text-white transition-colors">Privacy</a></li>
+          <li><a href="{{ terms_url }}" class="hover:text-white transition-colors">Terms</a></li>
         </ul>
       </div>
 
@@ -97,12 +116,12 @@
           SUPPORT
         </h3>
         <ul class="space-y-2 text-[#A3A7AE]">
-          <li><a href="/pages/contact" class="hover:text-white transition-colors">Contact</a></li>
-          <li><a href="/pages/contact" class="hover:text-white transition-colors">Grievance</a></li>
-          <li><a href="/pages/contact" class="hover:text-white transition-colors">Seller Info</a></li>
-          <li><a href="/pages/faq" class="hover:text-white transition-colors">FAQ</a></li>
-          <li><a href="/pages/size-guide" class="hover:text-white transition-colors">Size Guide</a></li>
-          <li><a href="/pages/track-order" class="hover:text-white transition-colors">Track Order</a></li>
+          <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Grievance</a></li>
+          <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Seller Info</a></li>
+          <li><a href="{{ faq_url }}" class="hover:text-white transition-colors">FAQ</a></li>
+          <li><a href="{{ size_guide_url }}" class="hover:text-white transition-colors">Size Guide</a></li>
+          <li><a href="{{ track_order_url }}" class="hover:text-white transition-colors">Track Order</a></li>
         </ul>
       </div>
 

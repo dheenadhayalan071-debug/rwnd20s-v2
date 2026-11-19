@@ -5,7 +5,7 @@
     <!-- Breadcrumb Nav -->
     <nav aria-label="Breadcrumb" class="mb-6 font-mono-tech text-xs text-[#A3A7AE]">
       <ol class="flex items-center gap-2 uppercase tracking-[0.12em]">
-        <li><a href="/" class="hover:text-[#F5F5F7] transition-colors">BASE</a></li>
+        <li><a href="{{ routes.root_url }}" class="hover:text-[#F5F5F7] transition-colors">BASE</a></li>
         <li class="text-[#2A2A2F]">/</li>
         <li class="text-[#F5F5F7] font-bold">{{ page.title | escape }}</li>
       </ol>
@@ -34,10 +34,10 @@
 
       <!-- Action Footer -->
       <div class="mt-12 pt-6 border-t border-[#2A2A2F] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-        <a href="/" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#E0213F] transition-all rounded-none">
+        <a href="{{ routes.root_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#E0213F] transition-all rounded-none">
           RETURN TO BASE
         </a>
-        <a href="/collections/all" class="inline-flex h-14 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:border-[#C8CDD3] transition-all rounded-none">
+        <a href="{{ routes.all_products_collection_url }}" class="inline-flex h-14 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:border-[#C8CDD3] transition-all rounded-none">
           EXPLORE ARCHIVE →
         </a>
       </div>

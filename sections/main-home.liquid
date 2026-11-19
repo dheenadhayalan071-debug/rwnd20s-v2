@@ -1,4 +1,14 @@
 <!-- sections/main-home.liquid -->
+{%- comment -%} Guarded destinations: fall back to the catalogue if a handle is missing. {%- endcomment -%}
+{% assign all_url = routes.all_products_collection_url %}
+{% assign bundle_product = all_products['3-piece-y2k-cyber-set'] %}
+{% assign cyber_set_url = bundle_product.url | default: all_url %}
+{% assign earphones_url = collections['earphones'].url | default: all_url %}
+{% assign earphone_product = all_products['pink-chrome-wired-earphones'] %}
+{% assign earphone_product_url = earphone_product.url | default: earphones_url %}
+{% assign watches_url = collections['watches'].url | default: all_url %}
+{% assign watch_product = all_products['y2k-watch'] %}
+{% assign watch_product_url = watch_product.url | default: watches_url %}
 <div class="relative w-full bg-transparent text-[#F5F5F7] pb-16 font-mono-tech">
   <!-- Hero Stage Header & Switcher -->
   <section class="relative px-4 pt-6 sm:pt-8 md:px-8 lg:px-12">
@@ -37,9 +47,12 @@
           <div>
             <div class="flex items-center justify-between gap-2">
               <span class="font-mono-tech text-[10px] uppercase font-bold tracking-[0.12em] text-[#C8CDD3]">CORE DROP // BUN-01</span>
-              <span class="font-mono-tech text-[10px] font-bold text-[#F5F5F7] uppercase tracking-widest border border-[#C8102E]/60 bg-[#C8102E]/20 px-2 py-0.5 rounded-none">
-                SAVE ₹248
-              </span>
+              {% if bundle_product.compare_at_price > bundle_product.price %}
+                {% assign bundle_save = bundle_product.compare_at_price | minus: bundle_product.price %}
+                <span class="font-mono-tech text-[10px] font-bold text-[#F5F5F7] uppercase tracking-widest border border-[#C8102E]/60 bg-[#C8102E]/20 px-2 py-0.5 rounded-none">
+                  SAVE {{ bundle_save | money }}
+                </span>
+              {% endif %}
             </div>
             <h2 class="font-display text-2xl sm:text-4xl font-extrabold uppercase text-[#F5F5F7] mt-3">
               3-PIECE Y2K CYBER SET
@@ -48,16 +61,20 @@
               Contains exactly 1 Cyber Signet Ring, 1 Heavy Chain + Pendant, and 1 Chain Bracelet. Crafted with 316L stainless steel chains and bracelets.
             </p>
             <div class="mt-4 flex items-baseline gap-3">
-              <span class="font-mono-tech text-2xl sm:text-3xl font-extrabold text-[#F5F5F7]">₹1,199</span>
-              <span class="font-mono-tech text-xs text-[#A3A7AE]">Save ₹248 against ₹1,447 bought separately.</span>
+              <span class="font-mono-tech text-2xl sm:text-3xl font-extrabold text-[#F5F5F7]">
+                {% if bundle_product != blank %}{{ bundle_product.price | money }}{% else %}SEE PRODUCT PAGE{% endif %}
+              </span>
+              {% if bundle_product.compare_at_price > bundle_product.price %}
+                <span class="font-mono-tech text-xs text-[#A3A7AE] line-through">{{ bundle_product.compare_at_price | money }}</span>
+              {% endif %}
             </div>
           </div>
 
           <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="/products/3-piece-y2k-cyber-set" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
+            <a href="{{ cyber_set_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
               [ SECURE BUNDLE ]
             </a>
-            <a href="/collections/all" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
+            <a href="{{ all_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
               VIEW ARCHIVE →
             </a>
           </div>
@@ -105,16 +122,18 @@
               </p>
             </div>
             <div class="mt-4 flex items-baseline gap-3">
-              <span class="font-mono-tech text-2xl sm:text-3xl font-extrabold text-[#F5F5F7]">₹999</span>
+              <span class="font-mono-tech text-2xl sm:text-3xl font-extrabold text-[#F5F5F7]">
+                {% if earphone_product != blank %}{{ earphone_product.price | money }}{% else %}SEE PRODUCT PAGE{% endif %}
+              </span>
               <span class="font-mono-tech text-xs text-[#A3A7AE]">Qualifies for Free Delivery</span>
             </div>
           </div>
 
           <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="/products/pink-chrome-wired-earphones" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
+            <a href="{{ earphone_product_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
               [ SECURE AUDIO ]
             </a>
-            <a href="/collections/earphones" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
+            <a href="{{ earphones_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
               SPECS & DETAILS →
             </a>
           </div>
@@ -153,19 +172,21 @@
               Dual-display analog-digital movement with brushed alloy casing, hardened mineral glass, and adjustable link strap.
             </p>
             <div class="mt-4 space-y-1 font-mono-tech text-xs">
-              <p class="text-[#F5F5F7]"><span class="text-[#A3A7AE]">Prepaid Price:</span> ₹1,999</p>
-              <p class="text-[#F5F5F7]"><span class="text-[#A3A7AE]">Cash on Delivery:</span> ₹2,199</p>
+              <p class="text-[#F5F5F7]">
+                <span class="text-[#A3A7AE]">Price:</span>
+                {% if watch_product != blank %}{{ watch_product.price | money }}{% else %}SEE PRODUCT PAGE{% endif %}
+              </p>
               <p class="text-[11px] text-[#A3A7AE] pt-1">
-                COD requires a ₹150 non-refundable advance by UPI before dispatch. It covers part of the delivery cost if an order is refused or returned.
+                Cash on delivery and any advance are calculated by Shopify at checkout.
               </p>
             </div>
           </div>
 
           <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="/products/y2k-watch" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
+            <a href="{{ watch_product_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
               [ PRE-ORDER WATCH ]
             </a>
-            <a href="/collections/watches" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
+            <a href="{{ watches_url }}" class="inline-flex h-14 items-center justify-center border border-[#C8CDD3] bg-transparent px-6 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-white/5 rounded-none">
               WATCH COLLECTION →
             </a>
           </div>
@@ -212,7 +233,7 @@
           <p class="font-mono-tech text-[11px] text-[#A3A7AE] mt-1">Pink Chrome Audio</p>
         </div>
         <div>
-          <p class="font-mono-tech text-sm font-bold text-[#C8102E]">SAVE ₹248</p>
+          <p class="font-mono-tech text-sm font-bold text-[#C8102E]">DROP 01</p>
           <p class="font-mono-tech text-[11px] text-[#A3A7AE] mt-1">3-Piece Cyber Set</p>
         </div>
         <div>

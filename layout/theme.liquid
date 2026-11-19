@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#000000">
 
     <link
@@ -23,10 +23,36 @@
       {% endif %}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% else %}
-      <meta name="description" content="Y2K accessories, 316L surgical stainless steel jewelry, watches, and Type-C audio from RWND20s. Dispatched from Madurai.">
+    {% assign meta_description = page_description %}
+    {% if meta_description == blank %}
+      {% if template.name == 'product' %}
+        {% assign meta_description = product.description | strip_html | truncate: 160 %}
+      {% elsif template.name == 'collection' %}
+        {% assign meta_description = collection.description | strip_html | truncate: 160 %}
+      {% elsif template.name == 'page' %}
+        {% assign meta_description = page.content | strip_html | truncate: 160 %}
+      {% endif %}
+    {% endif %}
+    {% if meta_description == blank %}
+      {% assign meta_description = 'Y2K accessories, 316L surgical stainless steel jewelry, watches, and Type-C audio from RWND20s. Dispatched from Madurai.' %}
+    {% endif %}
+    <meta name="description" content="{{ meta_description | escape }}">
+
+    <meta property="og:site_name" content="{{ shop.name | escape }}">
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:description" content="{{ meta_description | escape }}">
+    <meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if template.name == 'product' and product.featured_image %}
+      <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
+    {% elsif settings.share_image %}
+      <meta property="og:image" content="https:{{ settings.share_image | image_url: width: 1200 }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page_title | escape }}">
+    <meta name="twitter:description" content="{{ meta_description | escape }}">
+    {% if template.name == 'product' and product.featured_image %}
+      <meta name="twitter:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
     {% endif %}
 
     <!-- Brand Entity & Knowledge Graph Schema -->
@@ -36,18 +62,18 @@
         "@graph": [
           {
             "@type": "WebSite",
-            "@id": "https://rwnd20s.in/#website",
-            "url": "https://rwnd20s.in/",
+            "@id": "{{ shop.url }}/#website",
+            "url": "{{ shop.url }}/",
             "name": "RWND20s",
             "alternateName": ["rwnd20s", "rwnd20s.", "RWND20s India"],
-            "publisher": { "@id": "https://rwnd20s.in/#organization" }
+            "publisher": { "@id": "{{ shop.url }}/#organization" }
           },
           {
             "@type": "Organization",
-            "@id": "https://rwnd20s.in/#organization",
+            "@id": "{{ shop.url }}/#organization",
             "name": "RWND20s",
             "alternateName": ["rwnd20s", "rwnd20s."],
-            "url": "https://rwnd20s.in/",
+            "url": "{{ shop.url }}/",
             "logo": "https:{{ 'rwnd20s_favicon_32x32.png' | asset_url }}",
             "address": {
               "@type": "PostalAddress",
@@ -63,11 +89,55 @@
       }
     </script>
 
+    {% if template.name == 'product' %}
+      {% assign ld_variant = product.selected_or_first_available_variant %}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": {{ product.title | json }},
+          "url": {{ shop.url | append: product.url | json }},
+          {% if product.featured_image %}"image": [{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],{% endif %}
+          "description": {{ product.description | strip_html | truncate: 300 | json }},
+          "sku": {{ ld_variant.sku | json }},
+          "brand": { "@type": "Brand", "name": "RWND20s" },
+          "offers": {
+            "@type": "Offer",
+            "url": {{ shop.url | append: product.url | json }},
+            "priceCurrency": "INR",
+            "price": "{{ ld_variant.price | money_without_currency | remove: ',' }}",
+            "availability": "https://schema.org/{% if ld_variant.available %}InStock{% else %}OutOfStock{% endif %}",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": {{ shop.url | json }}
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": {{ product.title | json }},
+              "item": {{ shop.url | append: product.url | json }}
+            }
+          ]
+        }
+      </script>
+    {% endif %}
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <script>
       tailwind.config = {
         theme: {
@@ -106,6 +176,9 @@
   </head>
 
   <body class="relative z-0 min-h-screen font-sans text-[#F0F0F0] antialiased selection:bg-[#FF0033] selection:text-white">
+    <a href="#MainContent" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:border focus:border-[#FF0033] focus:bg-black focus:px-4 focus:py-3 focus:font-mono-tech focus:text-xs focus:uppercase focus:text-white">
+      {{ 'general.accessibility.skip_to_text' | t }}
+    </a>
     <!-- Ambient Mobile Fixed Background -->
     <div 
       class="fixed inset-0 pointer-events-none -z-10 bg-cover bg-center bg-no-repeat opacity-35" 
@@ -149,78 +222,9 @@
           backBar.classList.remove('hidden');
         }
       })();
-
-      // Global AJAX Cart Sync & Drawer Hook
-      (() => {
-        const refreshCartBadges = async () => {
-          try {
-            const res = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
-            if (!res.ok) return;
-            const cart = await res.json();
-            document.querySelectorAll('[data-cart-count]').forEach((badge) => {
-              badge.textContent = String(cart.item_count || 0);
-            });
-            const drawerCount = document.getElementById('drawer-cart-count');
-            if (drawerCount) drawerCount.textContent = String(cart.item_count || 0);
-          } catch (err) {
-            console.error('Badge refresh error:', err);
-          }
-        };
-
-        async function addFormToCart(form, button) {
-          if (!form || !button || button.dataset.submitting === 'true') return;
-
-          const origContent = button.innerHTML;
-          button.dataset.submitting = 'true';
-          button.disabled = true;
-          button.innerHTML = '<span class="animate-pulse font-mono-tech tracking-widest text-white">[ SECURING... ]</span>';
-
-          try {
-            const res = await fetch('/cart/add.js', {
-              method: 'POST',
-              headers: { Accept: 'application/json' },
-              body: new FormData(form)
-            });
-
-            if (!res.ok) {
-              const err = await res.json().catch(() => ({}));
-              throw new Error(err.description || 'Could not add piece.');
-            }
-
-            await res.json();
-            button.innerHTML = '<span class="font-mono-tech font-bold tracking-widest text-white">✦ SECURED IN BAG</span>';
-            await refreshCartBadges();
-            
-            if (typeof window.fetchMainCartData === 'function') {
-              window.fetchMainCartData();
-            }
-
-            if (window.location.pathname !== '/cart' && typeof window.openCartDrawer === 'function') {
-              window.openCartDrawer();
-            }
-          } catch (err) {
-            console.error('Add failed:', err);
-            button.innerHTML = '<span class="font-mono-tech font-bold tracking-widest text-[#FF0033]">ERROR OCCURRED</span>';
-          } finally {
-            window.setTimeout(() => {
-              button.innerHTML = origContent;
-              button.disabled = false;
-              delete button.dataset.submitting;
-            }, 2000);
-          }
-        }
-
-        document.addEventListener('click', (e) => {
-          const button = e.target.closest('button[name="add"], form[action*="/cart/add"] button[type="submit"]');
-          const form = button?.closest('form[action*="/cart/add"]');
-          if (!form || !button) return;
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          addFormToCart(form, button);
-        }, true);
-      })();
     </script>
 
-    {{ 'theme.js' | asset_url | script_tag }}
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </body>
 </html>

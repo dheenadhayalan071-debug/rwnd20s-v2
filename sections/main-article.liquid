@@ -4,7 +4,7 @@
     <!-- Breadcrumb Nav -->
     <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
       <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="/" class="hover:text-[#09090B]">BASE</a></li>
+        <li><a href="{{ routes.root_url }}" class="hover:text-[#09090B]">BASE</a></li>
         <li>/</li>
         <li><a href="{{ blog.url }}" class="hover:text-[#09090B]">JOURNAL</a></li>
         <li>/</li>
@@ -26,7 +26,7 @@
 
       {% if article.image %}
         <div class="rounded-2xl bg-[#D4D8E0] overflow-hidden aspect-video mb-8 border border-[#09090B]/10">
-          <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" class="h-full w-full object-cover">
+          <img src="{{ article.image | image_url: width: 1200 }}" width="1200" height="675" alt="{{ article.title | escape }}" class="h-full w-full object-cover">
         </div>
       {% endif %}
 
@@ -40,7 +40,7 @@
         <a href="{{ blog.url }}" class="rounded-full border border-[#09090B] bg-[#09090B] px-6 py-3 font-mono-tech text-xs font-bold text-white uppercase tracking-wider hover:bg-white hover:text-[#09090B] transition-colors">
           ← BACK TO ARCHIVE JOURNAL
         </a>
-        <a href="/collections/all" class="rounded-full border border-[#09090B]/20 bg-white px-6 py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
+        <a href="{{ routes.all_products_collection_url }}" class="rounded-full border border-[#09090B]/20 bg-white px-6 py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
           EXPLORE DROP 01 HARDWARE
         </a>
       </div>

@@ -28,12 +28,14 @@
 
 {% if meta_reviews != blank %}
   {% for rev in meta_reviews %}
-    {% assign r_val = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-    {% assign review_count = review_count | plus: 1 %}
-    {% assign rating_sum = rating_sum | plus: r_val %}
-    {% if r_val == 5 %}{% assign count_5 = count_5 | plus: 1 %}{% endif %}
-    {% if r_val == 4 %}{% assign count_4 = count_4 | plus: 1 %}{% endif %}
-    {% if r_val == 3 %}{% assign count_3 = count_3 | plus: 1 %}{% endif %}
+    {% if rev.approved.value %}
+      {% assign r_val = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
+      {% assign review_count = review_count | plus: 1 %}
+      {% assign rating_sum = rating_sum | plus: r_val %}
+      {% if r_val == 5 %}{% assign count_5 = count_5 | plus: 1 %}{% endif %}
+      {% if r_val == 4 %}{% assign count_4 = count_4 | plus: 1 %}{% endif %}
+      {% if r_val == 3 %}{% assign count_3 = count_3 | plus: 1 %}{% endif %}
+    {% endif %}
   {% endfor %}
 {% endif %}
 
@@ -42,18 +44,9 @@
   {% assign avg_whole = avg_x10 | divided_by: 10 %}
   {% assign avg_dec = avg_x10 | modulo: 10 %}
   {% assign avg_display = avg_whole | append: '.' | append: avg_dec %}
-  {% assign pct_5 = count_5 | times: 100 | divided_by: review_count %}
-  {% assign pct_4 = count_4 | times: 100 | divided_by: review_count %}
-  {% assign pct_3 = count_3 | times: 100 | divided_by: review_count %}
 {% else %}
-  {% assign review_count = 3 %}
-  {% assign avg_display = '4.9' %}
-  {% assign count_5 = 3 %}
-  {% assign count_4 = 0 %}
-  {% assign count_3 = 0 %}
-  {% assign pct_5 = 100 %}
-  {% assign pct_4 = 0 %}
-  {% assign pct_3 = 0 %}
+  {% assign review_count = 0 %}
+  {% assign avg_display = '—' %}
 {% endif %}
 
 <style>
@@ -450,7 +443,7 @@
               onclick="switchRwndProductImage('{{ image | image_url: width: 1200 }}', this)" 
               class="rwnd-thumb relative aspect-square w-16 shrink-0 border {% if forloop.first %}border-[#FF0033]{% else %}border-white/10{% endif %} bg-[#0A0A0A] p-1 transition-colors hover:border-[#FF0033] cursor-pointer"
             >
-              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" class="h-full w-full object-cover">
+              <img src="{{ image | image_url: width: 160 }}" width="160" height="160" alt="{{ image.alt | default: product.title | escape }}" class="h-full w-full object-cover">
             </button>
           {% endfor %}
         </div>
@@ -492,7 +485,7 @@
       
       <!-- Breadcrumbs & Status Chips -->
       <div class="pdp-telemetry-bar">
-        <a href="/collections/all" class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#FF0033] hover:underline">
+        <a href="{{ routes.all_products_collection_url }}" class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#FF0033] hover:underline">
           ← ARCHIVE
         </a>
         <div class="pdp-status-chips">
@@ -507,10 +500,14 @@
         <h1 class="pdp-title">{{ product.title | escape }}</h1>
         <div class="pdp-sub-row">
           <a href="#reviews" class="inline-flex items-center gap-2">
-            <span class="text-[#FF0033] text-xs tracking-wider">★★★★★</span>
-            <span class="font-mono-tech text-[11px] uppercase text-white">
-              {{ avg_display }} <span class="text-[#A3A3A3]">({{ review_count }} TRANSMISSIONS)</span>
-            </span>
+            {% if review_count > 0 %}
+              <span class="text-[#FF0033] text-xs tracking-wider">★★★★★</span>
+              <span class="font-mono-tech text-[11px] uppercase text-white">
+                {{ avg_display }} <span class="text-[#A3A3A3]">({{ review_count }} TRANSMISSIONS)</span>
+              </span>
+            {% else %}
+              <span class="font-mono-tech text-[11px] uppercase text-[#A3A3A3]">NO TRANSMISSIONS YET — BE THE FIRST</span>
+            {% endif %}
           </a>
           <span class="font-mono-tech text-[10px] uppercase tracking-wider text-[#737373]">MDU_DISPATCH // TAMIL NADU</span>
         </div>
@@ -520,31 +517,31 @@
       <div class="pdp-price-row">
         <div class="flex items-baseline gap-2.5 font-mono-tech">
           <span class="text-2xl sm:text-3xl font-extrabold text-white" id="pdp-live-price">{{ current_variant.price | money }}</span>
-          {% if current_variant.compare_at_price > current_variant.price %}
-            <span class="text-sm text-[#737373] line-through">{{ current_variant.compare_at_price | money }}</span>
-          {% endif %}
+          <span class="text-sm text-[#737373] line-through" id="pdp-compare-at"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>{{ current_variant.compare_at_price | money }}</span>
         </div>
-        {% if current_variant.compare_at_price > current_variant.price %}
-          {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
-          {% assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price %}
-          <span class="tech-chip tech-chip--red">
+        <span class="tech-chip tech-chip--red" id="pdp-save-chip"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
+            {% assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price %}
             SAVE {{ savings_pct }}% [{{ savings | money }} OFF]
-          </span>
-        {% endif %}
+          {% endif %}
+        </span>
       </div>
 
       <!-- Inventory Ticker -->
-      <div class="flex items-center gap-2 font-mono-tech text-[11px] uppercase tracking-wider text-[#A3A3A3]">
+      <div class="flex items-center gap-2 font-mono-tech text-[11px] uppercase tracking-wider text-[#A3A3A3]" id="pdp-stock-status">
         <span class="h-2 w-2 bg-[#FF0033] animate-pulse"></span>
+        <span id="pdp-stock-text">
         {% if current_variant.available %}
-          {% if current_variant.inventory_quantity > 0 %}
-            <span><strong class="text-white">LOW ALLOCATION:</strong> ONLY {{ current_variant.inventory_quantity }} UNITS REMAIN IN VAULT</span>
+          {% if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 5 %}
+            <span><strong class="text-white">LOW STOCK:</strong> ONLY {{ current_variant.inventory_quantity }} LEFT</span>
           {% else %}
-            <span><strong class="text-white">STATUS:</strong> READY FOR 24H DISPATCH</span>
+            <span><strong class="text-white">STATUS:</strong> IN STOCK · READY FOR 24H DISPATCH</span>
           {% endif %}
         {% else %}
           <span><strong class="text-[#FF0033]">DEPLETED:</strong> BATCH SOLD OUT</span>
         {% endif %}
+        </span>
       </div>
 
       <!-- Streamlined Loadout Box (Bundles Only) -->
@@ -617,11 +614,53 @@
               </label>
             {% else %}
               {% for variant in product.variants %}
+                {% assign v_id = variant.id %}
+                {% assign v_available = variant.available %}
+                {% assign v_price = variant.price %}
+                {% assign v_compare = variant.compare_at_price %}
+                {% assign v_has_compare = false %}
+                {% if v_compare > v_price %}{% assign v_has_compare = true %}{% endif %}
+                {% assign v_savings = 0 %}
+                {% if v_has_compare %}{% assign v_savings = v_compare | minus: v_price %}{% endif %}
+                {% assign v_savings_pct = 0 %}
+                {% if v_savings > 0 %}{% assign v_savings_pct = v_savings | times: 100 | divided_by: v_compare %}{% endif %}
+                {% assign v_low_stock = false %}
+                {% if v_available and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= 5 %}
+                  {% assign v_low_stock = true %}
+                {% endif %}
+                {% assign v_stock_text = '' %}
+                {% if v_low_stock %}
+                  {% assign v_stock_text = 'LOW STOCK: ONLY ' | append: variant.inventory_quantity | append: ' LEFT' %}
+                {% elsif v_available %}
+                  {% assign v_stock_text = 'STATUS: IN STOCK · READY FOR 24H DISPATCH' %}
+                {% else %}
+                  {% assign v_stock_text = 'DEPLETED: BATCH SOLD OUT' %}
+                {% endif %}
+                {% assign v_compare_text = '' %}
+                {% if v_has_compare %}{% assign v_compare_text = v_compare | money %}{% endif %}
+                {% assign v_save_text = '' %}
+                {% if v_savings > 0 %}
+                  {% assign v_savings_label = v_savings | money %}
+                  {% assign v_save_text = 'SAVE ' | append: v_savings_pct | append: '% [' | append: v_savings_label | append: ' OFF]' %}
+                {% endif %}
+                {% assign v_add_text = '' %}
+                {% if v_available %}
+                  {% if is_bundle %}{% assign v_add_text = 'CLAIM HARDWARE LOADOUT' %}{% else %}{% assign v_add_text = 'ADD TO HARDWARE BAG' %}{% endif %}
+                {% else %}
+                  {% assign v_add_text = 'SOLD OUT' %}
+                {% endif %}
                 <label
-                  {% if variant.available %}
-                    onclick="selectRwndVariant('{{ variant.id }}', '{{ variant.price | money }}', this)"
-                  {% endif %}
                   class="rwnd-var-btn cyber-chip {% if variant.id == current_variant.id %}cyber-chip--active{% endif %} {% unless variant.available %}cyber-chip--disabled{% endunless %}"
+                  data-variant-id="{{ v_id }}"
+                  data-variant-price="{{ v_price | money }}"
+                  {% if v_available %}data-variant-available="true"{% else %}data-variant-available="false"{% endif %}
+                  data-compare-at-text="{{ v_compare_text }}"
+                  data-save-text="{{ v_save_text }}"
+                  data-stock-text="{{ v_stock_text }}"
+                  data-add-text="{{ v_add_text }}"
+                  {% if v_available %}
+                    onclick="selectRwndVariant('{{ v_id }}')"
+                  {% endif %}
                 >
                   <input
                     type="radio"
@@ -647,26 +686,26 @@
             <button type="button" onclick="adjustRwndQty(1)" class="qty-btn" aria-label="Increase quantity">+</button>
           </div>
 
-          <button 
-            type="submit" 
-            name="add" 
+          <button
+            type="submit"
+            name="add"
             id="AddToCart"
             {% unless current_variant.available %}disabled{% endunless %}
             class="flex-1 h-[52px] px-4 bg-[#FF0033] border border-[#FF0033] text-white font-mono-tech text-xs font-bold uppercase tracking-wider hover:bg-[#CC0029] transition-colors flex items-center justify-between gap-2 cursor-pointer disabled:opacity-40"
           >
-            {% if current_variant.available %}
-              <span>{% if is_bundle %}CLAIM HARDWARE LOADOUT{% else %}ADD TO HARDWARE BAG{% endif %}</span>
-              <span id="btn-price-display">{{ current_variant.price | money }}</span>
-            {% else %}
-              <span>SOLD OUT</span>
-            {% endif %}
+            <span id="btn-label">{% if current_variant.available %}{% if is_bundle %}CLAIM HARDWARE LOADOUT{% else %}ADD TO HARDWARE BAG{% endif %}{% else %}SOLD OUT{% endif %}</span>
+            <span id="btn-price-display" class="{% unless current_variant.available %}hidden{% endunless %}">{{ current_variant.price | money }}</span>
           </button>
-        </div>
 
-        <!-- 1-Click Instant Checkout -->
-        <a href="/checkout" class="w-full h-12 bg-[#0A0A0A] border border-white/10 hover:border-[#FF0033] text-white font-mono-tech text-[11px] font-bold uppercase tracking-wider flex items-center justify-center transition-colors">
-           INSTANT CHECKOUT (UPI / COD / CARDS)
-        </a>
+        <!-- 1-Click Instant Checkout: adds the selected variant, then opens checkout -->
+        <button
+          type="button"
+          data-rwnd-instant-checkout
+          {% unless current_variant.available %}disabled{% endunless %}
+          class="w-full h-12 bg-[#0A0A0A] border border-white/10 hover:border-[#FF0033] text-white font-mono-tech text-[11px] font-bold uppercase tracking-wider flex items-center justify-center transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          INSTANT CHECKOUT (UPI / COD / CARDS)
+        </button>
       </form>
 
       <!-- INDUSTRIAL TRUST GRID (ZERO SYSTEM EMOJIS) -->
@@ -814,10 +853,10 @@
             <div class="border border-white/10 bg-[#0A0A0A] p-3 flex flex-col justify-between group hover:border-[#FF0033] transition-colors">
               <a href="{{ complementary.url }}" class="block">
                 <div class="aspect-square bg-[#000000] border border-white/5 flex items-center justify-center overflow-hidden mb-3">
-                  <img src="{{ complementary.featured_image | image_url: width: 400 }}" alt="{{ complementary.title | escape }}" class="h-full w-full object-contain group-hover:scale-105 transition-transform">
+                  <img src="{{ complementary.featured_image | image_url: width: 400 }}" width="400" height="400" alt="{{ complementary.title | escape }}" class="h-full w-full object-contain group-hover:scale-105 transition-transform">
                 </div>
                 <h3 class="font-sans text-xs font-bold text-white truncate">{{ complementary.title | escape }}</h3>
-                <p class="font-mono-tech text-xs text-[#A3A3A3] mt-1">{{ complementary.price | money }}</p>
+                <p class="font-mono-tech text-xs text-[#A3A3A3] mt-1">{{ complementary.selected_or_first_available_variant.price | money }}</p>
               </a>
               <form action="{{ routes.cart_add_url }}" method="post" class="mt-3">
                 <input type="hidden" name="id" value="{{ complementary.selected_or_first_available_variant.id }}">
@@ -831,106 +870,67 @@
       </div>
     </section>
 
-    <!-- ELEVATED REVIEWS TERMINAL -->
+    <!-- REVIEWS TERMINAL -->
     <section id="reviews" class="mt-16 border border-[#FF0033]/40 border-t-2 border-t-[#FF0033] bg-[#0D0D10] p-5 sm:p-8 shadow-[0_0_40px_rgba(255,0,51,0.08)]">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-5 mb-6">
         <div>
           <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#FF0033] block">// OPERATOR TRANSMISSIONS</span>
-          <h2 class="font-display text-xl sm:text-2xl font-black uppercase text-white mt-1">VERIFIED FIELD REVIEWS</h2>
+          <h2 class="font-display text-xl sm:text-2xl font-black uppercase text-white mt-1">FIELD VERIFIED LOGS</h2>
         </div>
         <button
           type="button"
           onclick="openRwndReviewModal()"
-    <!-- REVIEWS SECTION (STREAMLINED TRANSMISSION LOG) -->
-    <section id="reviews" class="reviews-section">
-      <div class="reviews-header">
-        <div class="mono-tag text-[#FF0033]">// OPERATOR TRANSMISSIONS</div>
-        <h2 class="reviews-title">FIELD VERIFIED LOGS</h2>
-      </div>
-
-      <!-- Summary Score Bar (Clean 1-Line Minimalist HUD) -->
-      <div class="review-score-hud">
-        <div class="score-main">
-          <span class="score-number">{{ avg_display }}</span>
-          <div class="score-stars">
-            <span class="stars">★★★★★</span>
-            <span class="mono-tag text-[#737373]">{{ review_count }} TRANSMISSIONS</span>
-          </div>
-        </div>
-        <button type="button" onclick="openRwndReviewModal()" class="btn-review-write mono-tag">
+          class="h-11 border border-[#FF0033] bg-[#FF0033] px-4 font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors cursor-pointer"
+        >
           + LOG TRANSMISSION
         </button>
       </div>
 
-      <!-- Review Cards (Hairline Left Border Accent, Zero Bulky Inner Boxes) -->
+      <!-- Summary score -->
+      <div class="review-score-hud">
+        <div class="score-main">
+          {% if review_count > 0 %}
+            <span class="score-number">{{ avg_display }}</span>
+            <div class="score-stars">
+              <span class="stars">★★★★★</span>
+              <span class="mono-tag text-[#737373]">{{ review_count }} TRANSMISSIONS</span>
+            </div>
+          {% else %}
+            <span class="mono-tag text-[#737373]">NO APPROVED REVIEWS YET</span>
+          {% endif %}
+        </div>
+      </div>
+
       <div id="rwnd-reviews-grid" class="reviews-stream">
         {% if meta_reviews != blank %}
           {% for rev in meta_reviews %}
-            {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-            <div class="review-entry">
-              <div class="space-y-2.5">
-                <div class="entry-meta">
-                  <span class="stars">{% for i in (1..r_stars) %}★{% endfor %}</span>
-                  <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
+            {% if rev.approved.value %}
+              {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
+              <div class="review-entry">
+                <div class="space-y-2.5">
+                  <div class="entry-meta">
+                    <span class="stars">{% for i in (1..r_stars) %}★{% endfor %}</span>
+                    <span class="entry-status mono-tag">CUSTOMER REVIEW</span>
+                  </div>
+                  <p class="entry-quote">"{{ rev.body.value | escape }}"</p>
                 </div>
-                <p class="entry-quote">"{{ rev.body.value | escape }}"</p>
+                <div class="entry-author mono-tag">
+                  <span class="text-white font-bold">{{ rev.author.value | escape }}</span>
+                  {% if rev.city.value != blank %}
+                    <span class="text-[#737373]"> · {{ rev.city.value | escape }}</span>
+                  {% endif %}
+                </div>
               </div>
-              <div class="entry-author mono-tag">
-                <span class="text-white font-bold">{{ rev.author.value | escape }}</span>
-                {% if rev.city.value != blank %}
-                  <span class="text-[#737373]"> · {{ rev.city.value | escape }}</span>
-                {% endif %}
-              </div>
-            </div>
+            {% endif %}
           {% endfor %}
         {% else %}
           <div class="review-entry">
-            <div class="space-y-2.5">
-              <div class="entry-meta">
-                <span class="stars">★★★★★</span>
-                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
-              </div>
-              <p class="entry-quote">
-                "Heavyweight feel is legit. Doesn't feel cheap or hollow like typical commercial sets. The chain has substantial density and zero skin reaction after 2 weeks of constant wear."
-              </p>
-            </div>
-            <div class="entry-author mono-tag">
-              <span class="text-white font-bold">ROHIT M.</span> <span class="text-[#737373]">· CHENNAI [TN]</span>
-            </div>
-          </div>
-
-          <div class="review-entry">
-            <div class="space-y-2.5">
-              <div class="entry-meta">
-                <span class="stars">★★★★★</span>
-                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
-              </div>
-              <p class="entry-quote">
-                "Madurai to Bangalore took exactly 48 hours. The vacuum-sealed chrome packaging was immaculate. Ring adjustment is sturdy, doesn't bend out of shape."
-              </p>
-            </div>
-            <div class="entry-author mono-tag">
-              <span class="text-white font-bold">ANIRUDH S.</span> <span class="text-[#737373]">· BENGALURU [KA]</span>
-            </div>
-          </div>
-
-          <div class="review-entry">
-            <div class="space-y-2.5">
-              <div class="entry-meta">
-                <span class="stars">★★★★★</span>
-                <span class="entry-status mono-tag">VERIFIED_DISPATCH</span>
-              </div>
-              <p class="entry-quote">
-                "Zero oxidation or discoloration after intense gym sessions and rain exposure. Real 316L alloy."
-              </p>
-            </div>
-            <div class="entry-author mono-tag">
-              <span class="text-white font-bold">RAHUL D.</span> <span class="text-[#737373]">· COIMBATORE [TN]</span>
-            </div>
+            <p class="entry-quote">No approved reviews yet. Reviews appear here after moderation — submit yours with the button above.</p>
           </div>
         {% endif %}
       </div>
     </section>
+  </div>
 
 <!-- FULL-SCREEN WRITE REVIEW MODAL (z-210) -->
 <div
@@ -952,53 +952,40 @@
       <input type="hidden" id="rwnd-rev-rating-input" value="5">
 
       <div>
-        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1.5">SELECT RATING *</label>
-        <div class="flex gap-2">
+        <span class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1.5">SELECT RATING *</span>
+        <div class="flex gap-2" role="group" aria-label="Select rating">
           {% for s in (1..5) %}
-            <button type="button" data-star="{{ s }}" onclick="setRwndReviewStars({{ s }})" class="rwnd-star-btn h-11 flex-1 border border-[#FF0033] bg-[#FF0033]/20 text-base font-bold text-[#FF0033] cursor-pointer">★</button>
+            <button type="button" data-star="{{ s }}" onclick="setRwndReviewStars({{ s }})" aria-label="{{ s }} star{% if s > 1 %}s{% endif %}" class="rwnd-star-btn h-11 flex-1 border border-[#FF0033] bg-[#FF0033]/20 text-base font-bold text-[#FF0033] cursor-pointer">★</button>
           {% endfor %}
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">YOUR NAME *</label>
+          <label for="rwnd-rev-name" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">YOUR NAME *</label>
           <input type="text" id="rwnd-rev-name" required placeholder="E.G. ARJUN K." class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
         </div>
         <div>
-          <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">CITY *</label>
+          <label for="rwnd-rev-city" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">CITY *</label>
           <input type="text" id="rwnd-rev-city" required placeholder="E.G. CHENNAI" class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none">
         </div>
       </div>
 
       <div>
-        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">EMAIL (PRIVATE) *</label>
+        <label for="rwnd-rev-email" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">EMAIL (PRIVATE) *</label>
         <input type="email" id="rwnd-rev-email" required placeholder="YOUR@EMAIL.COM" class="h-11 w-full bg-[#141418] border border-white/10 px-3 font-mono-tech text-xs text-white focus:border-[#FF0033] focus:outline-none">
       </div>
 
       <div>
-        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">HARDWARE PHOTO (OPTIONAL)</label>
-        <label for="rwnd-rev-photo-input" class="h-11 border border-dashed border-white/20 hover:border-[#FF0033] bg-[#141418] px-3 flex items-center justify-center gap-2 font-mono-tech text-[11px] uppercase text-white cursor-pointer">
-          <span class="text-[#FF0033]">+</span>
-          <span id="rwnd-rev-photo-label">ATTACH / SNAP PHOTO</span>
-        </label>
-        <input type="file" id="rwnd-rev-photo-input" accept="image/*" class="hidden" onchange="handleRwndReviewPhoto(this)">
-
-        <div id="rwnd-rev-photo-preview-wrap" class="hidden mt-2 flex items-center justify-between border border-white/10 bg-[#141418] p-2">
-          <div class="flex items-center gap-3">
-            <img id="rwnd-rev-photo-preview" src="" alt="Preview" class="h-11 w-11 object-cover border border-[#FF0033]">
-            <span class="font-mono-tech text-[10px] uppercase text-[#00FF88]">✓ PHOTO READY</span>
-          </div>
-          <button type="button" onclick="clearRwndReviewPhoto()" class="font-mono-tech text-[10px] uppercase text-[#FF0033] underline cursor-pointer">REMOVE</button>
-        </div>
-      </div>
-
-      <div>
-        <label class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">FIELD REPORT *</label>
+        <label for="rwnd-rev-body" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] block mb-1">FIELD REPORT *</label>
         <textarea id="rwnd-rev-body" rows="3" required placeholder="Weight, 316L finish, delivery speed..." class="w-full bg-[#141418] border border-white/10 p-3 font-sans text-sm text-white focus:border-[#FF0033] focus:outline-none"></textarea>
       </div>
 
-      <p id="rwnd-rev-status" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] min-h-[16px]"></p>
+      <p id="rwnd-rev-status" class="font-mono-tech text-[10px] uppercase text-[#A3A3A3] min-h-[16px]" role="status"></p>
+
+      <p class="font-mono-tech text-[10px] uppercase tracking-wider text-[#737373]">
+        Reviews are moderated before publishing. Photos are not collected by this form.
+      </p>
 
       <button type="submit" id="rwnd-rev-submit-btn" class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] cursor-pointer">
         TRANSMIT REVIEW →
@@ -1021,10 +1008,9 @@
     + ADD TO BAG
   </button>
 </div>
+</div>
 
 <script>
-  let rwndCompressedPhotoDataUrl = '';
-
   function switchRwndProductImage(src, btn) {
     const mainImg = document.getElementById('rwnd-main-product-img');
     if (mainImg) mainImg.src = src;
@@ -1040,21 +1026,59 @@
     input.value = val;
   }
 
-    function selectRwndVariant(id, price, btn) {
+  function updateVariantUI(variantId) {
     const varInput = document.getElementById('rwnd-selected-variant-id');
-    const priceDisplay = document.getElementById('btn-price-display');
-    const livePrice = document.getElementById('pdp-live-price');
-    const stickyPrice = document.getElementById('sticky-mobile-price');
-    if (varInput) varInput.value = id;
-    if (priceDisplay) priceDisplay.textContent = price;
-    if (livePrice) livePrice.textContent = price;
-    if (stickyPrice) stickyPrice.textContent = price;
+    if (varInput) varInput.value = variantId;
 
-    document.querySelectorAll('.rwnd-var-btn').forEach(b => {
-      b.classList.remove('cyber-chip--active');
+    const label = document.querySelector('.rwnd-var-btn[data-variant-id="' + variantId + '"]');
+    const price = label ? (label.getAttribute('data-variant-price') || '') : '';
+    const available = label ? label.getAttribute('data-variant-available') === 'true' : false;
+    const compareText = label ? (label.getAttribute('data-compare-at-text') || '') : '';
+    const saveText = label ? (label.getAttribute('data-save-text') || '') : '';
+    const stockText = label ? (label.getAttribute('data-stock-text') || '') : '';
+    const addText = label ? (label.getAttribute('data-add-text') || '') : '';
+
+    document.querySelectorAll('.rwnd-var-btn').forEach(b => b.classList.remove('cyber-chip--active'));
+    if (label) label.classList.add('cyber-chip--active');
+
+    ['pdp-live-price', 'btn-price-display', 'sticky-mobile-price'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = price;
     });
-    btn.classList.add('cyber-chip--active');
+
+    const cmpEl = document.getElementById('pdp-compare-at');
+    if (cmpEl) {
+      cmpEl.style.display = compareText ? '' : 'none';
+      if (compareText) cmpEl.textContent = compareText;
+    }
+
+    const saveEl = document.getElementById('pdp-save-chip');
+    if (saveEl) {
+      saveEl.style.display = saveText ? '' : 'none';
+      if (saveText) saveEl.textContent = saveText;
+    }
+
+    const ticker = document.getElementById('pdp-stock-text');
+    if (ticker) ticker.textContent = stockText;
+
+    const addBtn = document.getElementById('AddToCart');
+    const addLabel = document.getElementById('btn-label');
+    const priceSpan = document.getElementById('btn-price-display');
+    if (addBtn) addBtn.disabled = !available;
+    if (addLabel) addLabel.textContent = addText;
+    if (priceSpan) priceSpan.classList.toggle('hidden', !available);
   }
+
+  function selectRwndVariant(id) {
+    if (id) updateVariantUI(id);
+  }
+
+  document.addEventListener('change', (event) => {
+    const radio = event.target;
+    if (!radio || radio.name !== 'specification') return;
+    const label = radio.closest('.rwnd-var-btn');
+    if (label && label.getAttribute('data-variant-id')) updateVariantUI(label.getAttribute('data-variant-id'));
+  });
 
   function openRwndReviewModal() {
     const modal = document.getElementById('rwnd-review-modal');
@@ -1090,129 +1114,65 @@
     });
   }
 
-function handleRwndReviewPhoto(input) {
-    const file = input.files && input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_DIM = 600;
-        let w = img.width, h = img.height;
-        if (w > h && w > MAX_DIM) { h = Math.round((h * MAX_DIM) / w); w = MAX_DIM; }
-        else if (h > MAX_DIM) { w = Math.round((w * MAX_DIM) / h); h = MAX_DIM; }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        rwndCompressedPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.75);
-        document.getElementById('rwnd-rev-photo-preview').src = rwndCompressedPhotoDataUrl;
-        document.getElementById('rwnd-rev-photo-preview-wrap').classList.remove('hidden');
-        document.getElementById('rwnd-rev-photo-label').textContent = 'CHANGE PHOTO';
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function clearRwndReviewPhoto() {
-    rwndCompressedPhotoDataUrl = '';
-    const input = document.getElementById('rwnd-rev-photo-input');
-    if (input) input.value = '';
-    document.getElementById('rwnd-rev-photo-preview-wrap').classList.add('hidden');
-    document.getElementById('rwnd-rev-photo-label').textContent = 'ATTACH / SNAP PHOTO';
-  }
-
-  function appendReviewCardToDom(rev) {
-    const grid = document.getElementById('rwnd-reviews-grid');
-    if (!grid) return;
-    const starsStr = '★'.repeat(rev.rating || 5);
-    const photoHtml = rev.photo
-      ? `<div class="mt-3 aspect-square w-20 overflow-hidden border border-[#FF0033]/50 bg-[#000000]"><img src="${rev.photo}" alt="Hardware photo" class="h-full w-full object-cover"></div>`
-      : '';
-    const card = document.createElement('div');
-    card.className = 'border border-[#FF0033]/70 bg-[#141418] p-5 flex flex-col justify-between';
-    card.innerHTML = `
-      <div>
-        <div class="flex items-center justify-between">
-          <span class="text-[#FF0033] text-sm tracking-wider">${starsStr}</span>
-          <span class="tech-chip" style="color:#00FF88;border-color:rgba(0,255,136,0.4);">LOGGED</span>
-        </div>
-        ${photoHtml}
-        <p class="font-sans text-sm text-[#F0F0F0] leading-relaxed mt-3">"${rev.body.replace(/</g, '&lt;')}"</p>
-      </div>
-      <p class="font-mono-tech text-[10px] uppercase text-[#737373] mt-4 pt-2.5 border-t border-white/10">
-        <strong class="text-white">${rev.name.replace(/</g, '&lt;')}</strong> · ${rev.city.replace(/</g, '&lt;')}
-      </p>
-    `;
-    grid.prepend(card);
-  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeRwndReviewModal();
+  });
 
   async function submitRwndNativeReview(e) {
     e.preventDefault();
-    const form = e.target;
     const statusEl = document.getElementById('rwnd-rev-status');
     const btn = document.getElementById('rwnd-rev-submit-btn');
 
-    const rating = parseInt(document.getElementById('rwnd-rev-rating-input').value) || 5;
+    const rating = parseInt(document.getElementById('rwnd-rev-rating-input').value, 10) || 5;
     const name = document.getElementById('rwnd-rev-name').value.trim().toUpperCase();
     const city = document.getElementById('rwnd-rev-city').value.trim().toUpperCase();
     const email = document.getElementById('rwnd-rev-email').value.trim();
     const body = document.getElementById('rwnd-rev-body').value.trim();
-    const hasPhoto = Boolean(rwndCompressedPhotoDataUrl);
 
     const compiledBody =
-      `PRODUCT: {{ product.title | escape }} ({{ product.handle }})\n` +
-      `RATING: ${rating}/5\nAUTHOR: ${name}\nCITY: ${city}\n` +
-      `PHOTO ATTACHED: ${hasPhoto ? 'YES' : 'NO'}\nREVIEW: ${body}`;
+      'PRODUCT: ' + {{ product.title | json }} + ' (' + {{ product.handle | json }} + ')\n' +
+      `RATING: ${rating}/5\nAUTHOR: ${name}\nCITY: ${city}\nREVIEW: ${body}`;
 
     btn.disabled = true;
     btn.textContent = '[ TRANSMITTING... ]';
+    statusEl.textContent = '';
+    statusEl.style.color = '#A3A3A3';
 
     try {
       const payload = new URLSearchParams();
       payload.append('form_type', 'contact');
       payload.append('utf8', '✓');
-      payload.append('contact[subject]', `NEW PRODUCT REVIEW: {{ product.title | escape }}`);
+      payload.append('contact[subject]', 'NEW PRODUCT REVIEW: ' + {{ product.title | json }});
+      payload.append('contact[name]', name);
       payload.append('contact[email]', email);
       payload.append('contact[body]', compiledBody);
 
-      await fetch('/contact', {
+      const response = await fetch('/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'text/html' },
         body: payload.toString()
       });
 
-      const reviewObj = { rating, name, city, body, photo: rwndCompressedPhotoDataUrl };
-      const storageKey = 'rwnd_reviews_{{ product.handle }}';
-      try {
-        const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        existing.unshift(reviewObj);
-        localStorage.setItem(storageKey, JSON.stringify(existing.slice(0, 10)));
-      } catch (err) {}
+      if (!response.ok) throw new Error('Transmission failed.');
 
-      appendReviewCardToDom(reviewObj);
-      form.reset();
-      clearRwndReviewPhoto();
+      const html = await response.text();
+      if (html.includes('form-status--error') || html.includes('class="errors"')) {
+        throw new Error('Review was rejected. Check your details and try again.');
+      }
+
+      e.target.reset();
       setRwndReviewStars(5);
-      statusEl.textContent = '';
-
-      closeRwndReviewModal();
-      document.getElementById('rwnd-reviews-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } catch (err) {
-      statusEl.textContent = '✕ TRANSMISSION ERROR — TRY AGAIN';
+      statusEl.textContent = '✓ REVIEW SUBMITTED FOR MODERATION — IT WILL APPEAR ONCE APPROVED.';
+      statusEl.style.color = '#00FF88';
+      window.setTimeout(closeRwndReviewModal, 2200);
+    } catch (error) {
+      statusEl.textContent = '✕ ' + (error.message || 'TRANSMISSION ERROR — TRY AGAIN');
       statusEl.style.color = '#FF0033';
     } finally {
       btn.disabled = false;
       btn.textContent = 'TRANSMIT REVIEW →';
     }
   }
-
-  (() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('rwnd_reviews_{{ product.handle }}') || '[]');
-      saved.reverse().forEach(appendReviewCardToDom);
-    } catch (e) {}
-  })();
 </script>
 
 {% schema %}

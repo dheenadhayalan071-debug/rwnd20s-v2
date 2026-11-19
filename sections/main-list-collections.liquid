@@ -1,0 +1,88 @@
+<!-- sections/main-list-collections.liquid -->
+<section class="relative mx-auto w-full max-w-7xl px-4 py-10 font-mono-tech text-[#F5F5F7] sm:px-6 lg:px-8">
+  <nav aria-label="Breadcrumb" class="mb-6 text-xs text-[#A3A7AE]">
+    <ol class="flex items-center gap-2 uppercase tracking-[0.12em]">
+      <li><a href="{{ routes.root_url }}" class="hover:text-white transition-colors">BASE</a></li>
+      <li class="text-[#2A2A2F]">/</li>
+      <li class="font-bold text-white">COLLECTIONS</li>
+    </ol>
+  </nav>
+
+  <header class="mb-8 border-b border-[#2A2A2F] pb-4">
+    <span class="block text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// ARCHIVE INDEX</span>
+    <h1 class="mt-1 font-display text-2xl font-extrabold uppercase tracking-tight sm:text-4xl">
+      BROWSE COLLECTIONS
+    </h1>
+  </header>
+
+  {% paginate collections by 24 %}
+    {% if collections.size > 0 %}
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {% for collection in collections %}
+          <article class="group flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-colors hover:border-[#FF0033]">
+            <a href="{{ collection.url }}" class="block">
+              <div class="flex aspect-[4/3] items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C]">
+                {% if collection.featured_image %}
+                  <img
+                    src="{{ collection.featured_image | image_url: width: 600 }}"
+                    alt="{{ collection.featured_image.alt | default: collection.title | escape }}"
+                    width="600"
+                    height="450"
+                    loading="lazy"
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  >
+                {% else %}
+                  <span class="text-[10px] uppercase tracking-widest text-[#A3A7AE]">NO ASSET</span>
+                {% endif %}
+              </div>
+              <h2 class="mt-4 font-display text-base font-bold uppercase tracking-tight">
+                {{ collection.title | escape }}
+              </h2>
+              <p class="mt-1 text-[11px] uppercase text-[#A3A7AE]">
+                {{ collection.all_products_count }} piece{{ collection.all_products_count | pluralize: '', 's' }}
+              </p>
+            </a>
+            <a
+              href="{{ collection.url }}"
+              class="mt-4 flex h-10 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:border-[#FF0033] hover:bg-[#FF0033]"
+            >
+              VIEW COLLECTION →
+            </a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="flex min-h-[240px] flex-col items-center justify-center border border-[#2A2A2F] bg-[#131316] p-8 text-center">
+        <p class="font-display text-base font-bold uppercase tracking-wider">NO COLLECTIONS PUBLISHED YET</p>
+        <a href="{{ routes.all_products_collection_url }}" class="mt-5 inline-flex h-11 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-6 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029]">
+          BROWSE FULL ARCHIVE →
+        </a>
+      </div>
+    {% endif %}
+
+    {% if paginate.pages > 1 %}
+      <nav aria-label="Collection pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-[#2A2A2F] pt-8 text-xs uppercase tracking-widest">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-[#2A2A2F] px-4 text-white hover:border-[#FF0033]">← PREV</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-[#2A2A2F] px-3 text-[#A3A7AE] hover:border-[#FF0033] hover:text-white">{{ part.title }}</a>
+          {% else %}
+            <span class="flex h-11 min-w-11 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3 text-white" aria-current="page">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" rel="next" class="flex h-11 items-center border border-[#FF0033] px-4 text-white hover:bg-[#FF0033]">NEXT →</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% endpaginate %}
+</section>
+
+{% schema %}
+{
+  "name": "Collections List",
+  "settings": []
+}
+{% endschema %}
