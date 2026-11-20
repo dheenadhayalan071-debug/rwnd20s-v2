@@ -14,7 +14,7 @@
     <!-- Drawer Header -->
     <div class="border-b border-[#2A2A2F] p-4 sm:p-5 flex items-center justify-between bg-[#0A0A0A] shrink-0">
       <div class="flex items-center gap-2">
-        <span class="font-display text-base font-extrabold uppercase tracking-tight text-white">YOUR HARDWARE BAG</span>
+        <span class="font-display text-base font-extrabold uppercase tracking-tight text-white">{{ 'general.cart.title' | t }}</span>
         <span id="drawer-cart-count" class="flex h-5 min-w-[20px] items-center justify-center bg-[#FF0033] px-1 text-[10px] font-bold text-white border border-black">
           {{ cart.item_count }}
         </span>
@@ -23,7 +23,7 @@
         type="button"
         onclick="window.closeCartDrawer()"
         class="h-8 w-8 flex items-center justify-center text-[#A3A7AE] hover:text-[#FF0033] text-lg cursor-pointer"
-        aria-label="Close Bag"
+        aria-label="{{ 'general.accessibility.close' | t }}"
       >
         ✕
       </button>
@@ -33,10 +33,10 @@
     <div class="border-b border-[#2A2A2F] bg-[#131316] p-3 px-4 sm:px-5 text-[10px] uppercase shrink-0">
       <div id="drawer-shipping-text" class="font-bold tracking-wider">
         {% if cart.total_price >= 99900 %}
-          <span class="text-[#00FF88]">✓ FREE DELIVERY THRESHOLD MET (ORDERS ₹999+)</span>
+          <span class="text-[#00FF88]">{{ 'general.cart.free_shipping_unlocked' | t }}</span>
         {% else %}
           {% assign needed = 99900 | minus: cart.total_price %}
-          <span class="text-[#A3A7AE]">ADD <strong class="text-white">{{ needed | money }}</strong> MORE FOR FREE DELIVERY</span>
+          <span class="text-[#A3A7AE]">{{ 'general.cart.add_more' | t: amount: needed | money }}</span>
         {% endif %}
       </div>
       <div class="mt-2 h-1.5 w-full bg-[#000000] border border-[#2A2A2F] overflow-hidden">
@@ -115,65 +115,17 @@
     <!-- Drawer Footer -->
     <div id="drawer-footer-panel" class="border-t border-[#2A2A2F] bg-[#131316] p-4 sm:p-5 space-y-3.5 shrink-0 max-h-[64vh] overflow-y-auto {% if cart.item_count == 0 %}hidden{% endif %}">
 
-      <!-- DISPATCH PROTOCOL SELECTOR -->
-      <div class="border border-[#2A2A2F] bg-[#0A0A0A] p-2.5 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="font-mono-tech text-[9px] font-bold uppercase tracking-wider text-[#FF0033]">
-            // DISPATCH PROTOCOL
-          </span>
-          <span class="font-mono-tech text-[8px] uppercase text-[#737373]">SELECT MODE</span>
-        </div>
-
-        <div class="grid grid-cols-1 gap-1.5">
-          <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#131316] p-2 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
-            <div class="flex items-start gap-2">
-              <input
-                type="radio"
-                name="rwnd_drawer_dispatch_mode"
-                value="Standard Courier (PAN-India)"
-                checked
-                class="mt-0.5 accent-[#FF0033]"
-              >
-              <div>
-                <span class="font-mono-tech text-[10px] font-bold uppercase text-white block">STANDARD COURIER</span>
-                <span class="font-sans text-[10px] text-[#A3A7AE]">24h MDU dispatch · Rate shown at checkout</span>
-              </div>
-            </div>
-            <span class="shrink-0 font-mono-tech text-[9px] font-bold text-white">RATE AT CHECKOUT / FREE</span>
-          </label>
-
-          <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#131316] p-2 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
-            <div class="flex items-start gap-2">
-              <input
-                type="radio"
-                name="rwnd_drawer_dispatch_mode"
-                value="Hand Delivery by Founders (Madurai Only)"
-                class="mt-0.5 accent-[#FF0033]"
-              >
-              <div>
-                <span class="font-mono-tech text-[10px] font-bold uppercase text-white block">HAND DELIVERY BY FOUNDERS</span>
-                <span class="font-sans text-[10px] text-[#A3A7AE]">Personal drop-off · Madurai 625001–625020 only</span>
-              </div>
-            </div>
-            <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">MDU · RATE AT CHECKOUT</span>
-          </label>
-        </div>
-
-        <div id="rwnd-drawer-mdu-pin-wrap" class="hidden pt-1 space-y-1">
-          <label for="rwnd-drawer-mdu-pin-input" class="sr-only">Madurai delivery PIN code</label>
-          <input
-            type="text"
-            id="rwnd-drawer-mdu-pin-input"
-            maxlength="6"
-            inputmode="numeric"
-            placeholder="ENTER MADURAI PIN (E.G. 625020)"
-            class="h-9 w-full border border-white/15 bg-[#000000] px-2.5 font-mono-tech text-[11px] text-white uppercase focus:border-[#FF0033] focus:outline-none"
-          >
-          <p id="rwnd-drawer-mdu-pin-status" class="font-mono-tech text-[9px] uppercase text-[#A3A7AE]">
-            ● ENTER 6-DIGIT MADURAI PINCODE (625001–625020)
-          </p>
-        </div>
-      </div>
+      <!-- DISPATCH PROTOCOL SELECTOR (shared snippet) -->
+      {% render 'dispatch-protocol-selector',
+         dispatch_name_prefix: 'rwnd_drawer_dispatch_mode',
+         pin_wrap_id: 'rwnd-drawer-mdu-pin-wrap',
+         pin_input_id: 'rwnd-drawer-mdu-pin-input',
+         pin_status_id: 'rwnd-drawer-mdu-pin-status',
+         section_class: '',
+         label_class: 'text-[9px]',
+         radio_class: '',
+         pin_input_class: ''
+      %}
 
       <!-- Authoritative Shopify totals -->
       <div class="space-y-1 text-xs">
@@ -183,7 +135,7 @@
         </div>
         <div class="flex justify-between text-[#A3A7AE]">
           <span>SHIPPING / FEES:</span>
-          <span id="drawer-shipping-val" class="text-white font-bold">CALCULATED AT CHECKOUT</span>
+          <span id="drawer-shipping-val" class="text-white font-bold"></span>
         </div>
         <div class="border-t border-[#2A2A2F] pt-2 flex items-baseline justify-between text-sm font-bold text-white">
           <span>TOTAL:</span>

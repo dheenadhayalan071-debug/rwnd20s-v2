@@ -124,7 +124,7 @@
 
           <div class="flex justify-between gap-3 text-[#A3A7AE]">
             <span>SHIPPING / FEE</span>
-            <span id="rwnd-cart-shipping-msg" class="font-bold text-[#F5F5F7]">CALCULATED AT CHECKOUT</span>
+            <span id="rwnd-cart-shipping-msg" class="font-bold text-[#F5F5F7]"></span>
           </div>
 
           <div class="space-y-1.5 pt-1">
@@ -145,69 +145,21 @@
 
           <div class="flex justify-between gap-3 border-t border-[#2A2A2F] pt-3 text-[#A3A7AE]">
             <span>COD CHARGE</span>
-            <span class="font-bold text-[#F5F5F7]">CALCULATED AT CHECKOUT</span>
+            <span id="rwnd-cod-charge-val" class="font-bold text-[#F5F5F7]"></span>
           </div>
         </div>
 
-        <!-- DISPATCH PROTOCOL SELECTOR -->
-        <div class="border-t border-[#2A2A2F] py-4 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#FF0033]">
-              // DISPATCH PROTOCOL
-            </span>
-            <span class="font-mono-tech text-[9px] uppercase text-[#737373]">SELECT MODE</span>
-          </div>
-
-          <div class="grid grid-cols-1 gap-2">
-            <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#0A0A0C] p-2.5 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
-              <div class="flex items-start gap-2.5">
-                <input
-                  type="radio"
-                  name="rwnd_dispatch_mode"
-                  value="Standard Courier (PAN-India)"
-                  checked
-                  class="mt-0.5 accent-[#FF0033]"
-                >
-                <div>
-                  <span class="font-mono-tech text-[11px] font-bold uppercase text-white block">STANDARD COURIER</span>
-                  <span class="font-sans text-[11px] text-[#A3A7AE]">24h MDU dispatch · Rate shown at checkout</span>
-                </div>
-              </div>
-              <span class="shrink-0 font-mono-tech text-[10px] font-bold text-white">RATE AT CHECKOUT / FREE</span>
-            </label>
-
-            <label class="flex items-center justify-between gap-2 border border-[#2A2A2F] bg-[#0A0A0C] p-2.5 cursor-pointer transition-colors has-[:checked]:border-[#FF0033] has-[:checked]:bg-[#FF0033]/10">
-              <div class="flex items-start gap-2.5">
-                <input
-                  type="radio"
-                  name="rwnd_dispatch_mode"
-                  value="Hand Delivery by Founders (Madurai Only)"
-                  class="mt-0.5 accent-[#FF0033]"
-                >
-                <div>
-                  <span class="font-mono-tech text-[11px] font-bold uppercase text-white block">HAND DELIVERY BY FOUNDERS</span>
-                  <span class="font-sans text-[11px] text-[#A3A7AE]">Personal drop-off · Madurai 625001–625020 only</span>
-                </div>
-              </div>
-              <span class="shrink-0 border border-[#FF0033]/50 bg-[#FF0033]/15 px-1.5 py-0.5 font-mono-tech text-[10px] font-bold text-[#FF0033]">MDU · RATE AT CHECKOUT</span>
-            </label>
-          </div>
-
-          <div id="rwnd-main-mdu-pin-wrap" class="hidden pt-1 space-y-1.5">
-            <label for="rwnd-main-mdu-pin-input" class="sr-only">Madurai delivery PIN code</label>
-            <input
-              type="text"
-              id="rwnd-main-mdu-pin-input"
-              maxlength="6"
-              inputmode="numeric"
-              placeholder="ENTER MADURAI PIN (E.G. 625020)"
-              class="h-10 w-full border border-white/15 bg-[#000000] px-3 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
-            >
-            <p id="rwnd-main-mdu-pin-status" class="font-mono-tech text-[10px] uppercase text-[#A3A7AE]">
-              ● ENTER 6-DIGIT MADURAI PINCODE (625001–625020)
-            </p>
-          </div>
-        </div>
+        <!-- DISPATCH PROTOCOL SELECTOR (shared snippet) -->
+        {% render 'dispatch-protocol-selector',
+           dispatch_name_prefix: 'rwnd_dispatch_mode',
+           pin_wrap_id: 'rwnd-main-mdu-pin-wrap',
+           pin_input_id: 'rwnd-main-mdu-pin-input',
+           pin_status_id: 'rwnd-main-mdu-pin-status',
+           section_class: 'border-t border-[#2A2A2F] py-4 space-y-2.5',
+           label_class: 'text-[10px]',
+           radio_class: '',
+           pin_input_class: 'h-10 text-xs px-3'
+        %}
 
         <div class="mb-5 flex items-baseline justify-between border-t border-[#2A2A2F] pt-4">
           <span class="font-display text-sm font-bold uppercase text-[#F5F5F7]">SHOPIFY TOTAL</span>

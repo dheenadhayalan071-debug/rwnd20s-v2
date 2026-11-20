@@ -182,7 +182,7 @@
     }).join('');
   }
 
-  function renderSummary(cart) {
+  async function renderSummary(cart) {
     document.querySelectorAll('[data-cart-count]').forEach((element) => {
       element.textContent = String(cart.item_count || 0);
     });
@@ -198,8 +198,9 @@
     setText('rwnd-main-cart-total', formatMoney(cart.total_price, cart.currency));
     setText('drawer-subtotal-val', formatMoney(cart.items_subtotal_price, cart.currency));
     setText('drawer-total-val', formatMoney(cart.total_price, cart.currency));
-    setText('rwnd-cart-shipping-msg', 'CALCULATED AT CHECKOUT');
-    setText('drawer-shipping-val', 'CALCULATED AT CHECKOUT');
+
+    // Fetch shipping rates from Shopify Cart Rates API and display Dispatch Fee
+    await updateShippingDisplay(cart);
 
     const discountRow = document.getElementById('rwnd-promo-discount-row');
     if (discountRow) {
@@ -239,6 +240,71 @@
     }
   }
 
+  /**
+   * Fetch shipping rates from Shopify Cart Rates API and update UI.
+   * Also displays the Dispatch Fee from cart attributes (set by syncDispatchAttributes).
+   * Falls back gracefully if API is unavailable.
+   */
+  async function updateShippingDisplay(cart) {
+    const attributes = cart.attributes || {};
+    const dispatchMode = attributes['Dispatch Mode'] || 'Standard Courier (PAN-India)';
+    const dispatchFeeAttr = attributes['Dispatch Fee'] || 'Standard';
+    const maduraiPin = attributes['Madurai Delivery PIN'] || '';
+
+    // Determine if we're in Madurai founder delivery mode
+    const isFounderDelivery = dispatchMode.indexOf('Hand Delivery by Founders') !== -1;
+    const isMaduraiPinValid = maduraiPin && isMaduraiPin(maduraiPin);
+
+    let shippingDisplayText = 'CALCULATED AT CHECKOUT';
+    let shippingDetailText = '';
+
+    // Build the display text based on dispatch mode
+    if (isFounderDelivery && isMaduraiPinValid) {
+      // Founder hand delivery - show the ₹499 fee
+      shippingDisplayText = `HAND DELIVERY BY FOUNDERS · ${formatMoney(49900, cart.currency)}`;
+      shippingDetailText = 'MADURAI 625001–625020';
+    } else if (isFounderDelivery && !isMaduraiPinValid) {
+      // Founder selected but no valid PIN
+      shippingDisplayText = 'ENTER MADURAI PIN FOR FOUNDER DELIVERY';
+      shippingDetailText = 'REQUIRED FOR HAND DELIVERY';
+    } else {
+      // Standard courier - try to fetch real rates from Cart Rates API
+      try {
+        const ratesResponse = await fetch('/cart/shipping_rates.json');
+        if (ratesResponse.ok) {
+          const ratesData = await ratesResponse.json();
+          if (ratesData.shipping_rates && ratesData.shipping_rates.length > 0) {
+            // Find the cheapest rate
+            const cheapestRate = ratesData.shipping_rates.reduce((min, rate) =>
+              rate.price < min.price ? rate : min, ratesData.shipping_rates[0]
+            );
+            const ratePrice = formatMoney(cheapestRate.price, cart.currency);
+            shippingDisplayText = `${cheapestRate.name} · ${ratePrice}`;
+            if (cheapestRate.price === 0) {
+              shippingDisplayText = `${cheapestRate.name} · FREE`;
+            }
+            shippingDetailText = 'STANDARD COURIER (PAN-INDIA)';
+          }
+        }
+      } catch (error) {
+        // Fallback: use cart attribute for dispatch fee if available
+        if (dispatchFeeAttr !== 'Standard') {
+          shippingDisplayText = `STANDARD COURIER · ${dispatchFeeAttr}`;
+        }
+      }
+    }
+
+    // Update both drawer and main cart shipping displays
+    setText('rwnd-cart-shipping-msg', shippingDisplayText);
+    setText('drawer-shipping-val', shippingDisplayText);
+
+    // Also update the COD charge row in main cart
+    const codChargeVal = document.getElementById('rwnd-cod-charge-val');
+    if (codChargeVal) {
+      codChargeVal.textContent = shippingDisplayText;
+    }
+  }
+
   function restoreDispatchSelection(cart) {
     const attributes = cart.attributes || {};
     const savedMode = attributes['Dispatch Mode'];
@@ -266,18 +332,18 @@
     });
   }
 
-  function applyCart(cart) {
+  async function applyCart(cart) {
     state.cart = cart;
     restoreDispatchSelection(cart);
     renderDrawerItems(cart);
     renderMainCartItems(cart);
-    renderSummary(cart);
+    await renderSummary(cart);
     document.dispatchEvent(new CustomEvent('rwnd:cart-updated', { detail: cart }));
   }
 
   async function refreshCart() {
     const cart = await getCart();
-    applyCart(cart);
+    await applyCart(cart);
     return cart;
   }
 
@@ -430,9 +496,13 @@
     }
     if (isMaduraiPin(digits)) {
       setPinStatus(status, '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED (₹499)', '#00FF88');
+      // Refresh cart to update shipping display with founder delivery fee
+      refreshCart().catch(() => {});
       return true;
     }
     setPinStatus(status, '✕ OUTSIDE MADURAI (625001–625020) — SELECT STANDARD COURIER', '#FF0033');
+    // Refresh cart to update shipping display (back to standard)
+    refreshCart().catch(() => {});
     return false;
   }
 
@@ -518,7 +588,9 @@
       });
     togglePinSection('rwnd-main', isFounder);
     togglePinSection('rwnd-drawer', isFounder);
-    syncDispatchAttributes().catch(() => {});
+    syncDispatchAttributes()
+      .then(() => refreshCart())
+      .catch(() => {});
   });
 
   document.addEventListener('input', (event) => {
