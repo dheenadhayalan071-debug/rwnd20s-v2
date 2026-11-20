@@ -129,15 +129,15 @@
 
           <div class="space-y-1.5 pt-1">
             <div class="h-1.5 w-full border border-[#2A2A2F] bg-[#0A0A0C] overflow-hidden">
-              {% assign main_prog = cart.total_price | times: 100 | divided_by: 99900 %}
+              {% assign main_prog = cart.items_subtotal_price | times: 100 | divided_by: 99900 %}
               {% if main_prog > 100 %}{% assign main_prog = 100 %}{% endif %}
               <div id="rwnd-cart-shipping-bar" class="h-full bg-[#FF0033] transition-all duration-300" style="width:{{ main_prog }}%"></div>
             </div>
             <p id="rwnd-shipping-threshold-text" class="text-[10px] text-[#A3A7AE] uppercase tracking-wider">
-              {% if cart.total_price >= 99900 %}
+              {% if cart.items_subtotal_price >= 99900 %}
                 ✓ FREE DELIVERY THRESHOLD MET (₹999+)
               {% else %}
-                {% assign main_needed = 99900 | minus: cart.total_price %}
+                {% assign main_needed = 99900 | minus: cart.items_subtotal_price %}
                 ADD {{ main_needed | money }} FOR FREE DELIVERY (₹999+)
               {% endif %}
             </p>

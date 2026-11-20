@@ -195,12 +195,19 @@
     };
 
     setText('rwnd-main-cart-subtotal', formatMoney(cart.items_subtotal_price, cart.currency));
-    setText('rwnd-main-cart-total', formatMoney(cart.total_price, cart.currency));
     setText('drawer-subtotal-val', formatMoney(cart.items_subtotal_price, cart.currency));
-    setText('drawer-total-val', formatMoney(cart.total_price, cart.currency));
 
     // Fetch shipping rates from Shopify Cart Rates API and display Dispatch Fee
-    await updateShippingDisplay(cart);
+    // Also get shipping fee in minor units for estimated total calculation
+    const shippingFeeMinor = await updateShippingDisplay(cart);
+
+    // Calculate estimated total = subtotal + shipping fee (not cart.total_price which excludes shipping)
+    const subtotalMinor = cart.items_subtotal_price || 0;
+    const estimatedTotalMinor = subtotalMinor + shippingFeeMinor;
+
+    // Display estimated total (includes shipping) - this is what customer will pay
+    setText('rwnd-main-cart-total', formatMoney(estimatedTotalMinor, cart.currency));
+    setText('drawer-total-val', formatMoney(estimatedTotalMinor, cart.currency));
 
     const discountRow = document.getElementById('rwnd-promo-discount-row');
     if (discountRow) {
@@ -214,7 +221,8 @@
       }
     }
 
-    const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - (cart.total_price || 0));
+    // Free delivery threshold is based on SUBTOTAL (items only), not total
+    const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotalMinor);
     const thresholdText = document.getElementById('rwnd-shipping-threshold-text');
     if (thresholdText) {
       thresholdText.textContent = remaining === 0
@@ -224,12 +232,12 @@
 
     const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
     if (shippingBar) {
-      shippingBar.style.width = `${Math.min(100, Math.round(((cart.total_price || 0) / FREE_DELIVERY_THRESHOLD) * 100))}%`;
+      shippingBar.style.width = `${Math.min(100, Math.round((subtotalMinor / FREE_DELIVERY_THRESHOLD) * 100))}%`;
     }
 
     const drawerBar = document.getElementById('drawer-shipping-bar');
     if (drawerBar) {
-      drawerBar.style.width = `${Math.min(100, Math.round(((cart.total_price || 0) / FREE_DELIVERY_THRESHOLD) * 100))}%`;
+      drawerBar.style.width = `${Math.min(100, Math.round((subtotalMinor / FREE_DELIVERY_THRESHOLD) * 100))}%`;
     }
 
     const drawerText = document.getElementById('drawer-shipping-text');
@@ -244,6 +252,7 @@
    * Fetch shipping rates from Shopify Cart Rates API and update UI.
    * Also displays the Dispatch Fee from cart attributes (set by syncDispatchAttributes).
    * Falls back gracefully if API is unavailable.
+   * Returns the shipping fee in minor units (paise) for estimated total calculation.
    */
   async function updateShippingDisplay(cart) {
     const attributes = cart.attributes || {};
@@ -257,18 +266,24 @@
 
     let shippingDisplayText = 'CALCULATED AT CHECKOUT';
     let shippingDetailText = '';
+    let shippingFeeMinor = 0; // Shipping fee in minor units (paise)
 
     // Build the display text based on dispatch mode
     if (isFounderDelivery && isMaduraiPinValid) {
       // Founder hand delivery - show the ₹499 fee
       shippingDisplayText = `HAND DELIVERY BY FOUNDERS · ${formatMoney(49900, cart.currency)}`;
       shippingDetailText = 'MADURAI 625001–625020';
+      shippingFeeMinor = 49900;
     } else if (isFounderDelivery && !isMaduraiPinValid) {
       // Founder selected but no valid PIN
       shippingDisplayText = 'ENTER MADURAI PIN FOR FOUNDER DELIVERY';
       shippingDetailText = 'REQUIRED FOR HAND DELIVERY';
+      shippingFeeMinor = 0; // Can't calculate until PIN is valid
     } else {
       // Standard courier - try to fetch real rates from Cart Rates API
+      // Show loading state while fetching
+      setText('rwnd-cart-shipping-msg', 'CALCULATING SHIPPING...');
+      setText('drawer-shipping-val', 'CALCULATING SHIPPING...');
       try {
         const ratesResponse = await fetch('/cart/shipping_rates.json');
         if (ratesResponse.ok) {
@@ -283,6 +298,7 @@
             if (cheapestRate.price === 0) {
               shippingDisplayText = `${cheapestRate.name} · FREE`;
             }
+            shippingFeeMinor = cheapestRate.price;
             shippingDetailText = 'STANDARD COURIER (PAN-INDIA)';
           }
         }
@@ -303,6 +319,9 @@
     if (codChargeVal) {
       codChargeVal.textContent = shippingDisplayText;
     }
+
+    // Return shipping fee for estimated total calculation
+    return shippingFeeMinor;
   }
 
   function restoreDispatchSelection(cart) {

@@ -32,15 +32,15 @@
     <!-- Free Delivery Progress Bar (₹999 threshold, informational only) -->
     <div class="border-b border-[#2A2A2F] bg-[#131316] p-3 px-4 sm:px-5 text-[10px] uppercase shrink-0">
       <div id="drawer-shipping-text" class="font-bold tracking-wider">
-        {% if cart.total_price >= 99900 %}
+        {% if cart.items_subtotal_price >= 99900 %}
           <span class="text-[#00FF88]">{{ 'general.cart.free_shipping_unlocked' | t }}</span>
         {% else %}
-          {% assign needed = 99900 | minus: cart.total_price %}
+          {% assign needed = 99900 | minus: cart.items_subtotal_price %}
           <span class="text-[#A3A7AE]">{{ 'general.cart.add_more' | t: amount: needed | money }}</span>
         {% endif %}
       </div>
       <div class="mt-2 h-1.5 w-full bg-[#000000] border border-[#2A2A2F] overflow-hidden">
-        {% assign prog = cart.total_price | times: 100 | divided_by: 99900 %}
+        {% assign prog = cart.items_subtotal_price | times: 100 | divided_by: 99900 %}
         {% if prog > 100 %}{% assign prog = 100 %}{% endif %}
         <div id="drawer-shipping-bar" class="h-full bg-[#FF0033] transition-all duration-300" style="width: {{ prog }}%;"></div>
       </div>
