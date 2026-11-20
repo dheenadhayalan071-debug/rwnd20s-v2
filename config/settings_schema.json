@@ -1,7 +1,12 @@
 [
   {
-    "type": "image_picker",
-    "id": "share_image",
-    "label": "Share image"
+    "name": "Theme settings",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Share image"
+      }
+    ]
   }
 ]
