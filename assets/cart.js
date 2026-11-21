@@ -182,7 +182,7 @@
     }).join('');
   }
 
-  async function renderSummary(cart) {
+  function renderSummary(cart) {
     document.querySelectorAll('[data-cart-count]').forEach((element) => {
       element.textContent = String(cart.item_count || 0);
     });
@@ -195,19 +195,11 @@
     };
 
     setText('rwnd-main-cart-subtotal', formatMoney(cart.items_subtotal_price, cart.currency));
+    setText('rwnd-main-cart-total', formatMoney(cart.total_price, cart.currency));
     setText('drawer-subtotal-val', formatMoney(cart.items_subtotal_price, cart.currency));
-
-    // Fetch shipping rates from Shopify Cart Rates API and display Dispatch Fee
-    // Also get shipping fee in minor units for estimated total calculation
-    const shippingFeeMinor = await updateShippingDisplay(cart);
-
-    // Calculate estimated total = subtotal + shipping fee (not cart.total_price which excludes shipping)
-    const subtotalMinor = cart.items_subtotal_price || 0;
-    const estimatedTotalMinor = subtotalMinor + shippingFeeMinor;
-
-    // Display estimated total (includes shipping) - this is what customer will pay
-    setText('rwnd-main-cart-total', formatMoney(estimatedTotalMinor, cart.currency));
-    setText('drawer-total-val', formatMoney(estimatedTotalMinor, cart.currency));
+    setText('drawer-total-val', formatMoney(cart.total_price, cart.currency));
+    setText('rwnd-cart-shipping-msg', 'CALCULATED AT CHECKOUT');
+    setText('drawer-shipping-val', 'CALCULATED AT CHECKOUT');
 
     const discountRow = document.getElementById('rwnd-promo-discount-row');
     if (discountRow) {
@@ -221,8 +213,7 @@
       }
     }
 
-    // Free delivery threshold is based on SUBTOTAL (items only), not total
-    const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotalMinor);
+    const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - (cart.total_price || 0));
     const thresholdText = document.getElementById('rwnd-shipping-threshold-text');
     if (thresholdText) {
       thresholdText.textContent = remaining === 0
@@ -232,12 +223,12 @@
 
     const shippingBar = document.getElementById('rwnd-cart-shipping-bar');
     if (shippingBar) {
-      shippingBar.style.width = `${Math.min(100, Math.round((subtotalMinor / FREE_DELIVERY_THRESHOLD) * 100))}%`;
+      shippingBar.style.width = `${Math.min(100, Math.round(((cart.total_price || 0) / FREE_DELIVERY_THRESHOLD) * 100))}%`;
     }
 
     const drawerBar = document.getElementById('drawer-shipping-bar');
     if (drawerBar) {
-      drawerBar.style.width = `${Math.min(100, Math.round((subtotalMinor / FREE_DELIVERY_THRESHOLD) * 100))}%`;
+      drawerBar.style.width = `${Math.min(100, Math.round(((cart.total_price || 0) / FREE_DELIVERY_THRESHOLD) * 100))}%`;
     }
 
     const drawerText = document.getElementById('drawer-shipping-text');
@@ -246,82 +237,6 @@
         ? '<span class="text-[#00FF88]">✓ FREE DELIVERY THRESHOLD MET (₹999+)</span>'
         : `<span class="text-[#A3A7AE]">ADD <strong class="text-white">${formatMoney(remaining, cart.currency)}</strong> MORE FOR FREE DELIVERY</span>`;
     }
-  }
-
-  /**
-   * Fetch shipping rates from Shopify Cart Rates API and update UI.
-   * Also displays the Dispatch Fee from cart attributes (set by syncDispatchAttributes).
-   * Falls back gracefully if API is unavailable.
-   * Returns the shipping fee in minor units (paise) for estimated total calculation.
-   */
-  async function updateShippingDisplay(cart) {
-    const attributes = cart.attributes || {};
-    const dispatchMode = attributes['Dispatch Mode'] || 'Standard Courier (PAN-India)';
-    const dispatchFeeAttr = attributes['Dispatch Fee'] || 'Standard';
-    const maduraiPin = attributes['Madurai Delivery PIN'] || '';
-
-    // Determine if we're in Madurai founder delivery mode
-    const isFounderDelivery = dispatchMode.indexOf('Hand Delivery by Founders') !== -1;
-    const isMaduraiPinValid = maduraiPin && isMaduraiPin(maduraiPin);
-
-    let shippingDisplayText = 'CALCULATED AT CHECKOUT';
-    let shippingDetailText = '';
-    let shippingFeeMinor = 0; // Shipping fee in minor units (paise)
-
-    // Build the display text based on dispatch mode
-    if (isFounderDelivery && isMaduraiPinValid) {
-      // Founder hand delivery - show the ₹499 fee
-      shippingDisplayText = `HAND DELIVERY BY FOUNDERS · ${formatMoney(49900, cart.currency)}`;
-      shippingDetailText = 'MADURAI 625001–625020';
-      shippingFeeMinor = 49900;
-    } else if (isFounderDelivery && !isMaduraiPinValid) {
-      // Founder selected but no valid PIN
-      shippingDisplayText = 'ENTER MADURAI PIN FOR FOUNDER DELIVERY';
-      shippingDetailText = 'REQUIRED FOR HAND DELIVERY';
-      shippingFeeMinor = 0; // Can't calculate until PIN is valid
-    } else {
-      // Standard courier - try to fetch real rates from Cart Rates API
-      // Show loading state while fetching
-      setText('rwnd-cart-shipping-msg', 'CALCULATING SHIPPING...');
-      setText('drawer-shipping-val', 'CALCULATING SHIPPING...');
-      try {
-        const ratesResponse = await fetch('/cart/shipping_rates.json');
-        if (ratesResponse.ok) {
-          const ratesData = await ratesResponse.json();
-          if (ratesData.shipping_rates && ratesData.shipping_rates.length > 0) {
-            // Find the cheapest rate
-            const cheapestRate = ratesData.shipping_rates.reduce((min, rate) =>
-              rate.price < min.price ? rate : min, ratesData.shipping_rates[0]
-            );
-            const ratePrice = formatMoney(cheapestRate.price, cart.currency);
-            shippingDisplayText = `${cheapestRate.name} · ${ratePrice}`;
-            if (cheapestRate.price === 0) {
-              shippingDisplayText = `${cheapestRate.name} · FREE`;
-            }
-            shippingFeeMinor = cheapestRate.price;
-            shippingDetailText = 'STANDARD COURIER (PAN-INDIA)';
-          }
-        }
-      } catch (error) {
-        // Fallback: use cart attribute for dispatch fee if available
-        if (dispatchFeeAttr !== 'Standard') {
-          shippingDisplayText = `STANDARD COURIER · ${dispatchFeeAttr}`;
-        }
-      }
-    }
-
-    // Update both drawer and main cart shipping displays
-    setText('rwnd-cart-shipping-msg', shippingDisplayText);
-    setText('drawer-shipping-val', shippingDisplayText);
-
-    // Also update the COD charge row in main cart
-    const codChargeVal = document.getElementById('rwnd-cod-charge-val');
-    if (codChargeVal) {
-      codChargeVal.textContent = shippingDisplayText;
-    }
-
-    // Return shipping fee for estimated total calculation
-    return shippingFeeMinor;
   }
 
   function restoreDispatchSelection(cart) {
@@ -351,18 +266,18 @@
     });
   }
 
-  async function applyCart(cart) {
+  function applyCart(cart) {
     state.cart = cart;
     restoreDispatchSelection(cart);
     renderDrawerItems(cart);
     renderMainCartItems(cart);
-    await renderSummary(cart);
+    renderSummary(cart);
     document.dispatchEvent(new CustomEvent('rwnd:cart-updated', { detail: cart }));
   }
 
   async function refreshCart() {
     const cart = await getCart();
-    await applyCart(cart);
+    applyCart(cart);
     return cart;
   }
 
@@ -515,13 +430,9 @@
     }
     if (isMaduraiPin(digits)) {
       setPinStatus(status, '✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED (₹499)', '#00FF88');
-      // Refresh cart to update shipping display with founder delivery fee
-      refreshCart().catch(() => {});
       return true;
     }
     setPinStatus(status, '✕ OUTSIDE MADURAI (625001–625020) — SELECT STANDARD COURIER', '#FF0033');
-    // Refresh cart to update shipping display (back to standard)
-    refreshCart().catch(() => {});
     return false;
   }
 
@@ -607,9 +518,7 @@
       });
     togglePinSection('rwnd-main', isFounder);
     togglePinSection('rwnd-drawer', isFounder);
-    syncDispatchAttributes()
-      .then(() => refreshCart())
-      .catch(() => {});
+    syncDispatchAttributes().catch(() => {});
   });
 
   document.addEventListener('input', (event) => {

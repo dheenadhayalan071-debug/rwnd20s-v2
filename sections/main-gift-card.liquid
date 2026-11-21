@@ -1,32 +1,30 @@
-<!-- sections/main-gift-card.liquid -->
-<!-- DARK THEME REFACTOR - Aligned with night-calls/main-storefront/main-home aesthetic -->
-<div class="relative w-full bg-[#050505] text-[#F5F5F7] py-16 px-4 sm:px-6 lg:px-12 font-mono-tech">
+<div class="relative w-full bg-[#DCDFE5] text-[#09090B] py-16 px-4 sm:px-6 lg:px-12">
   <div class="mx-auto max-w-3xl">
     <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#A3A7AE]">
+    <nav aria-label="Breadcrumb" class="mb-8 font-mono-tech text-xs text-[#52525B]">
       <ol class="flex items-center gap-2 uppercase tracking-wider">
-        <li><a href="{{ routes.root_url }}" class="hover:text-[#FF0033] transition-colors">BASE</a></li>
-        <li class="text-[#FF0033]">/</li>
-        <li class="text-[#F5F5F7] font-bold">DIGITAL ARCHIVE PASS // GIFT CARD</li>
+        <li><a href="{{ routes.root_url }}" class="hover:text-[#09090B]">BASE</a></li>
+        <li>/</li>
+        <li class="text-[#09090B] font-bold">DIGITAL ARCHIVE PASS // GIFT CARD</li>
       </ol>
     </nav>
 
     <!-- Gift Card Vault Container -->
-    <div class="rounded-none border border-[#2A2A2F] bg-[#131316] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-      <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FF0033]/5 pointer-events-none"></div>
+    <div class="rounded-3xl border border-[#09090B]/20 bg-white p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#09090B]/5 pointer-events-none"></div>
 
-      <div class="flex items-center justify-between border-b border-[#2A2A2F] pb-6 mb-8">
+      <div class="flex items-center justify-between border-b border-[#09090B]/10 pb-6 mb-8">
         <div>
-          <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest bg-[#FF0033] text-[#000000] px-3 py-1 rounded-full">
+          <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest bg-[#09090B] text-white px-3 py-1 rounded-full">
             RWND20S SECURE CREDIT
           </span>
-          <h1 class="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#F5F5F7] mt-2">
+          <h1 class="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#09090B] mt-2">
             ARCHIVE GIFT CARD
           </h1>
         </div>
         <div class="text-right">
-          <p class="font-mono-tech text-xs text-[#A3A7AE] uppercase">REMAINING VALUE</p>
-          <p class="font-mono-tech text-xl sm:text-2xl font-extrabold text-[#F5F5F7]">
+          <p class="font-mono-tech text-xs text-[#52525B] uppercase">REMAINING VALUE</p>
+          <p class="font-mono-tech text-xl sm:text-2xl font-extrabold text-[#09090B]">
             {% if gift_card.enabled %}
               {{ gift_card.balance | money }}
             {% else %}
@@ -37,20 +35,20 @@
       </div>
 
       <!-- Digital Gift Card Visual Representation -->
-      <div class="rounded-none border border-[#2A2A2F] bg-[#0A0A0C] text-[#F5F5F7] p-6 sm:p-8 shadow-inner mb-8 relative">
+      <div class="rounded-2xl border border-[#09090B]/20 bg-[#09090B] text-white p-6 sm:p-8 shadow-inner mb-8 relative">
         <div class="flex justify-between items-start">
           <div>
-            <p class="font-mono-tech text-[10px] tracking-widest text-[#A3A7AE] uppercase">RWND20S V2 ARCHIVE</p>
+            <p class="font-mono-tech text-[10px] tracking-widest text-[#DCDFE5]/70 uppercase">RWND20S V2 ARCHIVE</p>
             <h2 class="font-display text-lg sm:text-xl font-bold tracking-wider uppercase mt-1">INDUSTRIAL PASS</h2>
           </div>
-          <span class="font-mono-tech text-xs bg-[#FF0033]/20 px-3 py-1 rounded-full uppercase text-[#FF0033] border border-[#FF0033]/30">DIGITAL SPEC</span>
+          <span class="font-mono-tech text-xs bg-white/10 px-3 py-1 rounded-full uppercase">DIGITAL SPEC</span>
         </div>
 
-        <div class="mt-8 font-mono-tech tracking-widest text-lg sm:text-2xl font-bold text-center py-4 border-y border-[#2A2A2F]">
+        <div class="mt-8 font-mono-tech tracking-widest text-lg sm:text-2xl font-bold text-center py-4 border-y border-white/10">
           {{ gift_card.code | format_code }}
         </div>
 
-        <div class="mt-6 flex justify-between items-center font-mono-tech text-xs text-[#A3A7AE]">
+        <div class="mt-6 flex justify-between items-center font-mono-tech text-xs text-[#DCDFE5]/70">
           <span>EXPIRES: {% if gift_card.expires_on %}{{ gift_card.expires_on | date: "%d %b %Y" }}{% else %}NEVER EXPIRES{% endif %}</span>
           <span>MADURAI DISPATCH HUB</span>
         </div>
@@ -58,15 +56,15 @@
 
       <!-- Action Toolbar -->
       <div class="space-y-4 text-center">
-        <button type="button" onclick="window.print();" class="w-full rounded-full border border-[#FF0033] bg-[#FF0033] py-4 font-mono-tech text-xs font-bold text-[#000000] uppercase tracking-widest hover:bg-[#CC0029] hover:border-[#CC0029] transition-colors cursor-pointer shadow-lg shadow-[#FF0033]/30">
+        <button type="button" onclick="window.print();" class="w-full rounded-full border border-[#09090B] bg-[#09090B] py-4 font-mono-tech text-xs font-bold text-white uppercase tracking-widest hover:bg-white hover:text-[#09090B] transition-colors cursor-pointer shadow-md">
           PRINT OR SAVE GIFT CARD PASS //
         </button>
-        <a href="{{ routes.root_url }}" class="block w-full rounded-full border border-[#2A2A2F] bg-[#131316] py-3 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-wider hover:border-[#FF0033] hover:text-[#FF0033] transition-colors">
+        <a href="{{ routes.root_url }}" class="block w-full rounded-full border border-[#09090B]/20 bg-white py-3 font-mono-tech text-xs font-bold text-[#09090B] uppercase tracking-wider hover:border-[#09090B] transition-colors">
           RETURN TO STOREFRONT BASE
         </a>
       </div>
 
-      <div class="mt-8 pt-6 border-t border-[#2A2A2F] font-mono-tech text-[10px] text-[#A3A7AE] text-center">
+      <div class="mt-8 pt-6 border-t border-[#09090B]/10 font-mono-tech text-[10px] text-[#52525B] text-center">
         ✦ Redeemable at checkout for any Drop 01 316L hardware, timepieces, or Type-C chrome earphones.
       </div>
     </div>
@@ -79,3 +77,4 @@
   "settings": []
 }
 {% endschema %}
+

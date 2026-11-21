@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin language editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "general": {
     "accessibility": {
@@ -17,107 +8,16 @@
       "placeholder": "Search archive hardware..."
     },
     "cart": {
-      "title": "YOUR HARDWARE BAG",
-      "empty": "// BAG IS EMPTY",
-      "subtotal": "ITEMS SUBTOTAL",
-      "checkout": "CHECKOUT →",
-      "free_shipping_unlocked": "✓ FREE DELIVERY THRESHOLD MET (₹999+)",
-      "add_more": "ADD {{ amount }} MORE FOR FREE DELIVERY",
-      "view_full_cart": "VIEW FULL CART",
-      "promo_placeholder": "ENTER CODE...",
-      "promo_apply": "APPLY",
-      "promo_applied": "✓ {{ code }} WILL BE VALIDATED AT CHECKOUT",
-      "promo_enter_code": "ENTER A CODE TO APPLY AT CHECKOUT",
-      "discounts_at_checkout": "Discounts and shipping are validated by Shopify at checkout.",
-      "final_prices_at_checkout": "Final prices, discounts, shipping and COD fees are calculated by Shopify at checkout.",
-      "secure_checkout": "SECURE",
-      "cod_available": "COD AVAIL",
-      "mdu_24h": "24H MDU"
-    },
-    "shipping": {
-      "standard_courier": "STANDARD COURIER (PAN-INDIA)",
-      "founder_delivery": "HAND DELIVERY BY FOUNDERS",
-      "madurai_only": "Madurai 625001–625020 only",
-      "pin_placeholder": "ENTER MADURAI PIN (E.G. 625020)",
-      "pin_verify": "● ENTER 6-DIGIT MADURAI PINCODE (625001–625020)",
-      "pin_verified": "✓ MADURAI ZONE VERIFIED — FOUNDER DROP-OFF UNLOCKED (₹499)",
-      "pin_invalid": "✕ OUTSIDE MADURAI (625001–625020) — SELECT STANDARD COURIER",
-      "pin_required": "PIN REQUIRED",
-      "pin_required_msg": "Founder delivery is limited to Madurai PIN codes 625001–625020.",
-      "dispatch_fee_standard": "STANDARD COURIER · RATE AT CHECKOUT / FREE",
-      "dispatch_fee_founder": "MDU · RATE AT CHECKOUT",
-      "calculated_at_checkout": "CALCULATED AT CHECKOUT",
-      "enter_pin_for_founder": "ENTER MADURAI PIN FOR FOUNDER DELIVERY",
-      "required_for_hand_delivery": "REQUIRED FOR HAND DELIVERY"
-    },
-    "dispatch": {
-      "protocol_label": "// DISPATCH PROTOCOL",
-      "select_mode": "SELECT MODE",
-      "standard_courier": "STANDARD COURIER",
-      "standard_courier_desc": "24h MDU dispatch · Rate shown at checkout",
-      "founder_delivery": "HAND DELIVERY BY FOUNDERS",
-      "founder_delivery_desc": "Personal drop-off · Madurai 625001–625020 only"
-    },
-    "header": {
-      "announcement": "FREE DELIVERY ON ORDERS ₹999+ // DISPATCHED FROM MADURAI",
-      "shop_all": "SHOP ALL",
-      "drops": "DROPS",
-      "archive": "ARCHIVE",
-      "manifesto": "MANIFESTO",
-      "size_guide": "SIZE GUIDE",
-      "track_order": "TRACK ORDER",
-      "faq": "FAQ",
-      "contact": "CONTACT DESK",
-      "instagram": "Instagram",
-      "whatsapp": "WhatsApp",
-      "dispatched_from": "DISPATCHED FROM MADURAI",
-      "drop_01": "DROP 01: Y2K HARDWARE",
-      "cyber_set": "3-Piece Cyber Set",
-      "rings": "Rings",
-      "chains": "Chains",
-      "bracelets": "Bracelets",
-      "earrings": "Earrings",
-      "pink_chrome_audio": "Pink Chrome Audio",
-      "timepieces": "Timepieces (Pre-Order)",
-      "unlock_vault": "UNLOCK VAULT →",
-      "search_archive": "// QUERY ARCHIVE",
-      "search_placeholder": "SEARCH RINGS, CHAINS, TIMEPIECES...",
-      "search_btn": "SEARCH //",
-      "close_search": "✕ CLOSE",
-      "return_to_base": "← RETURN TO BASE",
-      "add_more_pieces": "+ ADD MORE PIECES",
-      "explore_archive": "EXPLORE ARCHIVE →"
-    },
-    "product": {
-      "add_to_cart": "SECURE PIECE →",
-      "sold_out": "SOLD OUT",
-      "unavailable": "UNAVAILABLE",
-      "save": "SAVE",
-      "type_c_only": "Type-C only. Not compatible with iPhone 14 and older, or phones with a 3.5mm jack.",
-      "in_stock": "IN STOCK",
-      "pre_order": "PRE-ORDER",
-      "shipping_info": "Standard delivery and founder hand-delivery rates are set in Shopify admin. Founder hand delivery is limited to Madurai PIN codes 625001–625020. COD verification is required before dispatch."
-    },
-    "collection": {
-      "empty": "NO COMPONENTS IN THIS SECTOR",
-      "load_more": "LOAD MORE →",
-      "loading": "LOADING...",
-      "filter": "FILTER",
-      "sort": "SORT",
-      "all": "ALL",
-      "showing": "SHOWING {{ count }} OF {{ total }} COMPONENTS"
-    },
-    "toast": {
-      "secured": "SECURED IN BAG",
-      "secured_msg": "Your piece was added.",
-      "add_failed": "ADD FAILED",
-      "cart_update_failed": "CART UPDATE FAILED",
-      "dispatch_not_saved": "DISPATCH NOT SAVED"
+      "title": "your identity",
+      "empty": "oops! seems you're not ready",
+      "subtotal": "SUBTOTAL (MRP INCL. TAX)",
+      "checkout": "wear different",
+      "free_shipping_unlocked": "You've unlocked FREE Express Shipping!"
     }
   },
   "products": {
     "product": {
-      "add_to_cart": "SECURE PIECE →",
+      "add_to_cart": "ADD TO BAG +",
       "sold_out": "SOLD OUT",
       "unavailable": "UNAVAILABLE",
       "Save": "SAVE"

@@ -297,73 +297,35 @@
     // Sort select
     sortSelect?.addEventListener('change', applyFilterAndSort);
 
-    // AJAX Load More Action - respects active filters
+    // AJAX Load More Action
     loadMoreBtn?.addEventListener('click', async (event) => {
       event.preventDefault();
-      let nextUrl = loadMoreBtn.dataset.nextUrl;
+      const nextUrl = loadMoreBtn.dataset.nextUrl;
       if (!nextUrl) return;
 
       loadMoreBtn.disabled = true;
       loadMoreBtn.textContent = '[ FETCHING NEXT DISPATCH... ]';
 
       try {
-        // Keep fetching pages until we find matching products or reach the end
-        let foundMatchingProducts = false;
+        const res = await fetch(nextUrl);
+        if (!res.ok) throw new Error('Could not load the next page.');
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
 
-        while (nextUrl && !foundMatchingProducts) {
-          const res = await fetch(nextUrl);
-          if (!res.ok) throw new Error('Could not load the next page.');
-          const html = await res.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
+        const newCards = doc.querySelectorAll('#rwnd-collection-grid [data-product-card]');
+        newCards.forEach((c) => grid.appendChild(c));
 
-          const newCards = doc.querySelectorAll('#rwnd-collection-grid [data-product-card]');
-          let matchedCount = 0;
-
-          // Apply current filter to new cards before appending
-          newCards.forEach((card) => {
-            const title = (card.dataset.title || '').toLowerCase();
-            const tags = (card.dataset.tags || '').toLowerCase();
-
-            let matchesTag = true;
-            if (currentFilter !== 'all') {
-              matchesTag = tags.includes(currentFilter) || title.includes(currentFilter);
-            }
-
-            let matchesSearch = true;
-            if (searchQuery) {
-              matchesSearch = title.includes(searchQuery) || tags.includes(searchQuery);
-            }
-
-            if (matchesTag && matchesSearch) {
-              grid.appendChild(card);
-              matchedCount++;
-            }
-          });
-
-          if (matchedCount > 0) {
-            foundMatchingProducts = true;
-          }
-
-          const nextNextBtn = doc.getElementById('rwnd-load-more-btn');
-          if (nextNextBtn && nextNextBtn.dataset.nextUrl) {
-            nextUrl = nextNextBtn.dataset.nextUrl;
-            // If we didn't find matches, continue loop to fetch next page
-            if (!foundMatchingProducts) {
-              loadMoreBtn.textContent = '[ SCANNING FOR MATCHES... ]';
-              continue;
-            }
-            loadMoreBtn.dataset.nextUrl = nextUrl;
-            loadMoreBtn.disabled = false;
-            loadMoreBtn.textContent = '[ LOAD MORE PIECES + ]';
-          } else {
-            // No more pages
-            loadMoreBtn.remove();
-            const pagContainer = document.getElementById('rwnd-pagination-container');
-            if (pagContainer) {
-              pagContainer.innerHTML = '<span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>';
-            }
-            break;
+        const nextNextBtn = doc.getElementById('rwnd-load-more-btn');
+        if (nextNextBtn && nextNextBtn.dataset.nextUrl) {
+          loadMoreBtn.dataset.nextUrl = nextNextBtn.dataset.nextUrl;
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = '[ LOAD MORE PIECES + ]';
+        } else {
+          loadMoreBtn.remove();
+          const pagContainer = document.getElementById('rwnd-pagination-container');
+          if (pagContainer) {
+            pagContainer.innerHTML = '<span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>';
           }
         }
 
