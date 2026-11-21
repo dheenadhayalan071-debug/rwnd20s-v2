@@ -374,13 +374,9 @@
     const overlay = document.getElementById('rwnd-cart-drawer-overlay');
     const drawer = document.getElementById('rwnd-cart-drawer');
     if (!overlay || !drawer) return;
-    // Use shared overlay helper with focus trap on the drawer
-    window.rwndOverlay?.openOverlay(overlay, {
-      trap: true,
-      trapContainer: drawer,
-      restoreFocusEl: document.getElementById('HeaderCartTrigger')
-    });
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
     drawer.classList.remove('translate-x-full');
+    document.body.style.overflow = 'hidden';
     refreshCart().catch(() => {});
   }
 
@@ -388,16 +384,9 @@
     const overlay = document.getElementById('rwnd-cart-drawer-overlay');
     const drawer = document.getElementById('rwnd-cart-drawer');
     if (!overlay || !drawer) return;
-    // Find and call the close function returned by openOverlay
-    const closeFn = overlay._rwndCloseOverlay;
-    if (typeof closeFn === 'function') {
-      closeFn();
-    } else {
-      // Fallback
-      overlay.classList.add('opacity-0', 'pointer-events-none');
-      drawer.classList.add('translate-x-full');
-      document.body.style.overflow = '';
-    }
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    drawer.classList.add('translate-x-full');
+    document.body.style.overflow = '';
   }
 
   async function changeLine(key, quantity) {

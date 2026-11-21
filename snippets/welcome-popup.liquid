@@ -95,24 +95,14 @@
     if (!modal) return;
 
     const openModal = () => {
-      // Use shared overlay helper with focus trap
-      window.rwndOverlay?.openOverlay(modal, {
-        trap: true,
-        trapContainer: modal,
-        restoreFocusEl: null
-      });
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
       closeBtn?.focus();
     };
 
     const dismissModal = () => {
-      // Find and call the close function returned by openOverlay
-      const closeFn = modal._rwndCloseOverlay;
-      if (typeof closeFn === 'function') {
-        closeFn();
-      } else {
-        modal.classList.add('opacity-0', 'pointer-events-none');
-        document.body.style.overflow = '';
-      }
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
       sessionStorage.setItem(SESSION_KEY, 'true');
     };
 

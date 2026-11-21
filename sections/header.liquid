@@ -130,7 +130,7 @@
   </header>
 
   <!-- MOBILE MENU DRAWER -->
-  <div id="mobile-drawer-overlay" class="fixed inset-0 z-[180] bg-black/85 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-label="Mobile menu">
+  <div id="mobile-drawer-overlay" class="fixed inset-0 z-[180] bg-black/85 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
     <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-[85%] max-w-[340px] bg-[#0A0A0A] border-l border-white/10 p-6 flex flex-col justify-between translate-x-full transition-transform duration-300 overflow-y-auto">
       <div>
         <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -181,7 +181,7 @@
   </div>
 
   <!-- FULL SCREEN SEARCH OVERLAY -->
-  <div id="fullscreen-search-overlay" class="fixed inset-0 z-[190] bg-[#0A0A0A]/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-start items-center p-6 sm:p-12" role="dialog" aria-modal="true" aria-label="Full-screen search">
+  <div id="fullscreen-search-overlay" class="fixed inset-0 z-[190] bg-[#0A0A0A]/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-start items-center p-6 sm:p-12">
     <div class="w-full max-w-3xl flex justify-end">
       <button type="button" id="close-search-trigger" class="text-white hover:text-[#FF0033] text-sm font-mono-tech uppercase cursor-pointer">
         ✕ CLOSE
@@ -190,12 +190,10 @@
     <div class="w-full max-w-2xl mt-12">
       <span class="font-mono-tech text-[10px] uppercase tracking-widest text-[#FF0033] block mb-2">// QUERY ARCHIVE</span>
       <form action="{{ routes.search_url }}" method="get" class="flex flex-col sm:flex-row gap-3">
-        <input
-          type="search"
-          name="q"
-          id="rwnd-fullscreen-search-input"
-          aria-label="Search products"
-          placeholder="SEARCH RINGS, CHAINS, TIMEPIECES..."
+        <input 
+          type="search" 
+          name="q" 
+          placeholder="SEARCH RINGS, CHAINS, TIMEPIECES..." 
           class="flex-1 h-14 bg-[#121212] border border-white/10 px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
         >
         <button type="submit" class="h-14 bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors cursor-pointer">
@@ -224,23 +222,22 @@
     const overlay = document.getElementById('mobile-drawer-overlay');
     const drawer = document.getElementById('mobile-drawer');
 
-    // Use shared overlay helper with focus trap on the drawer
-    let closeMenu = null;
-    openBtn?.addEventListener('click', () => {
-      closeMenu = window.rwndOverlay?.openOverlay(overlay, {
-        trap: true,
-        trapContainer: drawer,
-        restoreFocusEl: openBtn
-      });
+    const openMenu = () => {
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
       drawer?.classList.remove('translate-x-full');
-    });
+      document.body.style.overflow = 'hidden';
+    };
 
-    closeBtn?.addEventListener('click', () => {
-      if (typeof closeMenu === 'function') closeMenu();
-    });
+    const closeMenu = () => {
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      drawer?.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    };
 
+    openBtn?.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
     overlay?.addEventListener('click', (e) => {
-      if (e.target === overlay && typeof closeMenu === 'function') closeMenu();
+      if (e.target === overlay) closeMenu();
     });
   })();
 
@@ -249,25 +246,13 @@
     const searchOpen = document.getElementById('HeaderSearchTrigger');
     const searchClose = document.getElementById('close-search-trigger');
     const searchOverlay = document.getElementById('fullscreen-search-overlay');
-    const searchInput = document.getElementById('rwnd-fullscreen-search-input');
 
-    let closeSearch = null;
     searchOpen?.addEventListener('click', () => {
-      closeSearch = window.rwndOverlay?.openOverlay(searchOverlay, {
-        trap: true,
-        trapContainer: searchOverlay,
-        restoreFocusEl: searchOpen
-      });
-      // Focus the search input on open
-      setTimeout(() => searchInput?.focus(), 100);
+      searchOverlay?.classList.remove('opacity-0', 'pointer-events-none');
     });
 
     searchClose?.addEventListener('click', () => {
-      if (typeof closeSearch === 'function') closeSearch();
-    });
-
-    searchOverlay?.addEventListener('click', (e) => {
-      if (e.target === searchOverlay && typeof closeSearch === 'function') closeSearch();
+      searchOverlay?.classList.add('opacity-0', 'pointer-events-none');
     });
   })();
 </script>
