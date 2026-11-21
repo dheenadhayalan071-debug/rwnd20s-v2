@@ -436,12 +436,15 @@
     <!-- LEFT COLUMN: MEDIA GALLERY -->
     <div class="lg:sticky lg:top-24 flex flex-col-reverse md:flex-row gap-3">
       {% if product.images.size > 1 %}
-        <div class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[540px] pb-1 md:pb-0">
+        <div class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[540px] pb-1 md:pb-0" role="radiogroup" aria-label="Product images" id="rwnd-thumb-group">
           {% for image in product.images %}
-            <button 
-              type="button" 
-              onclick="switchRwndProductImage('{{ image | image_url: width: 1200 }}', this)" 
+            <button
+              type="button"
+              onclick="switchRwndProductImage('{{ image | image_url: width: 1200 }}', this)"
               class="rwnd-thumb relative aspect-square w-16 shrink-0 border {% if forloop.first %}border-[#FF0033]{% else %}border-white/10{% endif %} bg-[#0A0A0A] p-1 transition-colors hover:border-[#FF0033] cursor-pointer"
+              aria-pressed="{{ forloop.first }}"
+              {% if forloop.first %}tabindex="0"{% else %}tabindex="-1"{% endif %}
+              data-image-index="{{ forloop.index0 }}"
             >
               <img src="{{ image | image_url: width: 160 }}" width="160" height="160" alt="{{ image.alt | default: product.title | escape }}" class="h-full w-full object-cover">
             </button>
@@ -1014,9 +1017,51 @@
   function switchRwndProductImage(src, btn) {
     const mainImg = document.getElementById('rwnd-main-product-img');
     if (mainImg) mainImg.src = src;
-    document.querySelectorAll('.rwnd-thumb').forEach(t => t.classList.replace('border-[#FF0033]', 'border-white/10'));
+    document.querySelectorAll('.rwnd-thumb').forEach(t => {
+      t.classList.replace('border-[#FF0033]', 'border-white/10');
+      t.setAttribute('aria-pressed', 'false');
+      t.setAttribute('tabindex', '-1');
+    });
     btn.classList.replace('border-white/10', 'border-[#FF0033]');
+    btn.setAttribute('aria-pressed', 'true');
+    btn.setAttribute('tabindex', '0');
   }
+
+  // Keyboard navigation for product thumbnails
+  (() => {
+    const thumbGroup = document.getElementById('rwnd-thumb-group');
+    if (!thumbGroup) return;
+
+    thumbGroup.addEventListener('keydown', (event) => {
+      const thumbs = Array.from(thumbGroup.querySelectorAll('.rwnd-thumb'));
+      if (thumbs.length === 0) return;
+
+      const activeIndex = thumbs.findIndex(t => t.getAttribute('aria-pressed') === 'true');
+      let newIndex = activeIndex;
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        newIndex = (activeIndex + 1) % thumbs.length;
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        newIndex = (activeIndex - 1 + thumbs.length) % thumbs.length;
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        newIndex = 0;
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        newIndex = thumbs.length - 1;
+      } else {
+        return;
+      }
+
+      const newThumb = thumbs[newIndex];
+      if (newThumb) {
+        newThumb.focus();
+        newThumb.click();
+      }
+    });
+  })();
 
   function adjustRwndQty(delta) {
     const input = document.getElementById('rwnd-qty-input');

@@ -12,8 +12,8 @@
 
     <!-- Search Header & Input Bar -->
     <div class="border-b border-[#2A2A2F] pb-8 mb-8">
-      <div class="inline-flex items-center gap-2 border border-[#C8102E]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3] rounded-none mb-3">
-        <span class="h-1.5 w-1.5 bg-[#C8102E] animate-pulse"></span>
+      <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#C8CDD3] rounded-none mb-3">
+        <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
         RWND20S.SYS // QUERY ENGINE
       </div>
       <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#F5F5F7]">
@@ -35,11 +35,11 @@
           value="{{ search.terms | escape }}"
           placeholder="RINGS, CHAINS, WATCHES, AUDIO..."
           autocomplete="off"
-          class="flex-1 h-14 border border-[#2A2A2F] bg-[#0A0A0C] px-4 font-mono-tech text-xs uppercase text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#C8102E] focus:outline-none rounded-none"
+          class="flex-1 h-14 border border-[#2A2A2F] bg-[#0A0A0C] px-4 font-mono-tech text-xs uppercase text-[#F5F5F7] placeholder-[#A3A7AE] focus:border-[#FF0033] focus:outline-none rounded-none"
         >
         <button
           type="submit"
-          class="h-14 border border-[#C8102E] bg-[#C8102E] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] hover:bg-[#E0213F] transition-all rounded-none cursor-pointer"
+          class="h-14 border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] hover:bg-[#E0213F] transition-all rounded-none cursor-pointer"
         >
           SEARCH //
         </button>
@@ -80,16 +80,16 @@
                   {% assign search_saving = item.compare_at_price | minus: item.price %}
                 {% endif %}
 
-                <article class="group flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#C8102E] rounded-none">
+                <article class="group flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-4 transition-all duration-300 hover:border-[#FF0033] rounded-none">
                   <div>
                     <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] p-4 rounded-none">
                       <!-- Taxonomy Badges -->
                       {% if search_saving > 0 %}
-                        <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                        <span class="absolute left-3 top-3 z-10 border border-[#FF0033] bg-[#0A0A0C] px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#FF0033] rounded-none">
                           SAVE {{ search_saving | money }}
                         </span>
                       {% elsif is_watch %}
-                        <span class="absolute left-3 top-3 z-10 border border-[#C8102E] bg-[#C8102E]/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#C8102E] rounded-none">
+                        <span class="absolute left-3 top-3 z-10 border border-[#FF0033] bg-[#FF0033]/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-[#FF0033] rounded-none">
                           PRE-ORDER
                         </span>
                       {% elsif is_earphone %}
@@ -141,7 +141,7 @@
                         VIEW
                       </a>
                       {% if item.price_varies %}
-                        <a href="{{ item.url }}" class="inline-flex items-center justify-center border border-[#C8102E] bg-[#C8102E] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
+                        <a href="{{ item.url }}" class="inline-flex items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none">
                           OPTIONS
                         </a>
                       {% elsif item.available %}
@@ -150,7 +150,7 @@
                           <button
                             type="submit"
                             name="add"
-                            class="inline-flex items-center justify-center border border-[#C8102E] bg-[#C8102E] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none cursor-pointer"
+                            class="inline-flex items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3.5 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#E0213F] rounded-none cursor-pointer"
                           >
                             + BAG
                           </button>
@@ -170,7 +170,7 @@
           <div class="flex min-h-[260px] flex-col items-center justify-center text-center border border-[#2A2A2F] bg-[#131316] p-8 rounded-none">
             <p class="font-display text-base font-bold text-[#F5F5F7] uppercase tracking-wider">NO ARTIFACTS MATCHED YOUR QUERY</p>
             <p class="mt-2 text-xs text-[#A3A7AE] font-mono-tech">Check keywords like 'rings', 'chains', 'bracelets', 'earphones', or 'watches'.</p>
-            <a href="{{ routes.all_products_collection_url }}" class="mt-6 inline-flex h-12 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#E0213F] transition-all rounded-none">
+            <a href="{{ routes.all_products_collection_url }}" class="mt-6 inline-flex h-12 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#E0213F] transition-all rounded-none">
               BROWSE FULL DROP 01 ARCHIVE →
             </a>
           </div>
@@ -179,17 +179,17 @@
         {% if paginate.pages > 1 %}
           <nav aria-label="Search pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-[#2A2A2F] pt-8 font-mono-tech text-xs uppercase tracking-widest">
             {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-[#2A2A2F] px-4 text-white hover:border-[#C8102E] transition-colors">← PREV</a>
+              <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-[#2A2A2F] px-4 text-white hover:border-[#FF0033] transition-colors">← PREV</a>
             {% endif %}
             {% for part in paginate.parts %}
               {% if part.is_link %}
-                <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-[#2A2A2F] px-3 text-[#A3A7AE] hover:border-[#C8102E] hover:text-white transition-colors">{{ part.title }}</a>
+                <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-[#2A2A2F] px-3 text-[#A3A7AE] hover:border-[#FF0033] hover:text-white transition-colors">{{ part.title }}</a>
               {% else %}
-                <span class="flex h-11 min-w-11 items-center justify-center border border-[#C8102E] bg-[#C8102E] px-3 text-white" aria-current="page">{{ part.title }}</span>
+                <span class="flex h-11 min-w-11 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3 text-white" aria-current="page">{{ part.title }}</span>
               {% endif %}
             {% endfor %}
             {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" rel="next" class="flex h-11 items-center border border-[#C8102E] px-4 text-white hover:bg-[#C8102E] transition-colors">NEXT →</a>
+              <a href="{{ paginate.next.url }}" rel="next" class="flex h-11 items-center border border-[#FF0033] px-4 text-white hover:bg-[#FF0033] transition-colors">NEXT →</a>
             {% endif %}
           </nav>
         {% endif %}
