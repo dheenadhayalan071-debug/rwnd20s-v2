@@ -83,12 +83,12 @@
     statusEl.style.color = color;
   }
 
-  function founderFeeRow() {
-    return document.getElementById('rwnd-main-cart-founder-row');
+  function estimatedFeeRow() {
+    return document.getElementById('rwnd-main-cart-est-fee-row');
   }
 
-  function founderFeeValue() {
-    return document.getElementById('rwnd-main-cart-founder-fee');
+  function estimatedFeeValue() {
+    return document.getElementById('rwnd-main-cart-est-fee');
   }
 
   function estimatedTotalEl() {
@@ -122,8 +122,8 @@
     // would look like. PIN validity only gates checkout (see goToCheckout).
     var cartEmpty = !cart || !cart.items || cart.items.length === 0;
     var showFee = isFounderSelected() && feeEnabled && !cartEmpty;
-    var row = founderFeeRow();
-    var feeEl = founderFeeValue();
+    var row = estimatedFeeRow();
+    var feeEl = estimatedFeeValue();
     if (row) {
       row.classList.toggle('hidden', !showFee);
       row.classList.toggle('flex', showFee);

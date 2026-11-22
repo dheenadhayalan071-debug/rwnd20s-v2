@@ -31,7 +31,7 @@
           <div>
             {% if article.image %}
               <div class="rounded-2xl bg-[#D4D8E0] overflow-hidden aspect-video mb-6 border border-[#09090B]/10">
-                <img src="{{ article.image | image_url: width: 800 }}" width="800" height="450" alt="{{ article.title | escape }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                <img src="{{ article.image | image_url: width: 800 }}" width="800" height="450" alt="{{ article.title | escape }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
               </div>
             {% endif %}
 

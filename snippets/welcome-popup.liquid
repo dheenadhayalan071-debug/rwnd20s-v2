@@ -94,6 +94,7 @@
     const modal = document.getElementById('rwnd-welcome-modal');
     const closeBtn = document.getElementById('close-welcome-modal');
     const shopNowBtn = document.getElementById('welcome-shop-now');
+    const form = document.getElementById('rwnd-welcome-form');
 
     const CLAIMED_KEY = 'rwnd_welcome_claimed';
     const SESSION_KEY = 'rwnd_popup_session_closed';
@@ -101,6 +102,19 @@
     if (!modal) return;
 
     const successState = document.getElementById('welcome-success-state');
+    const errorState = document.querySelector('#rwnd-welcome-form [role="alert"]');
+
+    const showToast = (title, subtitle) => {
+      if (typeof window.showRwndToast === 'function') {
+        window.showRwndToast(title, subtitle || '');
+      }
+    };
+
+    // Feedback fires the instant the user hits Enter — the native submit then
+    // handles the page itself (including Shopify's spam-protection challenge).
+    form?.addEventListener('submit', () => {
+      showToast('ACCESS REQUEST SENT', 'VERIFYING YOU ARE HUMAN — YOU MAY BE ASKED TO CHECK IN');
+    });
 
     let openTimer = null;
 
@@ -155,10 +169,23 @@
     const scheduleAutoOpen = () => {
       if (successState) {
         // Success was confirmed server-side — remember it so the popup never
-        // re-offers the welcome code to this user again.
+        // re-offers the welcome code to this user again, and surface it.
         localStorage.setItem(CLAIMED_KEY, 'true');
         if (!sessionStorage.getItem(SESSION_KEY) && !openTimer) {
-          openTimer = window.setTimeout(openModal, 400);
+          openTimer = window.setTimeout(() => {
+            openModal();
+            showToast('DISPATCH ACCESS GRANTED', 'USE CODE RWND10 AT CHECKOUT');
+          }, 400);
+        }
+        return;
+      }
+      if (errorState) {
+        // The native submit came back with errors — tell the user what happened.
+        window.setTimeout(() => {
+          showToast('TRANSMISSION FAILED', 'CHECK EMAIL AND TRY AGAIN');
+        }, 50);
+        if (!sessionStorage.getItem(SESSION_KEY) && !openTimer) {
+          openTimer = window.setTimeout(openModal, 300);
         }
         return;
       }
@@ -176,6 +203,7 @@
       sessionStorage.setItem(SESSION_KEY, 'true');
       // Let the native navigation to the archive proceed.
       event.preventDefault();
+      showToast('ENTERING THE ARCHIVE', 'RWND10 SAVED TO THIS DEVICE');
       window.location.href = shopNowBtn.getAttribute('href') || '/collections/all';
     });
     modal.addEventListener('click', (event) => {
