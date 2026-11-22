@@ -1,5 +1,16 @@
 <!-- sections/header.liquid -->
 <style>
+  @media (min-width: 1024px) {
+    #rwnd-mega-menu.rwnd-open {
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    #rwnd-mega-menu.rwnd-open #HeaderShopTrigger {
+      color: #FF0033;
+    }
+  }
+
   /* ==========================================================================
      UNIFIED HEADER & ANNOUNCEMENT BAR (CLEAN, NO BUTTON SOUP)
      ========================================================================== */
@@ -181,7 +192,7 @@
   <aside class="announcement-bar" role="region" aria-label="Announcement">
     <div class="announcement-inner mono-tag">
       <span class="pulse-pip"></span>
-      <span class="announcement-text">FREE DELIVERY ON ORDERS ₹999+ // DISPATCHED FROM MADURAI</span>
+      <span class="announcement-text">FREE SHIPPING ₹999+ · DISPATCHED FROM THE MADURAI VAULT</span>
     </div>
   </aside>
 
@@ -196,12 +207,18 @@
       <!-- CENTER DESKTOP NAV -->
       <nav class="hidden lg:flex items-center gap-8 font-mono-tech text-xs uppercase tracking-[0.14em] text-[#F0F0F0]">
         <div class="group relative py-5">
-          <a href="{{ all_url }}" class="flex items-center gap-1 hover:text-[#FF0033] transition-colors">
+          <button
+            type="button"
+            id="HeaderShopTrigger"
+            aria-expanded="false"
+            aria-controls="rwnd-mega-menu"
+            class="flex items-center gap-1 hover:text-[#FF0033] transition-colors cursor-pointer bg-transparent border-none p-0"
+          >
             SHOP <span class="text-[9px] text-[#737373] group-hover:text-[#FF0033]">▼</span>
-          </a>
+          </button>
 
           <!-- Mega Menu Overlay -->
-          <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto absolute top-[66px] left-1/2 -translate-x-1/2 w-[900px] bg-[#0A0A0A] border border-white/10 border-t-2 border-t-[#FF0033] p-8 transition-all duration-200 shadow-2xl z-[170]">
+          <div id="rwnd-mega-menu" class="invisible group-hover:visible group-focus-within:visible opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto pointer-events-none absolute top-[66px] left-1/2 -translate-x-1/2 w-[900px] bg-[#0A0A0A] border border-white/10 border-t-2 border-t-[#FF0033] p-8 transition-all duration-200 shadow-2xl z-[170]">
             <div class="grid grid-cols-4 gap-8">
               <div>
                 <span class="block border-b border-white/10 pb-2 font-display text-xs font-bold uppercase tracking-wider text-[#FF0033]">JEWELRY</span>
@@ -265,7 +282,7 @@
         </button>
 
         <!-- Cart Trigger (Sleek Brutalist Counter) -->
-        <a href="{{ routes.cart_url }}" onclick="handleBagTrigger(event)" class="action-btn action-btn--cart" aria-label="Cart" id="HeaderCartTrigger">
+        <a href="{{ routes.cart_url }}" class="action-btn action-btn--cart" aria-label="Cart" id="HeaderCartTrigger">
           <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
             <rect x="3" y="6" width="18" height="15" rx="0"></rect>
             <path d="M8 6V4a4 4 0 0 1 8 0v2"></path>
@@ -368,15 +385,38 @@
 </div>
 
 <script>
-  function handleBagTrigger(e) {
-    if (window.location.pathname === '/cart') {
-      return;
+  // Mobile menu, full-screen search & SHOP mega menu live here.
+  (function () {
+    const shopTrigger = document.getElementById('HeaderShopTrigger');
+    const megaMenu = document.getElementById('rwnd-mega-menu');
+
+    function setShopMenu(open) {
+      if (!shopTrigger || !megaMenu) return;
+      shopTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      megaMenu.classList.toggle('rwnd-open', open);
     }
-    if (typeof window.openCartDrawer === 'function') {
-      e.preventDefault();
-      window.openCartDrawer();
+
+    shopTrigger?.addEventListener('click', () => setShopMenu(!megaMenu?.classList.contains('rwnd-open')));
+    shopTrigger?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setShopMenu(!megaMenu?.classList.contains('rwnd-open'));
+      }
+    });
+    if (megaMenu) {
+      megaMenu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setShopMenu(false);
+      });
     }
-  }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && megaMenu?.classList.contains('rwnd-open')) setShopMenu(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (!megaMenu?.classList.contains('rwnd-open')) return;
+      if (shopTrigger?.contains(e.target) || megaMenu.contains(e.target)) return;
+      setShopMenu(false);
+    });
+  })();
 
   // Mobile Hamburger Drawer Toggle
   (() => {

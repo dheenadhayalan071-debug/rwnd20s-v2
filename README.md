@@ -75,10 +75,10 @@ before moderation.
 ### 3.1 Files
 
 - `assets/cart.js` — the single cart module: add, change, render, dispatch
-  attributes, checkout hand-off. Loaded globally from `layout/theme.liquid`.
+  attributes, founder fee, checkout hand-off. Loaded globally from
+  `layout/theme.liquid`.
 - `sections/main-cart.liquid` — `/cart`, server-rendered with Liquid so the page
   works without JavaScript. `assets/cart.js` progressively enhances it.
-- `snippets/cart-drawer.liquid` — slide-over bag, also server-rendered first.
 
 There is exactly one `form[action*="/cart/add"]` submit handler (in `cart.js`).
 Do not add another global add-to-cart handler in `theme.liquid` or `theme.js`.
@@ -91,10 +91,20 @@ Do not add another global add-to-cart handler in `theme.liquid` or `theme.js`.
 | Items subtotal | `cart.items_subtotal_price` |
 | Discounts | `cart.total_discount` |
 | Total | `cart.total_price` |
+| Founder fee (indicative) | global setting `founder_delivery_fee` (see below) |
 
 Shipping and COD are always shown as **CALCULATED AT CHECKOUT**. The ₹999 free
 delivery progress bar is informational only; checkout remains the source of
 truth.
+
+### 3.2a Founder hand-delivery fee (indicative)
+
+The cart shows a `+ ₹499` row and an **ESTIMATED TOTAL** row when the Madurai
+PIN is valid (`625001`–`625020`). The fee comes from the global theme setting
+**Settings → Theme settings → Founder delivery → Founder hand-delivery fee**
+(default `₹499`, `0` disables it). The fee row is a display-only estimate:
+checkout remains authoritative, and the actual charge must be enforced by a
+Shopify shipping rate (see §4).
 
 ### 3.3 Discounts
 

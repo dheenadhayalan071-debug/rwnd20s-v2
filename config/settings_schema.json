@@ -1,5 +1,20 @@
 [
   {
+    "type": "header",
+    "id": "founder_delivery_group",
+    "name": "Founder delivery"
+  },
+  {
+    "type": "number",
+    "id": "founder_delivery_fee",
+    "label": "Founder hand-delivery fee (₹)",
+    "info": "Shown as the indicative fee in the cart when the Madurai PIN is valid. Checkout remains authoritative. Use 0 to disable the fee.",
+    "default": 499,
+    "min": 0,
+    "max": 9999,
+    "step": 10
+  },
+  {
     "type": "image_picker",
     "id": "share_image",
     "label": "Share image"

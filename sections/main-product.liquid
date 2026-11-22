@@ -501,7 +501,10 @@
         <div class="pdp-sub-row">
           <a href="#reviews" class="inline-flex items-center gap-2">
             {% if review_count > 0 %}
-              <span class="text-[#FF0033] text-xs tracking-wider">★★★★★</span>
+              {% assign avg_r = rating_sum | divided_by: review_count | round %}
+              <span class="text-xs tracking-wider" aria-label="{{ avg_display }} out of 5 stars">
+                {% for i in (1..5) %}{% if i <= avg_r %}<span class="text-[#FF0033]">★</span>{% else %}<span class="text-[#3A3A3F]">☆</span>{% endif %}{% endfor %}
+              </span>
               <span class="font-mono-tech text-[11px] uppercase text-white">
                 {{ avg_display }} <span class="text-[#A3A3A3]">({{ review_count }} TRANSMISSIONS)</span>
               </span>
@@ -892,7 +895,8 @@
           {% if review_count > 0 %}
             <span class="score-number">{{ avg_display }}</span>
             <div class="score-stars">
-              <span class="stars">★★★★★</span>
+              {% assign avg_r = rating_sum | divided_by: review_count | round %}
+              <span class="stars" aria-label="{{ avg_display }} out of 5 stars">{% for i in (1..5) %}{% if i <= avg_r %}★{% else %}<span class="text-[#3A3A3F]">☆</span>{% endif %}{% endfor %}</span>
               <span class="mono-tag text-[#737373]">{{ review_count }} TRANSMISSIONS</span>
             </div>
           {% else %}
@@ -909,7 +913,7 @@
               <div class="review-entry">
                 <div class="space-y-2.5">
                   <div class="entry-meta">
-                    <span class="stars">{% for i in (1..r_stars) %}★{% endfor %}</span>
+                    <span class="stars">{% for i in (1..r_stars) %}★{% endfor %}{% for i in (1..5) %}{% if i > r_stars %}<span class="text-[#3A3A3F]">☆</span>{% endif %}{% endfor %}</span>
                     <span class="entry-status mono-tag">CUSTOMER REVIEW</span>
                   </div>
                   <p class="entry-quote">"{{ rev.body.value | escape }}"</p>
@@ -1014,8 +1018,9 @@
   function switchRwndProductImage(src, btn) {
     const mainImg = document.getElementById('rwnd-main-product-img');
     if (mainImg) mainImg.src = src;
-    document.querySelectorAll('.rwnd-thumb').forEach(t => t.classList.replace('border-[#FF0033]', 'border-white/10'));
-    btn.classList.replace('border-white/10', 'border-[#FF0033]');
+    document.querySelectorAll('.rwnd-thumb').forEach(t => t.classList.remove('border-[#FF0033]', 'border-white/10'));
+    btn.classList.remove('border-white/10');
+    btn.classList.add('border-[#FF0033]');
   }
 
   function adjustRwndQty(delta) {

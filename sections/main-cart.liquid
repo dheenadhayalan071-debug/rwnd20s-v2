@@ -16,8 +16,8 @@
       {% if cart.item_count == 0 %}
         <div class="flex min-h-[300px] flex-col items-center justify-center border border-[#2A2A2F] bg-[#131316] p-8 text-center">
           <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// TRANSMISSION SILENT</span>
-          <p class="mt-2 font-display text-xl font-bold uppercase tracking-wider text-[#F5F5F7]">YOUR HARDWARE BAG IS EMPTY</p>
-          <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">No archive components currently secured.</p>
+          <p class="mt-2 font-display text-xl font-bold uppercase tracking-wider text-[#F5F5F7]">BAG'S EMPTY</p>
+          <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">Grab Drop 01 — or sit in silence. Your call.</p>
           <a href="{{ routes.all_products_collection_url }}" class="mt-6 inline-flex h-12 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#CC0029]">
             EXPLORE ARCHIVE →
           </a>
@@ -147,6 +147,12 @@
             <span>COD CHARGE</span>
             <span class="font-bold text-[#F5F5F7]">CALCULATED AT CHECKOUT</span>
           </div>
+
+          <!-- Founder hand-delivery fee (indicative — shown only when a valid Madurai PIN is entered) -->
+          <div id="rwnd-main-cart-founder-row" class="hidden justify-between gap-3 text-[#FF0033]">
+            <span>FOUNDER HAND-DELIVERY FEE</span>
+            <span id="rwnd-main-cart-founder-fee" class="font-bold">+ ₹{{ settings.founder_delivery_fee | default: 499 }}</span>
+          </div>
         </div>
 
         <!-- DISPATCH PROTOCOL SELECTOR -->
@@ -209,9 +215,14 @@
           </div>
         </div>
 
-        <div class="mb-5 flex items-baseline justify-between border-t border-[#2A2A2F] pt-4">
+        <div class="mb-3 flex items-baseline justify-between border-t border-[#2A2A2F] pt-4">
           <span class="font-display text-sm font-bold uppercase text-[#F5F5F7]">SHOPIFY TOTAL</span>
           <span id="rwnd-main-cart-total" class="font-mono-tech text-2xl font-extrabold text-[#F5F5F7]">{{ cart.total_price | money }}</span>
+        </div>
+
+        <div class="mb-4 flex items-baseline justify-between border border-[#FF0033]/50 bg-[#FF0033]/10 px-3 py-2.5">
+          <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#F5F5F7]">ESTIMATED TOTAL</span>
+          <span id="rwnd-main-cart-estimated-total" class="font-mono-tech text-lg font-extrabold text-[#FF0033]">{{ cart.total_price | money }}</span>
         </div>
 
         <a
@@ -224,7 +235,7 @@
         </a>
 
         <p class="mt-2 font-mono-tech text-[9px] uppercase tracking-wider text-[#737373]">
-          Final prices, discounts, shipping and COD fees are calculated by Shopify at checkout.
+          Checkout is authoritative — final prices, discounts, shipping and COD are calculated by Shopify at checkout. ESTIMATED TOTAL is indicative.
         </p>
 
         <!-- Monochrome Vector Trust Row -->
