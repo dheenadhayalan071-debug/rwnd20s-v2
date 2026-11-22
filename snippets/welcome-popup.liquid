@@ -1,4 +1,10 @@
 <!-- snippets/welcome-popup.liquid -->
+{%- comment -%}
+  Native newsletter/discount-code capture. Success detection is server-side
+  (form.posted_successfully?), which is the documented, Shopify-supported way —
+  it cannot flash a false "transmission failed" from URL-marker guessing.
+  A hidden return_to keeps the user on the current page after the native submit.
+{%- endcomment -%}
 <div
   id="rwnd-welcome-modal"
   class="fixed inset-0 z-[190] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl transition-opacity duration-300 opacity-0 pointer-events-none"
@@ -21,16 +27,34 @@
       DROP 01 // DISPATCHED FROM MADURAI
     </div>
 
-    <h2 id="rwnd-welcome-title" class="mt-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-none">
-      OLD VIBE.<br>NEW YOU.
-    </h2>
+    {%- if form.posted_successfully? -%}
+      <div id="welcome-success-state" class="mt-4 border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
+        <h2 id="rwnd-welcome-title" class="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white leading-none">
+          DISPATCH<br>ACCESS GRANTED.
+        </h2>
+        <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
+          RWND10
+        </div>
+        <p class="text-[10px] text-[#A3A7AE]">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
+        <button
+          type="button"
+          id="welcome-shop-now"
+          class="mt-2 block w-full text-center font-mono-tech text-xs font-bold uppercase tracking-wider text-white underline cursor-pointer"
+        >
+          [ ENTER THE ARCHIVE ]
+        </button>
+      </div>
+    {%- else -%}
+      <h2 id="rwnd-welcome-title" class="mt-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-none">
+        OLD VIBE.<br>NEW YOU.
+      </h2>
 
-    <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
-      Sign up for exclusive Drop 01 archive dispatches and restocks. New subscribers receive the RWND10 welcome code.
-    </p>
+      <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+        Sign up for exclusive Drop 01 archive dispatches and restocks. New subscribers receive the RWND10 welcome code.
+      </p>
 
-    <div id="welcome-form-container" class="mt-6">
-      {% form 'customer', id: 'rwnd-welcome-form', class: 'flex flex-col gap-3 text-left' %}
+      {% form 'customer', id: 'rwnd-welcome-form', class: 'mt-6 flex flex-col gap-3 text-left' %}
+        <input type="hidden" name="return_to" value="{{ canonical_url }}">
         <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off, drop-01">
 
         <label for="rwnd-welcome-email" class="sr-only">Email address</label>
@@ -44,8 +68,6 @@
           class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
         >
 
-        <p id="rwnd-welcome-error" class="hidden text-[11px] font-bold uppercase text-[#FF0033]" role="alert"></p>
-
         <button
           type="submit"
           id="rwnd-welcome-submit"
@@ -54,22 +76,7 @@
           CLAIM WELCOME CODE →
         </button>
       {% endform %}
-
-      <div id="welcome-success-state" class="hidden border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
-        <span class="text-xs font-bold uppercase tracking-wider text-white block">DISPATCH ACCESS GRANTED</span>
-        <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
-          RWND10
-        </div>
-        <p class="text-[10px] text-[#A3A7AE]">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
-        <button
-          type="button"
-          id="welcome-shop-now"
-          class="mt-2 block w-full text-center font-mono-tech text-xs font-bold uppercase tracking-wider text-white underline cursor-pointer"
-        >
-          [ ENTER THE ARCHIVE ]
-        </button>
-      </div>
-    </div>
+    {%- endif -%}
 
     <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
       DISPATCHED FROM MADURAI · NO SPAM
@@ -81,18 +88,15 @@
   (() => {
     const modal = document.getElementById('rwnd-welcome-modal');
     const closeBtn = document.getElementById('close-welcome-modal');
-    const form = document.getElementById('rwnd-welcome-form');
-    const emailInput = document.getElementById('rwnd-welcome-email');
-    const submitBtn = document.getElementById('rwnd-welcome-submit');
-    const errorBox = document.getElementById('rwnd-welcome-error');
-    const successState = document.getElementById('welcome-success-state');
     const shopNowBtn = document.getElementById('welcome-shop-now');
-    const embed = document.getElementById('welcome-form-container');
 
     const CLAIMED_KEY = 'rwnd_welcome_claimed';
     const SESSION_KEY = 'rwnd_popup_session_closed';
 
     if (!modal) return;
+
+    // Only auto-open when the popup has not already rendered the success state.
+    const successState = document.getElementById('welcome-success-state');
 
     const openModal = () => {
       modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -106,12 +110,22 @@
       sessionStorage.setItem(SESSION_KEY, 'true');
     };
 
-    if (!localStorage.getItem(CLAIMED_KEY) && !sessionStorage.getItem(SESSION_KEY)) {
+    if (successState) {
+      // Success was confirmed server-side — remember it so the popup never
+      // re-offers the welcome code to this user again.
+      localStorage.setItem(CLAIMED_KEY, 'true');
+      if (!sessionStorage.getItem(SESSION_KEY)) {
+        window.setTimeout(openModal, 400);
+      }
+    } else if (!localStorage.getItem(CLAIMED_KEY) && !sessionStorage.getItem(SESSION_KEY)) {
       window.setTimeout(openModal, 2000);
     }
 
     closeBtn?.addEventListener('click', dismissModal);
-    shopNowBtn?.addEventListener('click', dismissModal);
+    shopNowBtn?.addEventListener('click', () => {
+      localStorage.setItem(CLAIMED_KEY, 'true');
+      dismissModal();
+    });
     modal.addEventListener('click', (event) => {
       if (event.target === modal) dismissModal();
     });
@@ -119,61 +133,6 @@
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && !modal.classList.contains('pointer-events-none')) {
         dismissModal();
-      }
-    });
-
-    form?.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const email = emailInput?.value?.trim();
-      if (!email) return;
-
-      errorBox?.classList.add('hidden');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'SECURING CODE...';
-      }
-
-      try {
-        // Resolve the action cleanly (strip any #fragment) so Enter never produces a broken URL.
-        const target = new URL(form.getAttribute('action') || '/account/register', window.location.origin);
-        target.hash = '';
-
-        const response = await fetch(target.toString(), {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'text/html,application/xhtml+xml' },
-          redirect: 'follow'
-        });
-
-        if (!response.ok) {
-          throw new Error('TRANSMISSION FAILED. TRY AGAIN.');
-        }
-
-        const html = await response.text();
-        const hasErrorMarkers = html.includes('form-status--error')
-          || html.includes('class="errors"')
-          || html.includes('/challenge');
-
-        // Success is anything that is not an explicit validation error.
-        // Do NOT treat a 200 page without success markers as failure:
-        // Smart-CDN / reCAPTCHA / redirect handling can strip the URL params.
-        if (hasErrorMarkers) {
-          throw new Error('INVALID EMAIL OR ALREADY SUBSCRIBED');
-        }
-
-        localStorage.setItem(CLAIMED_KEY, 'true');
-        sessionStorage.setItem(SESSION_KEY, 'true');
-        form.classList.add('hidden');
-        successState?.classList.remove('hidden');
-      } catch (error) {
-        if (errorBox) {
-          errorBox.textContent = '✕ ' + (error.message || 'TRANSMISSION FAILED. TRY AGAIN.');
-          errorBox.classList.remove('hidden');
-        }
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'CLAIM WELCOME CODE →';
-        }
       }
     });
   })();

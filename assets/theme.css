@@ -1010,3 +1010,127 @@ details[open] .accordion-icon {
   align-items: center;
   justify-content: center;
 }
+
+/* ==========================================================================
+   GLOBAL LOADING FX — subtle, calm, always exits
+   ========================================================================== */
+.rwnd-page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background-color: #000000;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 45%, rgba(255, 0, 51, 0.14), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0 1px, transparent 1px 32px);
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+  opacity: 1;
+  visibility: visible;
+}
+.rwnd-page-loader.rwnd-loader-leaving {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* No-JS / ultra-slow-load failsafe: auto-hide after the style-sheet lifetime */
+@keyframes rwnd-loader-autohide {
+  0%, 72% { opacity: 1; visibility: visible; }
+  88%, 100% { opacity: 0; visibility: hidden; }
+}
+.rwnd-page-loader {
+  animation: rwnd-loader-autohide 4.2s ease forwards;
+}
+.rwnd-loader-wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  animation: rwnd-wordmark-pulse 1.6s ease-in-out infinite;
+}
+.rwnd-loader-wordmark .rwnd-loader-dot {
+  color: var(--red-core);
+  text-shadow: 0 0 12px rgba(255, 0, 51, 0.7);
+}
+@keyframes rwnd-wordmark-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; text-shadow: 0 0 24px rgba(255, 0, 51, 0.35); }
+}
+.rwnd-loader-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, var(--red-core), transparent);
+  box-shadow: 0 0 12px rgba(255, 0, 51, 0.8);
+  animation: rwnd-loader-sweep 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes rwnd-loader-sweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(340%); }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL — safe default visible; JS opts in via html class
+   ========================================================================== */
+html.rwnd-reveal-enabled .rwnd-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  filter: blur(4px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--rwnd-reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+html.rwnd-reveal-enabled .rwnd-reveal.rwnd-in {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* Ambient page edge glow — subtle red vignette, always on */
+.rwnd-ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 50% 38% at 50% 118%, rgba(255, 0, 51, 0.16), transparent 70%),
+    radial-gradient(ellipse 42% 34% at 18% -10%, rgba(255, 0, 51, 0.09), transparent 70%);
+  animation: rwnd-ambient-drift 14s ease-in-out infinite alternate;
+}
+@keyframes rwnd-ambient-drift {
+  0% { opacity: 0.55; transform: scale(1); }
+  100% { opacity: 0.85; transform: scale(1.04); }
+}
+
+/* Comfortable button polish — subtle lift + glow */
+.rwnd-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease !important;
+}
+.rwnd-lift:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rwnd-page-loader,
+  .rwnd-loader-bar,
+  .rwnd-loader-wordmark,
+  .rwnd-ambient-glow,
+  .rwnd-reveal,
+  .rwnd-lift {
+    animation: none !important;
+    transition: none !important;
+  }
+  .rwnd-page-loader { display: none; }
+}

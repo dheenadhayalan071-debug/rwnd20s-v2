@@ -117,21 +117,25 @@
 
   function renderFounderFee(cart) {
     var feeEnabled = FOUNDER_FEE > 0;
-    var valid = isFounderPinValid() && feeEnabled;
+    // The fee is indicative — it shows whenever founder mode is selected and
+    // the cart is not empty, so the estimated total reflects what an order
+    // would look like. PIN validity only gates checkout (see goToCheckout).
+    var cartEmpty = !cart || !cart.items || cart.items.length === 0;
+    var showFee = isFounderSelected() && feeEnabled && !cartEmpty;
     var row = founderFeeRow();
     var feeEl = founderFeeValue();
     if (row) {
-      row.classList.toggle('hidden', !valid);
-      row.classList.toggle('flex', valid);
+      row.classList.toggle('hidden', !showFee);
+      row.classList.toggle('flex', showFee);
     }
-    if (feeEl && valid) {
+    if (feeEl && showFee) {
       feeEl.textContent = '+ ' + formatMoney(FOUNDER_FEE, (cart && cart.currency) || 'INR');
     }
     var total = estimatedTotalEl();
     if (!total) return;
     if (!cart) return; // leave the server-rendered markup until /cart.js responds
     var base = cart.total_price || 0;
-    total.textContent = formatMoney(valid ? base + FOUNDER_FEE : base, cart.currency);
+    total.textContent = formatMoney(showFee ? base + FOUNDER_FEE : base, cart.currency);
   }
 
   function renderMainCartItems(cart) {

@@ -176,6 +176,11 @@
   </head>
 
   <body class="relative z-0 min-h-screen font-sans text-[#F0F0F0] antialiased selection:bg-[#FF0033] selection:text-white">
+    <!-- Subtle page-load veil: shows while assets settle, then fades -->
+    <div class="rwnd-page-loader" id="rwnd-page-loader" aria-hidden="true">
+      <div class="rwnd-loader-bar" aria-hidden="true"></div>
+      <div class="rwnd-loader-wordmark">rwnd20s<span class="rwnd-loader-dot">.</span></div>
+    </div>
     <a href="#MainContent" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:border focus:border-[#FF0033] focus:bg-black focus:px-4 focus:py-3 focus:font-mono-tech focus:text-xs focus:uppercase focus:text-white">
       {{ 'general.accessibility.skip_to_text' | t }}
     </a>
@@ -185,6 +190,7 @@
       style="background-image: url('https://cdn.shopify.com/s/files/1/0851/2746/3165/files/file_000000001b1c820ba8f9b582c6371f3f.jpg?v=1793812649');"
     ></div>
     <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-b from-[#000000]/85 via-transparent to-[#000000]/95"></div>
+    <div class="rwnd-ambient-glow" aria-hidden="true"></div>
 
     <!-- 1. ROOT MOUNTED STICKY HEADER -->
     {% section 'header' %}
@@ -226,6 +232,65 @@
     <script>
       // Indicative founder hand-delivery fee (₹). Checkout stays authoritative.
       window.RWND_FOUNDER_FEE = {{ settings.founder_delivery_fee | default: 499 }};
+    </script>
+
+    <script>
+      // Subtle loading veil — fades once the page settles.
+      (function () {
+        var loader = document.getElementById('rwnd-page-loader');
+        if (!loader) return;
+
+        var done = false;
+        var finish = function () {
+          if (done) return;
+          done = true;
+          loader.classList.add('rwnd-loader-leaving');
+          window.setTimeout(function () {
+            loader.parentNode && loader.parentNode.removeChild(loader);
+          }, 700);
+        };
+
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          finish();
+          return;
+        }
+
+        window.addEventListener('load', function () {
+          window.setTimeout(finish, 350);
+        });
+        // Failsafe — never trap the user on the veil.
+        window.setTimeout(finish, 4000);
+      })();
+
+      // Subtle reveal-on-scroll — only on top-level sections that do not
+      // contain sticky children (sticky filters must remain untouched).
+      (function () {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var targets = [];
+        Array.prototype.forEach.call(document.querySelectorAll('main > section, main > header'), function (section) {
+          if (section.querySelector('[style*="sticky"], [id*="sticky"], [class*="sticky"]')) return;
+          section.classList.add('rwnd-reveal');
+          targets.push(section);
+        });
+        if (!targets.length) return;
+        document.documentElement.classList.add('rwnd-reveal-enabled');
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('rwnd-in');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        targets.forEach(function (section, index) {
+          section.style.setProperty('--rwnd-reveal-delay', (Math.min(index, 3) * 70) + 'ms');
+          observer.observe(section);
+        });
+      })();
     </script>
     <script src="{{ 'cart.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
