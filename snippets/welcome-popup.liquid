@@ -134,10 +134,15 @@
       }
 
       try {
-        const response = await fetch(form.getAttribute('action') || '/contact', {
+        // Resolve the action cleanly (strip any #fragment) so Enter never produces a broken URL.
+        const target = new URL(form.getAttribute('action') || '/account/register', window.location.origin);
+        target.hash = '';
+
+        const response = await fetch(target.toString(), {
           method: 'POST',
           body: new FormData(form),
-          headers: { Accept: 'text/html,application/xhtml+xml' }
+          headers: { Accept: 'text/html,application/xhtml+xml' },
+          redirect: 'follow'
         });
 
         if (!response.ok) {
@@ -145,17 +150,14 @@
         }
 
         const html = await response.text();
-        // Shopify redirects the customer form to the same URL with `customer_posted=true` on success.
-        const successUrl = response.url || '';
-        const success = successUrl.includes('customer_posted=true')
-          || html.includes('customer-posted-successfully')
-          || html.includes('posted_successfully');
-        const failed = !success
-          || html.includes('form-status--error')
+        const hasErrorMarkers = html.includes('form-status--error')
           || html.includes('class="errors"')
           || html.includes('/challenge');
 
-        if (failed) {
+        // Success is anything that is not an explicit validation error.
+        // Do NOT treat a 200 page without success markers as failure:
+        // Smart-CDN / reCAPTCHA / redirect handling can strip the URL params.
+        if (hasErrorMarkers) {
           throw new Error('INVALID EMAIL OR ALREADY SUBSCRIBED');
         }
 

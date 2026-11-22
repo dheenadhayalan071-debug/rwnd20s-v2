@@ -27,28 +27,31 @@
 
     <!-- 5.2 STICKY FILTER & SORT BAR -->
     {% if section.settings.show_category_tabs %}
-    <div id="rwnd-sticky-filter-bar" class="sticky top-[64px] sm:top-[72px] z-30 mb-8 border border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:p-4 transition-all">
+    <div id="rwnd-sticky-filter-bar" class="sticky top-[88px] z-30 mb-8 border border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:p-4 transition-all">
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
         
         <!-- Tag Filter Buttons -->
-        <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" role="tablist">
-          <button type="button" data-tag-filter="all" class="rwnd-filter-btn active border border-[#FF0033] bg-[#FF0033] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
+        <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" role="group" aria-label="Filter by category">
+          <button type="button" data-tag-filter="all" aria-pressed="true" class="rwnd-filter-btn active border border-[#FF0033] bg-[#FF0033] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
             ALL SPEC
           </button>
-          <button type="button" data-tag-filter="chains" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="chains" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
             CHAINS
           </button>
-          <button type="button" data-tag-filter="rings" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="rings" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
             RINGS
           </button>
-          <button type="button" data-tag-filter="bracelets" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="bracelets" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
             BRACELETS
           </button>
-          <button type="button" data-tag-filter="earphones" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="earphones" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
             AUDIO
           </button>
-          <button type="button" data-tag-filter="watch" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="watch" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
             TIMEPIECES
+          </button>
+          <button type="button" id="rwnd-filter-clear" class="rwnd-filter-btn hidden border border-white/20 bg-transparent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
+            ✕ CLEAR
           </button>
         </div>
 
@@ -186,6 +189,15 @@
       {% endfor %}
     </div>
 
+    <!-- 5.3b EMPTY STATE (shown when no product matches the filter) -->
+    <div id="rwnd-no-results" class="hidden mt-4 border border-[#2A2A2F] bg-[#131316] p-10 text-center">
+      <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// NO MATCHES</span>
+      <p class="mt-2 font-mono-tech text-xs text-[#A3A7AE] uppercase tracking-wider">Nothing fits this filter &amp; query.</p>
+      <button type="button" id="rwnd-filter-reset-inline" class="mt-4 h-10 border border-[#FF0033] bg-[#FF0033] px-6 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer">
+        RESET FILTERS →
+      </button>
+    </div>
+
     <!-- 5.4 CRAWLABLE PAGINATION (progressively enhanced by JS) -->
     <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center gap-4 border-t border-[#2A2A2F] pt-8">
       {% if paginate.pages > 1 %}
@@ -227,30 +239,67 @@
     let currentFilter = 'all';
     let searchQuery = '';
 
+    // Synonym map so a tab matches any of its related category words,
+    // whichever ones the shop actually uses.
+    const FILTER_SYNONYMS = {
+      all: [],
+      rings: ['ring'],
+      chains: ['chain'],
+      bracelets: ['bracelet'],
+      earphones: ['earphone', 'audio'],
+      watch: ['watch', 'chronograph', 'timepiece'],
+    };
+
     const filterBtns = document.querySelectorAll('[data-tag-filter]');
     const sortSelect = document.getElementById('rwnd-archive-sort');
     const searchInput = document.getElementById('rwnd-archive-search');
     const grid = document.getElementById('rwnd-collection-grid');
     const loadMoreBtn = document.getElementById('rwnd-load-more-btn');
     const countEl = document.getElementById('rwnd-product-count');
+    const clearInline = document.getElementById('rwnd-filter-reset-inline');
+    const clearBtn = document.getElementById('rwnd-filter-clear');
+    const noResults = document.getElementById('rwnd-no-results');
+
+    function syncActiveButtons() {
+      filterBtns.forEach((b) => {
+        const isActive = b.dataset.tagFilter === currentFilter;
+        b.setAttribute('aria-pressed', String(isActive));
+        b.classList.toggle('active', b.dataset.tagFilter === currentFilter);
+        if (b.dataset.tagFilter === currentFilter) {
+          b.classList.add('border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
+          b.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+        } else {
+          b.classList.remove('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
+          b.classList.add('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+        }
+      });
+    }
+
+    function resetFilters() {
+      currentFilter = 'all';
+      searchQuery = '';
+      if (searchInput) searchInput.value = '';
+      if (sortSelect) sortSelect.value = 'featured';
+      syncActiveButtons();
+      applyFilterAndSort();
+    }
 
     function applyFilterAndSort() {
       const cards = [...grid.querySelectorAll('[data-product-card]')];
       let visible = 0;
 
+      const synonyms = FILTER_SYNONYMS[currentFilter] || [currentFilter];
+
       cards.forEach((card) => {
         const title = (card.dataset.title || '').toLowerCase();
         const tags = (card.dataset.tags || '').toLowerCase();
-        
-        let matchesTag = true;
-        if (currentFilter !== 'all') {
-          matchesTag = tags.includes(currentFilter) || title.includes(currentFilter);
-        }
 
-        let matchesSearch = true;
-        if (searchQuery) {
-          matchesSearch = title.includes(searchQuery) || tags.includes(searchQuery);
-        }
+        const matchesTag = currentFilter === 'all'
+          || synonyms.some((s) => tags.includes(s) || title.includes(s));
+
+        const matchesSearch = !searchQuery
+          || title.includes(searchQuery)
+          || tags.includes(searchQuery);
 
         if (matchesTag && matchesSearch) {
           card.style.display = 'flex';
@@ -271,22 +320,23 @@
       visibleCards.forEach(c => grid.appendChild(c));
 
       if (countEl) countEl.textContent = String(visible);
+
+      const hasActive = currentFilter !== 'all' || !!searchQuery;
+      if (clearBtn) clearBtn.classList.toggle('hidden', !hasActive);
+      if (noResults) noResults.classList.toggle('hidden', visible > 0);
     }
 
     // Tag filter click
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach((b) => {
-          b.classList.remove('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
-          b.classList.add('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
-        });
-        btn.classList.add('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
-        btn.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
-
         currentFilter = btn.dataset.tagFilter;
+        syncActiveButtons();
         applyFilterAndSort();
       });
     });
+
+    clearBtn?.addEventListener('click', resetFilters);
+    clearInline?.addEventListener('click', resetFilters);
 
     // Search input
     searchInput?.addEventListener('input', (e) => {

@@ -420,48 +420,6 @@ textarea:focus {
     padding-right: 16px !important;
   }
 
-  .rwnd-home-hero {
-    padding: 1rem 1rem 1.5rem !important;
-  }
-  
-  .rwnd-home-hero [role="tablist"] {
-    gap: 0.5rem !important;
-  }
-  
-  .rwnd-home-hero .rwnd-hero-tab {
-    min-height: 2.75rem;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.7rem !important;
-    letter-spacing: 0.04em !important;
-  }
-  
-  .rwnd-hero-image {
-    width: clamp(12rem, 58vw, 14rem) !important;
-    height: clamp(12rem, 58vw, 14rem) !important;
-  }
-  
-  .rwnd-hero-product-title {
-    max-width: 100%;
-    font-size: clamp(1.35rem, 5.5vw, 1.75rem) !important;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    overflow-wrap: anywhere;
-  }
-  
-  .rwnd-product-title {
-    font-size: clamp(0.9rem, 4vw, 1rem);
-    letter-spacing: -0.02em;
-    overflow-wrap: anywhere;
-  }
-
-  .home-shell,
-  .collection-page,
-  .product-page,
-  .cart-page,
-  .policy-page,
-  .search-page {
-    padding: 24px 16px !important;
-  }
 }
 
 @media (min-width: 640px) {
@@ -1038,4 +996,17 @@ details[open] .accordion-icon {
   padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 0.68rem;
+}
+
+/* Cart pill "added" pulse */
+@keyframes rwnd-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.45); box-shadow: 0 0 12px rgba(255, 0, 51, 0.6); }
+  100% { transform: scale(1); }
+}
+.rwnd-bump {
+  animation: rwnd-bump 0.8s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

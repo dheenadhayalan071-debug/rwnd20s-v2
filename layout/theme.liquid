@@ -209,7 +209,6 @@
     <div id="rwnd-toast-container" aria-live="polite" class="pointer-events-none fixed bottom-4 right-4 z-[130] flex w-full max-w-sm flex-col gap-2.5"></div>
 
     <!-- Architecture Snippets -->
-    {% render 'cart-drawer' %}
     {% render 'welcome-popup' %}
     {% render 'whatsapp-floating' %}
     {% render 'size-guide-modal' %}
@@ -224,6 +223,10 @@
       })();
     </script>
 
+    <script>
+      // Indicative founder hand-delivery fee (₹). Checkout stays authoritative.
+      window.RWND_FOUNDER_FEE = {{ settings.founder_delivery_fee | default: 499 }};
+    </script>
     <script src="{{ 'cart.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </body>

@@ -10,7 +10,7 @@
 {% for product in archive_collection.products %}
   {% assign handle_down = product.handle | downcase %}
   {% assign title_down = product.title | downcase %}
-  {% if spotlight_product == blank and handle_down contains 'cyber-set' or title_down contains 'cyber set' %}
+  {% if spotlight_product == blank and (handle_down contains 'cyber-set' or title_down contains 'cyber set') %}
     {% assign spotlight_product = product %}
   {% endif %}
 {% endfor %}
@@ -113,11 +113,11 @@
       <span>·</span>
       <span>DROP 01</span>
       <span>·</span>
-      <span>Y2K HARDWARE</span>
-      <span>·</span>
-      <span>DROP 01 HARDWARE</span>
-      <span>·</span>
       <span>316L STAINLESS STEEL</span>
+      <span>·</span>
+      <span>MYSTERY VAULT</span>
+      <span>·</span>
+      <span>OFF-GRID</span>
       <span>·</span>
       <span>DISPATCHED IN 24H FROM MADURAI</span>
       <span>·</span>
@@ -127,11 +127,11 @@
       <span>·</span>
       <span>DROP 01</span>
       <span>·</span>
-      <span>Y2K HARDWARE</span>
-      <span>·</span>
-      <span>DROP 01 HARDWARE</span>
-      <span>·</span>
       <span>316L STAINLESS STEEL</span>
+      <span>·</span>
+      <span>MYSTERY VAULT</span>
+      <span>·</span>
+      <span>OFF-GRID</span>
       <span>·</span>
       <span>DISPATCHED IN 24H FROM MADURAI</span>
       <span>·</span>
@@ -265,7 +265,7 @@
           <button
             type="submit"
             {% unless spotlight_product.available %}disabled{% endunless %}
-            class="flex-1 h-14 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-all cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
+            class="flex-1 h-14 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
           >
             {% if spotlight_product.available %}+ UNLOCK MYSTERY SET — {{ spotlight_variant.price | money }}{% else %}SOLD OUT{% endif %}
           </button>
@@ -671,7 +671,7 @@
           >
           <button 
             type="submit" 
-            class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#E0213F] transition-colors cursor-pointer shrink-0"
+            class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
           >
             SUBSCRIBE →
           </button>
