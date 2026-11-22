@@ -182,6 +182,30 @@ pointing at `/account`.
 
 ---
 
+## 5.5 Precompiled Tailwind (assets/tailwind.css)
+
+The theme no longer loads Tailwind from the in-browser JIT CDN. All utility
+classes are served from one precompiled, minified stylesheet:
+`assets/tailwind.css`. It is compiled from this repository's `.liquid` and
+`.json` content with Tailwind CSS v3 (`tailwindcss` CLI) using a config that
+mirrors the old inline config (`rwnd-*` colors and the `display` / `sans` /
+`mono-tech` font stacks), and committed as a regular theme asset.
+
+The stylesheet is served in the same position as the previous CDN link
+(after `theme.css`), so cascade order is unchanged. Fonts, the page-load veil,
+reveal-on-scroll, and ambient glow are unchanged.
+
+Regenerate it after changing class names or the config with:
+
+```bash
+npm i -D tailwindcss@3.4 && npx tailwindcss \
+  -c tailwind.config.js -i input.css -o assets/tailwind.css --minify
+```
+
+(Node tooling lives outside the repo; the repo ships only the compiled asset.)
+
+---
+
 ## 6. Local checks
 
 The repository has no Node/Python/Ruby toolchain. If the Shopify CLI is

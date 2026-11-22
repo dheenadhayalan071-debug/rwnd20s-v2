@@ -27,7 +27,7 @@
           <article class="flex flex-col gap-4 border border-[#2A2A2F] bg-[#131316] p-4 sm:flex-row sm:items-center">
             <div class="flex h-24 w-24 shrink-0 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] p-2">
               {% if item.image %}
-                <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="96" height="96" class="h-full w-full object-contain">
+                <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="96" height="96" decoding="async" class="h-full w-full object-contain">
               {% else %}
                 <span class="text-[9px] text-[#A3A7AE]">NO IMG</span>
               {% endif %}
@@ -147,12 +147,6 @@
             <span>COD CHARGE</span>
             <span class="font-bold text-[#F5F5F7]">CALCULATED AT CHECKOUT</span>
           </div>
-
-          <!-- Founder hand-delivery fee (indicative — shown only when a valid Madurai PIN is entered) -->
-          <div id="rwnd-main-cart-founder-row" class="hidden justify-between gap-3 text-[#FF0033]">
-            <span>FOUNDER HAND-DELIVERY FEE</span>
-            <span id="rwnd-main-cart-founder-fee" class="font-bold">+ ₹{{ settings.founder_delivery_fee | default: 499 }}</span>
-          </div>
         </div>
 
         <!-- DISPATCH PROTOCOL SELECTOR -->
@@ -220,9 +214,15 @@
           <span id="rwnd-main-cart-total" class="font-mono-tech text-2xl font-extrabold text-[#F5F5F7]">{{ cart.total_price | money }}</span>
         </div>
 
-        <div class="mb-4 flex items-baseline justify-between border border-[#FF0033]/50 bg-[#FF0033]/10 px-3 py-2.5">
-          <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#F5F5F7]">ESTIMATED TOTAL</span>
-          <span id="rwnd-main-cart-estimated-total" class="font-mono-tech text-lg font-extrabold text-[#FF0033]">{{ cart.total_price | money }}</span>
+        <div class="mb-4 border border-[#FF0033]/50 bg-[#FF0033]/10 px-3 py-2.5">
+          <div id="rwnd-main-cart-est-fee-row" class="hidden mb-1.5 flex items-baseline justify-between gap-3 border-b border-[#FF0033]/30 pb-1.5">
+            <span class="font-mono-tech text-[10px] uppercase tracking-wider text-[#FF0033]">FOUNDER HAND-DELIVERY</span>
+            <span id="rwnd-main-cart-est-fee" class="font-mono-tech text-xs font-bold text-[#FF0033]">+ ₹{{ settings.founder_delivery_fee | default: 499 }}</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-[#F5F5F7]">ESTIMATED TOTAL</span>
+            <span id="rwnd-main-cart-estimated-total" class="font-mono-tech text-lg font-extrabold text-[#FF0033]">{{ cart.total_price | money }}</span>
+          </div>
         </div>
 
         <a
