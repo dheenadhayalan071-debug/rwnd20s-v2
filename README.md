@@ -113,6 +113,17 @@ customer enters manually. The promo field forwards the code to checkout as
 `/checkout?discount=CODE`, where Shopify validates it. Create the discount in
 **Shopify admin → Discounts**; the theme does not create or store it.
 
+### Promo-code signup popup
+
+`snippets/welcome-popup.liquid` is a native `{% form 'customer' %}` (rendered on
+the theme layout, so it is present on every page). Success detection is
+server-side via `form.posted_successfully?` **inside** the `{% form %}` tag —
+never via client-side URL-marker guessing. A hidden `return_to` keeps the user
+on the current page after the submit; the server-rendered success state shows
+the RWND10 code once and is remembered in localStorage so the popup never
+re-opens for that visitor. Spam protection (hCaptcha) is Shopify's own
+anti-bot layer and applies to the native submit unchanged.
+
 ### 3.4 Instant checkout
 
 "Instant checkout" buttons are `type="button"` elements handled by `cart.js`:
