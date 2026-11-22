@@ -1,16 +1,13 @@
 <!-- snippets/welcome-popup.liquid -->
-{%- comment -%}
-  Native newsletter/discount-code capture. Success detection is server-side
-  (form.posted_successfully?), which is the documented, Shopify-supported way —
-  it cannot flash a false "transmission failed" from URL-marker guessing.
-  A hidden return_to keeps the user on the current page after the native submit.
-{%- endcomment -%}
+<!-- Canonical Shopify pattern: form.posted_successfully? checked INSIDE the form tag. -->
 <div
   id="rwnd-welcome-modal"
-  class="fixed inset-0 z-[190] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl transition-opacity duration-300 opacity-0 pointer-events-none"
+  class="fixed inset-0 z-[190] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl transition-[opacity,visibility] duration-300 opacity-0 pointer-events-none invisible"
   aria-modal="true"
+  aria-hidden="true"
   aria-labelledby="rwnd-welcome-title"
   role="dialog"
+  inert
 >
   <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#0A0A0A] p-6 sm:p-8 text-center font-mono-tech shadow-2xl">
     <button
@@ -27,56 +24,64 @@
       DROP 01 // DISPATCHED FROM MADURAI
     </div>
 
-    {%- if form.posted_successfully? -%}
-      <div id="welcome-success-state" class="mt-4 border border-[#FF0033] bg-[#131316] p-4 text-center space-y-2">
-        <h2 id="rwnd-welcome-title" class="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white leading-none">
-          DISPATCH<br>ACCESS GRANTED.
-        </h2>
-        <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
-          RWND10
+    {% form 'customer', id: 'rwnd-welcome-form', class: 'mt-6' %}
+      <input type="hidden" name="return_to" value="{{ canonical_url }}">
+      <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off, drop-01">
+
+      {%- if form.posted_successfully? -%}
+        <div id="welcome-success-state" class="border border-[#FF0033] bg-[#131316] p-5 text-center space-y-2.5">
+          <h2 id="rwnd-welcome-title" class="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white leading-none">
+            DISPATCH<br>ACCESS GRANTED.
+          </h2>
+          <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
+            RWND10
+          </div>
+          <p class="text-[10px] text-[#A3A7AE]">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            id="welcome-shop-now"
+            class="mt-2 block w-full text-center font-mono-tech text-xs font-bold uppercase tracking-wider text-white underline cursor-pointer"
+          >
+            [ ENTER THE ARCHIVE ]
+          </a>
         </div>
-        <p class="text-[10px] text-[#A3A7AE]">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
-        <button
-          type="button"
-          id="welcome-shop-now"
-          class="mt-2 block w-full text-center font-mono-tech text-xs font-bold uppercase tracking-wider text-white underline cursor-pointer"
-        >
-          [ ENTER THE ARCHIVE ]
-        </button>
-      </div>
-    {%- else -%}
-      <h2 id="rwnd-welcome-title" class="mt-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-none">
-        OLD VIBE.<br>NEW YOU.
-      </h2>
+      {%- else -%}
+        <h2 id="rwnd-welcome-title" class="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-none">
+          OLD VIBE.<br>NEW YOU.
+        </h2>
 
-      <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
-        Sign up for exclusive Drop 01 archive dispatches and restocks. New subscribers receive the RWND10 welcome code.
-      </p>
+        <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+          Sign up for exclusive Drop 01 archive dispatches and restocks. New subscribers receive the RWND10 welcome code.
+        </p>
 
-      {% form 'customer', id: 'rwnd-welcome-form', class: 'mt-6 flex flex-col gap-3 text-left' %}
-        <input type="hidden" name="return_to" value="{{ canonical_url }}">
-        <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off, drop-01">
+        <div class="mt-5 text-left">
+          <label for="rwnd-welcome-email" class="sr-only">Email address</label>
+          <input
+            type="email"
+            id="rwnd-welcome-email"
+            name="contact[email]"
+            placeholder="ENTER YOUR EMAIL..."
+            required
+            autocomplete="email"
+            class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+          >
+        </div>
 
-        <label for="rwnd-welcome-email" class="sr-only">Email address</label>
-        <input
-          type="email"
-          id="rwnd-welcome-email"
-          name="contact[email]"
-          placeholder="ENTER YOUR EMAIL..."
-          required
-          autocomplete="email"
-          class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
-        >
+        {%- if form.errors -%}
+          <p class="mt-2 text-left text-[11px] uppercase font-bold text-[#FF0033]" role="alert">
+            ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </p>
+        {%- endif -%}
 
         <button
           type="submit"
           id="rwnd-welcome-submit"
-          class="h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
+          class="mt-3 h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
         >
           CLAIM WELCOME CODE →
         </button>
-      {% endform %}
-    {%- endif -%}
+      {%- endif -%}
+    {% endform %}
 
     <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
       DISPATCHED FROM MADURAI · NO SPAM
@@ -95,36 +100,83 @@
 
     if (!modal) return;
 
-    // Only auto-open when the popup has not already rendered the success state.
     const successState = document.getElementById('welcome-success-state');
 
+    let openTimer = null;
+
+    const clearOpenTimer = () => {
+      if (openTimer !== null) {
+        window.clearTimeout(openTimer);
+        openTimer = null;
+      }
+    };
+
     const openModal = () => {
-      modal.classList.remove('opacity-0', 'pointer-events-none');
+      clearOpenTimer();
+      modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+      modal.removeAttribute('aria-hidden');
+      modal.removeAttribute('inert');
+      if ('inert' in HTMLElement.prototype) modal.inert = false;
       document.body.style.overflow = 'hidden';
       closeBtn?.focus();
     };
 
     const dismissModal = () => {
-      modal.classList.add('opacity-0', 'pointer-events-none');
+      clearOpenTimer();
+      modal.classList.add('opacity-0', 'pointer-events-none', 'invisible');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('inert', '');
+      if ('inert' in HTMLElement.prototype) modal.inert = true;
       document.body.style.overflow = '';
       sessionStorage.setItem(SESSION_KEY, 'true');
     };
 
-    if (successState) {
-      // Success was confirmed server-side — remember it so the popup never
-      // re-offers the welcome code to this user again.
-      localStorage.setItem(CLAIMED_KEY, 'true');
-      if (!sessionStorage.getItem(SESSION_KEY)) {
-        window.setTimeout(openModal, 400);
+    const veilGone = () => {
+      const veil = document.getElementById('rwnd-page-loader');
+      if (!veil) {
+        scheduleAutoOpen();
+        return;
       }
-    } else if (!localStorage.getItem(CLAIMED_KEY) && !sessionStorage.getItem(SESSION_KEY)) {
-      window.setTimeout(openModal, 2000);
-    }
+      if (veil.classList.contains('rwnd-loader-leaving')) {
+        scheduleAutoOpen();
+        return;
+      }
+      const timeout = window.setTimeout(scheduleAutoOpen, 5000);
+      const observer = new MutationObserver(() => {
+        if (veil.classList.contains('rwnd-loader-leaving')) {
+          window.clearTimeout(timeout);
+          observer.disconnect();
+          scheduleAutoOpen();
+        }
+      });
+      observer.observe(veil, { attributes: true, attributeFilter: ['class'] });
+    };
+
+    const scheduleAutoOpen = () => {
+      if (successState) {
+        // Success was confirmed server-side — remember it so the popup never
+        // re-offers the welcome code to this user again.
+        localStorage.setItem(CLAIMED_KEY, 'true');
+        if (!sessionStorage.getItem(SESSION_KEY) && !openTimer) {
+          openTimer = window.setTimeout(openModal, 400);
+        }
+        return;
+      }
+      if (!localStorage.getItem(CLAIMED_KEY) && !sessionStorage.getItem(SESSION_KEY) && !openTimer) {
+        openTimer = window.setTimeout(openModal, 1200);
+      }
+    };
+
+    // Never stack the popup on top of the page-load veil — open once it settles.
+    veilGone();
 
     closeBtn?.addEventListener('click', dismissModal);
-    shopNowBtn?.addEventListener('click', () => {
+    shopNowBtn?.addEventListener('click', (event) => {
       localStorage.setItem(CLAIMED_KEY, 'true');
-      dismissModal();
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      // Let the native navigation to the archive proceed.
+      event.preventDefault();
+      window.location.href = shopNowBtn.getAttribute('href') || '/collections/all';
     });
     modal.addEventListener('click', (event) => {
       if (event.target === modal) dismissModal();
