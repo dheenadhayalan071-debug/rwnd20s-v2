@@ -29,11 +29,13 @@
 <!-- 2.1 HERO SECTION (10/10 BLUEPRINT SPECIFICATION)                          -->
 <!-- ========================================================================= -->
 <section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center px-5 pt-24 pb-12 overflow-hidden border-b border-line bg-[#050505]">
-  {% assign hero_image = blank %}
+  {% assign hero_image_url = blank %}
   {% if section.settings.hero_image %}
-    {% assign hero_image = section.settings.hero_image %}
+    {% assign hero_image_url = section.settings.hero_image | image_url: width: 1200 %}
   {% elsif spotlight_product.featured_image %}
-    {% assign hero_image = spotlight_product.featured_image %}
+    {% assign hero_image_url = spotlight_product.featured_image | image_url: width: 1200 %}
+  {% else %}
+    {% assign hero_image_url = 'hero-default.png' | asset_url %}
   {% endif %}
 
   <!-- Imagery Backdrop: video takes priority when configured, otherwise the
@@ -44,10 +46,10 @@
         <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
       </video>
     </div>
-  {% elsif hero_image %}
+  {% else %}
     <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
       <img
-        src="{{ hero_image | image_url: width: 1200 }}"
+        src="{{ hero_image_url }}"
         alt=""
         decoding="async"
         fetchpriority="high"
@@ -827,7 +829,7 @@
       "type": "image_picker",
       "id": "hero_image",
       "label": "Hero Imagery",
-      "info": "Optional. Falls back to the featured product image. Leave empty for the gradient-only hero."
+      "info": "Optional. Falls back to the featured product image, then the theme bundled hero asset."
     }
   ],
   "blocks": [
