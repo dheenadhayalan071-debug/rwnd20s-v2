@@ -215,7 +215,7 @@
             aria-controls="rwnd-mega-menu"
             class="flex items-center gap-1 hover:text-brand transition-colors cursor-pointer bg-transparent border-none p-0"
           >
-            SHOP <span class="text-[9px] text-subtle group-hover:text-brand">▼</span>
+            SHOP <span class="text-[9px] text-muted group-hover:text-brand">▼</span>
           </button>
 
           <!-- Mega Menu Overlay -->
@@ -275,7 +275,7 @@
       <!-- UNIFIED ACTION CLUSTER -->
       <nav class="header-actions" aria-label="Header actions">
         <!-- Search Trigger -->
-        <button type="button" class="action-btn" aria-label="Open Search" id="HeaderSearchTrigger">
+        <button type="button" class="action-btn" aria-label="Open Search" aria-expanded="false" aria-controls="fullscreen-search-overlay" id="HeaderSearchTrigger">
           <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
             <circle cx="11" cy="11" r="7"></circle>
             <line x1="16.5" y1="16.5" x2="22" y2="22"></line>
@@ -300,7 +300,7 @@
         </a>
 
         <!-- Menu Trigger (Brutalist 2-Bar Lines) -->
-        <button type="button" class="action-btn action-btn--menu lg:hidden" aria-label="Open Menu" id="HeaderMenuTrigger">
+        <button type="button" class="action-btn action-btn--menu lg:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-drawer" id="HeaderMenuTrigger">
           <div class="menu-burger">
             <span class="burger-bar"></span>
             <span class="burger-bar"></span>
@@ -312,7 +312,7 @@
 
   <!-- MOBILE MENU DRAWER -->
   <div id="mobile-drawer-overlay" class="fixed inset-0 z-[180] bg-black/85 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-    <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-[85%] max-w-[340px] bg-panel border-l border-white/10 p-6 flex flex-col justify-between translate-x-full transition-transform duration-300 overflow-y-auto">
+    <div id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile menu" class="fixed top-0 right-0 h-full w-[85%] max-w-[340px] bg-panel border-l border-white/10 p-6 flex flex-col justify-between translate-x-full transition-transform duration-300 overflow-y-auto">
       <div>
         <div class="flex items-center justify-between border-b border-white/10 pb-4">
           <span class="font-display text-xl font-black tracking-tight text-white">rwnd20s<span class="text-brand">.</span></span>
@@ -325,7 +325,7 @@
           <a href="{{ all_url }}" class="font-bold text-white hover:text-brand">→ SHOP ALL</a>
           
           <div class="border-t border-white/10 pt-3">
-            <span class="text-[10px] text-subtle uppercase font-bold tracking-widest block mb-2">→ DROP 01: Y2K HARDWARE</span>
+            <span class="text-[10px] text-muted uppercase font-bold tracking-widest block mb-2">→ DROP 01: Y2K HARDWARE</span>
             <ul class="space-y-2.5 pl-3 text-muted">
               <li><a href="{{ cyber_set_url }}" class="hover:text-white text-white font-bold">↳ 3-Piece Cyber Set</a></li>
               <li><a href="{{ rings_url }}" class="hover:text-white">↳ Rings</a></li>
@@ -362,7 +362,7 @@
   </div>
 
   <!-- FULL SCREEN SEARCH OVERLAY -->
-  <div id="fullscreen-search-overlay" class="fixed inset-0 z-[190] bg-panel/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-start items-center p-6 sm:p-12">
+  <div id="fullscreen-search-overlay" role="dialog" aria-modal="true" aria-label="Search" class="fixed inset-0 z-[190] bg-panel/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-start items-center p-6 sm:p-12">
     <div class="w-full max-w-3xl flex justify-end">
       <button type="button" id="close-search-trigger" class="text-white hover:text-brand text-sm font-mono-tech uppercase cursor-pointer">
         ✕ CLOSE
@@ -371,9 +371,11 @@
     <div class="w-full max-w-2xl mt-12">
       <span class="font-mono-tech text-[10px] uppercase tracking-widest text-brand block mb-2">// QUERY ARCHIVE</span>
       <form action="{{ routes.search_url }}" method="get" class="flex flex-col sm:flex-row gap-3">
-        <input 
-          type="search" 
-          name="q" 
+        <input
+          type="search"
+          id="rwnd-search-input"
+          name="q"
+          autocomplete="off"
           placeholder="SEARCH RINGS, CHAINS, TIMEPIECES..." 
           class="flex-1 h-14 bg-surface border border-white/10 px-4 font-mono-tech text-xs text-white uppercase focus:border-brand focus:outline-none"
         >
@@ -426,22 +428,31 @@
     const overlay = document.getElementById('mobile-drawer-overlay');
     const drawer = document.getElementById('mobile-drawer');
 
+    const setAria = (open) => openBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+
     const openMenu = () => {
       overlay?.classList.remove('opacity-0', 'pointer-events-none');
       drawer?.classList.remove('translate-x-full');
       document.body.style.overflow = 'hidden';
+      setAria(true);
+      closeBtn?.focus();
     };
 
     const closeMenu = () => {
       overlay?.classList.add('opacity-0', 'pointer-events-none');
       drawer?.classList.add('translate-x-full');
       document.body.style.overflow = '';
+      setAria(false);
+      if (openBtn) openBtn.focus();
     };
 
     openBtn?.addEventListener('click', openMenu);
     closeBtn?.addEventListener('click', closeMenu);
     overlay?.addEventListener('click', (e) => {
       if (e.target === overlay) closeMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay?.classList.contains('opacity-0')) closeMenu();
     });
   })();
 
@@ -450,13 +461,32 @@
     const searchOpen = document.getElementById('HeaderSearchTrigger');
     const searchClose = document.getElementById('close-search-trigger');
     const searchOverlay = document.getElementById('fullscreen-search-overlay');
+    const searchInput = document.getElementById('rwnd-search-input');
 
-    searchOpen?.addEventListener('click', () => {
+    const setAria = (open) => searchOpen?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const isOpen = () => searchOverlay && !searchOverlay.classList.contains('opacity-0');
+
+    const openSearch = () => {
       searchOverlay?.classList.remove('opacity-0', 'pointer-events-none');
-    });
+      document.body.style.overflow = 'hidden';
+      setAria(true);
+      window.setTimeout(() => searchInput?.focus(), 30);
+    };
 
-    searchClose?.addEventListener('click', () => {
+    const closeSearch = () => {
       searchOverlay?.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+      setAria(false);
+      if (searchOpen) searchOpen.focus();
+    };
+
+    searchOpen?.addEventListener('click', openSearch);
+    searchClose?.addEventListener('click', closeSearch);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) closeSearch();
+    });
+    searchOverlay?.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) closeSearch();
     });
   })();
 </script>

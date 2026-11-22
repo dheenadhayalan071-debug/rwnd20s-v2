@@ -30,12 +30,16 @@
 <!-- ========================================================================= -->
 <section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center px-5 pt-24 pb-12 overflow-hidden border-b border-line bg-[#050505]">
   {% assign hero_image_url = blank %}
+  {% assign hero_image_w = blank %}
+  {% assign hero_image_h = blank %}
   {% if section.settings.hero_image %}
     {% assign hero_image_url = section.settings.hero_image | image_url: width: 1200 %}
   {% elsif spotlight_product.featured_image %}
     {% assign hero_image_url = spotlight_product.featured_image | image_url: width: 1200 %}
   {% else %}
-    {% assign hero_image_url = 'hero-default.png' | asset_url %}
+    {% assign hero_image_url = 'hero-default.webp' | asset_url %}
+    {% assign hero_image_w = 1671 %}
+    {% assign hero_image_h = 941 %}
   {% endif %}
 
   <!-- Imagery Backdrop: video takes priority when configured, otherwise the
@@ -47,16 +51,22 @@
       </video>
     </div>
   {% else %}
+    {% comment %} Hero backdrop — eager-loaded, high priority; opacity tuned so the image reads through the scrim layer. {% endcomment %}
     <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
       <img
         src="{{ hero_image_url }}"
         alt=""
+       {% if hero_image_w != blank %}
+        width="{{ hero_image_w }}"
+        height="{{ hero_image_h }}"
+        {% endif %}
+        loading="eager"
         decoding="async"
         fetchpriority="high"
-        class="h-full w-full object-cover opacity-[0.45]"
+        class="h-full w-full object-cover opacity-[0.62]"
       >
-      <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/10 to-black"></div>
-      <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 78%);"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/85"></div>
+      <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 78%);"></div>
     </div>
   {% endif %}
 
@@ -416,7 +426,7 @@
               </button>
             </form>
           {% else %}
-            <button type="button" disabled class="mt-3 w-full h-10 border border-line bg-card font-mono-tech text-[10px] font-bold uppercase tracking-wider text-subtle cursor-not-allowed">
+            <button type="button" disabled class="mt-3 w-full h-10 border border-line bg-card font-mono-tech text-[10px] font-bold uppercase tracking-wider text-muted cursor-not-allowed">
               SOLD OUT
             </button>
           {% endif %}
@@ -741,6 +751,9 @@
   }
   .rwnd-marquee-track:hover {
     animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rwnd-marquee-track { animation: none; }
   }
 </style>
 

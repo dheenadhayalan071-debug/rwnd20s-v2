@@ -155,7 +155,7 @@
             <span class="font-mono-tech text-[10px] font-bold uppercase tracking-wider text-brand">
               // DISPATCH PROTOCOL
             </span>
-            <span class="font-mono-tech text-[9px] uppercase text-subtle">SELECT MODE</span>
+            <span class="font-mono-tech text-[9px] uppercase text-muted">SELECT MODE</span>
           </div>
 
           <div class="grid grid-cols-1 gap-2">
@@ -234,7 +234,7 @@
           CONTINUE TO CHECKOUT →
         </a>
 
-        <p class="mt-2 font-mono-tech text-[9px] uppercase tracking-wider text-subtle">
+        <p class="mt-2 font-mono-tech text-[9px] uppercase tracking-wider text-muted">
           Checkout is authoritative — final prices, discounts, shipping and COD are calculated by Shopify at checkout. ESTIMATED TOTAL is indicative.
         </p>
 
@@ -281,7 +281,7 @@
     class="rwnd-mobile-checkout-bar fixed bottom-0 left-0 z-[110] flex w-full items-center justify-between gap-3 border-t border-white/10 bg-panel/95 p-3 backdrop-blur-md sm:hidden{% if cart.item_count == 0 %} hidden{% endif %}"
   >
     <div class="min-w-0">
-      <span class="block font-mono-tech text-[9px] uppercase text-subtle">ESTIMATED TOTAL</span>
+      <span class="block font-mono-tech text-[9px] uppercase text-muted">ESTIMATED TOTAL</span>
       <span class="font-mono-tech text-sm font-bold text-bone" id="rwnd-main-cart-mobile-total">{{ cart.total_price | money }}</span>
     </div>
     <a

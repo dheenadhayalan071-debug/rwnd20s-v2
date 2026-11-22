@@ -474,7 +474,7 @@
               class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
             >
           {% else %}
-            <span class="font-mono-tech text-[11px] uppercase tracking-wider text-subtle">MEDIA ARCHIVE PENDING</span>
+            <span class="font-mono-tech text-[11px] uppercase tracking-wider text-muted">MEDIA ARCHIVE PENDING</span>
           {% endif %}
         </div>
       </div>
@@ -512,7 +512,7 @@
               <span class="font-mono-tech text-[11px] uppercase text-muted">NO TRANSMISSIONS YET — BE THE FIRST</span>
             {% endif %}
           </a>
-          <span class="font-mono-tech text-[10px] uppercase tracking-wider text-subtle">MDU_DISPATCH // TAMIL NADU</span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-wider text-muted">MDU_DISPATCH // TAMIL NADU</span>
         </div>
       </div>
 
@@ -520,7 +520,7 @@
       <div class="pdp-price-row">
         <div class="flex items-baseline gap-2.5 font-mono-tech">
           <span class="text-2xl sm:text-3xl font-extrabold text-white" id="pdp-live-price">{{ current_variant.price | money }}</span>
-          <span class="text-sm text-subtle line-through" id="pdp-compare-at"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>{{ current_variant.compare_at_price | money }}</span>
+          <span class="text-sm text-muted line-through" id="pdp-compare-at"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>{{ current_variant.compare_at_price | money }}</span>
         </div>
         <span class="tech-chip tech-chip--red" id="pdp-save-chip"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>
           {% if current_variant.compare_at_price > current_variant.price %}
@@ -552,7 +552,7 @@
         <div class="loadout-manifest">
           <div class="manifest-header">
             <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-brand">// VAULT CONTENTS (BLIND CURATION)</span>
-            <span class="font-mono-tech text-[10px] uppercase text-subtle">3 PIECES INCLUDED</span>
+            <span class="font-mono-tech text-[10px] uppercase text-muted">3 PIECES INCLUDED</span>
           </div>
           <ul class="manifest-list">
             <li>
@@ -578,7 +578,7 @@
             </li>
           </ul>
           <div class="pt-2.5 border-t border-white/10">
-            <span class="font-mono-tech text-[10px] uppercase tracking-wider text-subtle">
+            <span class="font-mono-tech text-[10px] uppercase tracking-wider text-muted">
               ℹ Pieces curated at random from Drop 01 Vault. 100% tarnish-proof guarantee.
             </span>
           </div>
@@ -897,10 +897,10 @@
             <div class="score-stars">
               {% assign avg_r = rating_sum | divided_by: review_count | round %}
               <span class="stars" aria-label="{{ avg_display }} out of 5 stars">{% for i in (1..5) %}{% if i <= avg_r %}★{% else %}<span class="text-[#3A3A3F]">☆</span>{% endif %}{% endfor %}</span>
-              <span class="mono-tag text-subtle">{{ review_count }} TRANSMISSIONS</span>
+              <span class="mono-tag text-muted">{{ review_count }} TRANSMISSIONS</span>
             </div>
           {% else %}
-            <span class="mono-tag text-subtle">NO APPROVED REVIEWS YET</span>
+            <span class="mono-tag text-muted">NO APPROVED REVIEWS YET</span>
           {% endif %}
         </div>
       </div>
@@ -921,7 +921,7 @@
                 <div class="entry-author mono-tag">
                   <span class="text-white font-bold">{{ rev.author.value | escape }}</span>
                   {% if rev.city.value != blank %}
-                    <span class="text-subtle"> · {{ rev.city.value | escape }}</span>
+                    <span class="text-muted"> · {{ rev.city.value | escape }}</span>
                   {% endif %}
                 </div>
               </div>
@@ -987,7 +987,7 @@
 
       <p id="rwnd-rev-status" class="font-mono-tech text-[10px] uppercase text-muted min-h-[16px]" role="status"></p>
 
-      <p class="font-mono-tech text-[10px] uppercase tracking-wider text-subtle">
+      <p class="font-mono-tech text-[10px] uppercase tracking-wider text-muted">
         Reviews are moderated before publishing. Photos are not collected by this form.
       </p>
 
@@ -1001,7 +1001,7 @@
 <!-- STICKY MOBILE CONVERSION BAR (z-110) -->
 <div class="fixed bottom-0 left-0 z-[110] w-full border-t border-white/10 bg-panel/95 backdrop-blur-md p-3 sm:hidden flex items-center justify-between gap-3">
   <div>
-    <span class="font-mono-tech text-[9px] uppercase text-subtle block">TOTAL</span>
+    <span class="font-mono-tech text-[9px] uppercase text-muted block">TOTAL</span>
     <span class="font-mono-tech text-sm font-bold text-white" id="sticky-mobile-price">{{ current_variant.price | money }}</span>
   </div>
   <button 

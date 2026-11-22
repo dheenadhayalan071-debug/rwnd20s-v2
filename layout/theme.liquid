@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#09090B">
 
     <link
       rel="icon"
@@ -91,6 +91,21 @@
 
     {% if template.name == 'product' %}
       {% assign ld_variant = product.selected_or_first_available_variant %}
+      {% assign reviews_meta = product.metafields.custom.reviews.value %}
+      {% assign total_reviews = 0 %}
+      {% assign rating_sum = 0 %}
+      {% for rev in reviews_meta %}
+        {% if rev.approved.value %}
+          {% assign rev_rating = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
+          {% assign total_reviews = total_reviews | plus: 1 %}
+          {% assign rating_sum = rating_sum | plus: rev_rating %}
+        {% endif %}
+      {% endfor %}
+      {% assign avg_rating = 0 %}
+      {% if total_reviews > 0 %}
+        {% assign avg_rating = rating_sum | divided_by: total_reviews | round: 1 %}
+      {% endif %}
+
       <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -101,6 +116,13 @@
           "description": {{ product.description | strip_html | truncate: 300 | json }},
           "sku": {{ ld_variant.sku | json }},
           "brand": { "@type": "Brand", "name": "RWND20s" },
+          {% if total_reviews > 0 %}
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": {{ avg_rating | json }},
+            "reviewCount": {{ total_reviews | json }}
+          },
+          {% endif %}
           "offers": {
             "@type": "Offer",
             "url": {{ shop.url | append: product.url | json }},
