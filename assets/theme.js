@@ -12,7 +12,7 @@
     if (!container) return;
 
     const toast = document.createElement('div');
-    toast.className = 'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-red-900/60 bg-[#09090B] p-4 text-white shadow-xl';
+    toast.className = 'pointer-events-auto flex items-start justify-between gap-3 rounded-2xl border border-red-900/60 bg-void p-4 text-white shadow-xl';
 
     const copy = document.createElement('div');
     const heading = document.createElement('p');

@@ -28,30 +28,53 @@
 <!-- ========================================================================= -->
 <!-- 2.1 HERO SECTION (10/10 BLUEPRINT SPECIFICATION)                          -->
 <!-- ========================================================================= -->
-<section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center px-5 pt-24 pb-12 overflow-hidden border-b border-[#2A2A2F] bg-[#050505]">
+<section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center text-center px-5 pt-24 pb-12 overflow-hidden border-b border-line bg-[#050505]">
+  {% assign hero_image = blank %}
+  {% if section.settings.hero_image %}
+    {% assign hero_image = section.settings.hero_image %}
+  {% elsif spotlight_product.featured_image %}
+    {% assign hero_image = spotlight_product.featured_image %}
+  {% endif %}
+
+  <!-- Imagery Backdrop: video takes priority when configured, otherwise the
+       product image — heavy, moody, and kept behind the mesh + scrim. -->
+  {% if section.settings.hero_video_url != blank %}
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <video class="w-full h-full object-cover opacity-30 mix-blend-screen" autoplay muted loop playsinline>
+        <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
+      </video>
+    </div>
+  {% elsif hero_image %}
+    <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+      <img
+        src="{{ hero_image | image_url: width: 1200 }}"
+        alt=""
+        decoding="async"
+        fetchpriority="high"
+        class="h-full w-full object-cover opacity-[0.45]"
+      >
+      <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/10 to-black"></div>
+      <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 78%);"></div>
+    </div>
+  {% endif %}
+
   <!-- Atmosphere Layer: Radial Glow & Cyber Mesh Grid -->
-  <div 
-    class="absolute inset-0 z-0 pointer-events-none"
+  <div
+    class="absolute inset-0 z-[1] pointer-events-none"
     style="
-      background-image: 
+      background-image:
         radial-gradient(circle at 50% 38%, rgba(255, 0, 51, 0.25) 0%, rgba(0, 0, 0, 0.95) 72%),
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 100% 100%, 32px 32px, 32px 32px;
     "
-  >
-    {% if section.settings.hero_video_url != blank %}
-      <video class="w-full h-full object-cover opacity-30 mix-blend-screen" autoplay muted loop playsinline>
-        <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
-      </video>
-    {% endif %}
-  </div>
+  ></div>
 
   <!-- Centered Content Stack -->
   <div class="relative z-10 mx-auto flex w-full max-w-md flex-col items-center justify-center my-auto">
     <!-- Top Eyebrow Tag -->
-    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#FF0033]/10 px-3.5 py-1.5 font-mono-tech text-[11px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_0_12px_rgba(255,0,51,0.2)]">
-      <span class="h-1.5 w-1.5 bg-[#FF0033] shadow-[0_0_8px_#FF0033] animate-pulse"></span>
+    <div class="inline-flex items-center gap-2 border border-brand/60 bg-brand/10 px-3.5 py-1.5 font-mono-tech text-[11px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_0_12px_rgba(255,0,51,0.2)]">
+      <span class="h-1.5 w-1.5 bg-brand shadow-[0_0_8px_#FF0033] animate-pulse"></span>
       {{ section.settings.hero_badge | default: 'DROP 01 // DISPATCHED FROM MADURAI' }}
     </div>
 
@@ -60,7 +83,7 @@
       <span class="block text-[clamp(2.1rem,8.5vw,4.5rem)] text-white font-extrabold">
         {{ section.settings.hero_title_line_1 | default: 'Y2K HARDWARE' }}
       </span>
-      <span class="block text-[clamp(2.3rem,9.2vw,4.8rem)] text-[#FF0033] font-black drop-shadow-[0_0_20px_rgba(255,0,51,0.4)]">
+      <span class="block text-[clamp(2.3rem,9.2vw,4.8rem)] text-brand font-black drop-shadow-[0_0_20px_rgba(255,0,51,0.4)]">
         {{ section.settings.hero_title_line_2 | default: 'AFTER DARK.' }}
       </span>
     </h1>
@@ -71,8 +94,8 @@
     </p>
 
     <!-- Dispatch note (no fabricated scarcity) -->
-    <div class="mt-6 inline-flex items-center gap-2 font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#FF0033] bg-[#0A0A0C] border border-[#FF0033]/30 px-3 py-1">
-      <span class="h-1.5 w-1.5 rounded-full bg-[#FF0033] shadow-[0_0_8px_#FF0033] animate-ping"></span>
+    <div class="mt-6 inline-flex items-center gap-2 font-mono-tech text-[10px] font-bold uppercase tracking-wider text-brand bg-card border border-brand/30 px-3 py-1">
+      <span class="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_#FF0033] animate-ping"></span>
       <span>DROP 01 // 316L HARDWARE · DISPATCHED FROM MADURAI</span>
     </div>
 
@@ -80,7 +103,7 @@
     <div class="mt-6 flex w-full max-w-[340px] flex-col gap-3">
       <a 
         href="#shop" 
-        class="rwnd-lift flex h-[52px] w-full items-center justify-center gap-2 bg-[#FF0033] font-mono-tech text-[13px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] transition-all active:scale-[0.98] active:bg-[#CC0029] hover:bg-[#CC0029]"
+        class="rwnd-lift flex h-[52px] w-full items-center justify-center gap-2 bg-brand font-mono-tech text-[13px] font-bold uppercase tracking-[1.5px] text-white shadow-[0_4px_20px_rgba(255,0,51,0.35)] transition-all active:scale-[0.98] active:bg-brand-dark hover:bg-brand-dark"
       >
         SHOP DROP 01 →
       </a>
@@ -106,7 +129,7 @@
 <!-- ========================================================================= -->
 <!-- 2.2 DROP STATUS BAR (URGENCY MARQUEE)                                     -->
 <!-- ========================================================================= -->
-<section id="drop-status-bar" class="relative z-20 h-20 w-full overflow-hidden bg-[#FF0033] text-black font-mono-tech flex items-center border-y border-black">
+<section id="drop-status-bar" class="relative z-20 h-20 w-full overflow-hidden bg-brand text-black font-mono-tech flex items-center border-y border-black">
   <div class="rwnd-marquee-track flex whitespace-nowrap text-sm sm:text-base font-bold tracking-[2px] uppercase select-none">
     <div class="flex items-center gap-8 px-4">
       <span>● LIVE NOW</span>
@@ -142,57 +165,57 @@
 <!-- ========================================================================= -->
 <!-- 2.3 CATEGORY SELECTION GRID (2x2 Mobile, 4-Col Desktop)                   -->
 <!-- ========================================================================= -->
-<section class="w-full bg-[#0A0A0C] p-0.5">
+<section class="w-full bg-card p-0.5">
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-0.5 max-w-7xl mx-auto">
     <!-- Tile 01: Mystery 3-Piece Set -->
-    <a href="{{ cyber_set_url }}" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+    <a href="{{ cyber_set_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
       <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
-        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-line" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
       </div>
       <div class="relative z-20">
-        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">01 // MYSTERY</span>
+        <span class="font-mono-tech text-xs font-bold text-brand">01 // MYSTERY</span>
         <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">3-PIECE CYBER VAULT</h3>
-        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">UNLOCK BOX →</span>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-muted group-hover:text-white transition-colors">UNLOCK BOX →</span>
       </div>
     </a>
 
     <!-- Tile 02: Rings & Chains -->
-    <a href="{{ rings_url }}" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+    <a href="{{ rings_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
       <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
-        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" stroke-width="1.5"/></svg>
+        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-line" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" stroke-width="1.5"/></svg>
       </div>
       <div class="relative z-20">
-        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">02 // 316L STEEL</span>
+        <span class="font-mono-tech text-xs font-bold text-brand">02 // 316L STEEL</span>
         <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">RINGS & CHAINS</h3>
-        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">BROWSE DESIGNS →</span>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-muted group-hover:text-white transition-colors">BROWSE DESIGNS →</span>
       </div>
     </a>
 
     <!-- Tile 03: Pink Chrome Audio -->
-    <a href="{{ earphones_url }}" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+    <a href="{{ earphones_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
       <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
-        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 18v-6a9 9 0 0118 0v6M3 18a3 3 0 003 3h1V15H4a1 1 0 00-1 1v2zm18 0a3 3 0 01-3 3h-1V15h3a1 1 0 011 1v2z"/></svg>
+        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-line" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 18v-6a9 9 0 0118 0v6M3 18a3 3 0 003 3h1V15H4a1 1 0 00-1 1v2zm18 0a3 3 0 01-3 3h-1V15h3a1 1 0 011 1v2z"/></svg>
       </div>
       <div class="relative z-20">
-        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">03 // TYPE-C DAC</span>
+        <span class="font-mono-tech text-xs font-bold text-brand">03 // TYPE-C DAC</span>
         <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">PINK CHROME AUDIO</h3>
-        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">SHOP →</span>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-muted group-hover:text-white transition-colors">SHOP →</span>
       </div>
     </a>
 
     <!-- Tile 04: Timepieces -->
-    <a href="{{ watches_url }}" class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-[#FF0033]">
+    <a href="{{ watches_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
       <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
-        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-[#2A2A2F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" stroke-width="1.5"/><path stroke-width="1.5" d="M12 2v4m0 12v4"/></svg>
+        <svg class="h-20 w-20 sm:h-24 sm:w-24 text-line" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" stroke-width="1.5"/><path stroke-width="1.5" d="M12 2v4m0 12v4"/></svg>
       </div>
       <div class="relative z-20">
-        <span class="font-mono-tech text-xs font-bold text-[#FF0033]">04 // PRE-ORDER</span>
+        <span class="font-mono-tech text-xs font-bold text-brand">04 // PRE-ORDER</span>
         <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">ANALOG TIMEPIECES</h3>
-        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE] group-hover:text-white transition-colors">RESERVE →</span>
+        <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-muted group-hover:text-white transition-colors">RESERVE →</span>
       </div>
     </a>
   </div>
@@ -202,10 +225,10 @@
 <!-- 2.4 FEATURED PRODUCT SPOTLIGHT (MYSTERY VAULT 50/50 SPLIT)                -->
 <!-- ========================================================================= -->
 {% if spotlight_product %}
-<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-line">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
     <!-- Left: Large Image Container -->
-    <div class="relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] p-6 flex items-center justify-center">
+    <div class="relative aspect-square w-full overflow-hidden border border-line bg-surface p-6 flex items-center justify-center">
       {% if spotlight_product.featured_image %}
         <img 
           src="{{ spotlight_product.featured_image | image_url: width: 900 }}" 
@@ -216,16 +239,16 @@
           class="h-full w-full object-contain"
         >
       {% else %}
-        <div class="font-mono-tech text-xs uppercase tracking-widest text-[#A3A7AE]">MYSTERY VAULT ASSET</div>
+        <div class="font-mono-tech text-xs uppercase tracking-widest text-muted">MYSTERY VAULT ASSET</div>
       {% endif %}
-      <span class="absolute top-4 left-4 border border-[#FF0033] bg-black px-2.5 py-1 font-mono-tech text-[10px] font-bold uppercase text-[#FF0033]">
+      <span class="absolute top-4 left-4 border border-brand bg-black px-2.5 py-1 font-mono-tech text-[10px] font-bold uppercase text-brand">
         CLASSIFIED MYSTERY DROP
       </span>
     </div>
 
     <!-- Right: Specifications & Direct Purchase Action -->
     <div class="flex flex-col justify-center">
-      <span class="font-mono-tech text-xs font-bold uppercase tracking-[0.14em] text-[#FF0033]">
+      <span class="font-mono-tech text-xs font-bold uppercase tracking-[0.14em] text-brand">
         // BLIND ARCHIVE CURATION · FREE SIZE / ADJUSTABLE
       </span>
       <h2 class="mt-2 font-display text-3xl sm:text-5xl font-extrabold uppercase text-white">
@@ -240,20 +263,20 @@
         </span>
         {% if spotlight_variant.compare_at_price > spotlight_variant.price %}
           {% assign spot_save = spotlight_variant.compare_at_price | minus: spotlight_variant.price %}
-          <span class="font-mono-tech text-sm text-[#A3A7AE] line-through">
+          <span class="font-mono-tech text-sm text-muted line-through">
             {{ spotlight_variant.compare_at_price | money }}
           </span>
-          <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-0.5 font-mono-tech text-xs font-bold text-[#FF0033]">
+          <span class="border border-brand bg-brand/20 px-2 py-0.5 font-mono-tech text-xs font-bold text-brand">
             SAVE {{ spot_save | money }}
           </span>
         {% endif %}
       </div>
 
-      <p class="mt-4 font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+      <p class="mt-4 font-mono-tech text-xs sm:text-sm text-muted leading-relaxed">
         1 Mystery Chain + Pendant, 1 Mystery Link Bracelet, and 1 Mystery Chrome Ring. All pieces are 316L stainless steel with universal adjustable sizing.
       </p>
 
-      <div class="mt-3 border-l-2 border-[#FF0033] bg-[#131316] px-3 py-2 font-mono-tech text-[11px] text-[#C8CDD3]">
+      <div class="mt-3 border-l-2 border-brand bg-surface px-3 py-2 font-mono-tech text-[11px] text-ice">
         ⚠ MYSTERY LOADOUT: Designs are randomly selected from Drop 01 stock. Final sale—exchanges only for defects (48-hr unboxing video required).
       </div>
 
@@ -265,7 +288,7 @@
           <button
             type="submit"
             {% unless spotlight_product.available %}disabled{% endunless %}
-            class="flex-1 h-14 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
+            class="flex-1 h-14 bg-brand font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-dark transition-all cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
           >
             {% if spotlight_product.available %}+ UNLOCK MYSTERY SET — {{ spotlight_variant.price | money }}{% else %}SOLD OUT{% endif %}
           </button>
@@ -273,7 +296,7 @@
             type="button"
             data-rwnd-instant-checkout
             {% unless spotlight_product.available %}disabled{% endunless %}
-            class="h-14 px-8 border border-[#2A2A2F] bg-[#131316] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-all flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            class="h-14 px-8 border border-line bg-surface font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:border-brand transition-all flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
           >
             INSTANT CHECKOUT →
           </button>
@@ -281,10 +304,10 @@
       </form>
 
       <!-- Trust Badges Row -->
-      <div class="mt-8 grid grid-cols-3 gap-2 border-t border-[#2A2A2F] pt-4 font-mono-tech text-[10px] uppercase text-[#A3A7AE] text-center">
-        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">🛡️ COD Available</div>
-        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">⚙️ Free Size Fit</div>
-        <div class="p-2 border border-[#2A2A2F] bg-[#0A0A0C]">🚚 24-Hr MDU</div>
+      <div class="mt-8 grid grid-cols-3 gap-2 border-t border-line pt-4 font-mono-tech text-[10px] uppercase text-muted text-center">
+        <div class="p-2 border border-line bg-card">🛡️ COD Available</div>
+        <div class="p-2 border border-line bg-card">⚙️ Free Size Fit</div>
+        <div class="p-2 border border-line bg-card">🚚 24-Hr MDU</div>
       </div>
     </div>
   </div>
@@ -294,10 +317,10 @@
 <!-- ========================================================================= -->
 <!-- 2.5 PRODUCT GRID — "SHOP THE ARCHIVE"                                     -->
 <!-- ========================================================================= -->
-<section id="shop" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
-  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#2A2A2F] pb-6">
+<section id="shop" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-line">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-line pb-6">
     <div>
-      <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+      <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-brand">
         DROP 01 // ARCHIVE COLLECTION
       </span>
       <h2 class="mt-1 font-display text-2xl sm:text-4xl font-extrabold uppercase text-white">
@@ -305,10 +328,10 @@
       </h2>
     </div>
     <div class="flex items-center gap-4">
-      <span class="font-mono-tech text-xs text-[#A3A7AE]">
+      <span class="font-mono-tech text-xs text-muted">
         {{ archive_collection.products.size }} PIECES // DISPATCHED FROM MADURAI
       </span>
-      <a href="{{ routes.all_products_collection_url }}" class="font-mono-tech text-xs font-bold uppercase text-[#FF0033] hover:underline">
+      <a href="{{ routes.all_products_collection_url }}" class="font-mono-tech text-xs font-bold uppercase text-brand hover:underline">
         [VIEW ALL →]
       </a>
     </div>
@@ -323,8 +346,8 @@
         {% assign is_bundle = true %}
       {% endif %}
 
-      <article class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-3 sm:p-4 transition-all hover:border-[#FF0033]">
-        <div class="relative aspect-[4/5] w-full overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] flex items-center justify-center">
+      <article class="group relative flex flex-col justify-between border border-line bg-surface p-3 sm:p-4 transition-all hover:border-brand">
+        <div class="relative aspect-[4/5] w-full overflow-hidden border border-line bg-card flex items-center justify-center">
           <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
             {% if product.featured_image %}
               <img 
@@ -336,21 +359,21 @@
                 class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
               >
             {% else %}
-              <span class="font-mono-tech text-[10px] text-[#A3A7AE] uppercase text-center px-2">{{ product.title | escape }}</span>
+              <span class="font-mono-tech text-[10px] text-muted uppercase text-center px-2">{{ product.title | escape }}</span>
             {% endif %}
           </a>
 
            <!-- Badges -->
           {% if is_bundle %}
-            <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
+            <span class="absolute top-2 left-2 border border-brand bg-card px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-brand">
               MYSTERY VAULT
             </span>
           {% elsif product.tags contains 'watch' or product.tags contains 'pre-order' or product.type contains 'Watch' %}
-            <span class="absolute top-2 right-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#FF0033]">
+            <span class="absolute top-2 right-2 border border-brand bg-brand/20 px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-brand">
               PRE-ORDER
             </span>
           {% else %}
-            <span class="absolute top-2 right-2 border border-[#2A2A2F] bg-[#0A0A0C] px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-[#A3A7AE]">
+            <span class="absolute top-2 right-2 border border-line bg-card px-1.5 py-0.5 font-mono-tech text-[9px] font-bold text-muted">
               DROP 01
             </span>
           {% endif %}
@@ -365,19 +388,19 @@
               {% if product.price_varies %}
                 <span>FROM {{ product.price_min | money }}</span>
                 {% if product.compare_at_price_max > product.price_min %}
-                  <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price_max | money }}</span>
+                  <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_max | money }}</span>
                 {% endif %}
               {% else %}
                 <span>{{ product.price | money }}</span>
                 {% if product.compare_at_price > product.price %}
-                  <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
+                  <span class="text-[10px] text-muted line-through">{{ product.compare_at_price | money }}</span>
                 {% endif %}
               {% endif %}
             </div>
           </div>
 
           {% if product.price_varies %}
-            <a href="{{ product.url }}" class="mt-3 flex h-10 w-full items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-colors">
+            <a href="{{ product.url }}" class="mt-3 flex h-10 w-full items-center justify-center border border-line bg-card font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:border-brand transition-colors">
               VIEW OPTIONS
             </a>
           {% elsif product.available %}
@@ -385,13 +408,13 @@
               <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
               <button
                 type="submit"
-                class="w-full h-10 border border-[#2A2A2F] bg-[#0A0A0C] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
+                class="w-full h-10 border border-line bg-card font-mono-tech text-[10px] font-bold uppercase tracking-wider text-white hover:bg-brand hover:border-brand transition-colors cursor-pointer"
               >
                 + QUICK ADD
               </button>
             </form>
           {% else %}
-            <button type="button" disabled class="mt-3 w-full h-10 border border-[#2A2A2F] bg-[#0A0A0C] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#737373] cursor-not-allowed">
+            <button type="button" disabled class="mt-3 w-full h-10 border border-line bg-card font-mono-tech text-[10px] font-bold uppercase tracking-wider text-subtle cursor-not-allowed">
               SOLD OUT
             </button>
           {% endif %}
@@ -404,14 +427,14 @@
 <!-- ========================================================================= -->
 <!-- 2.6 BRAND MANIFESTO SECTION                                              -->
 <!-- ========================================================================= -->
-<section id="about" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
-  <div class="mx-auto max-w-3xl border border-[#2A2A2F] bg-[#131316] p-6 sm:p-12 text-center">
-    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-black px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white">
-      <span class="h-1.5 w-1.5 bg-[#FF0033]"></span>
+<section id="about" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-line">
+  <div class="mx-auto max-w-3xl border border-line bg-surface p-6 sm:p-12 text-center">
+    <div class="inline-flex items-center gap-2 border border-brand/60 bg-black px-3 py-1 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white">
+      <span class="h-1.5 w-1.5 bg-brand"></span>
       [ RWND20S.SYS // BRAND MANIFESTO ]
     </div>
 
-    <p class="mt-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#FF0033]">
+    <p class="mt-4 font-mono-tech text-xs font-bold uppercase tracking-widest text-brand">
       04 // AFTER DARK, NO FILTER
     </p>
 
@@ -419,27 +442,27 @@
       AFTER DARK,<br>NO RULES.
     </h2>
 
-    <p class="mx-auto mt-4 max-w-lg font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+    <p class="mx-auto mt-4 max-w-lg font-mono-tech text-xs sm:text-sm text-muted leading-relaxed">
       After dark, no rules. High-polish stainless steel and nocturnal audio for those who operate off the grid.
     </p>
 
     <!-- Spec Grid -->
     <div class="mt-8 grid grid-cols-2 gap-2 text-left font-mono-tech">
-      <a href="{{ rings_url }}" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
-        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">316L</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Surgical Stainless Steel</p>
+      <a href="{{ rings_url }}" class="group border border-line bg-card p-4 transition-all hover:border-brand">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-brand transition-colors">316L</span>
+        <p class="mt-1 text-[10px] uppercase text-muted">Surgical Stainless Steel</p>
       </a>
-      <a href="{{ earphones_url }}" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
-        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">TYPE-C</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Pink Chrome Audio</p>
+      <a href="{{ earphones_url }}" class="group border border-line bg-card p-4 transition-all hover:border-brand">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-brand transition-colors">TYPE-C</span>
+        <p class="mt-1 text-[10px] uppercase text-muted">Pink Chrome Audio</p>
       </a>
-      <a href="{{ cyber_set_url }}" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
-        <span class="text-xl sm:text-2xl font-bold text-[#FF0033]">3-PIECE</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Classified Mystery Vault</p>
+      <a href="{{ cyber_set_url }}" class="group border border-line bg-card p-4 transition-all hover:border-brand">
+        <span class="text-xl sm:text-2xl font-bold text-brand">3-PIECE</span>
+        <p class="mt-1 text-[10px] uppercase text-muted">Classified Mystery Vault</p>
       </a>
-      <a href="{{ shipping_page_url }}" class="group border border-[#2A2A2F] bg-[#0A0A0C] p-4 transition-all hover:border-[#FF0033]">
-        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-[#FF0033] transition-colors">₹999+</span>
-        <p class="mt-1 text-[10px] uppercase text-[#A3A7AE]">Free Delivery</p>
+      <a href="{{ shipping_page_url }}" class="group border border-line bg-card p-4 transition-all hover:border-brand">
+        <span class="text-xl sm:text-2xl font-bold text-white group-hover:text-brand transition-colors">₹999+</span>
+        <p class="mt-1 text-[10px] uppercase text-muted">Free Delivery</p>
       </a>
     </div>
   </div>
@@ -448,9 +471,9 @@
 <!-- ========================================================================= -->
 <!-- 2.7 SOCIAL PROOF WALL (Live Metaobjects + Fallback)                       -->
 <!-- ========================================================================= -->
-<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F]">
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-line">
   <div class="text-center">
-    <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+    <span class="font-mono-tech text-xs font-bold uppercase tracking-[1.5px] text-brand">
       // REAL USERS // REAL REVIEWS
     </span>
     <h2 class="mt-1 font-display text-2xl sm:text-4xl font-extrabold uppercase text-white">
@@ -466,24 +489,24 @@
         {% if rev.approved.value and shown_reviews < 6 %}
           {% assign shown_reviews = shown_reviews | plus: 1 %}
           {% assign r_stars = rev.rating.value.rating | default: rev.rating.value | default: 5 | round %}
-          <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech flex flex-col justify-between">
+          <div class="border border-line bg-surface p-6 font-mono-tech flex flex-col justify-between">
             <div>
-              <div class="text-[#FF0033] text-sm tracking-widest">
+              <div class="text-brand text-sm tracking-widest">
                 {% for s in (1..r_stars) %}★{% endfor %}
               </div>
-              <p class="mt-3 text-xs text-[#F5F5F7] leading-relaxed">
+              <p class="mt-3 text-xs text-bone leading-relaxed">
                 "{{ rev.body.value | escape }}"
               </p>
             </div>
-            <div class="mt-4 pt-3 border-t border-[#2A2A2F] text-[10px] uppercase text-[#A3A7AE]">
+            <div class="mt-4 pt-3 border-t border-line text-[10px] uppercase text-muted">
               — {{ rev.author.value | escape }} | CUSTOMER REVIEW{% if rev.city.value != blank %} | {{ rev.city.value | escape }}{% endif %}
             </div>
           </div>
         {% endif %}
       {% endfor %}
     {% else %}
-      <div class="border border-[#2A2A2F] bg-[#131316] p-6 font-mono-tech sm:col-span-2 lg:col-span-3">
-        <p class="text-xs uppercase tracking-wider text-[#A3A7AE]">
+      <div class="border border-line bg-surface p-6 font-mono-tech sm:col-span-2 lg:col-span-3">
+        <p class="text-xs uppercase tracking-wider text-muted">
           // NO APPROVED TRANSMISSIONS YET — REVIEWS APPEAR HERE AFTER MODERATION.
         </p>
       </div>
@@ -494,10 +517,10 @@
 <!-- ========================================================================= -->
 <!-- 2.8 WORKABLE COMMUNITY DISPATCHES (Theme Customizer Blocks + Modal)       -->
 <!-- ========================================================================= -->
-<section id="community-dispatches" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-[#2A2A2F] font-mono-tech">
-  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 border-b border-[#2A2A2F] pb-4">
+<section id="community-dispatches" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-line font-mono-tech">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 border-b border-line pb-4">
     <div class="text-center sm:text-left">
-      <span class="text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033] block">
+      <span class="text-xs font-bold uppercase tracking-[1.5px] text-brand block">
         // @RWND20S · TAG #AFTERDARKNORULES
       </span>
       <h2 class="mt-1 font-display text-2xl sm:text-3xl font-extrabold uppercase text-white">
@@ -510,7 +533,7 @@
         href="https://wa.me/918921946228?text=Yo%20RWND20s%2C%20submitting%20my%20hardware%20fit%20pic%20for%20Community%20Dispatches%3A"
         target="_blank"
         rel="noopener"
-        class="inline-flex h-10 items-center justify-center bg-[#FF0033] px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors"
+        class="inline-flex h-10 items-center justify-center bg-brand px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:bg-brand-dark transition-colors"
       >
         + SUBMIT YOUR FIT →
       </a>
@@ -518,7 +541,7 @@
         href="https://instagram.com/rwnd20s"
         target="_blank"
         rel="noopener"
-        class="inline-flex h-10 items-center justify-center border border-[#2A2A2F] bg-[#131316] px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-colors"
+        class="inline-flex h-10 items-center justify-center border border-line bg-surface px-4 text-[11px] font-bold uppercase tracking-wider text-white hover:border-brand transition-colors"
       >
         @RWND20S →
       </a>
@@ -540,7 +563,7 @@
           data-prod-title="{% if tagged_prod != blank %}{{ tagged_prod.title | escape }}{% elsif spotlight_product != blank %}{{ spotlight_product.title | escape }}{% else %}3-PIECE MYSTERY CYBER SET{% endif %}"
           data-prod-price="{% if tagged_prod != blank %}{{ tagged_prod.price | money }}{% elsif spotlight_product != blank %}{{ spotlight_product.price | money }}{% else %}SEE PRODUCT PAGE{% endif %}"
           data-prod-url="{% if tagged_prod != blank %}{{ tagged_prod.url }}{% else %}{{ cyber_set_url }}{% endif %}"
-          class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] text-left cursor-pointer hover:border-[#FF0033] transition-all"
+          class="group relative aspect-square w-full overflow-hidden border border-line bg-surface text-left cursor-pointer hover:border-brand transition-all"
           {{ block.shopify_attributes }}
         >
           {% if block.settings.image %}
@@ -552,9 +575,9 @@
               class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             >
           {% else %}
-            <div class="flex h-full w-full flex-col items-center justify-center p-3 text-center bg-[#0A0A0C]">
-              <span class="text-[10px] font-bold text-[#FF0033]">// LOG 0{{ forloop.index }}</span>
-              <span class="mt-1 text-[9px] uppercase text-[#A3A7AE]">UPLOAD FIT IN CUSTOMIZER</span>
+            <div class="flex h-full w-full flex-col items-center justify-center p-3 text-center bg-card">
+              <span class="text-[10px] font-bold text-brand">// LOG 0{{ forloop.index }}</span>
+              <span class="mt-1 text-[9px] uppercase text-muted">UPLOAD FIT IN CUSTOMIZER</span>
             </div>
           {% endif %}
 
@@ -564,7 +587,7 @@
             <p class="text-[10px] font-bold uppercase text-white truncate">
               {{ block.settings.handle | default: '@OPERATOR_01' }}
             </p>
-            <p class="text-[9px] uppercase text-[#FF0033] truncate">
+            <p class="text-[9px] uppercase text-brand truncate">
               SHOP FIT →
             </p>
           </div>
@@ -576,10 +599,10 @@
           href="https://wa.me/918921946228?text=Yo%20RWND20s%2C%20submitting%20my%20hardware%20fit%20pic%20for%20Slot%200{{ i }}%3A"
           target="_blank"
           rel="noopener"
-          class="group relative aspect-square w-full overflow-hidden border border-[#2A2A2F] bg-[#131316] flex flex-col items-center justify-center p-3 text-center hover:border-[#FF0033] transition-colors"
+          class="group relative aspect-square w-full overflow-hidden border border-line bg-surface flex flex-col items-center justify-center p-3 text-center hover:border-brand transition-colors"
         >
-          <span class="text-[10px] font-bold text-[#FF0033]">// SLOT 0{{ i }}</span>
-          <span class="mt-1 text-[9px] uppercase text-[#A3A7AE] group-hover:text-white">+ SUBMIT FIT</span>
+          <span class="text-[10px] font-bold text-brand">// SLOT 0{{ i }}</span>
+          <span class="mt-1 text-[9px] uppercase text-muted group-hover:text-white">+ SUBMIT FIT</span>
         </a>
       {% endfor %}
     {% endif %}
@@ -589,45 +612,45 @@
 <!-- Dispatch Inspector Modal (z-220) -->
 <div
   id="rwnd-dispatch-modal"
-  class="fixed inset-0 z-[220] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 font-mono-tech text-[#F5F5F7]"
+  class="fixed inset-0 z-[220] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 font-mono-tech text-bone"
   role="dialog"
   aria-modal="true"
 >
-  <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#0A0A0A] shadow-2xl overflow-hidden">
-    <div class="flex items-center justify-between border-b border-[#2A2A2F] bg-[#131316] px-4 py-3">
+  <div class="relative w-full max-w-md border border-line bg-panel shadow-2xl overflow-hidden">
+    <div class="flex items-center justify-between border-b border-line bg-surface px-4 py-3">
       <div class="flex items-center gap-2 text-xs">
-        <span class="h-2 w-2 bg-[#FF0033]"></span>
+        <span class="h-2 w-2 bg-brand"></span>
         <span id="rwnd-disp-handle" class="font-bold uppercase text-white">@OPERATOR</span>
-        <span id="rwnd-disp-city" class="text-[10px] uppercase text-[#A3A7AE]">· MADURAI</span>
+        <span id="rwnd-disp-city" class="text-[10px] uppercase text-muted">· MADURAI</span>
       </div>
       <button
         type="button"
         onclick="window.closeRwndDispatchModal()"
-        class="h-8 w-8 flex items-center justify-center text-[#A3A7AE] hover:text-[#FF0033] text-sm cursor-pointer"
+        class="h-8 w-8 flex items-center justify-center text-muted hover:text-brand text-sm cursor-pointer"
         aria-label="Close"
       >✕</button>
     </div>
 
-    <div class="aspect-square w-full bg-[#000000] flex items-center justify-center overflow-hidden border-b border-[#2A2A2F]">
+    <div class="aspect-square w-full bg-[#000000] flex items-center justify-center overflow-hidden border-b border-line">
       <img id="rwnd-disp-img" src="" alt="Community Dispatch" width="900" height="600" class="h-full w-full object-cover hidden">
-      <div id="rwnd-disp-empty" class="p-8 text-center text-xs uppercase text-[#A3A7AE]">
+      <div id="rwnd-disp-empty" class="p-8 text-center text-xs uppercase text-muted">
         // FIT ARCHIVE PENDING UPLOAD — TAG @RWND20S TO CLAIM THIS SLOT
       </div>
     </div>
 
     <div class="p-4 space-y-4">
-      <p id="rwnd-disp-caption" class="text-xs text-[#C8CDD3] leading-relaxed"></p>
+      <p id="rwnd-disp-caption" class="text-xs text-ice leading-relaxed"></p>
 
-      <div class="flex items-center justify-between gap-3 border border-[#2A2A2F] bg-[#131316] p-3">
+      <div class="flex items-center justify-between gap-3 border border-line bg-surface p-3">
         <div class="min-w-0">
-          <span class="text-[9px] font-bold uppercase text-[#FF0033] block">// WORN HARDWARE</span>
+          <span class="text-[9px] font-bold uppercase text-brand block">// WORN HARDWARE</span>
           <p id="rwnd-disp-prod-title" class="font-display text-xs font-bold uppercase text-white truncate"></p>
-          <p id="rwnd-disp-prod-price" class="text-xs font-bold text-[#A3A7AE] mt-0.5"></p>
+          <p id="rwnd-disp-prod-price" class="text-xs font-bold text-muted mt-0.5"></p>
         </div>
         <a
           id="rwnd-disp-prod-url"
           href="{{ routes.all_products_collection_url }}"
-          class="shrink-0 bg-[#FF0033] px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors"
+          class="shrink-0 bg-brand px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-brand-dark transition-colors"
         >
           SHOP PIECE →
         </a>
@@ -639,15 +662,15 @@
 <!-- ========================================================================= -->
 <!-- 2.9 WORKABLE EMAIL CAPTURE / DROP NOTIFIER                                -->
 <!-- ========================================================================= -->
-<section id="drop-notifier" class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 bg-[#0A0A0C] text-center">
-  <div class="mx-auto max-w-2xl border border-[#2A2A2F] bg-[#131316] p-8 sm:p-14">
-    <span class="font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+<section id="drop-notifier" class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 bg-card text-center">
+  <div class="mx-auto max-w-2xl border border-line bg-surface p-8 sm:p-14">
+    <span class="font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-brand">
       [ ACCESS KEY // DROP ALERTS ]
     </span>
     <h2 class="mt-2 font-display text-3xl sm:text-5xl font-extrabold uppercase text-white">
       JOIN THE GRID.<br>GET EARLY ACCESS.
     </h2>
-    <p class="mt-3 font-mono-tech text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+    <p class="mt-3 font-mono-tech text-xs sm:text-sm text-muted leading-relaxed">
       Subscribers receive 24-hour advance access to upcoming hardware batches and 10% off first orders.
     </p>
 
@@ -655,7 +678,7 @@
       <input type="hidden" id="rwnd-grid-tags" name="contact[tags]" value="newsletter, drop-01, grid-early-access">
 
       {% if form.posted_successfully? %}
-        <div class="border border-[#00FF88] bg-[#0A0A0C] p-4 font-mono-tech text-xs uppercase text-[#00FF88]">
+        <div class="border border-success bg-card p-4 font-mono-tech text-xs uppercase text-success">
           ✓ OPERATOR LOGGED · USE CODE <strong class="text-white">RWND10</strong> FOR 10% OFF
         </div>
       {% else %}
@@ -667,34 +690,34 @@
             required 
             autocomplete="email"
             aria-label="Operator email"
-            class="flex-1 h-14 bg-[#0A0A0C] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+            class="flex-1 h-14 bg-card border border-line px-4 font-mono-tech text-xs text-white uppercase focus:border-brand focus:outline-none"
           >
           <button 
             type="submit" 
-            class="h-14 px-8 bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
+            class="h-14 px-8 bg-brand font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-dark transition-colors cursor-pointer shrink-0"
           >
             SUBSCRIBE →
           </button>
         </div>
 
         {% if form.errors %}
-          <p class="font-mono-tech text-[11px] font-bold uppercase text-[#FF0033]">
+          <p class="font-mono-tech text-[11px] font-bold uppercase text-brand">
             ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
           </p>
         {% endif %}
 
-        <div class="mt-3 flex items-center justify-center gap-2 font-mono-tech text-xs text-[#A3A7AE]">
+        <div class="mt-3 flex items-center justify-center gap-2 font-mono-tech text-xs text-muted">
           <input 
             type="checkbox" 
             id="whatsapp-notify" 
             onchange="document.getElementById('rwnd-grid-tags').value = this.checked ? 'newsletter, drop-01, grid-early-access, whatsapp-alerts' : 'newsletter, drop-01, grid-early-access';"
-            class="accent-[#FF0033] cursor-pointer"
+            class="accent-brand cursor-pointer"
           >
           <label for="whatsapp-notify" class="cursor-pointer">Also flag profile for WhatsApp drop dispatches</label>
         </div>
       {% endif %}
 
-      <p class="mt-2 font-mono-tech text-[10px] uppercase tracking-wider text-[#A3A7AE]">
+      <p class="mt-2 font-mono-tech text-[10px] uppercase tracking-wider text-muted">
         Dispatched from Madurai · No spam. Unsubscribe anytime.
       </p>
     {% endform %}
@@ -799,6 +822,12 @@
       "type": "url",
       "id": "hero_video_url",
       "label": "Hero Background Video URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Imagery",
+      "info": "Optional. Falls back to the featured product image. Leave empty for the gradient-only hero."
     }
   ],
   "blocks": [

@@ -1,6 +1,53 @@
 /* assets/theme.css */
 
 /* ==========================================================================
+   SEMANTIC TOKEN SYSTEM (Tailwind semantic aliases, kept in sync)
+   --------------------------------------------------------------------------
+   These variables mirror the `colors` block in assets/tailwind.css (built
+   from /tmp/tw-build/tailwind.config.js). Prefer these tokens — and their
+   Tailwind utilities (bg-brand, text-bone, border-line …) — over arbitrary
+   hex values in markup. theme.css remains the canonical source for
+   legacy --var-based selectors; this block is the bridge for Tailwind.
+
+   Color tokens (purpose):
+     brand      — primary red, CTA and brand energy (#FF0033)
+     brand-dark — brand hover / depth (#CC0029)
+     panel      — darkest chrome surfaces (#0A0A0A)
+     card       — card surfaces (#0A0A0C)
+     surface    — body-level surfaces (#131316)
+     elevated   — raised surfaces (#181818)
+     void       — deepest background (#09090B)
+     line       — hairline borders (#2A2A2F)
+     bone       — primary high-contrast text (#F5F5F7)
+     muted      — secondary text (#A3A7AE)
+     subtle     — metadata / low-emphasis text (#737373)
+     ice        — cool light accent / dividers (#C8CDD3)
+     success    — positive status (#00FF88)
+     warn       — caution / warning (#FFB800)
+
+   Type tokens:
+     --font-display  Druk Wide Bold (hosted via webfont CDN in layout/theme.liquid), Syne fallback
+     --font-body     Inter
+     --font-mono     JetBrains Mono  (Tailwind: font-mono-tech)
+   ========================================================================== */
+:root {
+  --color-brand: #FF0033;
+  --color-brand-dark: #CC0029;
+  --color-panel: #0A0A0A;
+  --color-card: #0A0A0C;
+  --color-surface: #131316;
+  --color-elevated: #181818;
+  --color-void: #09090B;
+  --color-line: #2A2A2F;
+  --color-bone: #F5F5F7;
+  --color-muted: #A3A7AE;
+  --color-subtle: #737373;
+  --color-ice: #C8CDD3;
+  --color-success: #00FF88;
+  --color-warn: #FFB800;
+}
+
+/* ==========================================================================
    RWND20S CORE TOKENS (HIGH CONTRAST & CLEAN STREETWEAR HIERARCHY)
    ========================================================================== */
 :root {
@@ -27,7 +74,7 @@
   --border-focus: 1px solid rgba(255, 255, 255, 0.25);
 
   /* Fonts */
-  --font-display: 'Druk Wide', 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Druk Wide Bold', 'Druk Wide', 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 

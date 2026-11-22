@@ -18,22 +18,22 @@
 {% assign faq_url = pages['faq'].url | default: contact_url %}
 {% assign size_guide_url = pages['size-guide'].url | default: contact_url %}
 {% assign track_order_url = pages['track-order'].url | default: contact_url %}
-<footer class="w-full border-t border-[#2A2A2F] bg-[#0A0A0A] px-4 py-10 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-16 lg:px-8">
+<footer class="w-full border-t border-line bg-panel px-4 py-10 font-mono-tech text-bone sm:px-6 sm:py-16 lg:px-8">
   <div class="mx-auto max-w-7xl">
     
     <!-- Top Notice Box -->
-    <div class="border-l-2 border-[#FF0033] bg-[#131316] p-4 text-xs mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div class="border-l-2 border-brand bg-surface p-4 text-xs mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
       <div>
         <p class="font-bold text-white uppercase">⚠ NOTICE: FREE DELIVERY ON ORDERS ₹999+ · DELIVERED IN 48 HOURS IN SOUTH INDIA</p>
-        <p class="text-[11px] text-[#A3A7AE] mt-0.5">Dispatched directly from our Madurai logistics facility.</p>
+        <p class="text-[11px] text-muted mt-0.5">Dispatched directly from our Madurai logistics facility.</p>
       </div>
-      <a href="{{ all_url }}" class="text-[10px] font-bold text-[#FF0033] uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
+      <a href="{{ all_url }}" class="text-[10px] font-bold text-brand uppercase hover:underline shrink-0">ORDER ARCHIVE →</a>
     </div>
 
     <!-- Native Shopify Customer Email Dispatch Strip -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-5 sm:p-6 mb-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div class="border border-line bg-surface p-5 sm:p-6 mb-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <div>
-        <span class="text-[10px] font-bold uppercase tracking-[1.5px] text-[#FF0033] block">// DROP 01 ARCHIVE ALERTS</span>
+        <span class="text-[10px] font-bold uppercase tracking-[1.5px] text-brand block">// DROP 01 ARCHIVE ALERTS</span>
         <p class="font-display text-base sm:text-lg font-extrabold uppercase text-white mt-0.5">
           JOIN THE DISPATCH LIST · GET 10% OFF (RWND10)
         </p>
@@ -44,7 +44,7 @@
           <input type="hidden" name="contact[tags]" value="newsletter, footer-dispatch, drop-01">
 
           {% if form.posted_successfully? %}
-            <div class="border border-[#00FF88] bg-[#0A0A0C] px-4 py-3 text-xs font-bold uppercase text-[#00FF88]">
+            <div class="border border-success bg-card px-4 py-3 text-xs font-bold uppercase text-success">
               ✓ SUBSCRIBED · USE CODE <span class="text-white">RWND10</span> AT CHECKOUT
             </div>
           {% else %}
@@ -56,17 +56,17 @@
                 placeholder="ENTER YOUR EMAIL..."
                 autocomplete="email"
                 aria-label="Email address"
-                class="h-11 flex-1 border border-[#2A2A2F] bg-[#0A0A0C] px-3.5 text-xs text-white uppercase placeholder-[#A3A7AE] focus:border-[#FF0033] focus:outline-none"
+                class="h-11 flex-1 border border-line bg-card px-3.5 text-xs text-white uppercase placeholder-muted focus:border-brand focus:outline-none"
               >
               <button
                 type="submit"
-                class="h-11 px-5 bg-[#FF0033] text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer shrink-0"
+                class="h-11 px-5 bg-brand text-xs font-bold uppercase tracking-widest text-white hover:bg-brand-dark transition-colors cursor-pointer shrink-0"
               >
                 SUBSCRIBE →
               </button>
             </div>
             {% if form.errors %}
-              <p class="mt-1.5 text-[10px] font-bold uppercase text-[#FF0033]">
+              <p class="mt-1.5 text-[10px] font-bold uppercase text-brand">
                 ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
               </p>
             {% endif %}
@@ -76,14 +76,14 @@
     </div>
 
     <!-- 2-Column Mobile / 4-Column Desktop Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-[#2A2A2F] text-xs">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-line text-xs">
       
       <!-- Column 1: Drop 01 (Direct Smart Collection Links) -->
       <div>
-        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-line pb-2 text-xs font-bold uppercase tracking-[1.5px] text-brand">
           DROP 01
         </h3>
-        <ul class="space-y-2 text-[#A3A7AE]">
+        <ul class="space-y-2 text-muted">
           <li><a href="{{ all_url }}" class="hover:text-white transition-colors">Shop All Pieces</a></li>
           <li><a href="{{ cyber_set_url }}" class="hover:text-white transition-colors">3-Piece Mystery Set</a></li>
           <li><a href="{{ rings_url }}" class="hover:text-white transition-colors">316L Rings</a></li>
@@ -97,10 +97,10 @@
 
       <!-- Column 2: Policies -->
       <div>
-        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-line pb-2 text-xs font-bold uppercase tracking-[1.5px] text-brand">
           POLICIES
         </h3>
-        <ul class="space-y-2 text-[#A3A7AE]">
+        <ul class="space-y-2 text-muted">
           <li><a href="{{ shipping_url }}" class="hover:text-white transition-colors">Shipping</a></li>
           <li><a href="{{ returns_url }}" class="hover:text-white transition-colors">Returns</a></li>
           <li><a href="{{ cancellation_url }}" class="hover:text-white transition-colors">Cancellation</a></li>
@@ -112,10 +112,10 @@
 
       <!-- Column 3: Support -->
       <div>
-        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-line pb-2 text-xs font-bold uppercase tracking-[1.5px] text-brand">
           SUPPORT
         </h3>
-        <ul class="space-y-2 text-[#A3A7AE]">
+        <ul class="space-y-2 text-muted">
           <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Contact</a></li>
           <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Grievance</a></li>
           <li><a href="{{ contact_url }}" class="hover:text-white transition-colors">Seller Info</a></li>
@@ -127,14 +127,14 @@
 
       <!-- Column 4: Connect -->
       <div>
-        <h3 class="mb-3 border-b border-[#2A2A2F] pb-2 text-xs font-bold uppercase tracking-[1.5px] text-[#FF0033]">
+        <h3 class="mb-3 border-b border-line pb-2 text-xs font-bold uppercase tracking-[1.5px] text-brand">
           CONNECT
         </h3>
-        <ul class="space-y-2 text-[#A3A7AE]">
+        <ul class="space-y-2 text-muted">
           <li><a href="https://instagram.com/rwnd20s" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a></li>
           <li><a href="mailto:rwnd20s@gmail.com" class="hover:text-white transition-colors">Email</a></li>
           <li class="pt-3">
-            <a href="https://wa.me/918921946228?text=Hey!%20Connecting%20from%20RWND20S%20storefront." target="_blank" class="inline-flex h-9 items-center justify-center border border-[#FF0033] bg-[#131316] px-3 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] transition-colors">
+            <a href="https://wa.me/918921946228?text=Hey!%20Connecting%20from%20RWND20S%20storefront." target="_blank" class="inline-flex h-9 items-center justify-center border border-brand bg-surface px-3 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-brand transition-colors">
               CHAT ON WHATSAPP →
             </a>
           </li>
@@ -144,19 +144,19 @@
     </div>
 
     <!-- Rights & Payment Icons -->
-    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-[#A3A7AE] uppercase">
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-muted uppercase">
       <div>
         <p>© 2026 RWND20S. DISPATCHED FROM MADURAI. ALL RIGHTS RESERVED.</p>
-        <p class="text-[#FF0033] mt-0.5">RETURNS ACCEPTED ONLY FOR DEFECTIVE OR WRONG ITEMS (48-HR WINDOW WITH UNBOXING VIDEO).</p>
+        <p class="text-brand mt-0.5">RETURNS ACCEPTED ONLY FOR DEFECTIVE OR WRONG ITEMS (48-HR WINDOW WITH UNBOXING VIDEO).</p>
       </div>
       <div class="flex flex-wrap gap-1 text-[9px] text-white">
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">VISA</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">MASTERCARD</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">RUPAY</span>
-        <span class="border border-[#FF0033] bg-[#FF0033]/20 px-2 py-1 text-[#FF0033]">UPI</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">GPAY</span>
-        <span class="border border-[#2A2A2F] bg-[#131316] px-2 py-1">PHONEPE</span>
-        <span class="border border-[#FF0033] bg-[#0A0A0A] px-2 py-1 text-white">COD</span>
+        <span class="border border-line bg-surface px-2 py-1">VISA</span>
+        <span class="border border-line bg-surface px-2 py-1">MASTERCARD</span>
+        <span class="border border-line bg-surface px-2 py-1">RUPAY</span>
+        <span class="border border-brand bg-brand/20 px-2 py-1 text-brand">UPI</span>
+        <span class="border border-line bg-surface px-2 py-1">GPAY</span>
+        <span class="border border-line bg-surface px-2 py-1">PHONEPE</span>
+        <span class="border border-brand bg-panel px-2 py-1 text-white">COD</span>
       </div>
     </div>
 

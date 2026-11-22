@@ -9,18 +9,18 @@
   role="dialog"
   inert
 >
-  <div class="relative w-full max-w-md border border-[#2A2A2F] bg-[#0A0A0A] p-6 sm:p-8 text-center font-mono-tech shadow-2xl">
+  <div class="relative w-full max-w-md border border-line bg-panel p-6 sm:p-8 text-center font-mono-tech shadow-2xl">
     <button
       type="button"
       id="close-welcome-modal"
-      class="absolute top-4 right-4 h-8 w-8 flex items-center justify-center text-xs font-bold text-[#A3A7AE] hover:text-[#FF0033] cursor-pointer"
+      class="absolute top-4 right-4 h-8 w-8 flex items-center justify-center text-xs font-bold text-muted hover:text-brand cursor-pointer"
       aria-label="Close"
     >
       ✕
     </button>
 
-    <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-[#F5F5F7]">
-      <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
+    <div class="inline-flex items-center gap-2 border border-brand/60 bg-surface px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-bone">
+      <span class="h-1.5 w-1.5 bg-brand animate-pulse"></span>
       DROP 01 // DISPATCHED FROM MADURAI
     </div>
 
@@ -29,14 +29,14 @@
       <input type="hidden" name="contact[tags]" value="newsletter, welcome_10off, drop-01">
 
       {%- if form.posted_successfully? -%}
-        <div id="welcome-success-state" class="border border-[#FF0033] bg-[#131316] p-5 text-center space-y-2.5">
+        <div id="welcome-success-state" class="border border-brand bg-surface p-5 text-center space-y-2.5">
           <h2 id="rwnd-welcome-title" class="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white leading-none">
             DISPATCH<br>ACCESS GRANTED.
           </h2>
-          <div class="inline-block bg-[#FF0033] px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
+          <div class="inline-block bg-brand px-3 py-1 font-mono-tech text-sm font-extrabold tracking-widest text-white">
             RWND10
           </div>
-          <p class="text-[10px] text-[#A3A7AE]">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
+          <p class="text-[10px] text-muted">Use code RWND10 at checkout. It is validated against your cart by Shopify.</p>
           <a
             href="{{ routes.all_products_collection_url }}"
             id="welcome-shop-now"
@@ -50,7 +50,7 @@
           OLD VIBE.<br>NEW YOU.
         </h2>
 
-        <p class="mt-3 text-xs sm:text-sm text-[#A3A7AE] leading-relaxed">
+        <p class="mt-3 text-xs sm:text-sm text-muted leading-relaxed">
           Sign up for exclusive Drop 01 archive dispatches and restocks. New subscribers receive the RWND10 welcome code.
         </p>
 
@@ -63,12 +63,12 @@
             placeholder="ENTER YOUR EMAIL..."
             required
             autocomplete="email"
-            class="h-12 w-full bg-[#131316] border border-[#2A2A2F] px-4 font-mono-tech text-xs text-white uppercase focus:border-[#FF0033] focus:outline-none"
+            class="h-12 w-full bg-surface border border-line px-4 font-mono-tech text-xs text-white uppercase focus:border-brand focus:outline-none"
           >
         </div>
 
         {%- if form.errors -%}
-          <p class="mt-2 text-left text-[11px] uppercase font-bold text-[#FF0033]" role="alert">
+          <p class="mt-2 text-left text-[11px] uppercase font-bold text-brand" role="alert">
             ✕ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
           </p>
         {%- endif -%}
@@ -76,14 +76,14 @@
         <button
           type="submit"
           id="rwnd-welcome-submit"
-          class="mt-3 h-12 w-full bg-[#FF0033] font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-all cursor-pointer flex items-center justify-center"
+          class="mt-3 h-12 w-full bg-brand font-mono-tech text-xs font-bold uppercase tracking-widest text-white hover:bg-brand-dark transition-all cursor-pointer flex items-center justify-center"
         >
           CLAIM WELCOME CODE →
         </button>
       {%- endif -%}
     {% endform %}
 
-    <p class="mt-4 text-[10px] uppercase tracking-wider text-[#A3A7AE]">
+    <p class="mt-4 text-[10px] uppercase tracking-wider text-muted">
       DISPATCHED FROM MADURAI · NO SPAM
     </p>
   </div>

@@ -95,6 +95,24 @@
     return document.getElementById('rwnd-main-cart-estimated-total');
   }
 
+  function mobileTotalEl() {
+    return document.getElementById('rwnd-main-cart-mobile-total');
+  }
+
+  function mobileBar() {
+    var bar = document.getElementById('rwnd-main-cart-mobile-checkout');
+    return bar ? bar.closest('.rwnd-mobile-checkout-bar') : null;
+  }
+
+  function syncMobileBar() {
+    var wrap = mobileBar();
+    if (!wrap) return;
+    var cart = state.cart;
+    var empty = !cart || !cart.items || cart.items.length === 0;
+    wrap.classList.toggle('hidden', empty);
+    wrap.classList.toggle('flex', !empty);
+  }
+
   function selectedPill() {
     return document.querySelector('input[name="rwnd_dispatch_mode"]:checked');
   }
@@ -135,7 +153,11 @@
     if (!total) return;
     if (!cart) return; // leave the server-rendered markup until /cart.js responds
     var base = cart.total_price || 0;
-    total.textContent = formatMoney(showFee ? base + FOUNDER_FEE : base, cart.currency);
+    var est = formatMoney(showFee ? base + FOUNDER_FEE : base, cart.currency);
+    total.textContent = est;
+    var mobileTotal = mobileTotalEl();
+    if (mobileTotal) mobileTotal.textContent = est;
+    syncMobileBar();
   }
 
   function renderMainCartItems(cart) {
@@ -144,11 +166,11 @@
 
     if (!cart.items || cart.items.length === 0) {
       container.innerHTML = `
-        <div class="flex min-h-[300px] flex-col items-center justify-center border border-[#2A2A2F] bg-[#131316] p-8 text-center">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// DEAD LINE</span>
-          <p class="mt-2 font-display text-xl font-bold uppercase tracking-wider text-[#F5F5F7]">BAG'S EMPTY</p>
-          <p class="mt-1 font-mono-tech text-xs text-[#A3A7AE]">Grab Drop 01 — or sit in silence. Your call.</p>
-          <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-[#F5F5F7] transition-all hover:bg-[#CC0029]">
+        <div class="flex min-h-[300px] flex-col items-center justify-center border border-line bg-surface p-8 text-center">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-brand">// DEAD LINE</span>
+          <p class="mt-2 font-display text-xl font-bold uppercase tracking-wider text-bone">BAG'S EMPTY</p>
+          <p class="mt-1 font-mono-tech text-xs text-muted">Grab Drop 01 — or sit in silence. Your call.</p>
+          <a href="/collections/all" class="mt-6 inline-flex h-12 items-center justify-center border border-brand bg-brand px-8 font-mono-tech text-xs font-bold uppercase tracking-widest text-bone transition-all hover:bg-brand-dark">
             EXPLORE ARCHIVE →
           </a>
         </div>`;
@@ -159,39 +181,39 @@
       const isEarphone = /earphone|ear-01/i.test(item.product_title + ' ' + (item.handle || ''));
       const qty = Math.max(1, item.quantity); // never decrement below 1
       return `
-        <article class="flex flex-col gap-4 border border-[#2A2A2F] bg-[#131316] p-4 sm:flex-row sm:items-center">
-          <div class="flex h-24 w-24 shrink-0 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] p-2">
+        <article class="flex flex-col gap-4 border border-line bg-surface p-4 sm:flex-row sm:items-center">
+          <div class="flex h-24 w-24 shrink-0 items-center justify-center border border-line bg-card p-2">
             ${item.image
               ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.title)}" width="96" height="96" class="h-full w-full object-contain">`
-              : '<span class="text-[9px] text-[#A3A7AE]">NO IMG</span>'}
+              : '<span class="text-[9px] text-muted">NO IMG</span>'}
           </div>
           <div class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3">
             <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
-                <h3 class="font-display text-sm font-bold uppercase text-[#F5F5F7] tracking-tight sm:text-base">${escapeHTML(item.product_title)}</h3>
+                <h3 class="font-display text-sm font-bold uppercase text-bone tracking-tight sm:text-base">${escapeHTML(item.product_title)}</h3>
                 ${item.variant_title && item.variant_title !== 'Default Title'
-                  ? `<p class="mt-0.5 font-mono-tech text-xs text-[#A3A7AE] uppercase">${escapeHTML(item.variant_title)}</p>`
+                  ? `<p class="mt-0.5 font-mono-tech text-xs text-muted uppercase">${escapeHTML(item.variant_title)}</p>`
                   : ''}
                 ${isEarphone
-                  ? `<aside class="mt-2 border-l border-[#FF0033] bg-[#0A0A0C] p-2.5 text-[11px] text-[#A3A7AE] space-y-0.5">
-                       <p class="font-bold text-[#F5F5F7]">Type-C only. Not compatible with iPhone 14 and older, or phones with a 3.5mm jack.</p>
+                  ? `<aside class="mt-2 border-l border-brand bg-card p-2.5 text-[11px] text-muted space-y-0.5">
+                       <p class="font-bold text-bone">Type-C only. Not compatible with iPhone 14 and older, or phones with a 3.5mm jack.</p>
                      </aside>`
                   : ''}
               </div>
-              <span class="shrink-0 font-mono-tech text-sm font-bold text-[#F5F5F7] sm:text-base">${formatMoney(item.final_line_price, cart.currency)}</span>
+              <span class="shrink-0 font-mono-tech text-sm font-bold text-bone sm:text-base">${formatMoney(item.final_line_price, cart.currency)}</span>
             </div>
-            <div class="mt-auto flex items-center justify-between border-t border-[#2A2A2F] pt-3">
-              <div class="flex items-center border border-[#2A2A2F] bg-[#0A0A0C]">
+            <div class="mt-auto flex items-center justify-between border-t border-line pt-3">
+              <div class="flex items-center border border-line bg-card">
                 <button type="button" data-rwnd-line-key="${escapeHTML(item.key)}" data-rwnd-qty="${Math.max(1, item.quantity - 1)}"
                   aria-label="Decrease quantity"
-                  class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer select-none">−</button>
-                <span class="w-8 text-center font-mono-tech text-xs font-bold text-[#F5F5F7]">${item.quantity}</span>
+                  class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-muted transition-colors hover:text-bone cursor-pointer select-none">−</button>
+                <span class="w-8 text-center font-mono-tech text-xs font-bold text-bone">${item.quantity}</span>
                 <button type="button" data-rwnd-line-key="${escapeHTML(item.key)}" data-rwnd-qty="${item.quantity + 1}"
                   aria-label="Increase quantity"
-                  class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-[#A3A7AE] transition-colors hover:text-[#F5F5F7] cursor-pointer select-none">+</button>
+                  class="flex h-10 w-10 items-center justify-center font-mono-tech text-sm font-bold text-muted transition-colors hover:text-bone cursor-pointer select-none">+</button>
               </div>
               <button type="button" data-rwnd-line-key="${escapeHTML(item.key)}" data-rwnd-qty="0"
-                class="font-mono-tech text-xs uppercase tracking-wider text-[#A3A7AE] transition-colors hover:text-[#FF0033] cursor-pointer">[ REMOVE ]</button>
+                class="font-mono-tech text-xs uppercase tracking-wider text-muted transition-colors hover:text-brand cursor-pointer">[ REMOVE ]</button>
             </div>
           </div>
         </article>`;
@@ -238,6 +260,7 @@
     }
 
     renderFounderFee(cart);
+    syncMobileBar();
   }
 
   function restoreDispatchSelection(cart) {
@@ -342,7 +365,7 @@
   }
 
   function setCheckoutLinks(code) {
-    ['rwnd-checkout-action-btn'].forEach((id) => {
+    ['rwnd-checkout-action-btn', 'rwnd-main-cart-mobile-checkout'].forEach((id) => {
       const link = document.getElementById(id);
       if (link) link.href = checkoutUrl(code);
     });
@@ -524,14 +547,14 @@
     if (!code) {
       if (message) {
         message.textContent = 'ENTER A CODE TO APPLY AT CHECKOUT';
-        message.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-[#FF0033] block';
+        message.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-brand block';
       }
       return;
     }
     setCheckoutLinks(code);
     if (message) {
       message.textContent = '✓ ' + code + ' WILL BE VALIDATED AT CHECKOUT';
-      message.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-[#00FF88] block';
+      message.className = 'text-[10px] mt-1.5 font-mono-tech uppercase tracking-wider text-success block';
     }
   };
 })();

@@ -1,43 +1,43 @@
 <!-- sections/main-page.liquid -->
-<div class="relative w-full min-h-screen bg-transparent text-[#F5F5F7] py-10 px-4 sm:px-6 lg:px-12 font-mono-tech">
+<div class="relative w-full min-h-screen bg-transparent text-bone py-10 px-4 sm:px-6 lg:px-12 font-mono-tech">
   <div class="max-w-4xl mx-auto">
     
     <!-- Breadcrumb Nav -->
-    <nav aria-label="Breadcrumb" class="mb-6 font-mono-tech text-xs text-[#A3A7AE]">
+    <nav aria-label="Breadcrumb" class="mb-6 font-mono-tech text-xs text-muted">
       <ol class="flex items-center gap-2 uppercase tracking-[0.12em]">
-        <li><a href="{{ routes.root_url }}" class="hover:text-[#F5F5F7] transition-colors">BASE</a></li>
-        <li class="text-[#2A2A2F]">/</li>
-        <li class="text-[#F5F5F7] font-bold">{{ page.title | escape }}</li>
+        <li><a href="{{ routes.root_url }}" class="hover:text-bone transition-colors">BASE</a></li>
+        <li class="text-line">/</li>
+        <li class="text-bone font-bold">{{ page.title | escape }}</li>
       </ol>
     </nav>
 
     <!-- Page Container (Strict 0px Obsidian Panel) -->
-    <div class="border border-[#2A2A2F] bg-[#131316] p-6 sm:p-12 shadow-2xl relative rounded-none">
+    <div class="border border-line bg-surface p-6 sm:p-12 shadow-2xl relative rounded-none">
       
-      <div class="border-b border-[#2A2A2F] pb-6 mb-8">
-        <span class="inline-block font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] bg-[#0A0A0C] text-[#C8CDD3] px-3 py-1 border border-[#2A2A2F] rounded-none">
+      <div class="border-b border-line pb-6 mb-8">
+        <span class="inline-block font-mono-tech text-[10px] font-bold uppercase tracking-[0.12em] bg-card text-ice px-3 py-1 border border-line rounded-none">
           OFFICIAL ARCHIVE DOC // RWND20S.SYS
         </span>
-        <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#F5F5F7] mt-3">
+        <h1 class="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-bone mt-3">
           {{ page.title | escape }}
         </h1>
       </div>
 
       <!-- Page Content Body -->
-      <div class="font-mono-tech text-xs sm:text-sm text-[#F5F5F7] leading-relaxed space-y-4 [&>h2]:font-display [&>h2]:text-lg [&>h2]:sm:text-xl [&>h2]:font-bold [&>h2]:uppercase [&>h2]:text-[#F5F5F7] [&>h2]:pt-4 [&>h2]:border-t [&>h2]:border-[#2A2A2F] [&>p]:text-[#A3A7AE] [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:text-[#A3A7AE] [&>ul>li]:mb-1 [&>a]:text-[#C8CDD3] [&>a]:underline">
+      <div class="font-mono-tech text-xs sm:text-sm text-bone leading-relaxed space-y-4 [&>h2]:font-display [&>h2]:text-lg [&>h2]:sm:text-xl [&>h2]:font-bold [&>h2]:uppercase [&>h2]:text-bone [&>h2]:pt-4 [&>h2]:border-t [&>h2]:border-line [&>p]:text-muted [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:text-muted [&>ul>li]:mb-1 [&>a]:text-ice [&>a]:underline">
         {% if page.content != blank %}
           {{ page.content }}
         {% else %}
-          <p class="text-[#A3A7AE]">No content specified for this archive specification yet.</p>
+          <p class="text-muted">No content specified for this archive specification yet.</p>
         {% endif %}
       </div>
 
       <!-- Action Footer -->
-      <div class="mt-12 pt-6 border-t border-[#2A2A2F] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-        <a href="{{ routes.root_url }}" class="inline-flex h-14 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:bg-[#CC0029] transition-all rounded-none">
+      <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <a href="{{ routes.root_url }}" class="inline-flex h-14 items-center justify-center border border-brand bg-brand px-6 font-mono-tech text-xs font-bold text-bone uppercase tracking-widest hover:bg-brand-dark transition-all rounded-none">
           RETURN TO BASE
         </a>
-        <a href="{{ routes.all_products_collection_url }}" class="inline-flex h-14 items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] px-6 font-mono-tech text-xs font-bold text-[#F5F5F7] uppercase tracking-widest hover:border-[#C8CDD3] transition-all rounded-none">
+        <a href="{{ routes.all_products_collection_url }}" class="inline-flex h-14 items-center justify-center border border-line bg-card px-6 font-mono-tech text-xs font-bold text-bone uppercase tracking-widest hover:border-ice transition-all rounded-none">
           EXPLORE ARCHIVE →
         </a>
       </div>

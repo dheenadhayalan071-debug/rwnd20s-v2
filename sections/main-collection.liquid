@@ -1,10 +1,10 @@
 <!-- sections/main-collection.liquid -->
 {% paginate collection.products by section.settings.products_per_page %}
-<section class="relative w-full bg-[#0A0A0C] px-4 py-6 font-mono-tech text-[#F5F5F7] sm:px-6 sm:py-10 lg:px-8">
+<section class="relative w-full bg-card px-4 py-6 font-mono-tech text-bone sm:px-6 sm:py-10 lg:px-8">
   <div class="mx-auto max-w-7xl">
     
     <!-- 5.1 BREADCRUMBS & HEADER -->
-    <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
+    <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
       <a href="{{ routes.root_url }}" class="hover:text-white transition-colors">Home</a>
       <span>/</span>
       <a href="{{ routes.all_products_collection_url }}" class="hover:text-white transition-colors">Shop</a>
@@ -12,42 +12,42 @@
       <span class="text-white font-bold">{{ collection.title | default: 'All Hardware' }}</span>
     </nav>
 
-    <header class="mb-8 border-b border-[#2A2A2F] pb-6">
-      <div class="inline-flex items-center gap-2 border border-[#FF0033]/60 bg-[#131316] px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-white">
-        <span class="h-1.5 w-1.5 bg-[#FF0033] animate-pulse"></span>
+    <header class="mb-8 border-b border-line pb-6">
+      <div class="inline-flex items-center gap-2 border border-brand/60 bg-surface px-3.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-white">
+        <span class="h-1.5 w-1.5 bg-brand animate-pulse"></span>
         DROP 01 // ARCHIVE COLLECTION
       </div>
       <h1 class="mt-3 font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight text-white">
         {{ collection.title | default: 'Y2K HARDWARE ARCHIVE' }}
       </h1>
-      <p class="mt-2 text-xs uppercase tracking-wider text-[#A3A7AE]">
+      <p class="mt-2 text-xs uppercase tracking-wider text-muted">
         <span id="rwnd-product-count">{{ collection.all_products_count | default: collection.products.size }}</span> PIECES · ALL 316L STAINLESS & NOCTURNAL AUDIO · DISPATCHED FROM MADURAI
       </p>
     </header>
 
     <!-- 5.2 STICKY FILTER & SORT BAR -->
     {% if section.settings.show_category_tabs %}
-    <div id="rwnd-sticky-filter-bar" class="sticky top-[88px] z-30 mb-8 border border-[#2A2A2F] bg-[#0A0A0C]/95 backdrop-blur-md p-3 sm:p-4 transition-all">
+    <div id="rwnd-sticky-filter-bar" class="sticky top-[88px] z-30 mb-8 border border-line bg-card/95 backdrop-blur-md p-3 sm:p-4 transition-all">
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
         
         <!-- Tag Filter Buttons -->
         <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" role="group" aria-label="Filter by category">
-          <button type="button" data-tag-filter="all" aria-pressed="true" class="rwnd-filter-btn active border border-[#FF0033] bg-[#FF0033] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
+          <button type="button" data-tag-filter="all" aria-pressed="true" class="rwnd-filter-btn active border border-brand bg-brand px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
             ALL SPEC
           </button>
-          <button type="button" data-tag-filter="chains" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="chains" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             CHAINS
           </button>
-          <button type="button" data-tag-filter="rings" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="rings" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             RINGS
           </button>
-          <button type="button" data-tag-filter="bracelets" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="bracelets" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             BRACELETS
           </button>
-          <button type="button" data-tag-filter="earphones" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="earphones" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             AUDIO
           </button>
-          <button type="button" data-tag-filter="watch" aria-pressed="false" class="rwnd-filter-btn border border-[#2A2A2F] bg-[#131316] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-[#A3A7AE] hover:border-[#FF0033] hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="watch" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             TIMEPIECES
           </button>
           <button type="button" id="rwnd-filter-clear" class="rwnd-filter-btn hidden border border-white/20 bg-transparent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
@@ -58,7 +58,7 @@
         <!-- Filter Selectors & Sort Dropdown -->
         <div class="flex items-center gap-2">
           <!-- Price Sort -->
-          <select id="rwnd-archive-sort" class="flex-1 lg:flex-none border border-[#2A2A2F] bg-[#131316] px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white focus:border-[#FF0033] focus:outline-none cursor-pointer">
+          <select id="rwnd-archive-sort" class="flex-1 lg:flex-none border border-line bg-surface px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white focus:border-brand focus:outline-none cursor-pointer">
             <option value="featured">SORT: FEATURED ▾</option>
             <option value="price-asc">PRICE: LOW TO HIGH ▾</option>
             <option value="price-desc">PRICE: HIGH TO LOW ▾</option>
@@ -69,7 +69,7 @@
             type="text" 
             id="rwnd-archive-search" 
             placeholder="FILTER SPEC..." 
-            class="hidden sm:block w-36 border border-[#2A2A2F] bg-[#131316] px-3 py-2 text-[11px] uppercase tracking-wider text-white focus:border-[#FF0033] focus:outline-none"
+            class="hidden sm:block w-36 border border-line bg-surface px-3 py-2 text-[11px] uppercase tracking-wider text-white focus:border-brand focus:outline-none"
           >
         </div>
 
@@ -97,10 +97,10 @@
           data-title="{{ product.title | escape }}"
           data-tags="{{ product.tags | join: ' ' | downcase }}"
           data-price="{{ product.price }}"
-          class="group relative flex flex-col justify-between border border-[#2A2A2F] bg-[#131316] p-3 sm:p-4 transition-all hover:border-[#FF0033]"
+          class="group relative flex flex-col justify-between border border-line bg-surface p-3 sm:p-4 transition-all hover:border-brand"
         >
           <!-- 4:5 Image Canvas -->
-          <div class="relative aspect-[4/5] w-full overflow-hidden border border-[#2A2A2F] bg-[#0A0A0C] flex items-center justify-center">
+          <div class="relative aspect-[4/5] w-full overflow-hidden border border-line bg-card flex items-center justify-center">
             <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
               {% if product.featured_image %}
                 <img 
@@ -112,7 +112,7 @@
                   class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                 >
               {% else %}
-                <span class="text-[10px] text-[#A3A7AE] uppercase">{{ product.title | escape }}</span>
+                <span class="text-[10px] text-muted uppercase">{{ product.title | escape }}</span>
               {% endif %}
             </a>
 
@@ -126,15 +126,15 @@
               {% assign collection_saving = product.compare_at_price | minus: product.price %}
             {% endif %}
             {% if collection_saving > 0 %}
-              <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#0A0A0C] px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
+              <span class="absolute top-2 left-2 border border-brand bg-card px-1.5 py-0.5 text-[9px] font-bold text-brand">
                 SAVE {{ collection_saving | money }}
               </span>
             {% elsif is_watch %}
-              <span class="absolute top-2 left-2 border border-[#FF0033] bg-[#FF0033]/20 px-1.5 py-0.5 text-[9px] font-bold text-[#FF0033]">
+              <span class="absolute top-2 left-2 border border-brand bg-brand/20 px-1.5 py-0.5 text-[9px] font-bold text-brand">
                 PRE-ORDER
               </span>
             {% else %}
-              <span class="absolute top-2 right-2 border border-[#2A2A2F] bg-[#0A0A0C] px-1.5 py-0.5 text-[9px] font-bold text-[#A3A7AE]">
+              <span class="absolute top-2 right-2 border border-line bg-card px-1.5 py-0.5 text-[9px] font-bold text-muted">
                 DROP 01
               </span>
             {% endif %}
@@ -143,7 +143,7 @@
           <!-- Product Details -->
           <div class="mt-3 flex flex-1 flex-col justify-between">
             <div>
-              <p class="text-[9px] uppercase tracking-wider text-[#A3A7AE]">
+              <p class="text-[9px] uppercase tracking-wider text-muted">
                 {% if is_watch %}ANALOG-DIGITAL{% elsif is_bundle %}3-PIECE HARDWARE{% else %}316L ALLOY{% endif %}
               </p>
               <h3 class="mt-1 font-display text-xs sm:text-sm font-bold uppercase text-white line-clamp-1">
@@ -154,19 +154,19 @@
                 {% if product.price_varies %}
                   <span>FROM {{ product.price_min | money }}</span>
                   {% if product.compare_at_price_max > product.price_min %}
-                    <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price_max | money }}</span>
+                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_max | money }}</span>
                   {% endif %}
                 {% else %}
                   <span>{{ product.price | money }}</span>
                   {% if product.compare_at_price > product.price %}
-                    <span class="text-[10px] text-[#A3A7AE] line-through">{{ product.compare_at_price | money }}</span>
+                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price | money }}</span>
                   {% endif %}
                 {% endif %}
               </div>
             </div>
 
             {% if product.price_varies %}
-              <a href="{{ product.url }}" class="mt-3 flex h-9 w-full items-center justify-center border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:border-[#FF0033] transition-colors">
+              <a href="{{ product.url }}" class="mt-3 flex h-9 w-full items-center justify-center border border-line bg-card text-[10px] font-bold uppercase tracking-wider text-white hover:border-brand transition-colors">
                 VIEW OPTIONS
               </a>
             {% elsif product.available %}
@@ -174,13 +174,13 @@
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                 <button
                   type="submit"
-                  class="w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#FF0033] hover:border-[#FF0033] transition-colors cursor-pointer"
+                  class="w-full h-9 border border-line bg-card text-[10px] font-bold uppercase tracking-wider text-white hover:bg-brand hover:border-brand transition-colors cursor-pointer"
                 >
                   + QUICK ADD
                 </button>
               </form>
             {% else %}
-              <button type="button" disabled class="mt-3 w-full h-9 border border-[#2A2A2F] bg-[#0A0A0C] text-[10px] font-bold uppercase tracking-wider text-[#737373] cursor-not-allowed">
+              <button type="button" disabled class="mt-3 w-full h-9 border border-line bg-card text-[10px] font-bold uppercase tracking-wider text-subtle cursor-not-allowed">
                 SOLD OUT
               </button>
             {% endif %}
@@ -190,26 +190,26 @@
     </div>
 
     <!-- 5.3b EMPTY STATE (shown when no product matches the filter) -->
-    <div id="rwnd-no-results" class="hidden mt-4 border border-[#2A2A2F] bg-[#131316] p-10 text-center">
-      <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-[#FF0033]">// NO MATCHES</span>
-      <p class="mt-2 font-mono-tech text-xs text-[#A3A7AE] uppercase tracking-wider">Nothing fits this filter &amp; query.</p>
-      <button type="button" id="rwnd-filter-reset-inline" class="mt-4 h-10 border border-[#FF0033] bg-[#FF0033] px-6 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#CC0029] transition-colors cursor-pointer">
+    <div id="rwnd-no-results" class="hidden mt-4 border border-line bg-surface p-10 text-center">
+      <span class="font-mono-tech text-[10px] font-bold uppercase tracking-widest text-brand">// NO MATCHES</span>
+      <p class="mt-2 font-mono-tech text-xs text-muted uppercase tracking-wider">Nothing fits this filter &amp; query.</p>
+      <button type="button" id="rwnd-filter-reset-inline" class="mt-4 h-10 border border-brand bg-brand px-6 font-mono-tech text-[10px] font-bold uppercase tracking-widest text-white hover:bg-brand-dark transition-colors cursor-pointer">
         RESET FILTERS →
       </button>
     </div>
 
     <!-- 5.4 CRAWLABLE PAGINATION (progressively enhanced by JS) -->
-    <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center gap-4 border-t border-[#2A2A2F] pt-8">
+    <div id="rwnd-pagination-container" class="mt-12 flex flex-col items-center justify-center gap-4 border-t border-line pt-8">
       {% if paginate.pages > 1 %}
         <nav aria-label="Collection pagination" class="flex flex-wrap items-center justify-center gap-2 font-mono-tech text-xs uppercase tracking-widest">
           {% if paginate.previous %}
-            <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-[#2A2A2F] px-4 text-white hover:border-[#FF0033] transition-colors">← PREV</a>
+            <a href="{{ paginate.previous.url }}" rel="prev" class="flex h-11 items-center border border-line px-4 text-white hover:border-brand transition-colors">← PREV</a>
           {% endif %}
           {% for part in paginate.parts %}
             {% if part.is_link %}
-              <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-[#2A2A2F] px-3 text-[#A3A7AE] hover:border-[#FF0033] hover:text-white transition-colors">{{ part.title }}</a>
+              <a href="{{ part.url }}" class="flex h-11 min-w-11 items-center justify-center border border-line px-3 text-muted hover:border-brand hover:text-white transition-colors">{{ part.title }}</a>
             {% else %}
-              <span class="flex h-11 min-w-11 items-center justify-center border border-[#FF0033] bg-[#FF0033] px-3 text-white" aria-current="page">{{ part.title }}</span>
+              <span class="flex h-11 min-w-11 items-center justify-center border border-brand bg-brand px-3 text-white" aria-current="page">{{ part.title }}</span>
             {% endif %}
           {% endfor %}
           {% if paginate.next %}
@@ -218,14 +218,14 @@
               rel="next"
               id="rwnd-load-more-btn"
               data-next-url="{{ paginate.next.url }}"
-              class="flex h-11 items-center border border-[#FF0033] px-4 text-white hover:bg-[#FF0033] transition-colors"
+              class="flex h-11 items-center border border-brand px-4 text-white hover:bg-brand transition-colors"
             >
               [ LOAD MORE PIECES + ]
             </a>
           {% endif %}
         </nav>
       {% else %}
-        <span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>
+        <span class="text-[11px] uppercase tracking-widest text-muted">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>
       {% endif %}
     </div>
 
@@ -266,11 +266,11 @@
         b.setAttribute('aria-pressed', String(isActive));
         b.classList.toggle('active', b.dataset.tagFilter === currentFilter);
         if (b.dataset.tagFilter === currentFilter) {
-          b.classList.add('border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
-          b.classList.remove('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+          b.classList.add('border-brand', 'bg-brand', 'text-white');
+          b.classList.remove('border-line', 'bg-surface', 'text-muted');
         } else {
-          b.classList.remove('active', 'border-[#FF0033]', 'bg-[#FF0033]', 'text-white');
-          b.classList.add('border-[#2A2A2F]', 'bg-[#131316]', 'text-[#A3A7AE]');
+          b.classList.remove('active', 'border-brand', 'bg-brand', 'text-white');
+          b.classList.add('border-line', 'bg-surface', 'text-muted');
         }
       });
     }
@@ -375,7 +375,7 @@
           loadMoreBtn.remove();
           const pagContainer = document.getElementById('rwnd-pagination-container');
           if (pagContainer) {
-            pagContainer.innerHTML = '<span class="text-[11px] uppercase tracking-widest text-[#A3A7AE]">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>';
+            pagContainer.innerHTML = '<span class="text-[11px] uppercase tracking-widest text-muted">// END OF TRANSMISSION // ALL ARTIFACTS LOADED</span>';
           }
         }
 
