@@ -137,6 +137,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
+    <!-- Druk Wide (display / headline font). COMMERCIAL TYPE — per the
+         license, embedding is for web-font use only; it is not to be
+         redistributed as a file or converted into other formats. Served via
+         the webfont host under the commercial "web font use" clause.
+         Syne / Inter / system fonts remain as fallbacks. -->
+    <link href="https://db.onlinewebfonts.com/c/2206d6cc490084998d531e8c1b2cbb4a?family=Druk+Wide+Bold" rel="stylesheet">
+
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     <!-- Precompiled Tailwind stylesheet (compiled from this repo's content) —
          replaces the in-browser JIT CDN, which generated the whole utility set
@@ -156,13 +163,13 @@
     </style>
   </head>
 
-  <body class="relative z-0 min-h-screen font-sans text-[#F0F0F0] antialiased selection:bg-[#FF0033] selection:text-white">
+  <body class="relative z-0 min-h-screen font-sans text-bone antialiased selection:bg-brand selection:text-white">
     <!-- Subtle page-load veil: shows while assets settle, then fades -->
     <div class="rwnd-page-loader" id="rwnd-page-loader" aria-hidden="true">
       <div class="rwnd-loader-bar" aria-hidden="true"></div>
       <div class="rwnd-loader-wordmark">rwnd20s<span class="rwnd-loader-dot">.</span></div>
     </div>
-    <a href="#MainContent" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:border focus:border-[#FF0033] focus:bg-black focus:px-4 focus:py-3 focus:font-mono-tech focus:text-xs focus:uppercase focus:text-white">
+    <a href="#MainContent" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:border focus:border-brand focus:bg-black focus:px-4 focus:py-3 focus:font-mono-tech focus:text-xs focus:uppercase focus:text-white">
       {{ 'general.accessibility.skip_to_text' | t }}
     </a>
     <!-- Ambient Mobile Fixed Background -->
@@ -177,8 +184,8 @@
     {% section 'header' %}
 
     <div id="rwnd-sys-back-bar" class="mx-auto hidden w-full max-w-7xl px-4 pt-4">
-      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-white/10 bg-[#0A0A0A] px-4 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-[#FF0033]">
-        <span class="text-[#FF0033]">←</span>
+      <button type="button" onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }" class="group inline-flex items-center gap-2 border border-white/10 bg-panel px-4 py-2 font-mono-tech text-[10px] font-bold uppercase tracking-[1.5px] text-white transition-all hover:border-brand">
+        <span class="text-brand">←</span>
         <span>RETURN TO BASE</span>
       </button>
     </div>
