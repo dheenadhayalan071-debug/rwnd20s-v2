@@ -399,8 +399,8 @@
             <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
               {% if product.price_varies %}
                 <span>FROM {{ product.price_min | money }}</span>
-                {% if product.compare_at_price_max > product.price_min %}
-                  <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_max | money }}</span>
+                {% if product.compare_at_price_min > product.price_min %}
+                  <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_min | money }}</span>
                 {% endif %}
               {% else %}
                 <span>{{ product.price | money }}</span>
@@ -573,7 +573,7 @@
           data-caption="{{ block.settings.caption | default: '316L stainless steel hardware worn after dark.' | escape }}"
           data-img="{% if block.settings.image %}{{ block.settings.image | image_url: width: 900 }}{% endif %}"
           data-prod-title="{% if tagged_prod != blank %}{{ tagged_prod.title | escape }}{% elsif spotlight_product != blank %}{{ spotlight_product.title | escape }}{% else %}3-PIECE MYSTERY CYBER SET{% endif %}"
-          data-prod-price="{% if tagged_prod != blank %}{{ tagged_prod.price | money }}{% elsif spotlight_product != blank %}{{ spotlight_product.price | money }}{% else %}SEE PRODUCT PAGE{% endif %}"
+          data-prod-price="{% if tagged_prod != blank %}{% if tagged_prod.price_varies %}FROM {{ tagged_prod.price_min | money }}{% else %}{{ tagged_prod.price | money }}{% endif %}{% elsif spotlight_product != blank %}{% if spotlight_product.price_varies %}FROM {{ spotlight_product.price_min | money }}{% else %}{{ spotlight_product.price | money }}{% endif %}{% else %}SEE PRODUCT PAGE{% endif %}"
           data-prod-url="{% if tagged_prod != blank %}{{ tagged_prod.url }}{% else %}{{ cyber_set_url }}{% endif %}"
           class="group relative aspect-square w-full overflow-hidden border border-line bg-surface text-left cursor-pointer hover:border-brand transition-all"
           {{ block.shopify_attributes }}
