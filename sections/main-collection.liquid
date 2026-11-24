@@ -35,20 +35,14 @@
           <button type="button" data-tag-filter="all" aria-pressed="true" class="rwnd-filter-btn active border border-brand bg-brand px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
             ALL SPEC
           </button>
-          <button type="button" data-tag-filter="chains" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="necklace" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             CHAINS
           </button>
-          <button type="button" data-tag-filter="rings" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="ring" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             RINGS
           </button>
-          <button type="button" data-tag-filter="bracelets" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
+          <button type="button" data-tag-filter="bracelet" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             BRACELETS
-          </button>
-          <button type="button" data-tag-filter="earphones" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            AUDIO
-          </button>
-          <button type="button" data-tag-filter="watch" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            TIMEPIECES
           </button>
           <button type="button" id="rwnd-filter-clear" class="rwnd-filter-btn hidden border border-white/20 bg-transparent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
             ✕ CLEAR
@@ -80,23 +74,19 @@
     <!-- 5.3 PRODUCT GRID (2 cols mobile / 3 cols tablet / 4 cols desktop) -->
     <div id="rwnd-collection-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
       {% for product in collection.products %}
+        {%- capture p_cat -%}{%- render 'product-category', product: product -%}{%- endcapture -%}
+        {%- assign p_cat = p_cat | strip -%}
         {% assign is_bundle = false %}
-        {% assign p_handle = product.handle | downcase %}
-        {% assign p_title = product.title | downcase %}
-        {% if p_handle contains 'cyber-set' or p_title contains 'cyber set' or product.tags contains 'bundle' %}
-          {% assign is_bundle = true %}
-        {% endif %}
-
         {% assign is_watch = false %}
-        {% if p_title contains 'watch' or p_handle contains 'w-01' or p_title contains 'chronograph' %}
-          {% assign is_watch = true %}
-        {% endif %}
+        {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
+        {% if p_cat == 'watch' %}{% assign is_watch = true %}{% endif %}
 
         <article 
           data-product-card
           data-title="{{ product.title | escape }}"
           data-tags="{{ product.tags | join: ' ' | downcase }}"
-          data-price="{{ product.price }}"
+          data-category="{{ p_cat }}"
+          data-price="{{ product.price_min }}"
           class="group relative flex flex-col justify-between border border-line bg-surface p-3 sm:p-4 transition-all hover:border-brand"
         >
           <!-- 4:5 Image Canvas -->
@@ -125,26 +115,29 @@
             {% elsif product.compare_at_price > product.price %}
               {% assign collection_saving = product.compare_at_price | minus: product.price %}
             {% endif %}
+            {%- comment -%} SAVE always wins the left slot; the taxonomy badge keeps the right slot. {%- endcomment -%}
             {% if collection_saving > 0 %}
               <span class="absolute top-2 left-2 border border-brand bg-card px-1.5 py-0.5 text-[9px] font-bold text-brand">
                 SAVE {{ collection_saving | money }}
               </span>
-            {% elsif is_watch %}
-              <span class="absolute top-2 left-2 border border-brand bg-brand/20 px-1.5 py-0.5 text-[9px] font-bold text-brand">
-                PRE-ORDER
-              </span>
-            {% else %}
-              <span class="absolute top-2 right-2 border border-line bg-card px-1.5 py-0.5 text-[9px] font-bold text-muted">
-                DROP 01
-              </span>
             {% endif %}
+            <span class="absolute top-2 right-2 border px-1.5 py-0.5 text-[9px] font-bold {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% else %}border-line bg-card text-muted{% endif %}">
+              {% if is_bundle %}MYSTERY VAULT{% elsif is_watch %}PRE-ORDER{% else %}DROP 01{% endif %}
+            </span>
           </div>
 
           <!-- Product Details -->
           <div class="mt-3 flex flex-1 flex-col justify-between">
             <div>
               <p class="text-[9px] uppercase tracking-wider text-muted">
-                {% if is_watch %}ANALOG-DIGITAL{% elsif is_bundle %}3-PIECE HARDWARE{% else %}316L ALLOY{% endif %}
+                {% case p_cat %}
+                  {% when 'watch' %}ANALOG-DIGITAL
+                  {% when 'set' %}3-PIECE HARDWARE
+                  {% when 'audio' %}TYPE-C AUDIO
+                  {% when 'bracelet' %}LINK BRACELET
+                  {% when 'ring' %}SIGNET RING
+                  {% else %}CHAIN + PENDANT
+                {% endcase %}
               </p>
               <h3 class="mt-1 font-display text-xs sm:text-sm font-bold uppercase text-white line-clamp-1">
                 <a href="{{ product.url }}">{{ product.title | escape }}</a>
@@ -153,8 +146,8 @@
               <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
                 {% if product.price_varies %}
                   <span>FROM {{ product.price_min | money }}</span>
-                  {% if product.compare_at_price_max > product.price_min %}
-                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_max | money }}</span>
+                  {% if product.compare_at_price_min > product.price_min %}
+                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_min | money }}</span>
                   {% endif %}
                 {% else %}
                   <span>{{ product.price | money }}</span>
@@ -239,14 +232,18 @@
     let currentFilter = 'all';
     let searchQuery = '';
 
-    // Synonym map so a tab matches any of its related category words,
-    // whichever ones the shop actually uses.
+    // Each card carries its resolved category in data-category (rendered by
+    // snippets/product-category.liquid), so a tab filters on cold data instead
+    // of guessing from the title. The shop sells three categories for now:
+    // chains / rings / bracelets (the 'necklace' token covers chains+pendants).
+    // The synonym map is only a fallback for cards that arrive without it.
     const FILTER_SYNONYMS = {
       all: [],
-      rings: ['ring'],
-      chains: ['chain'],
-      bracelets: ['bracelet'],
-      earphones: ['earphone', 'audio'],
+      necklace: ['necklace', 'pendant', 'chain'],
+      ring: ['ring'],
+      bracelet: ['bracelet'],
+      set: ['set', 'bundle', 'vault'],
+      audio: ['earphone', 'audio', 'type-c'],
       watch: ['watch', 'chronograph', 'timepiece'],
     };
 
@@ -293,9 +290,11 @@
       cards.forEach((card) => {
         const title = (card.dataset.title || '').toLowerCase();
         const tags = (card.dataset.tags || '').toLowerCase();
+        const category = (card.dataset.category || '').toLowerCase();
 
         const matchesTag = currentFilter === 'all'
-          || synonyms.some((s) => tags.includes(s) || title.includes(s));
+          || category === currentFilter
+          || (category === '' && synonyms.some((s) => tags.includes(s) || title.includes(s)));
 
         const matchesSearch = !searchQuery
           || title.includes(searchQuery)

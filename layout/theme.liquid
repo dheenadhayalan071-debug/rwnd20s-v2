@@ -128,6 +128,10 @@
             "url": {{ shop.url | append: product.url | json }},
             "priceCurrency": "INR",
             "price": "{{ ld_variant.price | money_without_currency | remove: ',' }}",
+            {% if product.price_varies %}
+            "lowPrice": "{{ product.price_min | money_without_currency | remove: ',' }}",
+            "highPrice": "{{ product.price_max | money_without_currency | remove: ',' }}",
+            {% endif %}
             "availability": "https://schema.org/{% if ld_variant.available %}InStock{% else %}OutOfStock{% endif %}",
             "itemCondition": "https://schema.org/NewCondition"
           }

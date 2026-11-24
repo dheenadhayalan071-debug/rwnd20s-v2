@@ -3,19 +3,40 @@
 {% assign title_key = product.title | downcase %}
 {% assign handle_key = product.handle | downcase %}
 
+{% assign tags_key = product.tags | join: ' ' | downcase %}
+
+{%- comment -%} Category comes from one shared snippet so the PDP, cards, search and filters can never disagree. {%- endcomment -%}
+{%- capture p_cat -%}{%- render 'product-category', product: product -%}{%- endcapture -%}
+{%- assign p_cat = p_cat | strip -%}
+
 {% assign is_watch = false %}
-{% if title_key contains 'watch' or handle_key contains 'w-01' or handle_key contains 'watch' or title_key contains 'chronograph' %}
+{% if p_cat == 'watch' %}
   {% assign is_watch = true %}
 {% endif %}
 
 {% assign is_earphone = false %}
-{% if title_key contains 'earphone' or handle_key contains 'ear-01' or handle_key contains 'earphone' or title_key contains 'audio' %}
+{% if p_cat == 'audio' %}
   {% assign is_earphone = true %}
 {% endif %}
 
 {% assign is_bundle = false %}
-{% if title_key contains 'cyber set' or handle_key contains 'cyber-set' or product.tags contains 'bundle' %}
+{% if p_cat == 'set' %}
   {% assign is_bundle = true %}
+{% endif %}
+
+{% assign is_ring = false %}
+{% if p_cat == 'ring' %}
+  {% assign is_ring = true %}
+{% endif %}
+
+{% assign is_bracelet = false %}
+{% if p_cat == 'bracelet' %}
+  {% assign is_bracelet = true %}
+{% endif %}
+
+{% assign is_necklace = false %}
+{% if p_cat == 'necklace' %}
+  {% assign is_necklace = true %}
 {% endif %}
 
 {%- comment -%} NATIVE METAOBJECT REVIEWS CALCULATION {%- endcomment -%}
@@ -490,7 +511,7 @@
         </a>
         <div class="pdp-status-chips">
           <span class="tech-chip tech-chip--red">DROP 01</span>
-          <span class="tech-chip">{% if is_earphone %}TYPE-C DAC{% else %}316L SURGICAL STEEL{% endif %}</span>
+          <span class="tech-chip">{% if is_earphone %}TYPE-C DAC{% elsif is_watch %}ANALOG-DIGITAL{% elsif is_bundle %}3-PIECE HARDWARE{% else %}316L SURGICAL STEEL{% endif %}</span>
           <span class="tech-chip">ADJUSTABLE FIT</span>
         </div>
       </div>
@@ -799,7 +820,16 @@
               </tr>
               <tr>
                 <td>FIT PROFILE</td>
-                <td>Universal Adjustable / Free Size</td>
+                <td>
+                  {%- if is_ring -%}Open-band adjustable (one size fits most)
+                  {%- elsif is_bracelet -%}Adjustable clasp + extender links
+                  {%- elsif is_necklace -%}50 cm chain + 5 cm extender
+                  {%- elsif is_watch -%}Standard 22 cm strap
+                  {%- elsif is_earphone -%}In-ear, 1.2 m braided cable
+                  {%- elsif is_bundle -%}Mixed fit — see the included pieces
+                  {%- else -%}Universal Adjustable / Free Size
+                  {%- endif -%}
+                </td>
               </tr>
               <tr>
                 <td>HYPOALLERGENIC</td>
