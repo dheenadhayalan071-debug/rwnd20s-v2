@@ -2,9 +2,8 @@
 {%- comment -%} Guarded destinations: fall back to the catalogue/contact desk if a handle is missing. {%- endcomment -%}
 {% assign all_url = routes.all_products_collection_url %}
 {% assign rings_url = collections['rings'].url | default: all_url %}
-{% assign chains_url = collections['chains'].url | default: all_url %}
+{% assign chains_url = collections['chains'].url | default: collections['necklaces'].url | default: all_url %}
 {% assign bracelets_url = collections['bracelets'].url | default: all_url %}
-{% assign earrings_url = collections['earrings'].url | default: all_url %}
 {% assign earphones_url = collections['earphones'].url | default: all_url %}
 {% assign watches_url = collections['watches'].url | default: all_url %}
 {% assign cyber_set_url = all_products['3-piece-y2k-cyber-set'].url | default: all_url %}
@@ -87,9 +86,8 @@
           <li><a href="{{ all_url }}" class="hover:text-white transition-colors">Shop All Pieces</a></li>
           <li><a href="{{ cyber_set_url }}" class="hover:text-white transition-colors">3-Piece Mystery Set</a></li>
           <li><a href="{{ rings_url }}" class="hover:text-white transition-colors">316L Rings</a></li>
-          <li><a href="{{ chains_url }}" class="hover:text-white transition-colors">Chains & Pendants</a></li>
+          <li><a href="{{ chains_url }}" class="hover:text-white transition-colors">Chains &amp; Pendants</a></li>
           <li><a href="{{ bracelets_url }}" class="hover:text-white transition-colors">Link Bracelets</a></li>
-          <li><a href="{{ earrings_url }}" class="hover:text-white transition-colors">Cyber Earrings</a></li>
           <li><a href="{{ earphones_url }}" class="hover:text-white transition-colors">Pink Audio</a></li>
           <li><a href="{{ watches_url }}" class="hover:text-white transition-colors">Timepieces (Pre-Order)</a></li>
         </ul>
