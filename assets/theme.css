@@ -479,6 +479,60 @@ textarea:focus {
 }
 
 /* Accessibility: Reduced Motion */
+/* ==========================================================================
+   PRODUCT MEDIA — hover choreography
+   --------------------------------------------------------------------------
+   .rwnd-media wraps a product image frame; .rwnd-media-img is the image.
+   Hover does three things at once, slow enough to read as premium hardware
+   rather than a web trick:
+     1. push-in      — the shot scales 1.06 inside a clipped frame
+     2. chrome sweep — a single diagonal brand-tinted highlight passes across
+     3. grade lift   — saturation + contrast nudge so the steel brightens
+   All of it is transform/filter only (no layout thrash) and is disabled by
+   the prefers-reduced-motion block at the foot of this file.
+   ========================================================================== */
+.rwnd-media { position: relative; isolation: isolate; }
+
+.rwnd-media-img {
+  transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+              filter 0.45s ease;
+  will-change: transform;
+}
+
+.rwnd-media::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    104deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.10) 45%,
+    rgba(255, 0, 51, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 55%,
+    transparent 64%
+  );
+  transform: translate3d(-115%, 0, 0);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+}
+
+.group:hover .rwnd-media-img,
+.rwnd-media:hover .rwnd-media-img {
+  transform: scale(1.06);
+  filter: saturate(1.10) contrast(1.05) brightness(1.03);
+}
+
+.group:hover .rwnd-media::after,
+.rwnd-media:hover::after {
+  transform: translate3d(115%, 0, 0);
+  opacity: 1;
+}
+
+/* Fallback art (no product photo yet) sits a touch calmer than a real shot. */
+.rwnd-media-img.opacity-95 { opacity: 0.95; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1175,7 +1229,9 @@ html.rwnd-reveal-enabled .rwnd-reveal.rwnd-in {
   .rwnd-loader-wordmark,
   .rwnd-ambient-glow,
   .rwnd-reveal,
-  .rwnd-lift {
+  .rwnd-lift,
+  .rwnd-media-img,
+  .rwnd-media::after {
     animation: none !important;
     transition: none !important;
   }

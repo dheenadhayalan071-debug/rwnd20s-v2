@@ -39,6 +39,10 @@
   {% assign is_necklace = true %}
 {% endif %}
 
+{%- comment -%} Category hardware shot, used only when the product has no media yet. {%- endcomment -%}
+{% assign pdp_fallback = 'chain-fallback.webp' %}
+{% if p_cat == 'ring' %}{% assign pdp_fallback = 'ring-fallback.webp' %}{% elsif p_cat == 'bracelet' %}{% assign pdp_fallback = 'bracelet-fallback.webp' %}{% endif %}
+
 {%- comment -%} NATIVE METAOBJECT REVIEWS CALCULATION {%- endcomment -%}
 {% assign meta_reviews = product.metafields.custom.reviews.value %}
 {% assign review_count = 0 %}
@@ -470,7 +474,7 @@
         </div>
       {% endif %}
 
-      <div class="relative aspect-square w-full flex-1 overflow-hidden border border-white/10 bg-panel p-4 sm:p-6 group">
+      <div class="rwnd-media relative aspect-square w-full flex-1 overflow-hidden border border-white/10 bg-panel p-4 sm:p-6 group">
         <span class="tech-chip tech-chip--red absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] truncate">
           {% if is_watch %}
             TIMEPIECE // W-01
@@ -492,10 +496,16 @@
               width="1200" 
               height="1200" 
               fetchpriority="high"
-              class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
+              class="rwnd-media-img h-full w-full object-contain"
             >
           {% else %}
-            <span class="font-mono-tech text-[11px] uppercase tracking-wider text-muted">MEDIA ARCHIVE PENDING</span>
+            <img
+              src="{{ pdp_fallback | asset_url }}"
+              alt="{{ product.title | escape }} — 316L stainless steel hardware"
+              width="1000"
+              height="1000"
+              class="rwnd-media-img h-full w-full object-contain opacity-95"
+            >
           {% endif %}
         </div>
       </div>

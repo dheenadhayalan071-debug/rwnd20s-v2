@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RWND20S — image + hover preview</title>
+<style>
+  :root{--brand:#FF0033;--panel:#0A0A0A;--card:#0A0A0C;--surface:#131316;--line:#2A2A2F;--bone:#F5F5F7;--muted:#A3A7AE}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--panel);color:var(--bone);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+  header{padding:28px 20px 8px;max-width:1100px;margin:0 auto}
+  h1{font-size:clamp(20px,3vw,30px);letter-spacing:-.02em;text-transform:uppercase;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:13px;max-width:70ch;line-height:1.6}
+  .hero{max-width:1100px;margin:20px auto 0;padding:0 20px}
+  .hero img{width:100%;border:1px solid var(--line);display:block}
+  .grid{max-width:1100px;margin:26px auto 60px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:var(--surface);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;transition:border-color .25s ease,transform .25s ease}
+  .card:hover{border-color:var(--brand);transform:translateY(-2px)}
+  .frame{position:relative;aspect-ratio:4/5;background:var(--card);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .frame img{width:100%;height:100%;object-fit:contain;transition:transform .65s cubic-bezier(.22,.61,.36,1),filter .45s ease;will-change:transform}
+  .frame::after{content:"";position:absolute;inset:-30%;z-index:2;pointer-events:none;
+    background:linear-gradient(104deg,transparent 36%,rgba(255,255,255,.10) 45%,rgba(255,0,51,.16) 50%,rgba(255,255,255,.06) 55%,transparent 64%);
+    transform:translate3d(-115%,0,0);opacity:0;transition:transform .85s cubic-bezier(.22,.61,.36,1),opacity .3s ease}
+  .card:hover .frame img{transform:scale(1.06);filter:saturate(1.10) contrast(1.05) brightness(1.03)}
+  .card:hover .frame::after{transform:translate3d(115%,0,0);opacity:1}
+  .save{position:absolute;top:8px;left:8px;z-index:3;border:1px solid var(--brand);background:var(--card);color:var(--brand);font-size:9px;padding:2px 6px}
+  .drop{position:absolute;top:8px;right:8px;z-index:3;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:9px;padding:2px 6px}
+  .cat{margin:12px 0 2px;font-size:10px;color:var(--muted)}
+  .name{margin:0;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:-.01em}
+  .price{margin-top:6px;font-size:13px;font-weight:800}
+  .price s{color:var(--muted);font-weight:400;font-size:11px;margin-left:8px}
+  footer{max-width:1100px;margin:0 auto 60px;padding:0 20px;color:var(--muted);font-size:12px;line-height:1.7}
+</style>
+</head>
+<body>
+<header>
+  <h1>Image match + hover preview</h1>
+  <p class="sub mono">One trio shot → three category placements. Hover any card: the shot pushes in 6%, a brand-tinted chrome sweep crosses the frame, and the steel brightens. This page uses the exact CSS committed to assets/theme.css.</p>
+</header>
+
+<div class="hero"><img src="out/hero-drop01.webp" alt="RWND20S Drop 01 hardware trio — chain, bracelet and ring on a black podium"></div>
+
+<div class="grid">
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹1,095</span><span class="drop mono">DROP 01</span>
+      <img src="out/nocturne-cross-card.webp" alt="Nocturne Cross — ornate 316L steel cross pendant on a fine chain">
+    </div>
+    <p class="cat mono">Chains &amp; Pendants</p>
+    <h2 class="name">Nocturne Cross</h2>
+    <div class="price">₹199 <s>₹398</s></div>
+  </article>
+
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹549</span><span class="drop mono">DROP 01</span>
+      <img src="out/deadbolt-card.webp" alt="Deadbolt — heavy 316L link bracelet with lobster clasp">
+    </div>
+    <p class="cat mono">Bracelets</p>
+    <h2 class="name">Deadbolt</h2>
+    <div class="price">₹549 <s>₹1,098</s></div>
+  </article>
+
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹349</span><span class="drop mono">DROP 01</span>
+      <img src="out/orbit-star-card.webp" alt="Orbit Star — star-set signet ring with a crimson stone, 316L steel">
+    </div>
+    <p class="cat mono">Rings</p>
+    <h2 class="name">Orbit Star</h2>
+    <div class="price">₹349 <s>₹698</s></div>
+  </article>
+</div>
+
+<footer>
+  <p><strong>Why these three:</strong> the trio shot contains exactly one piece per category — the ornate cross pendant (Chains), the chunky link bracelet (Bracelets) and the star-set ring (Rings). Each is cropped 4:5 for cards and 1:1 for the product page, graded (+7% contrast, +5% colour), sharpened, and vignetted so the neighbouring pieces fall away instead of clipping into frame.</p>
+</footer>
+</body>
+</html>
