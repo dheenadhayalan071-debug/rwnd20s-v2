@@ -1,0 +1,132 @@
+[
+ {
+  "handle": "ring-1",
+  "name": "Stardust Relic",
+  "category": "ring",
+  "file": "product-images/ring-1.jpg",
+  "kb": 187,
+  "box": [
+   136,
+   392,
+   759,
+   1015
+  ]
+ },
+ {
+  "handle": "ring-3",
+  "name": "Orbit Star",
+  "category": "ring",
+  "file": "product-images/ring-3.jpg",
+  "kb": 157,
+  "box": [
+   136,
+   392,
+   759,
+   1015
+  ]
+ },
+ {
+  "handle": "y2k-heavy-chain-pendant",
+  "name": "Bonebound Heart",
+  "category": "chain",
+  "file": "product-images/y2k-heavy-chain-pendant.jpg",
+  "kb": 165,
+  "box": [
+   264,
+   648,
+   887,
+   1271
+  ]
+ },
+ {
+  "handle": "earring-3",
+  "name": "Thorned Romance",
+  "category": "chain",
+  "file": "product-images/earring-3.jpg",
+  "kb": 135,
+  "box": [
+   264,
+   520,
+   887,
+   1143
+  ]
+ },
+ {
+  "handle": "chain-3",
+  "name": "Silver Fang",
+  "category": "chain",
+  "file": "product-images/chain-3.jpg",
+  "kb": 137,
+  "box": [
+   392,
+   648,
+   1015,
+   1271
+  ]
+ },
+ {
+  "handle": "earring-2",
+  "name": "Nocturne Cross",
+  "category": "chain",
+  "file": "product-images/earring-2.jpg",
+  "kb": 165,
+  "box": [
+   392,
+   648,
+   1015,
+   1271
+  ]
+ },
+ {
+  "handle": "earring-1",
+  "name": "Scarlet Nova",
+  "category": "chain",
+  "file": "product-images/earring-1.jpg",
+  "kb": 154,
+  "box": [
+   392,
+   648,
+   1015,
+   1271
+  ]
+ },
+ {
+  "handle": "y2k-earrings",
+  "name": "Ruby Edge",
+  "category": "chain",
+  "file": "product-images/y2k-earrings.jpg",
+  "kb": 154,
+  "box": [
+   392,
+   648,
+   1015,
+   1271
+  ]
+ },
+ {
+  "handle": "chain-2",
+  "name": "Crimson Relic",
+  "category": "chain",
+  "file": "product-images/chain-2.jpg",
+  "kb": 243,
+  "box": [
+   506,
+   602,
+   1158,
+   1254
+  ]
+ },
+ {
+  "handle": "chain-1",
+  "name": "Pink Relic",
+  "category": "chain",
+  "file": "product-images/chain-1.jpg",
+  "kb": 374,
+  "box": [
+   940,
+   940,
+   2004,
+   2004
+  ]
+ }
+]

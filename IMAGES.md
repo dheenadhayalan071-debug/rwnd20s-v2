@@ -1,4 +1,43 @@
-# Image set — Drop 01 trio → names, categories, crops
+# Image set — product photos, category art, crops
+
+Two sources, one rule: every image sits under the product whose **name** it matches, in the category that product already belongs to.
+
+---
+
+## A. Your 10 product photos (attached 24 Nov)
+
+Each shot is cropped 1200×1200 around the piece, graded +4% contrast and lightly sharpened, then written to `product-images/<handle>.jpg`. **Image Src is already in `products_export_fixed.csv`**, so the import attaches them for you — no manual media upload.
+
+| # | Photo | → Product | Handle | Category | Confidence |
+|---|---|---|---|---|---|
+| 1 | heart-cut ruby ring, pavé halo, open band | **Stardust Relic** | `ring-1` | Rings | good |
+| 2 | twin-star ring with crimson stone | **Orbit Star** | `ring-3` | Rings | strong |
+| 3 | haloed heart pendant + steel spike | **Bonebound Heart** | `y2k-heavy-chain-pendant` | Chains | strong ("a heart with a spine") |
+| 4 | crimson heart between barbed-wire arms | **Thorned Romance** | `earring-3` | Chains | strong (barbed wire) |
+| 5 | engraved star pendant, spiral centre | **Silver Fang** | `chain-3` | Chains | **weak — name says fang, photo is a star** |
+| 6 | cross pendant edged with crimson stones | **Nocturne Cross** | `earring-2` | Chains | strong |
+| 7 | four-point star pendant, crimson centre | **Scarlet Nova** | `earring-1` | Chains | strong (nova = star) |
+| 8 | dagger pendant with crimson stone | **Ruby Edge** | `y2k-earrings` | Chains | strong (edge = blade) |
+| 9 | miniature lipstick charm + steel star | **Crimson Relic** | `chain-2` | Chains | good (crimson) |
+| 10 | miniature milk-bottle charm + steel star | **Pink Relic** | `chain-1` | Chains | good (pink/white) |
+
+**Still without a photo:** `ring-2` Crimson Web, `y2k-cyber-signet-ring` Serpent Cross (Rings), plus the watch, earphones and mystery set. They keep the category fallback art described below.
+
+Because the photos now define the products, **the copy was rewritten to match the picture** for the ten above (Stardust Relic is a heart-halo ring, not a signet; Crimson Relic is a lipstick charm, not a relic cast; Silver Fang is a star, not a fang). Google-visible text stays honest, which is what the earlier copy audit was for.
+
+### How the import attaches them
+
+`Image Src` in the CSV points at the public raw file in this repo:
+
+```
+https://raw.githubusercontent.com/dheenadhayalan071-debug/rwnd20s-v2/arena/20b2e6b3-rwnd20s-v2/product-images/<handle>.jpg
+```
+
+Shopify downloads it during import and stores its own copy, so the link only has to survive the import. `Image Alt Text` and `Image Position` (1) are set too.
+
+---
+
+## B. The trio studio shot → three category placeholders
 
 Source: one 1671×941 studio shot (`Y2K Silver Jewelry Trio with Ruby Ring.png`, also the current site hero).
 It contains exactly three pieces, one per category, which is why it splits cleanly.

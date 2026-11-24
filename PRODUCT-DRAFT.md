@@ -54,9 +54,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Pink Relic** — ₹549 · was ₹1,098 · `chain-1`
 
-> The same relic silhouette, warmer. Pink Relic keeps the heavy chain and the excavated pendant shape, finished in a soft chrome that leaves the pink to the name and the light. Romantic in photos, industrial in person.
+> A tiny milk bottle, cast and hung as a charm. Pink Relic pairs the bottle with a steel four-point star on a fine chain — the softest object in the drop rendered in the hardest material. Stack it with Crimson Relic.
 
-* Design: Relic-form pendant, soft-chrome finish
+* Design: Miniature milk-bottle charm with a steel star accent
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -64,9 +64,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Crimson Relic** — ₹549 · was ₹1,098 · `chain-2`
 
-> Something excavated, not bought. Crimson Relic is a relic-form pendant on a heavy steel chain, finished high-polish so the cavities read as shadow instead of dirt. The crimson lives in the name — the hardware itself is untreated stainless, so it survives everything.
+> A miniature lipstick, cast in crimson and hung as a charm. Crimson Relic is the drop's novelty piece — a high-gloss red tube finished with a steel four-point star on the same chain. Absurd, wearable, and exactly the point of Y2K.
 
-* Design: Relic-form pendant, hand-finished edges
+* Design: Miniature lipstick charm with a steel star accent
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -74,9 +74,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Silver Fang** — ₹549 · was ₹1,098 · `chain-3`
 
-> A curved fang, cut from solid steel and hung from a heavyweight chain. Silver Fang is the piece people notice before they notice you: bright chrome, blunt weight, no plating to wear through. Built to sit with the heavier rings in the archive.
+> An engraved star with a spiral cut into its centre — folk-talisman energy on a fine box chain. Silver Fang is the smallest, quietest pendant in the drop and the one that layers best under everything else.
 
-* Design: Fang-shaped pendant on a heavy-gauge chain
+* Design: Engraved star pendant with a spiral centre
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -84,9 +84,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Scarlet Nova** — ₹299 · was ₹598 · `earring-1`
 
-> A star caught mid-collapse. Scarlet Nova hangs as a compact, hard-edged pendant on a fine 316L chain — small enough to layer, heavy enough to read as hardware instead of decoration. Wears cold against the skin and keeps its shine through sweat, rain and long nights out.
+> A star caught mid-collapse. Scarlet Nova is a four-point star with a crimson centre on a fine chain — sharp geometry, mirror-polished points, small enough to layer and heavy enough to read as hardware.
 
-* Design: Angular star-cut pendant on a slim polished chain
+* Design: Four-point star pendant with a crimson centre
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -94,9 +94,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Nocturne Cross** — ₹199 · was ₹398 · `earring-2`
 
-> Drawn for the hours nobody photographs. Nocturne Cross is a slim steel cross on a fine chain, polished to a mirror so it catches streetlight instead of daylight. The cheapest entry into the drop without cheapening the material — still 316L, still water-resistant.
+> A cross for the hours nobody photographs. Nocturne Cross is a slim steel cross edged with crimson stones, hung from a fine chain — it catches streetlight instead of daylight and reads expensive from across a room.
 
-* Design: Slim cross pendant, mirror-polished edges
+* Design: Slim cross pendant edged with crimson stones
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -104,9 +104,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Thorned Romance** — ₹399 · was ₹649 · `earring-3`
 
-> Barbed-wire aesthetics, cleaned up for daily wear. Thorned Romance sits at the neck as a thorn-wrapped pendant on a 50cm chain — high-polish, with filed-down points so it looks dangerous and behaves harmless. The drop's favourite contradiction.
+> Barbed wire, softened just enough. Thorned Romance strings a crimson heart between two lengths of steel barb — thorns outward, polish inward. It looks like it was pulled off a fence and cleaned up, which is the point.
 
-* Design: Thorn-wrapped pendant, hand-finished tips
+* Design: Crimson heart flanked by steel barbed-wire arms
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -114,9 +114,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Ruby Edge** — ₹299 · was ₹898 · `y2k-earrings`
 
-> One hard edge, set like a stone that can never fall out. Ruby Edge is an angular pendant on a fine 316L chain — sharp geometry, mirror finish, the ruby only in the name. Light enough for a first layer, strong enough to wear alone.
+> A blade, worn backwards. Ruby Edge is a dagger silhouette with a crimson stone set at the guard — one hard edge, mirror-polished, hung on a fine chain. The least decorative piece in the drop and the one that gets the most comments.
 
-* Design: Angular edge pendant, mirror-polished
+* Design: Dagger pendant with a crimson stone at the guard
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -124,9 +124,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Bonebound Heart** — ₹549 · was ₹1,598 · `y2k-heavy-chain-pendant`
 
-> A heart with a spine. Bonebound Heart is a sculpted pendant bound to a heavy-gauge link chain, forged in 316L so the weight hangs flat instead of flipping. Ships in the zip pouch with a care card; pairs with Serpent Cross and Chrome Link.
+> A heart with a spine. Bonebound Heart sets a heart-shaped crimson stone inside a halo of white stones, then finishes the bail with a steel spike — romantic from one angle, weaponised from the other. Double curb chain, lobster clasp.
 
-* Design: Sculpted heart pendant on a heavy link chain
+* Design: Haloed heart pendant with a steel spike drop
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -137,9 +137,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Stardust Relic** — ₹349 · was ₹698 · `ring-1`
 
-> Cast-looking and open-backed. Stardust Relic is a signet built on an adjustable open band — one size, no sizing chart, no waiting. High-polish chrome over 316L, so the finish survives gym chalk, sanitiser and monsoon.
+> A crimson heart under a halo of stones. Stardust Relic is a heart-cut red stone ringed with pavé crystals on an open band — the kind of ring you put on once and stop taking off. High-polish 316L underneath, so the shine outlives the trend.
 
-* Design: Signet face on an open adjustable band
+* Design: Heart-cut crimson stone, pavé halo, open adjustable band
 * Material: 316L surgical stainless steel
 * Fit: Open-band, free size (adjustable — no sizing chart)
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -157,9 +157,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Orbit Star** — ₹349 · was ₹698 · `ring-3`
 
-> A star knocked off its orbit and welded to a band. Orbit Star carries the widest face in the ring set — chunky, open-backed and adjustable, finished high-polish so it reads loud from across a room.
+> Two stars, one knocked loose. Orbit Star wraps a pair of angular star silhouettes around a crimson centre stone — chunky enough to read across a room, on an open band you can move between fingers.
 
-* Design: Oversized star face, open adjustable band
+* Design: Twin star silhouette, crimson centre stone, open band
 * Material: 316L surgical stainless steel
 * Fit: Open-band, free size (adjustable — no sizing chart)
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
