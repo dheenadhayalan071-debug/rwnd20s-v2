@@ -1,0 +1,62 @@
+{%- comment -%}
+  sections/snippets/product-category.liquid
+  ---------------------------------------------------------------------------
+  Single source of truth for storefront categorisation.
+
+  Renders exactly ONE token, with no surrounding whitespace:
+
+      set | watch | audio | bracelet | necklace | ring
+
+  Usage:
+
+      {%- capture p_cat -%}{%- render 'product-category', product: product -%}{%- endcapture -%}
+      {%- assign p_cat = p_cat | strip -%}
+
+  Why tags first, title last:
+  Tags and Type are the merchant-controlled fields; titles are free text and
+  have historically drifted (e.g. a bracelet titled "…Earphones (TYPE-C)"). If a
+  title were allowed to win, that product would render audio specs forever.
+  Title/handle are therefore only consulted when a product carries no usable
+  taxonomy tag at all.
+
+  Keep the category list here in sync with:
+    - sections/main-collection.liquid  (filter tabs + FILTER_SYNONYMS)
+    - sections/header.liquid, sections/footer.liquid (nav)
+{%- endcomment -%}
+{%- assign pc_tags = product.tags -%}
+{%- assign pc_tags_key = product.tags | join: ' ' | downcase -%}
+{%- assign pc_type = product.type | downcase -%}
+{%- assign pc_title = product.title | downcase -%}
+{%- assign pc_handle = product.handle | downcase -%}
+
+{%- assign pc = 'necklace' -%}
+
+{%- if pc_tags contains 'bundle' or pc_tags_key contains 'cyber-set' or pc_type contains 'bundle' or pc_title contains 'cyber set' -%}
+  {%- assign pc = 'set' -%}
+{%- elsif pc_tags contains 'watch' or pc_tags_key contains 'y2k-watch' or pc_type contains 'watch' -%}
+  {%- assign pc = 'watch' -%}
+{%- elsif pc_tags contains 'earphones' or pc_tags contains 'type-c-earphones' or pc_type contains 'audio' -%}
+  {%- assign pc = 'audio' -%}
+{%- elsif pc_tags contains 'bracelets' or pc_tags contains 'bracelet' or pc_tags_key contains 'bracelet' -%}
+  {%- assign pc = 'bracelet' -%}
+{%- elsif pc_tags contains 'necklaces' or pc_tags contains 'pendants' or pc_tags contains 'chains' or pc_tags_key contains 'necklace' or pc_tags_key contains 'pendant' or pc_tags_key contains 'chain' -%}
+  {%- assign pc = 'necklace' -%}
+{%- elsif pc_tags contains 'rings' or pc_tags contains 'ring' or pc_tags_key contains '-ring' -%}
+  {%- assign pc = 'ring' -%}
+{%- else -%}
+  {%- comment -%} No taxonomy tags at all — last-resort handle/title guess. {%- endcomment -%}
+  {%- if pc_handle contains 'bracelet' or pc_title contains 'bracelet' -%}
+    {%- assign pc = 'bracelet' -%}
+  {%- elsif pc_handle contains 'ring' or pc_title contains 'ring' -%}
+    {%- assign pc = 'ring' -%}
+  {%- elsif pc_handle contains 'watch' or pc_title contains 'watch' -%}
+    {%- assign pc = 'watch' -%}
+  {%- elsif pc_handle contains 'earphone' or pc_title contains 'earphone' -%}
+    {%- assign pc = 'audio' -%}
+  {%- elsif pc_handle contains 'set' or pc_handle contains 'bundle' or pc_title contains 'set' -%}
+    {%- assign pc = 'set' -%}
+  {%- else -%}
+    {%- assign pc = 'necklace' -%}
+  {%- endif -%}
+{%- endif -%}
+{{- pc -}}

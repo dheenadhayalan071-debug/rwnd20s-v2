@@ -176,9 +176,9 @@
 {%- comment -%} Guarded destinations: fall back to the catalogue if a handle is missing. {%- endcomment -%}
 {% assign all_url = routes.all_products_collection_url %}
 {% assign rings_url = collections['rings'].url | default: all_url %}
-{% assign chains_url = collections['chains'].url | default: all_url %}
+{% assign necklaces_url = collections['necklaces'].url | default: collections['chains'].url | default: collections['pendants'].url | default: all_url %}
+{% assign sets_url = collections['sets'].url | default: collections['jewelry-sets'].url | default: all_url %}
 {% assign bracelets_url = collections['bracelets'].url | default: all_url %}
-{% assign earrings_url = collections['earrings'].url | default: all_url %}
 {% assign earphones_url = collections['earphones'].url | default: all_url %}
 {% assign watches_url = collections['watches'].url | default: all_url %}
 {% assign cyber_set_url = all_products['3-piece-y2k-cyber-set'].url | default: all_url %}
@@ -225,10 +225,9 @@
                 <span class="block border-b border-white/10 pb-2 font-display text-xs font-bold uppercase tracking-wider text-brand">JEWELRY</span>
                 <ul class="mt-4 space-y-2.5 text-xs text-muted">
                   <li><a href="{{ rings_url }}" class="hover:text-white transition-colors">Rings</a></li>
-                  <li><a href="{{ chains_url }}" class="hover:text-white transition-colors">Chains</a></li>
+                  <li><a href="{{ necklaces_url }}" class="hover:text-white transition-colors">Necklaces &amp; Pendants</a></li>
                   <li><a href="{{ bracelets_url }}" class="hover:text-white transition-colors">Bracelets</a></li>
-                  <li><a href="{{ earrings_url }}" class="hover:text-white transition-colors">Earrings</a></li>
-                  <li><a href="{{ cyber_set_url }}" class="hover:text-white transition-colors font-bold text-white">3-Piece Cyber Set</a></li>
+                  <li><a href="{{ sets_url }}" class="hover:text-white transition-colors font-bold text-white">Sets &amp; Mystery Vault</a></li>
                 </ul>
               </div>
 
@@ -329,9 +328,9 @@
             <ul class="space-y-2.5 pl-3 text-muted">
               <li><a href="{{ cyber_set_url }}" class="hover:text-white text-white font-bold">↳ 3-Piece Cyber Set</a></li>
               <li><a href="{{ rings_url }}" class="hover:text-white">↳ Rings</a></li>
-              <li><a href="{{ chains_url }}" class="hover:text-white">↳ Chains</a></li>
+              <li><a href="{{ necklaces_url }}" class="hover:text-white">↳ Necklaces &amp; Pendants</a></li>
               <li><a href="{{ bracelets_url }}" class="hover:text-white">↳ Bracelets</a></li>
-              <li><a href="{{ earrings_url }}" class="hover:text-white">↳ Earrings</a></li>
+              <li><a href="{{ sets_url }}" class="hover:text-white">↳ Sets &amp; Mystery Vault</a></li>
               <li><a href="{{ earphones_url }}" class="hover:text-white">↳ Pink Chrome Audio</a></li>
               <li><a href="{{ watches_url }}" class="hover:text-white">↳ Timepieces (Pre-Order)</a></li>
             </ul>
@@ -376,7 +375,7 @@
           id="rwnd-search-input"
           name="q"
           autocomplete="off"
-          placeholder="SEARCH RINGS, CHAINS, TIMEPIECES..." 
+          placeholder="SEARCH RINGS, NECKLACES, TIMEPIECES..." 
           class="flex-1 h-14 bg-surface border border-white/10 px-4 font-mono-tech text-xs text-white uppercase focus:border-brand focus:outline-none"
         >
         <button type="submit" class="h-14 bg-brand px-8 font-mono-tech text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-dark transition-colors cursor-pointer">

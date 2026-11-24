@@ -33,7 +33,7 @@
           id="rwnd-search-input"
           name="q"
           value="{{ search.terms | escape }}"
-          placeholder="RINGS, CHAINS, WATCHES, AUDIO..."
+          placeholder="RINGS, NECKLACES, WATCHES, AUDIO..."
           autocomplete="off"
           class="flex-1 h-14 border border-line bg-card px-4 font-mono-tech text-xs uppercase text-bone placeholder-muted focus:border-brand focus:outline-none rounded-none"
         >
@@ -62,15 +62,15 @@
               {% if item.object_type == 'product' %}
                 {% assign p_title = item.title | downcase %}
                 {% assign p_handle = item.handle | downcase %}
+                {% assign p_tags = item.tags | join: ' ' | downcase %}
+                {%- capture p_cat -%}{%- render 'product-category', product: item -%}{%- endcapture -%}
+                {%- assign p_cat = p_cat | strip -%}
                 {% assign is_watch = false %}
-                {% if p_title contains 'watch' or p_handle contains 'w-01' or p_title contains 'chronograph' %}
-                  {% assign is_watch = true %}
-                {% endif %}
-
+                {% if p_cat == 'watch' %}{% assign is_watch = true %}{% endif %}
                 {% assign is_earphone = false %}
-                {% if p_title contains 'earphone' or p_handle contains 'ear-01' or p_title contains 'audio' %}
-                  {% assign is_earphone = true %}
-                {% endif %}
+                {% if p_cat == 'audio' %}{% assign is_earphone = true %}{% endif %}
+                {% assign is_bundle = false %}
+                {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
 
                 {% assign search_saving = 0 %}
                 {% if item.price_varies %}
@@ -85,23 +85,15 @@
                   <div>
                     <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-line bg-card p-4 rounded-none">
                       <!-- Taxonomy Badges -->
+                      {%- comment -%} SAVE keeps the left slot; taxonomy badge takes the right. {%- endcomment -%}
                       {% if search_saving > 0 %}
                         <span class="absolute left-3 top-3 z-10 border border-brand bg-card px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-brand rounded-none">
                           SAVE {{ search_saving | money }}
                         </span>
-                      {% elsif is_watch %}
-                        <span class="absolute left-3 top-3 z-10 border border-brand bg-brand/20 px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-brand rounded-none">
-                          PRE-ORDER
-                        </span>
-                      {% elsif is_earphone %}
-                        <span class="absolute left-3 top-3 z-10 border border-line bg-card px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-ice rounded-none">
-                          TYPE-C
-                        </span>
-                      {% else %}
-                        <span class="absolute left-3 top-3 z-10 border border-line bg-card px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-muted rounded-none">
-                          DROP 01
-                        </span>
                       {% endif %}
+                      <span class="absolute right-3 top-3 z-10 border px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase rounded-none {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% elsif is_earphone %}border-line bg-card text-ice{% else %}border-line bg-card text-muted{% endif %}">
+                        {% if is_bundle %}MYSTERY VAULT{% elsif is_watch %}PRE-ORDER{% elsif is_earphone %}TYPE-C AUDIO{% else %}DROP 01{% endif %}
+                      </span>
 
                       <a href="{{ item.url }}" class="flex h-full w-full items-center justify-center">
                         {% if item.featured_image %}
@@ -120,8 +112,17 @@
                     </div>
 
                     <div class="mt-4">
-                      <p class="font-mono-tech text-[10px] uppercase font-bold tracking-[0.12em] text-ice">
-                        {{ item.vendor | default: 'RWND20S' | escape }}
+                      <p class="font-mono-tech text-[10px] uppercase font-bold tracking-[0.12em] text-muted">
+                        {% case p_cat %}
+                          {% when 'watch' %}TIMEPIECES
+                          {% when 'set' %}JEWELRY SETS
+                          {% when 'audio' %}AUDIO
+                          {% when 'bracelet' %}BRACELETS
+                          {% when 'ring' %}RINGS
+                          {% else %}NECKLACES &amp; PENDANTS
+                        {% endcase %}
+                        <span class="text-line">//</span>
+                        <span class="text-ice">{{ item.vendor | default: 'RWND20S' | escape }}</span>
                       </p>
                       <h2 class="mt-1 line-clamp-2 font-display text-sm font-bold uppercase text-bone tracking-tight">
                         <a href="{{ item.url }}">{{ item.title | escape }}</a>
@@ -170,7 +171,7 @@
         {% else %}
           <div class="flex min-h-[260px] flex-col items-center justify-center text-center border border-line bg-surface p-8 rounded-none">
             <p class="font-display text-base font-bold text-bone uppercase tracking-wider">NO ARTIFACTS MATCHED YOUR QUERY</p>
-            <p class="mt-2 text-xs text-muted font-mono-tech">Check keywords like 'rings', 'chains', 'bracelets', 'earphones', or 'watches'.</p>
+            <p class="mt-2 text-xs text-muted font-mono-tech">Check keywords like 'rings', 'necklaces', 'pendants', 'bracelets', 'earphones', or 'watches'.</p>
             <a href="{{ routes.all_products_collection_url }}" class="mt-6 inline-flex h-12 items-center justify-center border border-brand bg-brand px-6 font-mono-tech text-xs font-bold text-bone uppercase tracking-widest hover:bg-brand-dark transition-all rounded-none">
               BROWSE FULL DROP 01 ARCHIVE →
             </a>
