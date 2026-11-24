@@ -21,8 +21,7 @@
 {%- comment -%} Guarded destinations: fall back to the full catalogue if a handle is missing. {%- endcomment -%}
 {% assign cyber_set_url = all_products['3-piece-y2k-cyber-set'].url | default: routes.all_products_collection_url %}
 {% assign rings_url = collections['rings'].url | default: routes.all_products_collection_url %}
-{% assign necklaces_url = collections['necklaces'].url | default: collections['chains'].url | default: collections['pendants'].url | default: routes.all_products_collection_url %}
-{% assign sets_url = collections['sets'].url | default: collections['jewelry-sets'].url | default: all_products['3-piece-y2k-cyber-set'].url | default: routes.all_products_collection_url %}
+{% assign chains_url = collections['chains'].url | default: collections['necklaces'].url | default: routes.all_products_collection_url %}
 {% assign earphones_url = collections['earphones'].url | default: routes.all_products_collection_url %}
 {% assign watches_url = collections['watches'].url | default: routes.all_products_collection_url %}
 {% assign shipping_page_url = pages['shipping'].url | default: pages['contact'].url | default: routes.all_products_collection_url %}
@@ -194,15 +193,15 @@
       </div>
     </a>
 
-    <!-- Tile 02: Necklaces & Pendants -->
-    <a href="{{ necklaces_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
+    <!-- Tile 02: Chains & Pendants -->
+    <a href="{{ chains_url }}" class="group relative aspect-square w-full overflow-hidden border border-line bg-surface p-5 sm:p-6 flex flex-col justify-end transition-all hover:border-brand">
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity group-hover:opacity-75"></div>
       <div class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500">
         <svg class="h-20 w-20 sm:h-24 sm:w-24 text-line" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" stroke-width="1.5"/></svg>
       </div>
       <div class="relative z-20">
         <span class="font-mono-tech text-xs font-bold text-brand">02 // 316L STEEL</span>
-        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">NECKLACES &amp; PENDANTS</h3>
+        <h3 class="mt-1 font-display text-base sm:text-xl font-bold uppercase text-white leading-tight">CHAINS &amp; PENDANTS</h3>
         <span class="mt-2 inline-block font-mono-tech text-[10px] uppercase tracking-wider text-muted group-hover:text-white transition-colors">BROWSE DESIGNS →</span>
       </div>
     </a>

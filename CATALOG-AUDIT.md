@@ -1,3 +1,5 @@
+> **Superseded 22 Nov 2026 (same day).** The shop settled on **three categories — Chains · Rings · Bracelets** — and *no* earrings, watch, audio or set categories. The final naming, per-product copy and import file are in **`PRODUCT-DRAFT.md`** + `products_export_fixed.csv`. §2, §4 and §5 below describe the six-category intermediate version and are kept only as the record of how the catalogue was audited; §1 (the mismatches) and §3 (prices) still hold.
+
 # Catalogue audit — categories, titles, tags, badges
 
 _Audited 22 Nov 2026 against `products_export_1.csv` (23 rows = 19 products, 4 of them multi-variant)._
@@ -101,14 +103,13 @@ SAVE is now the **left** slot on every card, and the taxonomy badge keeps the **
 
 ## 5. Admin work only you can do (in this order)
 
-1. **Import `products_export_fixed.csv`** (repo root) — Shopify admin → Products → Import → *Overwrite existing products with matching handles*.
-   It fixes, for all 19 products: Title, Type, Product Category, Vendor (`My Store 2` → `RWND20s`), Tags (canonical + correct price band) and the body copy that contradicted the category (3 rings + 1 bracelet). Prices, compare-at prices, SKUs, quantities and images are untouched.
-2. **Create two smart collections** (Products → Collections → Create → Automated):
-   * `necklaces` — condition: product tag **is equal to** `necklaces` (or Type = `Necklace`)
-   * `sets` — condition: product tag **is equal to** `bundle` (or Type = `Set`)
+1. **Import `products_export_fixed.csv`** (repo root) — Shopify admin → Products → Import → *Overwrite existing products with matching handles*. See `PRODUCT-DRAFT.md` §4 for the exact walk-through.
+2. **Verify the three smart collections** (they already exist):
+   * `chains` — product tag **is equal to** `chains` (or Type = `Chain`)
+   * `rings` — product tag **is equal to** `rings` (or Type = `Ring`)
+   * `bracelets` — product tag **is equal to** `bracelets` (or Type = `Bracelet`)
    Until they exist the nav links fall back to the full catalogue, so nothing 404s.
-3. **Retire the `earrings` collection** (or empty it) — the nav no longer links to it, but it is still publicly reachable.
-4. Optional: rename the `chains` collection to `necklaces`, or keep it as an alias with the same rules.
+3. **Retire the `earrings` collection** (or empty it) — nothing links to it any more, but it is still publicly reachable.
 
 ### Titles changed by the import
 

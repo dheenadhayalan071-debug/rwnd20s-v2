@@ -1,125 +1,112 @@
 ﻿Handle,Title,Body (HTML),Vendor,Product Category,Type,Tags,Published,Option1 Name,Option1 Value,Option1 Linked To,Option2 Name,Option2 Value,Option2 Linked To,Option3 Name,Option3 Value,Option3 Linked To,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare At Price,Variant Requires Shipping,Variant Taxable,Unit Price Total Measure,Unit Price Total Measure Unit,Unit Price Base Measure,Unit Price Base Measure Unit,Variant Barcodes,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Product Reviews (product.metafields.custom.product_reviews),Color (product.metafields.shopify.color-pattern),Disclosures (product.metafields.shopify.disclosure),Jewelry material (product.metafields.shopify.jewelry-material),Target gender (product.metafields.shopify.target-gender),Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status,Variant Packed Length,Variant Packed Width,Variant Packed Height,Variant Packed Dimension Unit
-earring-3,Thorned Romance Pendant,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+earring-3,Thorned Romance,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>Barbed-wire aesthetics, cleaned up for daily wear. Thorned Romance sits at the neck as a thorn-wrapped pendant on a 50cm chain — high-polish, with filed-down points so it looks dangerous and behaves harmless. The drop's favourite contradiction.</p>
 <ul>
-<li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-<li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-<li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,399.00,649.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
-earring-2,Nocturne Cross Pendant,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+<li><strong>Design:</strong> Thorn-wrapped pendant, hand-finished tips</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,399.00,649.00,true,true,,,,,,,,,false,Thorned Romance | 316L Steel Chain | RWND20s,"Barbed-wire aesthetics, cleaned up for daily wear. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
+earring-2,Nocturne Cross,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>Drawn for the hours nobody photographs. Nocturne Cross is a slim steel cross on a fine chain, polished to a mirror so it catches streetlight instead of daylight. The cheapest entry into the drop without cheapening the material — still 316L, still water-resistant.</p>
 <ul>
-<li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-<li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-<li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-300",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,199.00,398.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
-earring-1,Scarlet Nova Pendant,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+<li><strong>Design:</strong> Slim cross pendant, mirror-polished edges</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-300",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,199.00,398.00,true,true,,,,,,,,,false,Nocturne Cross | 316L Steel Chain | RWND20s,"Drawn for the hours nobody photographs. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
+earring-1,Scarlet Nova,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>A star caught mid-collapse. Scarlet Nova hangs as a compact, hard-edged pendant on a fine 316L chain — small enough to layer, heavy enough to read as hardware instead of decoration. Wears cold against the skin and keeps its shine through sweat, rain and long nights out.</p>
 <ul>
-<li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-<li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-<li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-300",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,299.00,598.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
-bracelet-3,Vault Chain Bracelet,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Interlocking 316L stainless steel link bracelet built with a secure clasp and adjustable sizing chain. Zero fading, zero green-skin reaction.</p>
+<li><strong>Design:</strong> Angular star-cut pendant on a slim polished chain</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-300",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,299.00,598.00,true,true,,,,,,,,,false,Scarlet Nova | 316L Steel Chain | RWND20s,"A star caught mid-collapse. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
+bracelet-3,Deadbolt,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>The archive's heaviest link bracelet and the closest this drop gets to a weapon. Deadbolt sits low on the wrist, 17–21cm adjustable, high-polish chrome over 316L — the same steel family as the Mystery Set pieces.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Sizing:</strong> Universal adjustable wrist fit (17cm – 21cm)</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
-bracelet-2,Static Link Bracelet,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Interlocking 316L stainless steel link bracelet built with a secure clasp and adjustable sizing chain. Zero fading, zero green-skin reaction.</p>
+<li><strong>Design:</strong> Heavy uniform links, 17–21cm adjustable</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> 17–21cm adjustable link bracelet, secure clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Deadbolt | 316L Steel Bracelet | RWND20s,"The archive's heaviest link bracelet and the closest this drop gets to a weapon. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
+bracelet-2,Static Link,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>Signal noise, cast in steel. Static Link runs chunky rectangular links in a staggered rhythm — sits heavier on the wrist than the photos suggest, with a clasp that holds under a jacket sleeve.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Sizing:</strong> Universal adjustable wrist fit (17cm – 21cm)</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
-bracelet-1,Chrome Lattice Bracelet,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Interlocking 316L stainless steel link bracelet built with a secure clasp and adjustable sizing chain. Zero fading, zero green-skin reaction.</p>
+<li><strong>Design:</strong> Staggered rectangular links, heavy gauge</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> 17–21cm adjustable link bracelet, secure clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Static Link | 316L Steel Bracelet | RWND20s,"Signal noise, cast in steel. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
+bracelet-1,Chrome Lattice,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>Interlocking links that read as a lattice instead of a chain. Chrome Lattice pairs a secure clasp with an adjustable tail, high-polish so the pattern catches light from every angle. The quietest of the four, and the one people ask about.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Sizing:</strong> Universal adjustable wrist fit (17cm – 21cm)</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Interlocking lattice links, adjustable tail</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> 17–21cm adjustable link bracelet, secure clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Chrome Lattice | 316L Steel Bracelet | RWND20s,"Interlocking links that read as a lattice instead of a chain. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 ring-3,Orbit Star,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavy-gauge 316L stainless steel ring engineered with an open-band adjustable fit. High-polish chrome finish designed to resist sweat, water, and daily oxidation.</p>
+<p>A star knocked off its orbit and welded to a band. Orbit Star carries the widest face in the ring set — chunky, open-backed and adjustable, finished high-polish so it reads loud from across a room.</p>
 <ul>
-<li><strong>Material:</strong> 316L Surgical Stainless Steel (Anti-tarnish)</li>
-<li><strong>Sizing:</strong> Free Size / Adjustable open-band engineering</li>
-<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Oversized star face, open adjustable band</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> Open-band, free size (adjustable — no sizing chart)</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,Orbit Star | 316L Steel Ring | RWND20s,"A star knocked off its orbit and welded to a band. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 ring-2,Crimson Web,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavy-gauge 316L stainless steel ring engineered with an open-band adjustable fit. High-polish chrome finish designed to resist sweat, water, and daily oxidation.</p>
+<p>A web pulled tight across a signet face. Crimson Web wears flat and heavy, mirror-polished so the web lines flash every time you type, pay or punch in. Crimson in name, chrome in hand.</p>
 <ul>
-<li><strong>Material:</strong> 316L Surgical Stainless Steel (Anti-tarnish)</li>
-<li><strong>Sizing:</strong> Free Size / Adjustable open-band engineering</li>
-<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Web-relief signet face, open band</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> Open-band, free size (adjustable — no sizing chart)</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,Crimson Web | 316L Steel Ring | RWND20s,"A web pulled tight across a signet face. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 ring-1,Stardust Relic,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavy-gauge 316L stainless steel ring engineered with an open-band adjustable fit. High-polish chrome finish designed to resist sweat, water, and daily oxidation.</p>
+<p>Cast-looking and open-backed. Stardust Relic is a signet built on an adjustable open band — one size, no sizing chart, no waiting. High-polish chrome over 316L, so the finish survives gym chalk, sanitiser and monsoon.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel (Anti-tarnish)</li>
-  <li>
-<strong>Sizing:</strong> Free Size / Adjustable open-band engineering</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,,,,,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Signet face on an open adjustable band</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> Open-band, free size (adjustable — no sizing chart)</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, under-500",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,349.00,698.00,true,true,,,,,,,,,false,Stardust Relic | 316L Steel Ring | RWND20s,"Cast-looking and open-backed. 316L surgical steel, COD across India.",,,,stainless-steel,unisex,,g,,,active,,,,
 chain-3,Silver Fang,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+<p>A curved fang, cut from solid steel and hung from a heavyweight chain. Silver Fang is the piece people notice before they notice you: bright chrome, blunt weight, no plating to wear through. Built to sit with the heavier rings in the archive.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Fang-shaped pendant on a heavy-gauge chain</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Silver Fang | 316L Steel Chain | RWND20s,"A curved fang, cut from solid steel and hung from a heavyweight chain. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 chain-2,Crimson Relic,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+<p>Something excavated, not bought. Crimson Relic is a relic-form pendant on a heavy steel chain, finished high-polish so the cavities read as shadow instead of dirt. The crimson lives in the name — the hardware itself is untreated stainless, so it survives everything.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Relic-form pendant, hand-finished edges</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Crimson Relic | 316L Steel Chain | RWND20s,"Something excavated, not bought. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 chain-1,Pink Relic,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+<p>The same relic silhouette, warmer. Pink Relic keeps the heavy chain and the excavated pendant shape, finished in a soft chrome that leaves the pink to the name and the light. Romantic in photos, industrial in person.</p>
 <ul>
-  <li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-  <li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-  <li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>
-",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,,,,silver,,stainless-steel,unisex,,g,,,active,,,,
+<li><strong>Design:</strong> Relic-form pendant, soft-chrome finish</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, under-600",true,Title,Default Title,,,,,,,,,0.0,shopify,0,deny,manual,549.00,1098.00,true,true,,,,,,,,,false,Pink Relic | 316L Steel Chain | RWND20s,"The same relic silhouette, warmer. 316L surgical steel, COD across India.",,silver,,stainless-steel,unisex,,g,,,active,,,,
 y2k-watch,Y2K WATCH,"<p>Unbranded, Y2K-inspired brushed steel timepiece (not Casio, Fossil, or any third-party brand). Phase 2 release unlocks at 10 paid pre-orders. Prepaid ₹1,999 or COD ₹2,199 (requires ₹150 non-refundable UPI advance before dispatch).</p><ul>
 <li>Unbranded Y2K-inspired analog-digital steel design</li>
 <li>Prepaid: ₹1,999 | COD: ₹2,199 (with ₹150 non-refundable UPI advance)</li>
@@ -127,47 +114,51 @@ y2k-watch,Y2K WATCH,"<p>Unbranded, Y2K-inspired brushed steel timepiece (not Cas
 <li>48-hour 1-for-1 replacement with unboxing video proof</li>
 </ul><p><strong>Care:</strong> Not water resistant. Wipe with a dry microfibre cloth.</p>",RWND20s,Apparel & Accessories > Jewelry > Watches,Watch,"watch, y2k-watch, cod-advance, phase-2, premium-drop, prepaid-discount",true,Checkout Tier,"Prepaid Dispatch (₹1,999 · Free Shipping)",,,,,,,,W-01-1,85.0,shopify,10,deny,manual,1999.00,4998.00,true,true,,,,,,,,,false,Y2K Watch India | RWND20s,"Unbranded Y2K-inspired watch. Prepaid ₹1,999. Ships across India.",,,,,,,kg,,,active,,,,
 y2k-watch,,,,,,,,,"COD Dispatch (₹2,199 · ₹150 UPI Advance)",,,,,,,,W-01-2,85.0,shopify,10,deny,manual,2199.00,5198.00,true,true,,,,,,,,,,,,,,,,,,kg,,,,,,,
-y2k-earrings,Ruby Edge Pendant,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavyweight 316L stainless steel chain paired with a high-polish industrial pendant and reinforced lobster clasp. Waterproof and oxidation-resistant for everyday wear.</p>
+y2k-earrings,Ruby Edge,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>One hard edge, set like a stone that can never fall out. Ruby Edge is an angular pendant on a fine 316L chain — sharp geometry, mirror finish, the ruby only in the name. Light enough for a first layer, strong enough to wear alone.</p>
 <ul>
-<li>
-<strong>Material:</strong> 316L Surgical Stainless Steel</li>
-<li>
-<strong>Dimensions:</strong> 50cm standard length + 5cm adjustable extender</li>
-<li>
-<strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, accessories, cod-available, everyday-drop, phase-1, y2k, under-300",true,Pair Edition,Silver Cyber Pair + Pouch,,,,,,,,E-01,85.0,shopify,25,deny,manual,299.00,898.00,true,true,,,,,,,,,false,Y2K Pendant Necklace | RWND20s,Minimalist silver Y2K pendant necklace in 316L stainless steel. Ships across India with COD or prepaid.,,,,,,,kg,,,active,,,,
+<li><strong>Design:</strong> Angular edge pendant, mirror-polished</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, accessories, cod-available, everyday-drop, phase-1, y2k, under-300",true,Pair Edition,Silver Cyber Pair + Pouch,,,,,,,,E-01,85.0,shopify,25,deny,manual,299.00,898.00,true,true,,,,,,,,,false,Ruby Edge | 316L Steel Chain | RWND20s,"One hard edge, set like a stone that can never fall out. 316L surgical steel, COD across India.",,,,,,,kg,,,active,,,,
 pink-chrome-earphones-type-c,Pink Chrome Wired Earphones (TYPE-C),"<p>Type-C only. Not compatible with iPhone 14 and older, or with 3.5mm jack phones. Standard Type-C pink chrome wired earphones with an included carry case—plugs directly into USB-C Android phones and iPhone 15 or newer with no adapter required.</p><ul>
 <li>Direct USB Type-C plug (Wired, not wireless — no adapter needed)</li>
 <li>Metallic pink chrome finish with tangle-resistant cord</li>
 <li>Includes matching carry case in the box</li>
 <li>Unlocks Free Express Shipping immediately (₹999)</li>
 </ul><p><strong>Care:</strong> Coil loosely inside the included carry case after use. Avoid sharp bends near the Type-C plug.</p>",RWND20s,Electronics > Audio > Audio Components > Headphones & Headsets > Headphones > In-Ear Headphones,Audio,"earphones, type-c-earphones, phase-1, premium-drop, type-c-only, under-1000",true,Edition,Pink Chrome Type-C + Carry Case,,,,,,,,EAR-01,85.0,shopify,16,deny,manual,999.00,2998.00,true,true,,,,,,,,,false,Pink Chrome Wired Earphones (Type-C) | RWND20s,Pink chrome Type-C wired earphones with carry case. Free shipping eligible.,,,,,,,kg,,,active,,,,
-y2k-chain-bracelet,Chrome Link Bracelet,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Interlocking 316L stainless steel link bracelet built with a secure clasp and adjustable sizing chain. Zero fading, zero green-skin reaction.</p>
+y2k-chain-bracelet,Chrome Link,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>A clean, uniform link bracelet — the plainest piece in the drop and the easiest to stack. High-polish 316L, adjustable tail, secure clasp. This is the one that goes with the watch and never comes off.</p>
 <ul>
-<li><strong>Material:</strong> 316L Surgical Stainless Steel</li>
-<li><strong>Sizing:</strong> Universal adjustable wrist fit (17cm – 21cm)</li>
-<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, accessories, cod-available, everyday-drop, phase-1, y2k, under-600",true,Wrist Fit,Standard Fit (19cm),,,,,,,,B-01-1,85.0,shopify,30,deny,manual,549.00,1598.00,true,true,,,,,,,,,false,Y2K Chain Bracelet | RWND20s,Y2K chain bracelet in 316L stainless steel. Pair it with the Cyber Set.,,,,,,,kg,,,active,,,,
+<li><strong>Design:</strong> Uniform polished links, adjustable tail</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> 17–21cm adjustable link bracelet, secure clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Bracelets,Bracelet,"bracelets, y2k-bracelets, accessories, cod-available, everyday-drop, phase-1, y2k, under-600",true,Wrist Fit,Standard Fit (19cm),,,,,,,,B-01-1,85.0,shopify,30,deny,manual,549.00,1598.00,true,true,,,,,,,,,false,Chrome Link | 316L Steel Bracelet | RWND20s,"A clean, uniform link bracelet — the plainest piece in the drop and the easiest to stack. 316L surgical steel, COD across India.",,,,,,,kg,,,active,,,,
 y2k-chain-bracelet,,,,,,,,,Relaxed Fit (21cm),,,,,,,,B-01-2,85.0,shopify,30,deny,manual,549.00,1598.00,true,true,,,,,,,,,,,,,,,,,,kg,,,,,,,
-y2k-heavy-chain-pendant,Bonebound Heart,"<p>A heavy-gauge link chain paired with a sculpted Y2K pendant. Forged from 316L stainless steel for everyday durability and tactile weight.</p><ul>
-<li>Chain and pendant forged from 316L stainless steel</li>
-<li>Ships in a custom zip pouch with care card</li>
-<li>Pairs seamlessly with the Cyber Signet Ring &amp; Chain Bracelet</li>
-</ul><p><strong>Care:</strong> Keep dry and remove before showering or swimming. Store in zip pouch.</p>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Necklace,"necklaces, y2k-necklaces, accessories, cod-available, everyday-drop, phase-1, y2k, under-600",true,Chain Length,50cm Standard Fit,,,,,,,,C-01-1,85.0,shopify,35,deny,manual,549.00,1598.00,true,true,,,,,,,,,false,Y2K Heavy Chain Pendant | RWND20s,Heavy Y2K chain and pendant in 316L stainless steel. Ships across India.,,,,,,,kg,,,active,,,,
-y2k-heavy-chain-pendant,,"<p>A heavy-gauge link chain paired with a sculpted Y2K pendant. Forged from 316L stainless steel for everyday durability and tactile weight.</p><ul>
-<li>Chain and pendant forged from 316L stainless steel</li>
-<li>Ships in a custom zip pouch with care card</li>
-<li>Pairs seamlessly with the Cyber Signet Ring &amp; Chain Bracelet</li>
-</ul><p><strong>Care:</strong> Keep dry and remove before showering or swimming. Store in zip pouch.</p>",,,,,,,55cm Layered Fit,,,,,,,,C-01-2,85.0,shopify,35,deny,manual,549.00,1598.00,true,true,,,,,,,,,,,,,,,,,,kg,,,,,,,
-y2k-cyber-signet-ring,Serpent Cross,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
-<p>Heavy-gauge 316L stainless steel ring engineered with an open-band adjustable fit. High-polish chrome finish designed to resist sweat, water, and daily oxidation.</p>
+y2k-heavy-chain-pendant,Bonebound Heart,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>A heart with a spine. Bonebound Heart is a sculpted pendant bound to a heavy-gauge link chain, forged in 316L so the weight hangs flat instead of flipping. Ships in the zip pouch with a care card; pairs with Serpent Cross and Chrome Link.</p>
 <ul>
-<li><strong>Material:</strong> 316L Surgical Stainless Steel (Anti-tarnish)</li>
-<li><strong>Sizing:</strong> Free Size / Adjustable open-band engineering</li>
-<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD Available</li>
-</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, accessories, cod-available, everyday-drop, phase-1, y2k, under-500",true,Title,Default Title,,,,,,,,R-01-1,85.0,shopify,40,deny,manual,349.00,998.00,true,true,,,,,,https://cdn.shopify.com/s/files/1/0851/2746/3165/files/b95a4e62b467_whatsapp_image_2026-11-18_at_8_56_43_pm.jpg?v=1795081412,1,,false,Y2K Cyber Signet Ring | RWND20s,Chunky Y2K signet ring. Ships across India with COD or prepaid. Bundle to save ₹248.,,,,,,,kg,,,active,,,,
+<li><strong>Design:</strong> Sculpted heart pendant on a heavy link chain</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Chain:</strong> 50cm + 5cm adjustable extender, reinforced lobster clasp</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+<li>Packaging: Ships in the custom zip pouch with care card</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Necklaces,Chain,"chains, y2k-chains, accessories, cod-available, everyday-drop, phase-1, y2k, under-600",true,Chain Length,50cm Standard Fit,,,,,,,,C-01-1,85.0,shopify,35,deny,manual,549.00,1598.00,true,true,,,,,,,,,false,Bonebound Heart | 316L Steel Chain | RWND20s,"A heart with a spine. 316L surgical steel, COD across India.",,,,,,,kg,,,active,,,,
+y2k-heavy-chain-pendant,,,,,,,,,55cm Layered Fit,,,,,,,,C-01-2,85.0,shopify,35,deny,manual,549.00,1598.00,true,true,,,,,,,,,,,,,,,,,,kg,,,,,,,
+y2k-cyber-signet-ring,Serpent Cross,"<p><strong>[ DROP 01 // 316L SURGICAL HARDWARE ]</strong></p>
+<p>A serpent wound once around a cross, then flattened into a signet. Serpent Cross is the archive's loudest ring: deep relief, mirrored high points, open band so it moves to whichever finger you switch it to.</p>
+<ul>
+<li><strong>Design:</strong> Serpent-and-cross relief signet, open band</li>
+<li><strong>Material:</strong> 316L surgical stainless steel</li>
+<li><strong>Fit:</strong> Open-band, free size (adjustable — no sizing chart)</li>
+<li><strong>Finish:</strong> High-polish PVD chrome · anti-tarnish, sweat &amp; water resistant</li>
+<li><strong>Dispatch:</strong> Shipped within 24 hours from Madurai · COD available</li>
+</ul>",RWND20s,Apparel & Accessories > Jewelry > Rings,Ring,"rings, y2k-rings, accessories, cod-available, everyday-drop, phase-1, y2k, under-500",true,Title,Default Title,,,,,,,,R-01-1,85.0,shopify,40,deny,manual,349.00,998.00,true,true,,,,,,https://cdn.shopify.com/s/files/1/0851/2746/3165/files/b95a4e62b467_whatsapp_image_2026-11-18_at_8_56_43_pm.jpg?v=1795081412,1,,false,Serpent Cross | 316L Steel Ring | RWND20s,"A serpent wound once around a cross, then flattened into a signet. 316L surgical steel, COD across India.",,,,,,,kg,,,active,,,,
 y2k-cyber-signet-ring,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0851/2746/3165/files/7fa8ba96a457_whatsapp_image_2026-11-18_at_10_31_09_pm.jpg?v=1795086007,2,,,,,,,,,,,,,,,,,,
 3-piece-y2k-cyber-set,3-Piece Y2K Mystery Cyber Set,"<p><strong>[ CLASSIFIED DROP 01 LOADOUT // DISPATCHED FROM MADURAI ]</strong></p>
 <p>Three heavy-gauge 316L stainless steel pieces selected at random from the RWND20s archive vault. No design selection—every box is a blind drop curated for after-dark operators.</p>

@@ -36,22 +36,13 @@
             ALL SPEC
           </button>
           <button type="button" data-tag-filter="necklace" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            NECKLACES
+            CHAINS
           </button>
           <button type="button" data-tag-filter="ring" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             RINGS
           </button>
           <button type="button" data-tag-filter="bracelet" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
             BRACELETS
-          </button>
-          <button type="button" data-tag-filter="set" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            SETS
-          </button>
-          <button type="button" data-tag-filter="audio" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            AUDIO
-          </button>
-          <button type="button" data-tag-filter="watch" aria-pressed="false" class="rwnd-filter-btn border border-line bg-surface px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted hover:border-brand hover:text-white cursor-pointer">
-            TIMEPIECES
           </button>
           <button type="button" id="rwnd-filter-clear" class="rwnd-filter-btn hidden border border-white/20 bg-transparent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white cursor-pointer">
             ✕ CLEAR
@@ -243,8 +234,9 @@
 
     // Each card carries its resolved category in data-category (rendered by
     // snippets/product-category.liquid), so a tab filters on cold data instead
-    // of guessing from the title. The synonym map is only a fallback for cards
-    // that somehow arrive without the attribute.
+    // of guessing from the title. The shop sells three categories for now:
+    // chains / rings / bracelets (the 'necklace' token covers chains+pendants).
+    // The synonym map is only a fallback for cards that arrive without it.
     const FILTER_SYNONYMS = {
       all: [],
       necklace: ['necklace', 'pendant', 'chain'],
