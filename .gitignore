@@ -1,3 +1,6 @@
 # Local scratch: the master trio shot already lives in assets/hero-default.png
 image-lab/source/
 image-lab/**/*.py
+
+# Drive source pulls (39 PNGs, 106 MB) — inputs, not deliverables
+/google_drive/

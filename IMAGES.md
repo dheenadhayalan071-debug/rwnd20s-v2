@@ -18,12 +18,14 @@ Each shot is cropped 1200×1200 around the piece, graded +4% contrast and lightl
 | 6 | cross pendant edged with crimson stones | **Nocturne Cross** | `earring-2` | Chains | strong |
 | 7 | four-point star pendant, crimson centre | **Scarlet Nova** | `earring-1` | Chains | strong (nova = star) |
 | 8 | dagger pendant with crimson stone | **Ruby Edge** | `y2k-earrings` | Chains | strong (edge = blade) |
-| 9 | miniature lipstick charm + steel star | **Crimson Relic** | `chain-2` | Chains | good (crimson) |
-| 10 | miniature milk-bottle charm + steel star | **Pink Relic** | `chain-1` | Chains | good (pink/white) |
+| 9 | miniature crimson cup charm + steel star | **Crimson Relic** | `chain-2` | Chains | strong (re-read at 2× — see note below) |
+| 10 | miniature milk-bottle charm + steel star | **Pink Relic** | `chain-1` | Chains | strong (re-read at 2×) |
 
 **Still without a photo:** `ring-2` Crimson Web, `y2k-cyber-signet-ring` Serpent Cross (Rings), plus the watch, earphones and mystery set. They keep the category fallback art described below.
 
-Because the photos now define the products, **the copy was rewritten to match the picture** for the ten above (Stardust Relic is a heart-halo ring, not a signet; Crimson Relic is a lipstick charm, not a relic cast; Silver Fang is a star, not a fang). Google-visible text stays honest, which is what the earlier copy audit was for.
+Because the photos now define the products, **the copy was rewritten to match the picture** for the ten above (Stardust Relic is a heart-halo ring, not a signet; Silver Fang is an engraved star, not a fang). Google-visible text stays honest, which is what the earlier copy audit was for.
+
+**Re-read at 2× on 25 Nov:** the two "relic" charms are miniature *drinkware* — `chain-2` is a crimson cup, `chain-1` a white milk bottle. The Crimson Relic copy said "lipstick", which the shot never showed; it now reads "miniature cup". Both charms carry a printed Hello Kitty figure, so the copy describes the *object* (bottle, cup) and never the character.
 
 ### How the import attaches them
 
@@ -34,6 +36,34 @@ https://raw.githubusercontent.com/dheenadhayalan071-debug/rwnd20s-v2/arena/20b2e
 ```
 
 Shopify downloads it during import and stores its own copy, so the link only has to survive the import. `Image Alt Text` and `Image Position` (1) are set too.
+
+### A2. The second frame — on-model shots from Drive
+
+Your Drive folder (the `rwnd-assets` folder in My Drive, 39 PNGs) held **two shots per piece**: the black-background studio still you had already sent, plus the same piece worn. Both are now in the repo and in the CSV.
+
+* Studio still → `product-images/<handle>.jpg` (1:1, 1200²) — unchanged, already live from round A.
+* Worn shot → `product-images/<handle>-model.jpg` (4:5, 1080×1350) — cropped around the piece at the collar (or the hand, for rings), +4% contrast / +3% colour, `UnsharpMask(1.6, 90%, 3)`. The two hand shots get a 30% elliptical vignette so the grey backdrop sits next to the black studio frames without glaring.
+
+CSV wiring: each piece now has **two image rows** — the product row with `Image Position` 1, then an image-only row (`Handle` + `Image Src` + `Image Position` 2 + `Image Alt Text`). 33 rows total, 52 columns, no ragged rows.
+
+| Product | Handle | Studio (`…jpg`) | Worn (`…-model.jpg`) | The worn frame shows | Match |
+|---|---|---|---|---|---|
+| Stardust Relic | `ring-1` | heart-halo ruby ring | hand, three rings | the halo ring, mid-finger | good |
+| Orbit Star | `ring-3` | twin-star ring | hand, star rings + link bracelet | the star rings | good |
+| Pink Relic | `chain-1` | white milk-bottle charm | bottle charm at the collar | the **same** charm | exact |
+| Crimson Relic | `chain-2` | crimson cup charm | cup charm at the collar | the **same** charm | exact |
+| Silver Fang | `chain-3` | engraved star, spiral centre | star at the collar | the **same** pendant | exact |
+| Scarlet Nova | `earring-1` | crimson four-point star | star at the collar | the **same** pendant | exact |
+| Nocturne Cross | `earring-2` | cross edged with crimson stones | cross at the collar | the **same** pendant | exact |
+| Thorned Romance | `earring-3` | barbed-wire heart necklace | heart at the collar | the **same** necklace | exact |
+| Ruby Edge | `y2k-earrings` | ruby-set dagger cross | ruby-set point at the collar | the **same** piece | exact |
+| Bonebound Heart | `y2k-heavy-chain-pendant` | haloed heart + steel spike | haloed heart at the collar | same family, spike not visible | good |
+
+Verified on the pair sheet: `image-lab/pairs-check.jpg`. Live hover demo: `image-lab/preview-pairs.html` (port 8080).
+
+**Frames still single-shot:** `ring-2` Crimson Web, `y2k-cyber-signet-ring` Serpent Cross, all four bracelets, the watch, the earphones and the mystery set. No shot of those pieces exists in the folder — they keep the studio photo or the category art.
+
+**Unused assets in the folder** (they pair up beautifully, but no product record exists): Monster can (`1795010441448` + worn), Red Bull can (`1795010981487` + worn), Coca-Cola can (`1795010999311` + worn), Marlboro pack (`1795011002241` + two worn frames), Hello Kitty cup worn ×2, SpongeBob + GTA PS5 pack flat-lay. Say the word and they become four more chains (₹549 each, same copy pattern) — I have the crops ready to cut.
 
 ---
 
@@ -92,6 +122,7 @@ The moment you upload a real photo to a product, it takes over automatically —
 * **push-in** — image scales to 1.06 over 650 ms, `cubic-bezier(.22,.61,.36,1)` (no bounce, reads as hardware)
 * **chrome sweep** — one diagonal brand-red highlight crosses the frame in 850 ms
 * **grade lift** — `saturate(1.10) contrast(1.05) brightness(1.03)`
+* **second frame** — `.rwnd-media-alt` cross-fades to the worn shot in 420 ms on the same push-in, so the card looks like the object turning rather than a slideshow. Layout is untouched (absolutely positioned, `pointer-events: none`); on touch devices (`hover: none`) the studio frame stays the only paint
 * disabled entirely under `prefers-reduced-motion: reduce`, alongside the existing loader/lift animations
 
-Live preview of all of it: `image-lab/preview.html` (served at port 8080 in this session).
+Live preview of all of it: `image-lab/preview.html` (studio set + category art) and `image-lab/preview-pairs.html` (the two-frame grid with the real hover CSS), served at port 8080 in this session.

@@ -373,6 +373,17 @@
                 loading="lazy" 
                 class="rwnd-media-img h-full w-full object-contain"
               >
+              {%- if product.images.size > 1 -%}
+                {%- comment -%} On-model shot: cross-fades over the studio frame on hover. {%- endcomment -%}
+                <img
+                  src="{{ product.images[1] | image_url: width: 600 }}"
+                  alt="{{ product.images[1].alt | default: product.title | escape }}"
+                  width="600"
+                  height="750"
+                  loading="lazy"
+                  class="rwnd-media-img rwnd-media-alt h-full w-full object-contain"
+                >
+              {%- endif -%}
             {% else %}
               <img
                 src="{{ fallback_asset | asset_url }}"

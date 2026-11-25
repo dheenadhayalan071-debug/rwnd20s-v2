@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RWND20s — two frames per piece</title>
+<style>
+  :root{
+    --ink:#07070a; --surface:#101015; --card:#16161c; --line:#2a2a33;
+    --ice:#ececf1; --muted:#8b8b96; --brand:#ff0033;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ice);
+       font:14px/1.55 ui-sans-serif,system-ui,"Helvetica Neue",Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  header{padding:40px 28px 18px;max-width:1180px;margin:0 auto}
+  h1{margin:0 0 8px;font-size:26px;letter-spacing:-.02em}
+  h1 span{color:var(--brand)}
+  .sub{color:var(--muted);max-width:70ch;margin:0}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+        letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  main{max-width:1180px;margin:0 auto;padding:18px 28px 72px}
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .card{border:1px solid var(--line);background:var(--surface);padding:12px;
+        transition:border-color .25s ease}
+  .card:hover{border-color:var(--brand)}
+  /* ---- the real media frame: mirrors assets/theme.css ---- */
+  .rwnd-media{position:relative;isolation:isolate;aspect-ratio:4/5;width:100%;
+              overflow:hidden;border:1px solid var(--line);background:var(--card);
+              display:flex;align-items:center;justify-content:center}
+  .rwnd-media-img{width:100%;height:100%;object-fit:contain;display:block;
+    transition:transform .65s cubic-bezier(.22,.61,.36,1),filter .45s ease;will-change:transform}
+  .rwnd-media::after{content:"";position:absolute;inset:-30%;z-index:2;pointer-events:none;
+    background:linear-gradient(104deg,transparent 36%,rgba(255,255,255,.10) 45%,
+      rgba(255,0,51,.16) 50%,rgba(255,255,255,.06) 55%,transparent 64%);
+    transform:translate3d(-115%,0,0);opacity:0;transition:transform .75s ease,opacity .45s ease}
+  .rwnd-media:hover .rwnd-media-img{transform:scale(1.06);
+    filter:saturate(1.10) contrast(1.05) brightness(1.03)}
+  .rwnd-media:hover::after{transform:translate3d(115%,0,0);opacity:1}
+  .rwnd-media-alt{position:absolute;inset:0;z-index:1;opacity:0;pointer-events:none;
+    transition:opacity .42s ease,transform .65s cubic-bezier(.22,.61,.36,1),filter .45s ease}
+  .rwnd-media:hover .rwnd-media-alt{opacity:1}
+  @media (hover:none){.rwnd-media-alt{display:none}}
+  /* ---- labels ---- */
+  .name{margin:10px 0 2px;font-size:13px;font-weight:700;letter-spacing:-.01em}
+  .cat{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em}
+  .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 5px;
+       border:1px solid var(--line);color:var(--muted)}
+  .tag.ok{border-color:var(--brand);color:var(--brand)}
+  /* ---- side-by-side proof ---- */
+  .proof{margin-top:52px;border:1px solid var(--line);background:var(--surface);padding:18px}
+  .proof-grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;align-items:start}
+  .proof figure{margin:0}
+  .proof img{width:100%;border:1px solid var(--line);display:block}
+  .proof figcaption{margin-top:6px}
+  footer{max-width:1180px;margin:0 auto;padding:0 28px 64px;color:var(--muted);font-size:12px}
+  @media (prefers-reduced-motion:reduce){
+    .rwnd-media-img,.rwnd-media-alt,.rwnd-media::after{transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="mono">RWND20s · drop 01 · media round 02</p>
+  <h1>Every piece, <span>two frames</span></h1>
+  <p class="sub">Position 1 is the black-background studio still. Position 2 is the same piece on the
+  body. Cards hold the studio frame; hover cross-fades to the worn frame in place — same crop, same
+  height, no layout shift. On touch the studio frame is the only paint. Reduced-motion gets an
+  instant swap with no push-in or chrome sweep.</p>
+</header>
+
+<main>
+  <div class="grid" id="grid"></div>
+
+  <div class="proof">
+    <p class="mono">Pair check · studio ⟷ worn</p>
+    <div class="proof-grid">
+      <figure>
+        <img src="../product-images/earring-1.jpg" alt="Scarlet Nova black-background studio shot">
+        <figcaption class="cat">Scarlet Nova · position 1 · studio</figcaption>
+      </figure>
+      <figure>
+        <img src="../product-images/earring-1-model.jpg" alt="Scarlet Nova worn on a model">
+        <figcaption class="cat">Scarlet Nova · position 2 · worn</figcaption>
+      </figure>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Files: <code>product-images/&lt;handle&gt;.jpg</code> (studio, 1:1) and
+  <code>product-images/&lt;handle&gt;-model.jpg</code> (worn, 4:5). The CSV carries one image row per
+  file with <code>Image Position</code> 1 and 2.
+</footer>
+
+<script>
+const PIECES = [
+  ["ring-1","Stardust Relic","Ring","high","heart-cut stone · worn on the hand"],
+  ["ring-3","Orbit Star","Ring","high","twin stars · worn on the hand"],
+  ["chain-1","Pink Relic","Chain","exact","milk-bottle charm · same piece"],
+  ["chain-2","Crimson Relic","Chain","exact","crimson cup charm · same piece"],
+  ["chain-3","Silver Fang","Chain","exact","engraved star · same piece"],
+  ["earring-1","Scarlet Nova","Chain","exact","four-point star · same piece"],
+  ["earring-2","Nocturne Cross","Chain","exact","crimson-stone cross · same piece"],
+  ["earring-3","Thorned Romance","Chain","exact","barbed-wire heart · same piece"],
+  ["y2k-earrings","Ruby Edge","Chain","high","ruby-set dagger · same piece"],
+  ["y2k-heavy-chain-pendant","Bonebound Heart","Chain","high","haloed heart · same family"],
+];
+const grid = document.getElementById('grid');
+grid.innerHTML = PIECES.map(([h,n,c,conf,note]) => `
+  <article class="card">
+    <div class="rwnd-media">
+      <img class="rwnd-media-img" src="../product-images/${h}.jpg" alt="${n} studio shot" loading="lazy">
+      <img class="rwnd-media-img rwnd-media-alt" src="../product-images/${h}-model.jpg"
+           alt="${n} worn on a model" loading="lazy">
+    </div>
+    <p class="name">${n}</p>
+    <p class="cat">${c} · ${h}</p>
+    <div class="tags">
+      <span class="tag ok">2 frames</span>
+      <span class="tag">${conf === 'exact' ? 'same piece' : conf === 'high' ? 'matched design' : 'family'}</span>
+    </div>
+    <p class="cat" style="margin-top:6px;text-transform:none;letter-spacing:0">${note}</p>
+  </article>`).join('');
+</script>
+</body>
+</html>

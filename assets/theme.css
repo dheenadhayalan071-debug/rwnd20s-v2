@@ -533,6 +533,36 @@ textarea:focus {
 /* Fallback art (no product photo yet) sits a touch calmer than a real shot. */
 .rwnd-media-img.opacity-95 { opacity: 0.95; }
 
+/* --------------------------------------------------------------------------
+   SECOND SHOT — every piece that has both frames ships with two images:
+   position 1 is the black-background studio still, position 2 the piece worn.
+   The studio still owns the card; hovering cross-fades to the worn frame in
+   place (no layout shift, no extra height). Both frames get the same push-in
+   and chrome sweep, so the transition reads as one object turning.
+   Grain-safe, transform/filter only, and the cross-fade collapses to an
+   instant swap under prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+.rwnd-media-alt {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.42s ease,
+              transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+              filter 0.45s ease;
+}
+
+.group:hover .rwnd-media-alt,
+.rwnd-media:hover .rwnd-media-alt {
+  opacity: 1;
+}
+
+/* Touch devices never fire :hover — keep the studio frame as the only paint. */
+@media (hover: none) {
+  .rwnd-media-alt { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1231,6 +1261,7 @@ html.rwnd-reveal-enabled .rwnd-reveal.rwnd-in {
   .rwnd-reveal,
   .rwnd-lift,
   .rwnd-media-img,
+  .rwnd-media-alt,
   .rwnd-media::after {
     animation: none !important;
     transition: none !important;

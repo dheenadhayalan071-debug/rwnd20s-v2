@@ -107,6 +107,16 @@
                             loading="lazy"
                             class="rwnd-media-img h-full w-full object-contain"
                           >
+                          {%- if item.images.size > 1 -%}
+                            <img
+                              src="{{ item.images[1] | image_url: width: 600 }}"
+                              alt="{{ item.images[1].alt | default: item.title | escape }}"
+                              width="600"
+                              height="600"
+                              loading="lazy"
+                              class="rwnd-media-img rwnd-media-alt h-full w-full object-contain"
+                            >
+                          {%- endif -%}
                         {% else %}
                           <img
                             src="{{ fallback_asset | asset_url }}"
