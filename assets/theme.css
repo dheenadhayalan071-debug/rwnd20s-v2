@@ -563,6 +563,59 @@ textarea:focus {
   .rwnd-media-alt { display: none; }
 }
 
+/* --------------------------------------------------------------------------
+   CARD BADGES — SAVE on the left, taxonomy chip on the right.
+   On a two-up mobile grid a long SAVE value (watch: "SAVE Rs. 2,999") used to
+   slide under the PRE-ORDER chip. Both now share one positioning system: the
+   SAVE pill truncates, the taxonomy pill never shrinks, and neither can cover
+   the other.
+   -------------------------------------------------------------------------- */
+.rwnd-badge {
+  position: absolute;
+  top: 0.5rem;
+  z-index: 3;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.rwnd-badge--save {
+  left: 0.5rem;
+  max-width: calc(100% - 5.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rwnd-badge--type {
+  right: 0.5rem;
+  flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   PRICE ROW — "Rs. 549.00  Rs. 1,098.00" used to break between the currency and
+   the number on a 160px card. Each price is now unbreakable and the pair wraps
+   as a unit.
+   -------------------------------------------------------------------------- */
+.rwnd-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0;
+}
+
+.rwnd-price-row > span {
+  white-space: nowrap;
+}
+
+.rwnd-price-row .rwnd-price--was {
+  font-size: 10px;
+  text-decoration: line-through;
+  color: var(--color-muted, #8b8b96);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

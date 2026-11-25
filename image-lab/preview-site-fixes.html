@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RWND20s — card + tile fixes</title>
+<style>
+  :root{--ink:#07070a;--surface:#101015;--card:#16161c;--line:#2a2a33;--ice:#ececf1;--muted:#8b8b96;--brand:#ff0033}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ice);font:13px/1.5 ui-sans-serif,system-ui,Arial,sans-serif}
+  main{max-width:900px;margin:0 auto;padding:32px 18px 64px}
+  h1{font-size:22px;margin:0 0 4px;letter-spacing:-.02em}
+  h1 span{color:var(--brand)}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+  @media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+  article{border:1px solid var(--line);background:var(--surface);padding:10px;position:relative}
+  .rwnd-media{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center}
+  .rwnd-media img{width:100%;height:100%;object-fit:contain}
+  /* fixed badge system */
+  .rwnd-badge{position:absolute;top:.5rem;z-index:3;padding:2px 6px;font-size:9px;font-weight:700;line-height:1.45;white-space:nowrap;font-family:ui-monospace,Menlo,monospace}
+  .rwnd-badge--save{left:.5rem;max-width:calc(100% - 5.5rem);overflow:hidden;text-overflow:ellipsis;border:1px solid var(--brand);background:var(--card);color:var(--brand)}
+  .rwnd-badge--type{right:.5rem;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+  .rwnd-badge--type.hot{border-color:var(--brand);background:rgba(255,0,51,.2);color:var(--brand)}
+  /* fixed price row */
+  .rwnd-price-row{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:.5rem;row-gap:0;
+    margin-top:4px;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:#fff}
+  .rwnd-price-row>span{white-space:nowrap}
+  .rwnd-price-row .rwnd-price--was{font-size:10px;text-decoration:line-through;color:var(--muted)}
+  .kind{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin:8px 0 0}
+  h3{margin:2px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.02em}
+  .btn{margin-top:10px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);
+       background:var(--card);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+  /* tiles */
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:12px}
+  @media(min-width:700px){.tiles{grid-template-columns:repeat(4,1fr)}}
+  .tile{position:relative;aspect-ratio:1;overflow:hidden;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+  .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;z-index:0}
+  .tile .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.55) 55%,rgba(0,0,0,.15))}
+  .tile .copy{position:relative;z-index:2}
+  .tile .num{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;color:var(--brand)}
+  .tile h4{margin:4px 0 0;font-size:13px;text-transform:uppercase;line-height:1.1}
+  .tile .cta{margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.1em;color:var(--muted)}
+  .tile.audio{background:radial-gradient(ellipse at 50% 38%,rgba(255,0,51,.16) 0%,rgba(0,0,0,0) 62%),linear-gradient(160deg,#17171d,#0b0b0f)}
+  .tile.audio svg{position:absolute;inset:0;margin:auto;width:76px;height:76px;color:#4a4a56;z-index:0}
+  .note{margin-top:34px;padding:14px;border:1px solid var(--line);background:var(--surface)}
+  .note li{margin:4px 0;color:var(--muted)}
+</style></head><body><main>
+  <h1>Card <span>+</span> tile fixes</h1>
+  <p class="mono">badges never overlap · prices never split · tiles have pictures</p>
+
+  <div class="grid">
+    <article>
+      <div class="rwnd-media">
+        <img src="../product-images/silver-tonic.jpg" alt="Silver Tonic">
+        <span class="rwnd-badge rwnd-badge--save">SAVE RS. 549</span>
+        <span class="rwnd-badge rwnd-badge--type">DROP 01</span>
+      </div>
+      <p class="kind">Chain + pendant</p><h3>Silver Tonic</h3>
+      <div class="rwnd-price-row"><span>RS. 549.00</span><span class="rwnd-price--was">RS. 1,098.00</span></div>
+      <div class="btn">+ Quick add</div>
+    </article>
+
+    <article>
+      <div class="rwnd-media">
+        <img src="../product-images/y2k-watch.jpg" alt="Y2K Watch">
+        <span class="rwnd-badge rwnd-badge--save">SAVE RS. 2,999</span>
+        <span class="rwnd-badge rwnd-badge--type hot">PRE-ORDER</span>
+      </div>
+      <p class="kind">Analog-digital</p><h3>Y2K Watch</h3>
+      <div class="rwnd-price-row"><span>RS. 1,999.00</span><span class="rwnd-price--was">RS. 4,998.00</span></div>
+      <div class="btn">+ Quick add</div>
+    </article>
+
+    <article>
+      <div class="rwnd-media">
+        <img src="../product-images/3-piece-y2k-cyber-set.jpg" alt="Mystery set">
+        <span class="rwnd-badge rwnd-badge--save">SAVE RS. 1,695</span>
+        <span class="rwnd-badge rwnd-badge--type hot">MYSTERY VAULT</span>
+      </div>
+      <p class="kind">3-piece hardware</p><h3>3-Piece Y2K Cyber Set</h3>
+      <div class="rwnd-price-row"><span>RS. 1,199.00</span><span class="rwnd-price--was">RS. 2,894.00</span></div>
+      <div class="btn">+ Quick add</div>
+    </article>
+
+    <article>
+      <div class="rwnd-media">
+        <img src="../product-images/earring-3.jpg" alt="Thorned Romance">
+        <span class="rwnd-badge rwnd-badge--save">SAVE RS. 250</span>
+        <span class="rwnd-badge rwnd-badge--type">DROP 01</span>
+      </div>
+      <p class="kind">Chain + pendant</p><h3>Thorned Romance</h3>
+      <div class="rwnd-price-row"><span>RS. 399.00</span><span class="rwnd-price--was">RS. 649.00</span></div>
+      <div class="btn">+ Quick add</div>
+    </article>
+  </div>
+
+  <p class="mono" style="margin-top:34px">home tiles</p>
+  <div class="tiles">
+    <a class="tile"><img src="../assets/hero-default.webp" alt=""><div class="scrim"></div>
+      <div class="copy"><span class="num">01 // MYSTERY</span><h4>3-Piece Cyber Vault</h4><span class="cta">UNLOCK BOX →</span></div></a>
+    <a class="tile"><img src="../assets/chain-fallback.webp" alt=""><div class="scrim"></div>
+      <div class="copy"><span class="num">02 // 316L STEEL</span><h4>Chains &amp; Pendants</h4><span class="cta">BROWSE DESIGNS →</span></div></a>
+    <a class="tile audio">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 18v-6a9 9 0 0118 0v6M3 18a3 3 0 003 3h1V15H4a1 1 0 00-1 1v2zm18 0a3 3 0 01-3 3h-1V15h3a1 1 0 011 1v2z"/></svg>
+      <div class="scrim"></div>
+      <div class="copy"><span class="num">03 // TYPE-C DAC</span><h4>Pink Chrome Audio</h4><span class="cta">SHOP →</span></div></a>
+    <a class="tile"><img src="../assets/watch-fallback.webp" alt=""><div class="scrim"></div>
+      <div class="copy"><span class="num">04 // PRE-ORDER</span><h4>Analog Timepieces</h4><span class="cta">RESERVE →</span></div></a>
+  </div>
+
+  <div class="note">
+    <p class="mono" style="margin:0 0 8px">what changed</p>
+    <ul style="margin:0;padding-left:18px;font-size:12px">
+      <li><strong style="color:#ececf1">Sold out</strong> — every variant had 0 inventory and “stop selling at 0”. Now 35 each, and the policy is <em>continue</em>, so nothing shows SOLD OUT.</li>
+      <li><strong style="color:#ececf1">Badges</strong> — SAVE truncates, the taxonomy chip never shrinks, neither overlaps (the watch card was the broken one).</li>
+      <li><strong style="color:#ececf1">Prices</strong> — currency and number can’t split across lines any more.</li>
+      <li><strong style="color:#ececf1">Mystery set + watch</strong> — real images instead of “MYSTERY VAULT ASSET” and the wrong cross photo.</li>
+      <li><strong style="color:#ececf1">Home</strong> — tiles get photos (trio, chain, watch); audio keeps the glyph on a red-washed panel; hero scrim lifted so the shot reads.</li>
+    </ul>
+  </div>
+</main></body></html>

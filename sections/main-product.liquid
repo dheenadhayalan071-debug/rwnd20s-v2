@@ -549,11 +549,11 @@
 
       <!-- Pricing Unit (Zero Box Bloat) -->
       <div class="pdp-price-row">
-        <div class="flex items-baseline gap-2.5 font-mono-tech">
-          <span class="text-2xl sm:text-3xl font-extrabold text-white" id="pdp-live-price">{{ current_variant.price | money }}</span>
-          <span class="text-sm text-muted line-through" id="pdp-compare-at"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>{{ current_variant.compare_at_price | money }}</span>
+        <div class="flex flex-wrap items-baseline gap-2.5 font-mono-tech">
+          <span class="whitespace-nowrap text-2xl sm:text-3xl font-extrabold text-white" id="pdp-live-price">{{ current_variant.price | money }}</span>
+          <span class="whitespace-nowrap text-sm text-muted line-through" id="pdp-compare-at"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>{{ current_variant.compare_at_price | money }}</span>
         </div>
-        <span class="tech-chip tech-chip--red" id="pdp-save-chip"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>
+        <span class="tech-chip tech-chip--red whitespace-nowrap" id="pdp-save-chip"{% unless current_variant.compare_at_price > current_variant.price %} style="display:none"{% endunless %}>
           {% if current_variant.compare_at_price > current_variant.price %}
             {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
             {% assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price %}
