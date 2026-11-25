@@ -78,6 +78,13 @@ Cut exactly like the round-A set: studio cropped 1200² from the 2048² masters 
 
 Catalogue is now **23 products**: Chains 12, Rings 4, Bracelets 4, plus watch, earphones and mystery set.
 
+### A4. Two more frames cut (25 Nov, second pass)
+
+* **`y2k-watch`** — the watch card was carrying a gothic-cross photo (wrong product). Cut a real frame from the supplied lifestyle shot: the chunky silver analogue watch on the wrist, 1200², sharpened for the upscale from the original 403 px region, plus `assets/watch-fallback.webp` so any watch-type product without its own photo shows a watch, not a chain.
+* **`3-piece-y2k-cyber-set`** — the product page was showing the “MYSTERY VAULT ASSET” placeholder. It now uses the Drop 01 trio shot, trimmed to a 1200² black plate — the same pieces the set ships.
+
+Stock was also reset for the whole catalogue (every variant was 0 with “stop selling at zero”, which is why 14 products read SOLD OUT): now **35 units each, policy `continue`**.
+
 **Still nothing cut:** the denim flat-lay (two cartoon pack charms on a double chain) has no studio counterpart, so no product was created for it.
 
 ---

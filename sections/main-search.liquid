@@ -72,7 +72,7 @@
                 {% assign is_bundle = false %}
                 {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
                 {%- assign fallback_asset = 'chain-fallback.webp' -%}
-                {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- endif -%}
+                {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- elsif p_cat == 'watch' -%}{%- assign fallback_asset = 'watch-fallback.webp' -%}{%- elsif p_cat == 'set' -%}{%- assign fallback_asset = 'hero-default.webp' -%}{%- endif -%}
 
                 {% assign search_saving = 0 %}
                 {% if item.price_varies %}
@@ -89,11 +89,11 @@
                       <!-- Taxonomy Badges -->
                       {%- comment -%} SAVE keeps the left slot; taxonomy badge takes the right. {%- endcomment -%}
                       {% if search_saving > 0 %}
-                        <span class="absolute left-3 top-3 z-10 border border-brand bg-card px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase text-brand rounded-none">
+                        <span class="rwnd-badge rwnd-badge--save border border-brand bg-card font-mono-tech font-bold uppercase text-brand">
                           SAVE {{ search_saving | money }}
                         </span>
                       {% endif %}
-                      <span class="absolute right-3 top-3 z-10 border px-2 py-0.5 font-mono-tech text-[10px] font-bold uppercase rounded-none {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% elsif is_earphone %}border-line bg-card text-ice{% else %}border-line bg-card text-muted{% endif %}">
+                      <span class="rwnd-badge rwnd-badge--type border font-mono-tech font-bold uppercase {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% elsif is_earphone %}border-line bg-card text-ice{% else %}border-line bg-card text-muted{% endif %}">
                         {% if is_bundle %}MYSTERY VAULT{% elsif is_watch %}PRE-ORDER{% elsif is_earphone %}TYPE-C AUDIO{% else %}DROP 01{% endif %}
                       </span>
 

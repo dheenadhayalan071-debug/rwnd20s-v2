@@ -77,7 +77,7 @@
         {%- capture p_cat -%}{%- render 'product-category', product: product -%}{%- endcapture -%}
         {%- assign p_cat = p_cat | strip -%}
         {%- assign fallback_asset = 'chain-fallback.webp' -%}
-        {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- endif -%}
+        {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- elsif p_cat == 'watch' -%}{%- assign fallback_asset = 'watch-fallback.webp' -%}{%- elsif p_cat == 'set' -%}{%- assign fallback_asset = 'hero-default.webp' -%}{%- endif -%}
         {% assign is_bundle = false %}
         {% assign is_watch = false %}
         {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
@@ -138,11 +138,11 @@
             {% endif %}
             {%- comment -%} SAVE always wins the left slot; the taxonomy badge keeps the right slot. {%- endcomment -%}
             {% if collection_saving > 0 %}
-              <span class="absolute top-2 left-2 border border-brand bg-card px-1.5 py-0.5 text-[9px] font-bold text-brand">
+              <span class="rwnd-badge rwnd-badge--save border border-brand bg-card font-bold text-brand">
                 SAVE {{ collection_saving | money }}
               </span>
             {% endif %}
-            <span class="absolute top-2 right-2 border px-1.5 py-0.5 text-[9px] font-bold {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% else %}border-line bg-card text-muted{% endif %}">
+            <span class="rwnd-badge rwnd-badge--type border {% if is_watch or is_bundle %}border-brand bg-brand/20 text-brand{% else %}border-line bg-card text-muted{% endif %}">
               {% if is_bundle %}MYSTERY VAULT{% elsif is_watch %}PRE-ORDER{% else %}DROP 01{% endif %}
             </span>
           </div>
@@ -164,16 +164,16 @@
                 <a href="{{ product.url }}">{{ product.title | escape }}</a>
               </h3>
               
-              <div class="mt-1 flex items-baseline gap-2 font-mono-tech text-xs sm:text-sm font-bold text-white">
+              <div class="rwnd-price-row mt-1 font-mono-tech text-xs sm:text-sm font-bold text-white">
                 {% if product.price_varies %}
                   <span>FROM {{ product.price_min | money }}</span>
                   {% if product.compare_at_price_min > product.price_min %}
-                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price_min | money }}</span>
+                    <span class="rwnd-price--was">{{ product.compare_at_price_min | money }}</span>
                   {% endif %}
                 {% else %}
                   <span>{{ product.price | money }}</span>
                   {% if product.compare_at_price > product.price %}
-                    <span class="text-[10px] text-muted line-through">{{ product.compare_at_price | money }}</span>
+                    <span class="rwnd-price--was">{{ product.compare_at_price | money }}</span>
                   {% endif %}
                 {% endif %}
               </div>
