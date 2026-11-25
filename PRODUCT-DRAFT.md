@@ -8,7 +8,7 @@ _Nothing here is committed yet. `products_export_fixed.csv` in the repo root is 
 
 | Category | Products | Smart-collection rule | Shopify category on each product |
 |---|---|---|---|
-| **Chains** (chains + pendants) | 8 | tag = `chains` | `Apparel & Accessories > Jewelry > Necklaces`, Type = `Chain` |
+| **Chains** (chains + pendants) | 12 | tag = `chains` | `Apparel & Accessories > Jewelry > Necklaces`, Type = `Chain` |
 | **Rings** | 4 | tag = `rings` | `Apparel & Accessories > Jewelry > Rings`, Type = `Ring` |
 | **Bracelets** | 4 | tag = `bracelets` | `Apparel & Accessories > Jewelry > Bracelets`, Type = `Bracelet` |
 | _Not a category_ — watch / earphones / mystery set | 3 | none (they stay standalone products) | Watches · In-Ear Headphones · Jewelry Sets |
@@ -33,6 +33,10 @@ Every title is now just the piece's name. No "Earring", no "Pendant", no "Bracel
 | `earring-3` | Thorned Romance | **Thorned Romance** | Chains | ₹399 |
 | `y2k-earrings` | Ruby Edge | **Ruby Edge** | Chains | ₹299 |
 | `y2k-heavy-chain-pendant` | Bonebound Heart | **Bonebound Heart** | Chains | ₹549 |
+| `silver-tonic` | (new) | **Silver Tonic** | Chains | ₹549 |
+| `cobalt-tonic` | (new) | **Cobalt Tonic** | Chains | ₹549 |
+| `scarlet-tonic` | (new) | **Scarlet Tonic** | Chains | ₹549 |
+| `ivory-carton` | (new) | **Ivory Carton** | Chains | ₹549 |
 | `ring-1` | Stardust Relic | **Stardust Relic** | Rings | ₹349 |
 | `ring-2` | Crimson Web | **Crimson Web** | Rings | ₹349 |
 | `ring-3` | Orbit Star | **Orbit Star** | Rings | ₹349 |
@@ -64,9 +68,9 @@ One description per product: a name-specific opening line, one `Design:` line, t
 
 **Crimson Relic** — ₹549 · was ₹1,098 · `chain-2`
 
-> A miniature lipstick, cast in crimson and hung as a charm. Crimson Relic is the drop's novelty piece — a high-gloss red tube finished with a steel four-point star on the same chain. Absurd, wearable, and exactly the point of Y2K.
+> A miniature cup, cast in crimson and hung as a charm. Crimson Relic is the drop's novelty piece — a high-gloss red tumbler finished with a steel four-point star on the same chain. Absurd, wearable, and exactly the point of Y2K.
 
-* Design: Miniature lipstick charm with a steel star accent
+* Design: Miniature crimson cup charm with a steel star accent
 * Material: 316L surgical stainless steel
 * Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
@@ -132,6 +136,46 @@ One description per product: a name-specific opening line, one `Design:` line, t
 * Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
 * Dispatch: Shipped within 24 hours from Madurai · COD available
 * Packaging: Ships in the custom zip pouch with care card
+
+**Silver Tonic** — ₹549 · was ₹1,098 · `silver-tonic`
+
+> A can the size of a fingertip. Silver Tonic hangs a brushed-silver can charm beside a steel four-point star on a fine chain — the sort of object that reads as a mistake until you notice the polish.
+
+* Design: Miniature silver can charm with a steel four-point star
+* Material: 316L surgical stainless steel + enamel print
+* Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
+* Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
+* Dispatch: Shipped within 24 hours from Madurai · COD available
+
+**Cobalt Tonic** — ₹549 · was ₹1,098 · `cobalt-tonic`
+
+> Cold blue, cast small. Cobalt Tonic pairs a cobalt can charm with a steel four-point star — the loudest colour in the drop sitting on the quietest chain, which is exactly why it works.
+
+* Design: Miniature cobalt can charm with a steel four-point star
+* Material: 316L surgical stainless steel + enamel print
+* Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
+* Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
+* Dispatch: Shipped within 24 hours from Madurai · COD available
+
+**Scarlet Tonic** — ₹549 · was ₹1,098 · `scarlet-tonic`
+
+> A silver can with a red flash. Scarlet Tonic sets a scarlet-printed can charm next to a steel four-point star on a fine chain — small, bright, and completely unbothered by the rest of the stack.
+
+* Design: Miniature silver can charm with scarlet print and a steel four-point star
+* Material: 316L surgical stainless steel + enamel print
+* Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
+* Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
+* Dispatch: Shipped within 24 hours from Madurai · COD available
+
+**Ivory Carton** — ₹549 · was ₹1,098 · `ivory-carton`
+
+> A flip-top carton, shrunk to charm scale. Ivory Carton is white with a red band and a steel four-point star clipped alongside — the most ordinary object in the drop, and the one people pick up first.
+
+* Design: Miniature ivory flip-top carton charm with a steel four-point star
+* Material: 316L surgical stainless steel + enamel print
+* Chain: 50cm + 5cm adjustable extender, reinforced lobster clasp
+* Finish: High-polish PVD chrome · anti-tarnish, sweat & water resistant
+* Dispatch: Shipped within 24 hours from Madurai · COD available
 
 ### Rings
 

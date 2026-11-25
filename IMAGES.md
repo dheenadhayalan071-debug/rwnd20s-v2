@@ -63,7 +63,22 @@ Verified on the pair sheet: `image-lab/pairs-check.jpg`. Live hover demo: `image
 
 **Frames still single-shot:** `ring-2` Crimson Web, `y2k-cyber-signet-ring` Serpent Cross, all four bracelets, the watch, the earphones and the mystery set. No shot of those pieces exists in the folder — they keep the studio photo or the category art.
 
-**Unused assets in the folder** (they pair up beautifully, but no product record exists): Monster can (`1795010441448` + worn), Red Bull can (`1795010981487` + worn), Coca-Cola can (`1795010999311` + worn), Marlboro pack (`1795011002241` + two worn frames), Hello Kitty cup worn ×2, SpongeBob + GTA PS5 pack flat-lay. Say the word and they become four more chains (₹549 each, same copy pattern) — I have the crops ready to cut.
+### A3. Four new chains cut from the folder (25 Nov)
+
+The four charm designs that had no product record are now **products**, in Chains, each with both frames:
+
+| Product | Handle | SKU | Studio still shows | Worn shows | Price |
+|---|---|---|---|---|---|
+| **Silver Tonic** | `silver-tonic` | C-01-3 | brushed-silver can charm + steel four-point star | the same charm at the collar | ₹549 (was ₹1,098) |
+| **Cobalt Tonic** | `cobalt-tonic` | C-01-4 | cobalt can charm + star | the same charm | ₹549 (was ₹1,098) |
+| **Scarlet Tonic** | `scarlet-tonic` | C-01-5 | silver can, scarlet print + star | the same charm | ₹549 (was ₹1,098) |
+| **Ivory Carton** | `ivory-carton` | C-01-6 | ivory flip-top carton + star | the same carton | ₹549 (was ₹1,098) |
+
+Cut exactly like the round-A set: studio cropped 1200² from the 2048² masters with the same subject-box + staging prior, +4% contrast, unsharp; worn cropped 4:5 at the collar. Both image rows are in the CSV (positions 1 and 2). Names, handles, alt text, SEO and tags avoid printed brand names — the copy describes the **object** (can, carton), never the label.
+
+Catalogue is now **23 products**: Chains 12, Rings 4, Bracelets 4, plus watch, earphones and mystery set.
+
+**Still nothing cut:** the denim flat-lay (two cartoon pack charms on a double chain) has no studio counterpart, so no product was created for it.
 
 ---
 
