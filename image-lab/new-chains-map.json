@@ -1,0 +1,58 @@
+[
+ {
+  "handle": "silver-tonic",
+  "name": "Silver Tonic",
+  "studio": "product-images/silver-tonic.jpg",
+  "model": "product-images/silver-tonic-model.jpg",
+  "studio_kb": 396,
+  "model_kb": 270,
+  "box": [
+   940,
+   940,
+   2004,
+   2004
+  ]
+ },
+ {
+  "handle": "cobalt-tonic",
+  "name": "Cobalt Tonic",
+  "studio": "product-images/cobalt-tonic.jpg",
+  "model": "product-images/cobalt-tonic-model.jpg",
+  "studio_kb": 379,
+  "model_kb": 250,
+  "box": [
+   940,
+   940,
+   2004,
+   2004
+  ]
+ },
+ {
+  "handle": "scarlet-tonic",
+  "name": "Scarlet Tonic",
+  "studio": "product-images/scarlet-tonic.jpg",
+  "model": "product-images/scarlet-tonic-model.jpg",
+  "studio_kb": 371,
+  "model_kb": 249,
+  "box": [
+   940,
+   940,
+   2004,
+   2004
+  ]
+ },
+ {
+  "handle": "ivory-carton",
+  "name": "Ivory Carton",
+  "studio": "product-images/ivory-carton.jpg",
+  "model": "product-images/ivory-carton-model.jpg",
+  "studio_kb": 390,
+  "model_kb": 268,
+  "box": [
+   940,
+   940,
+   2004,
+   2004
+  ]
+ }
+]

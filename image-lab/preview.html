@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RWND20S — images + hover preview</title>
+<style>
+  :root{--brand:#FF0033;--panel:#0A0A0A;--card:#0A0A0C;--surface:#131316;--line:#2A2A2F;--bone:#F5F5F7;--muted:#A3A7AE}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--panel);color:var(--bone);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+  header,section.hero,footer{max-width:1180px;margin:0 auto;padding:0 20px}
+  header{padding-top:30px}
+  h1{font-size:clamp(20px,3vw,30px);letter-spacing:-.02em;text-transform:uppercase;margin:0 0 8px}
+  .sub{color:var(--muted);font-size:13px;max-width:78ch;line-height:1.65;margin:0}
+  h2.sec{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin:38px 0 10px}
+  section.hero img{width:100%;border:1px solid var(--line);display:block;margin-top:18px}
+  .grid{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+  .card{background:var(--surface);border:1px solid var(--line);padding:10px;display:flex;flex-direction:column;transition:border-color .25s ease,transform .25s ease}
+  .card:hover{border-color:var(--brand);transform:translateY(-2px)}
+  .frame{position:relative;aspect-ratio:4/5;background:var(--card);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .frame img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.22,.61,.36,1),filter .45s ease;will-change:transform}
+  .frame::after{content:"";position:absolute;inset:-30%;z-index:2;pointer-events:none;
+    background:linear-gradient(104deg,transparent 36%,rgba(255,255,255,.10) 45%,rgba(255,0,51,.16) 50%,rgba(255,255,255,.06) 55%,transparent 64%);
+    transform:translate3d(-115%,0,0);opacity:0;transition:transform .85s cubic-bezier(.22,.61,.36,1),opacity .3s ease}
+  .card:hover .frame img{transform:scale(1.06);filter:saturate(1.10) contrast(1.05) brightness(1.03)}
+  .card:hover .frame::after{transform:translate3d(115%,0,0);opacity:1}
+  .save{position:absolute;top:8px;left:8px;z-index:3;border:1px solid var(--brand);background:var(--card);color:var(--brand);font-size:9px;padding:2px 6px}
+  .drop{position:absolute;top:8px;right:8px;z-index:3;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:9px;padding:2px 6px}
+  .cat{margin:10px 0 2px;font-size:9px;color:var(--muted)}
+  .name{margin:0;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:-.01em}
+  .price{margin-top:5px;font-size:12px;font-weight:800}
+  .price s{color:var(--muted);font-weight:400;font-size:10px;margin-left:6px}
+  footer{margin:40px auto 70px;color:var(--muted);font-size:12px;line-height:1.7}
+</style></head><body>
+<header>
+  <h1>Images matched · hover preview</h1>
+  <p class="sub mono">Top: your 10 product photos, cropped 1200², named and categorised. Below: the trio shot split into category art. Hover any card — the same CSS that ships in assets/theme.css drives the push-in, the chrome sweep and the grade lift.</p>
+  <p style="margin-top:10px;font-size:12px">
+    <a href="preview-pairs.html" style="color:#ff0033">→ the two-frame grid (studio + worn, real hover CSS)</a>
+  </p>
+</header>
+
+<h2 class="sec" style="max-width:1180px;margin-left:auto;margin-right:auto;padding:0 20px">A · Your product photos → products</h2>
+<div class="grid">
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹349</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/ring-1.jpg" alt="Stardust Relic — Heart-cut crimson stone, pavé halo, open adjustable band, 316L stainless steel">
+    </div>
+    <p class="cat mono">Rings</p>
+    <h2 class="name">Stardust Relic</h2>
+    <div class="price">₹349 <s>₹698</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹349</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/ring-3.jpg" alt="Orbit Star — Twin star silhouette, crimson centre stone, open band, 316L stainless steel">
+    </div>
+    <p class="cat mono">Rings</p>
+    <h2 class="name">Orbit Star</h2>
+    <div class="price">₹349 <s>₹698</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹1,049</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/y2k-heavy-chain-pendant.jpg" alt="Bonebound Heart — Haloed heart pendant with a steel spike drop, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Bonebound Heart</h2>
+    <div class="price">₹549 <s>₹1,598</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹250</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/earring-3.jpg" alt="Thorned Romance — Crimson heart flanked by steel barbed-wire arms, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Thorned Romance</h2>
+    <div class="price">₹399 <s>₹649</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹549</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/chain-3.jpg" alt="Silver Fang — Engraved star pendant with a spiral centre, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Silver Fang</h2>
+    <div class="price">₹549 <s>₹1,098</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹199</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/earring-2.jpg" alt="Nocturne Cross — Slim cross pendant edged with crimson stones, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Nocturne Cross</h2>
+    <div class="price">₹199 <s>₹398</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹299</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/earring-1.jpg" alt="Scarlet Nova — Four-point star pendant with a crimson centre, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Scarlet Nova</h2>
+    <div class="price">₹299 <s>₹598</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹599</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/y2k-earrings.jpg" alt="Ruby Edge — Dagger pendant with a crimson stone at the guard, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Ruby Edge</h2>
+    <div class="price">₹299 <s>₹898</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹549</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/chain-2.jpg" alt="Crimson Relic — Miniature lipstick charm with a steel star accent, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Crimson Relic</h2>
+    <div class="price">₹549 <s>₹1,098</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹549</span><span class="drop mono">DROP 01</span>
+      <img src="../product-images/chain-1.jpg" alt="Pink Relic — Miniature milk-bottle charm with a steel star accent, 316L stainless steel">
+    </div>
+    <p class="cat mono">Chains</p>
+    <h2 class="name">Pink Relic</h2>
+    <div class="price">₹549 <s>₹1,098</s></div>
+  </article>
+</div>
+
+<h2 class="sec" style="max-width:1180px;margin-left:auto;margin-right:auto;padding:0 20px">B · Trio shot → category art + hero</h2>
+<section class="hero"><img src="out/hero-drop01.webp" alt="RWND20S Drop 01 hardware trio"></section>
+<div class="grid" style="margin-top:16px">
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹1,095</span><span class="drop mono">DROP 01</span>
+      <img src="out/nocturne-cross-card.webp" alt="Nocturne Cross — 316L steel cross pendant">
+    </div>
+    <p class="cat mono">Chains</p><h2 class="name">Nocturne Cross</h2><div class="price">₹199 <s>₹398</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹549</span><span class="drop mono">DROP 01</span>
+      <img src="out/deadbolt-card.webp" alt="Deadbolt — 316L link bracelet">
+    </div>
+    <p class="cat mono">Bracelets</p><h2 class="name">Deadbolt</h2><div class="price">₹549 <s>₹1,098</s></div>
+  </article>
+  <article class="card">
+    <div class="frame">
+      <span class="save mono">SAVE ₹349</span><span class="drop mono">DROP 01</span>
+      <img src="out/orbit-star-card.webp" alt="Orbit Star — star-set signet ring">
+    </div>
+    <p class="cat mono">Rings</p><h2 class="name">Orbit Star</h2><div class="price">₹349 <s>₹698</s></div>
+  </article>
+</div>
+
+<footer>
+  <p><strong>Note:</strong> the 10 photos are attached to products through <code>Image Src</code> in <code>products_export_fixed.csv</code> (public raw URL → Shopify copies it on import). The three trio crops are theme assets used only where a product still has no photo.</p>
+</footer>
+</body></html>

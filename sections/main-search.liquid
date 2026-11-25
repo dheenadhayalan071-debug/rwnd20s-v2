@@ -71,6 +71,8 @@
                 {% if p_cat == 'audio' %}{% assign is_earphone = true %}{% endif %}
                 {% assign is_bundle = false %}
                 {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
+                {%- assign fallback_asset = 'chain-fallback.webp' -%}
+                {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- endif -%}
 
                 {% assign search_saving = 0 %}
                 {% if item.price_varies %}
@@ -83,7 +85,7 @@
 
                 <article class="group flex flex-col justify-between border border-line bg-surface p-4 transition-all duration-300 hover:border-brand rounded-none">
                   <div>
-                    <div class="relative flex aspect-square w-full items-center justify-center overflow-hidden border border-line bg-card p-4 rounded-none">
+                    <div class="rwnd-media relative flex aspect-square w-full items-center justify-center overflow-hidden border border-line bg-card p-4 rounded-none">
                       <!-- Taxonomy Badges -->
                       {%- comment -%} SAVE keeps the left slot; taxonomy badge takes the right. {%- endcomment -%}
                       {% if search_saving > 0 %}
@@ -103,10 +105,27 @@
                             width="600"
                             height="600"
                             loading="lazy"
-                            class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                            class="rwnd-media-img h-full w-full object-contain"
                           >
+                          {%- if item.images.size > 1 -%}
+                            <img
+                              src="{{ item.images[1] | image_url: width: 600 }}"
+                              alt="{{ item.images[1].alt | default: item.title | escape }}"
+                              width="600"
+                              height="600"
+                              loading="lazy"
+                              class="rwnd-media-img rwnd-media-alt h-full w-full object-contain"
+                            >
+                          {%- endif -%}
                         {% else %}
-                          <div class="font-mono-tech text-xs uppercase tracking-widest text-muted">NO ASSET</div>
+                          <img
+                            src="{{ fallback_asset | asset_url }}"
+                            alt="{{ item.title | escape }} — 316L stainless steel hardware"
+                            width="1000"
+                            height="1000"
+                            loading="lazy"
+                            class="rwnd-media-img h-full w-full object-contain opacity-95"
+                          >
                         {% endif %}
                       </a>
                     </div>

@@ -76,6 +76,8 @@
       {% for product in collection.products %}
         {%- capture p_cat -%}{%- render 'product-category', product: product -%}{%- endcapture -%}
         {%- assign p_cat = p_cat | strip -%}
+        {%- assign fallback_asset = 'chain-fallback.webp' -%}
+        {%- if p_cat == 'ring' -%}{%- assign fallback_asset = 'ring-fallback.webp' -%}{%- elsif p_cat == 'bracelet' -%}{%- assign fallback_asset = 'bracelet-fallback.webp' -%}{%- endif -%}
         {% assign is_bundle = false %}
         {% assign is_watch = false %}
         {% if p_cat == 'set' %}{% assign is_bundle = true %}{% endif %}
@@ -90,7 +92,7 @@
           class="group relative flex flex-col justify-between border border-line bg-surface p-3 sm:p-4 transition-all hover:border-brand"
         >
           <!-- 4:5 Image Canvas -->
-          <div class="relative aspect-[4/5] w-full overflow-hidden border border-line bg-card flex items-center justify-center">
+          <div class="rwnd-media relative aspect-[4/5] w-full overflow-hidden border border-line bg-card flex items-center justify-center">
             <a href="{{ product.url }}" class="flex h-full w-full items-center justify-center">
               {% if product.featured_image %}
                 <img 
@@ -99,10 +101,29 @@
                   width="600" 
                   height="750" 
                   loading="lazy" 
-                  class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  class="rwnd-media-img h-full w-full object-contain"
                 >
+                {%- if product.images.size > 1 -%}
+                {%- comment -%} On-model shot: cross-fades over the studio frame on hover. {%- endcomment -%}
+                <img
+                  src="{{ product.images[1] | image_url: width: 600 }}"
+                  alt="{{ product.images[1].alt | default: product.title | escape }}"
+                  width="600"
+                  height="750"
+                  loading="lazy"
+                  class="rwnd-media-img rwnd-media-alt h-full w-full object-contain"
+                >
+              {%- endif -%}
               {% else %}
-                <span class="text-[10px] text-muted uppercase">{{ product.title | escape }}</span>
+                {%- comment -%} No product photo yet: use the category hardware shot so the grid never shows a text box. {%- endcomment -%}
+                <img
+                  src="{{ fallback_asset | asset_url }}"
+                  alt="{{ product.title | escape }} — 316L stainless steel hardware"
+                  width="1000"
+                  height="1000"
+                  loading="lazy"
+                  class="rwnd-media-img h-full w-full object-contain opacity-95"
+                >
               {% endif %}
             </a>
 
